@@ -1,0 +1,137 @@
+.full-height {
+    height: 100vh;
+}
+
+.image-container {
+    position: relative;
+    text-align: center;
+}
+
+.large-image {
+    width: 90%;
+    max-width: 100%;
+    height: auto;
+}
+
+.gradient-background {
+    backdrop-filter: blur(10px);
+}
+
+.left-section, .right-section {
+    padding: 2rem;
+    margin: 1rem;
+}
+
+.form-control {
+    font-size: 1.25rem; 
+    padding: 0.75rem; 
+}
+
+.btn {
+    font-size: 1rem; 
+    padding: 0.5rem 1rem; 
+}
+
+.btn:hover {
+    background-color: #18529D;
+    color: #FFFFFF;
+}
+
+.smaller-btn {
+    font-size: 1rem;
+    padding: 0.5rem 1rem; 
+    background-color: #8a8985;
+    margin: 30px 0px 0px 0px;
+}
+
+.small-input {
+    width: 100%; 
+    height: auto;
+}
+
+.label-medium {
+    font-size: 1.5rem;
+}
+
+.loginBig {
+    font-size: 3rem;
+    font-style: Aileron;
+    font-weight: bold;
+    color: #18529D;
+}
+
+.text-custom {
+    font-size: 18px;
+    font-weight: bold;
+    color: #28AD56;
+}
+
+.input-white::placeholder {
+    color: #ffff;
+}
+
+.input-dark::placeholder {
+    color: #18529D;
+}
+
+.labelDark {
+    color: #000;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.alert {
+    margin-top: 20px;
+}
+
+.left-section {
+    background-color: #18529D;
+    color: white;
+}
+
+.right-section {
+    background-color: #e2e0da;
+    color: white;
+}
+
+.right-section input::placeholder {
+    color: #fff; 
+    opacity: 1;
+}
+
+.right-section input:not(:focus) {
+    background-color: #18529D;
+    color: #fff;
+}
+
+.right-section input:focus {
+    background-color: #8a8985;
+    color: #fff;
+}
+
+body {
+    background-color: #18529D;
+}
+
+footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 10px;
+    background-color: #f1f1f1;
+}
+
+@media only screen and (max-width: 576px) {
+    .form {
+        padding-top: 10rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .left-section, .right-section {
+        padding: 1rem;
+    }
+
+    .loginBig {
+        font-size: 2rem;
+    }
+}

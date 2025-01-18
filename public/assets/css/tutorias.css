@@ -1,0 +1,51 @@
+.new-button-container {
+    text-align: right;
+    margin: 20px auto;
+    width: 82%;
+}
+.buttonNew {
+    background-color: #28AD56;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.buttonNew:hover {
+    opacity: 0.8;
+}
+.table-container {
+    text-align: center;
+    margin: 0px 0; 
+    padding: 20px 180px; 
+}
+table {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+th {
+    background-color: #18529D;
+    color: white;
+}
+.action-buttons {
+    display: flex;
+    gap: 5px;
+}
+.action-buttons button {
+    background-color: #28AD56;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.action-buttons button.delete {
+    background-color: #dc3545;
+}
+.action-buttons button:hover {
+    opacity: 0.8;
+}

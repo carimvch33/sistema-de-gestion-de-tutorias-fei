@@ -1,0 +1,91 @@
+/* assets/css/registrarTutoria.css */
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.buttonGreen {
+    background-color: #28AD56;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: auto;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+}
+
+.header-left {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.header-left img {
+    width: 150px;
+}
+
+.welcome-message {
+    background-color: #bbb;
+    padding: 20px 30px;
+    text-align: center;
+    border-radius: 5px 30px;
+    font-weight: bold;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.buttonsHead {
+    background-color: #f1f1f1;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.buttonsHead:hover {
+    background-color: #7DCE94;
+}
+
+.widthInput {
+    padding: 4px;
+}
+
+.form-control.borderRed,
+.form-check-input.borderRed {
+    border: 2px solid red;
+}
+
+.form-control.borderGreen {
+    border: 2px solid green;
+}
+
+.alert {
+    margin-top: 20px;
+}
+
+.success {
+    color: green;
+}
+
+.error {
+    color: red;
+}
