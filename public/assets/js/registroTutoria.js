@@ -1,5 +1,7 @@
 $(document).ready(function () {
-    
+    $("#carrera").select2();
+    $("#periodo").select2();
+
     $('#lugar').on('input', function () {
         if ($(this).val().length >= 300) {
             $(this).val($(this).val().substring(0, 300));
@@ -41,47 +43,36 @@ function validarFormulario() {
     var fecha = $('#fecha').val();
     var horaInicio = $('#hora_inicio').val();
     var horaFinal = $('#hora_final').val();
+    var notas = $('#notas').val();
+    var lugar = $('#lugar').val();
+    var archivo = $('#archivo_horario').val();
 
     $('.form-control').removeClass("borderRed borderGreen");
-    $('.form-check-input').removeClass("borderRed");
 
     var error = false;
-
+    var mensajeError = '';
     if (!carreraSeleccionada || !tutoriaSeleccionada || !periodoSeleccionado || !modalidadSeleccionada || !periodoAtencionSeleccionado) {
-        Swal.fire({
-            title: '¡Error!',
-            icon: 'error',
-            html: '<p>Todos los campos obligatorios deben ser completados.</p>',
-            showConfirmButton: false,
-            timer: 3500
-        });
-
-        if (!carreraSeleccionada) $('#carrera').addClass("borderRed");
-        if (!tutoriaSeleccionada) $('#numTutoria').addClass("borderRed");
-        if (!periodoSeleccionado) $('#periodo').addClass("borderRed");
-        if (!modalidadSeleccionada) $('input[name="modalidad"]').addClass("borderRed");
-        if (!periodoAtencionSeleccionado) $('input[name="periodoAtencion"]').addClass("borderRed");
-
+        mensajeError += '<p>Todos los campos obligatorios deben ser completados.</p>';
         error = true;
     }
 
     if (horaInicio && horaFinal && horaInicio > horaFinal) {
-        Swal.fire({
-            title: '¡Error!',
-            icon: 'error',
-            html: '<p>La hora final no puede ser anterior a la hora de inicio.</p>',
-            showConfirmButton: false,
-            timer: 3500
-        });
+        mensajeError += '<p>La hora final no puede ser anterior a la hora de inicio.</p>';
         error = true;
-        $('#hora_inicio, #hora_final').addClass("borderRed");
     }
 
     if (error) {
+        Swal.fire({
+            title: '¡Error!',
+            icon: 'error',
+            html: mensajeError,
+            showConfirmButton: false,
+            timer: 3500
+        });
         return;
     }
 
-    $('#carrera, #numTutoria, #periodo, #fecha, #hora_inicio, #hora_final, #notas, #lugar').addClass("borderGreen");
+    $('#carrera, #numTutoria, #periodo, #fecha, #hora_inicio, #hora_final, #notas, #lugar').removeClass("borderRed").addClass("borderGreen");
 
-    $("#form").submit();
+    $('#form').off('submit').submit();
 }

@@ -97,12 +97,10 @@ th {
 }
 
 .action-buttons {
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
     gap: 10px;
-    width: 20%;
-    height: 100%;
+    width: auto;
 }
 
 .action-buttons button {
@@ -113,7 +111,6 @@ th {
     cursor: pointer;
     flex-grow: 1;
 }
-
 
 .action-buttons button.delete {
     background-color: #dc3545;

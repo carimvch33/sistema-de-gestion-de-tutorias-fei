@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    $('#tutoriasTable').DataTable({
+    $('#reportesTable').DataTable({
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.13.5/i18n/es-MX.json",
-            "emptyTable": "<div class='empty-table-message'>No hay sesiones de tutoría disponibles</div>",
+            "emptyTable": "<div class='empty-table-message'>No hay reportes de tutorías disponibles</div>",
             "zeroRecords": "No se encontraron coincidencias"
         },
         "paging": true,
@@ -32,7 +32,7 @@ $(document).ready(function () {
         ]
     });
 
-    function confirmDelete(idTutoria, csrfToken) {
+    function confirmDelete(idReporte, csrfToken) {
         Swal.fire({
             title: '¿Estás seguro de eliminar este registro?',
             text: "No podrás revertir esta acción.",
@@ -46,10 +46,10 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "POST",
-                    url: "./eliminarTutoria.php",
+                    url: "./eliminarReporteTutoria.php",
                     cache: false,
                     data: {
-                        idTutoria: idTutoria,
+                        idReporte: idReporte,
                         csrf_token: csrfToken
                     },
                     error: function () {
@@ -68,36 +68,35 @@ $(document).ready(function () {
                             icon: 'success',
                             showConfirmButton: false,
                             timer: 3500
-                        }).then(() => {
-                            location.reload();
                         });
+                        location.reload();
                     }
                 });
             }
         });
     }
 
-    function editTutoria(idTutoria) {
+    function editReporte(idReporte) {
         var form = $('<form>', {
             'method': 'POST',
-            'action': './editarTutoria.php'
+            'action': './editarReporte.php'
         }).append($('<input>', {
             'type': 'hidden',
-            'name': 'idTutoria',
-            'value': idTutoria
+            'name': 'idReporte',
+            'value': idReporte
         }));
         $('body').append(form);
         form.submit();
     }
 
     $(document).on('click', '.delete', function () {
-        var idTutoria = $(this).data('id-tutoria');
+        var idReporte = $(this).data('id-reporte');
         var csrfToken = $(this).data('csrf-token');
-        confirmDelete(idTutoria, csrfToken);
+        confirmDelete(idReporte, csrfToken);
     });
 
     $(document).on('click', '.edit', function () {
-        var idTutoria = $(this).data('id-tutoria');
-        editTutoria(idTutoria);
+        var idReporte = $(this).data('id-reporte');
+        editReporte(idReporte);
     });
 });

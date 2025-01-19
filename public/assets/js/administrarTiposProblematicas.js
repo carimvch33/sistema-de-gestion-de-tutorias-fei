@@ -1,8 +1,8 @@
-$(document).ready(function () {
-    $('#tutoriasTable').DataTable({
+$(document).ready(function() {
+    $('#problematicaTable').DataTable({
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.13.5/i18n/es-MX.json",
-            "emptyTable": "<div class='empty-table-message'>No hay sesiones de tutoría disponibles</div>",
+            "emptyTable": "<div class='empty-table-message'>No hay problemáticas disponibles</div>",
             "zeroRecords": "No se encontraron coincidencias"
         },
         "paging": true,
@@ -12,10 +12,7 @@ $(document).ready(function () {
         "autoWidth": true,
         "responsive": true,
         "dom": '<"top-left"l><"top-right"f><"top-left"B>t<"bottom-left"i><"bottom-right"p>r',
-        layout: {
-            topStart: 'buttons'
-        },
-        buttons: [
+        "buttons": [
             {
                 extend: 'collection',
                 className: 'custom-html-collection',
@@ -32,13 +29,13 @@ $(document).ready(function () {
         ]
     });
 
-    function confirmDelete(idTutoria, csrfToken) {
+    function confirmDelete(idTipoProblematica, csrfToken) {
         Swal.fire({
             title: '¿Estás seguro de eliminar este registro?',
             text: "No podrás revertir esta acción.",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#28AD56',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Eliminar',
             cancelButtonText: 'Cancelar'
@@ -46,13 +43,13 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "POST",
-                    url: "./eliminarTutoria.php",
-                    cache: false,
+                    url: "eliminarTipoProblematica.php",
                     data: {
-                        idTutoria: idTutoria,
+                        idTipoProblematica: idTipoProblematica,
                         csrf_token: csrfToken
                     },
-                    error: function () {
+                    dataType: 'json',
+                    error: function() {
                         Swal.fire({
                             title: '¡Oh no!',
                             text: 'Ha ocurrido un error, intente de nuevo, por favor.',
@@ -61,43 +58,53 @@ $(document).ready(function () {
                             timer: 3500
                         });
                     },
-                    success: function () {
-                        Swal.fire({
-                            title: '¡Registro eliminado!',
-                            text: 'El registro ha sido eliminado exitosamente.',
-                            icon: 'success',
-                            showConfirmButton: false,
-                            timer: 3500
-                        }).then(() => {
-                            location.reload();
-                        });
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            Swal.fire({
+                                title: '¡Registro eliminado!',
+                                text: response.message,
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 3500
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error',
+                                text: response.message,
+                                icon: 'error',
+                                showConfirmButton: false,
+                                timer: 3500
+                            });
+                        }
                     }
                 });
             }
         });
     }
 
-    function editTutoria(idTutoria) {
+    function editProblematica(idTipoProblematica) {
         var form = $('<form>', {
             'method': 'POST',
-            'action': './editarTutoria.php'
+            'action': 'editarTipoProblematica.php'
         }).append($('<input>', {
             'type': 'hidden',
-            'name': 'idTutoria',
-            'value': idTutoria
+            'name': 'idTipoProblematica',
+            'value': idTipoProblematica
         }));
         $('body').append(form);
         form.submit();
     }
 
-    $(document).on('click', '.delete', function () {
-        var idTutoria = $(this).data('id-tutoria');
+    $(document).on('click', '.delete', function() {
+        var idProblematica = $(this).data('id-problematica');
         var csrfToken = $(this).data('csrf-token');
-        confirmDelete(idTutoria, csrfToken);
+        confirmDelete(idProblematica, csrfToken);
     });
 
-    $(document).on('click', '.edit', function () {
-        var idTutoria = $(this).data('id-tutoria');
-        editTutoria(idTutoria);
+    $(document).on('click', '.edit', function() {
+        var idProblematica = $(this).data('id-problematica');
+        editProblematica(idProblematica);
     });
 });

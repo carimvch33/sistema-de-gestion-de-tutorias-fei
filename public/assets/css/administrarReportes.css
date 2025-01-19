@@ -36,7 +36,7 @@ body {
     font-weight: bold;
 }
 
-.header-left button {
+.header-left .buttonsHead {
     background-color: #f1f1f1;
     color: black;
     border: none;
@@ -45,7 +45,7 @@ body {
     font-size: 20px;
 }
 
-.header-left button:hover {
+.header-left .buttonsHead:hover {
     background-color: #7DCE94;
 }
 
@@ -55,9 +55,9 @@ body {
 }
 
 .new-button-container {
-    text-align: right;
-    margin: 20px auto;
-    width: 82%;
+    text-align: end;
+    margin: 30px auto;
+    width: 80%;
 }
 
 .buttonNew {
@@ -72,14 +72,19 @@ body {
     opacity: 0.8;
 }
 
+.table-container {
+    text-align: center;
+    margin: 0px 0; 
+    padding: 20px 180px;
+}
+
 table {
     width: 60%;
     margin: 20px auto;
     border-collapse: collapse;
 }
 
-th,
-td {
+th, td {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
@@ -97,12 +102,10 @@ th {
 }
 
 .action-buttons {
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
     gap: 10px;
-    width: 20%;
-    height: 100%;
+    width: auto;
 }
 
 .action-buttons button {
@@ -114,19 +117,12 @@ th {
     flex-grow: 1;
 }
 
-
 .action-buttons button.delete {
     background-color: #dc3545;
 }
 
 .action-buttons button:hover {
     opacity: 0.8;
-}
-
-.table-container {
-    text-align: center;
-    margin: 0px 0;
-    padding: 20px 180px;
 }
 
 .top-left {
@@ -151,5 +147,12 @@ footer {
     margin-top: auto;
     text-align: center;
     padding: 10px;
+    position: relative;
     background-color: #f1f1f1;
+}
+
+.error-container {
+    color: red;
+    text-align: center;
+    margin: 10px 0;
 }
