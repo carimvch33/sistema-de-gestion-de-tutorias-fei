@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    $('#coordinadoresTable').DataTable({
+    $('#tutoriasTable').DataTable({
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.13.5/i18n/es-MX.json",
-            "emptyTable": "<div class='empty-table-message'>No hay coordinadores disponibles</div>",
+            "emptyTable": "<div class='empty-table-message'>No hay sesiones de tutoría disponibles</div>",
             "zeroRecords": "No se encontraron coincidencias"
         },
         "paging": true,
@@ -12,7 +12,10 @@ $(document).ready(function () {
         "autoWidth": true,
         "responsive": true,
         "dom": '<"top-left"l><"top-right"f><"top-left"B>t<"bottom-left"i><"bottom-right"p>r',
-        "buttons": [
+        layout: {
+            topStart: 'buttons'
+        },
+        buttons: [
             {
                 extend: 'collection',
                 className: 'custom-html-collection',
@@ -29,13 +32,13 @@ $(document).ready(function () {
         ]
     });
 
-    function confirmDelete(idTutor, csrfToken) {
+    function confirmDelete(idTutoria, csrfToken) {
         Swal.fire({
             title: '¿Estás seguro de eliminar este registro?',
             text: "No podrás revertir esta acción.",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#28AD56',
+            confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Eliminar',
             cancelButtonText: 'Cancelar'
@@ -43,12 +46,12 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "POST",
-                    url: "eliminarCoordinador.php",
+                    url: "./eliminarTutoria.php",
+                    cache: false,
                     data: {
-                        idTutor: idTutor,
+                        idTutoria: idTutoria,
                         csrf_token: csrfToken
                     },
-                    dataType: 'json',
                     error: function () {
                         Swal.fire({
                             title: '¡Oh no!',
@@ -58,53 +61,56 @@ $(document).ready(function () {
                             timer: 3500
                         });
                     },
-                    success: function (response) {
-                        if (response.status === 'success') {
-                            Swal.fire({
-                                title: '¡Registro eliminado!',
-                                text: response.message,
-                                icon: 'success',
-                                showConfirmButton: false,
-                                timer: 3500
-                            }).then(() => {
-                                location.reload();
-                            });
-                        } else {
-                            Swal.fire({
-                                title: 'Error',
-                                text: response.message,
-                                icon: 'error',
-                                showConfirmButton: false,
-                                timer: 3500
-                            });
-                        }
+                    success: function () {
+                        Swal.fire({
+                            title: '¡Registro eliminado!',
+                            text: 'El registro ha sido eliminado exitosamente.',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 3500
+                        });
+                        location.reload();
                     }
                 });
             }
         });
     }
-
-    function editTutor(idTutor) {
+    function editTutoria(idTutoria) {
         var form = $('<form>', {
             'method': 'POST',
-            'action': 'editarCoordinador.php'
+            'action': './datosTutoria.php'
         }).append($('<input>', {
             'type': 'hidden',
-            'name': 'idTutor',
-            'value': idTutor
+            'name': 'idTutoria',
+            'value': idTutoria
         }));
+        location.reload();
         $('body').append(form);
         form.submit();
     }
 
+    $('#searchTutor').on('input', function () {
+        var searchValue = $(this).val().toLowerCase();
+        $('table tr').each(function (index) {
+            if (index !== 0) {
+                var tutorNombre = $(this).find('td:first').text().toLowerCase();
+                if (tutorNombre.includes(searchValue)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            }
+        });
+    });
+
     $(document).on('click', '.delete', function () {
-        var idTutor = $(this).data('id-tutor');
+        var idTutoria = $(this).data('id-tutoria');
         var csrfToken = $(this).data('csrf-token');
-        confirmDelete(idTutor, csrfToken);
+        confirmDelete(idTutoria, csrfToken);
     });
 
     $(document).on('click', '.edit', function () {
-        var idTutor = $(this).data('id-tutor');
-        editTutor(idTutor);
+        var idTutoria = $(this).data('id-tutoria');
+        editTutoria(idTutoria);
     });
 });

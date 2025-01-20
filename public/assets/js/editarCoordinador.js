@@ -4,7 +4,6 @@ $(document).ready(function () {
         placeholder: "Seleccione una o más carreras"
     });
 
-
     $("#enviar").on("click", function (e) {
         e.preventDefault();
         validarFormulario();
@@ -48,7 +47,7 @@ function validarFormulario() {
             showConfirmButton: false,
             timer: 3500
         });
-        return;
+        return false;
     }
 
     if (!correoInstitucional.endsWith('@uv.mx') && !correoInstitucional.endsWith('@estudiantes.uv.mx')) {
@@ -61,11 +60,10 @@ function validarFormulario() {
         });
 
         $('#correoInstitucional').addClass("borderRed");
-        return;
+        return false;
     }
 
-    $('#nombre, #paterno, #materno, #noPersonal, #correoInstitucional').removeClass("borderRed").addClass("borderGreen");
-    $('#carreras').removeClass("borderRed").addClass("borderGreen");
+    $('#nombre, #paterno, #materno, #noPersonal, #correoInstitucional, #carreras').removeClass("borderRed").addClass("borderGreen");
 
     $("#form").submit();
 }

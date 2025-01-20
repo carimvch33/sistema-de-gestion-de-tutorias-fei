@@ -6,11 +6,6 @@ body {
     margin: 0;
 }
 
-h1 {
-    font-size: 40px;
-    padding: 10px;
-}
-
 .header-container {
     display: flex;
     justify-content: space-between;
@@ -32,7 +27,7 @@ h1 {
 .welcome-message {
     background-color: #bbb;
     padding: 50px 30px;
-    width: 360px;
+    width: 300px;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
@@ -62,10 +57,10 @@ h1 {
 .new-button-container {
     text-align: right;
     margin: 20px auto;
-    width: 60%;
+    width: 82%;
 }
 
-.buttonAction {
+.buttonNew {
     background-color: #28AD56;
     color: white;
     border: none;
@@ -73,69 +68,80 @@ h1 {
     cursor: pointer;
 }
 
-.buttonAction:hover {
+.buttonNew:hover {
     opacity: 0.8;
 }
 
-.form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+table {
+    width: 60%;
     margin: 20px auto;
-    width: 100%;
+    border-collapse: collapse;
 }
 
-form {
-    background-color: #f7f7f7;
-    padding: 30px;
-    margin-top: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 60%;
+th,
+td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #18529D;
+    color: white;
+}
+
+.autoWidthColumn {
+    white-space: nowrap;
+    width: auto;
+    text-align: center;
+}
+
+.action-buttons {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: auto;
 }
 
-.form-group {
-    margin-bottom: 20px;
-    width: 100%;
-}
-
-.form-group label {
-    display: block;
-    font-size: 18px;
-    margin-bottom: 10px;
-    text-align: start;
-    padding: 5px;
-}
-
-.form-control {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.submit-button {
+.action-buttons button {
     background-color: #28AD56;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 5px 10px;
     cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-    margin-top: 20px;
+    flex-grow: 1;
 }
 
-.submit-button:hover {
+.action-buttons button.delete {
+    background-color: #dc3545;
+}
+
+.action-buttons button:hover {
     opacity: 0.8;
 }
 
-#carreras {
-    width: 100%;
+.table-container {
+    text-align: center;
+    margin: 50px 0;
+    padding: 20px 180px;
+}
+
+.top-left {
+    text-align: left;
+}
+
+.top-right {
+    text-align: right;
+}
+
+.bottom-left {
+    margin-top: 10px;
+    text-align: left;
+}
+
+.bottom-right {
+    margin-top: 10px;
+    text-align: right;
 }
 
 footer {

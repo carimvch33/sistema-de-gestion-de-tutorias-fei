@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $("#carrera").select2();
-    $("#periodo").select2();
 
     $('#lugar').on('input', function () {
         if ($(this).val().length >= 300) {
@@ -37,7 +36,7 @@ $(document).ready(function () {
 function validarFormulario() {
     var carreraSeleccionada = $('#carrera').val();
     var tutoriaSeleccionada = $('#numTutoria').val();
-    var periodoSeleccionado = $('#periodo').val();
+    var periodoSeleccionado = $('#periodoE').val();
     var modalidadSeleccionada = $('input[name="modalidad"]:checked').val();
     var periodoAtencionSeleccionado = $('input[name="periodoAtencion"]:checked').val();
     var fecha = $('#fecha').val();
@@ -72,7 +71,7 @@ function validarFormulario() {
         return;
     }
 
-    $('#carrera, #numTutoria, #periodo, #fecha, #hora_inicio, #hora_final, #notas, #lugar').removeClass("borderRed").addClass("borderGreen");
+    $('#carrera, #numTutoria, #periodoE, #fecha, #hora_inicio, #hora_final, #notas, #lugar').removeClass("borderRed").addClass("borderGreen");
 
     $('#form').off('submit').submit();
 }
