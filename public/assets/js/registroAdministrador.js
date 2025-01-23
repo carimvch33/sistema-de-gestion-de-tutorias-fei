@@ -10,8 +10,9 @@ function validarFormulario() {
     var nombre = $('#nombre').val().trim();
     var paterno = $('#paterno').val().trim();
     var materno = $('#materno').val().trim();
-    var noPersonal = $('#noPersonal').val().trim();
     var correoInstitucional = $('#correoInstitucional').val().trim();
+    var password = $('#password').val();
+    var confirmPassword = $('#confirm_password').val();
 
     $('.form-control').removeClass("borderRed borderGreen");
 
@@ -28,6 +29,22 @@ function validarFormulario() {
         $('#correoInstitucional').addClass("borderRed");
         error = true;
     }
+    if (!password) {
+        mensajesError.push("El campo 'Contraseña' es obligatorio.");
+        $('#password').addClass("borderRed");
+        error = true;
+    }
+    if (!confirmPassword) {
+        mensajesError.push("El campo 'Confirmar Contraseña' es obligatorio.");
+        $('#confirm_password').addClass("borderRed");
+        error = true;
+    }
+    if (password && confirmPassword && password !== confirmPassword) {
+        mensajesError.push("Las contraseñas no coinciden.");
+        $('#password').addClass("borderRed");
+        $('#confirm_password').addClass("borderRed");
+        error = true;
+    }
 
     if (error) {
         Swal.fire({
@@ -40,20 +57,7 @@ function validarFormulario() {
         return;
     }
 
-    if (!correoInstitucional.endsWith('@uv.mx') && !correoInstitucional.endsWith('@estudiantes.uv.mx')) {
-        Swal.fire({
-            title: '¡Error!',
-            icon: 'error',
-            html: '<p>El correo institucional debe terminar en @uv.mx o @estudiantes.uv.mx.</p>',
-            showConfirmButton: false,
-            timer: 3500
-        });
-
-        $('#correoInstitucional').addClass("borderRed");
-        return;
-    }
-
-    $('#nombre, #paterno, #materno, #noPersonal, #correoInstitucional').removeClass("borderRed").addClass("borderGreen");
+    $('#nombre, #paterno, #materno, #correoInstitucional, #password, #confirm_password').removeClass("borderRed").addClass("borderGreen");
 
     $("#form").submit();
 }
