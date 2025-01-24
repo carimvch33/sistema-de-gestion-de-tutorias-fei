@@ -28,7 +28,7 @@ if (!isset($errors)) {
 <body>
     <div class="header-container">
         <div class="header-left">
-            <img src="assets/img/UV.png" alt="UV Logo">
+            <img src="<?= BASE_URL; ?>/assets/img/UV.png" alt="UV Logo">
             <div class="welcome-message">Bienvenid@ <?php echo htmlspecialchars($user); ?></div>
         </div>
         <div class="header-left">
@@ -47,7 +47,7 @@ if (!isset($errors)) {
     <?php endif; ?>
 
     <div class="new-button-container">
-        <button class="buttonNew" onclick="location.href = './registroReporte.php' "><i class="fas fa-plus"></i>
+        <button class="buttonNew" onclick="location.href = '<?= BASE_URL; ?>/registroReporte.php' "><i class="fas fa-plus"></i>
             Nuevo</button>
     </div>
 
