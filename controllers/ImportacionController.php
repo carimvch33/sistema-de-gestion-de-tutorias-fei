@@ -6,7 +6,7 @@ require_once '../models/Carrera.php';
 require_once '../models/PeriodoEscolar.php';
 require_once '../models/ExperienciaEducativa.php';
 
-require_once '../libs/phpspreadsheet/vendor/autoload.php';
+require_once './libs/phpspreadsheet/vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
