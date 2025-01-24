@@ -1,7 +1,9 @@
 <?php
+require_once '../config/config.php';
+
 function connectiondb()
 {
-    $host = "localhost";
+    $host = DB_HOST;
     $port = 3306;
     $socket = "";
     $user = "sistema_regitro_tutorias_usuario";
