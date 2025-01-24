@@ -36,7 +36,7 @@ if ($mantenimiento) {
     <div class="row w-100">
         <div class="col-md-5 d-flex justify-content-center left-section">
             <div class="image-container">
-                <img src="<?= logo_UV ?>" alt="UV Logo" class="img-fluid large-image">
+                <img src="<?= logo_uv ?>" alt="UV Logo" class="img-fluid large-image">
             </div>
         </div>
         <div class="col-md-6 d-flex justify-content-center align-items-center right-section">
