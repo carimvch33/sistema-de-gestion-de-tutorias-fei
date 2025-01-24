@@ -314,7 +314,7 @@ class ImportacionController
                 } else {
                     $filasVacias = 0;
 
-                    $experienciaCreada = $this->experienciaModel->createExperiencia($nombre, $nrc, $profesor, $programaEducativo);
+                    $experienciaCreada = $this->experienciaModel->createExperiencia($nombre, $nrc);
                 }
             }
             return true;

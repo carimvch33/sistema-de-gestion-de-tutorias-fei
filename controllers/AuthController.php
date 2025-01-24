@@ -91,7 +91,7 @@ class AuthController
         $_SESSION["correoInstitucional"] = $userInfo['correoInstitucional'];
         $_SESSION["periodoActual"] = $userInfo['periodoActual'];
 
-        header("Location: /menu.php");
+        header("Location: " . BASE_URL . "/menu.php");
         exit();
     }
 
@@ -106,7 +106,7 @@ class AuthController
         $_SESSION["correoInstitucional"] = $userInfo['correoInstitucional'];
         $_SESSION["periodoActual"] = $userInfo['periodoActual'];
 
-        header("Location: /menu.php");
+        header("Location: " . BASE_URL . "/menu.php");
         exit();
     }
 
@@ -114,7 +114,7 @@ class AuthController
     {
         session_start();
         $_SESSION["message"] = $message;
-        header("Location: ./index.php");
+        header("Location: " . BASE_URL . "/index.php");
         exit();
     }
 }
