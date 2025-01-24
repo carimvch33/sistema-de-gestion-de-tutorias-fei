@@ -1,5 +1,7 @@
 <?php
-define('logo_UV', '/assets/img/UV-fondoObscuro.png');
+require_once 'config/config.php';
+
+define('LOGO_UV', BASE_URL . '/assets/img/UV-fondoObscuro.png');
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -25,7 +27,7 @@ if ($mantenimiento) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="<?= BASE_URL; ?>/assets/css/styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -102,7 +104,7 @@ if ($mantenimiento) {
     }
     ?>
 
-    <script src="/assets/js/login.js"></script>
+    <script src="<?= BASE_URL; ?>/assets/js/login.js"></script>
 </body>
 
 </html>
