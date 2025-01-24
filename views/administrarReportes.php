@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 // Aseguramos que las variables necesarias están definidas
 if (!isset($reportes)) {
     $reportes = [];
@@ -7,7 +8,7 @@ if (!isset($user)) {
     $user = '';
 }
 if (!isset($menu)) {
-    $menu = './cerrarSesion.php';
+    $menu = BASE_URL . '/cerrarSesion.php';
 }
 if (!isset($errors)) {
     $errors = [];
@@ -19,9 +20,9 @@ if (!isset($errors)) {
 <head>
     <meta charset="UTF-8">
     <title>Administración de Reportes de Tutoría</title>
-    <link rel="stylesheet" href="assets/css/administrarReportes.css">
+    <link rel="stylesheet" href="<?= BASE_URL; ?>/assets/css/administrarReportes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="libs/DataTables/datatables.min.css" rel="stylesheet">
+    <link href="<?= BASE_URL; ?>/libs/DataTables/datatables.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -31,8 +32,8 @@ if (!isset($errors)) {
             <div class="welcome-message">Bienvenid@ <?php echo htmlspecialchars($user); ?></div>
         </div>
         <div class="header-left">
-            <button class="buttonsHead" onclick="location.href='/menu.php'"><i class="fas fa-home"></i> Inicio</button>
-            <button class="buttonsHead" onclick="location.href='/cerrarSesion.php'"><i class="fas fa-sign-out-alt"></i>
+            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/menu.php'"><i class="fas fa-home"></i> Inicio</button>
+            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/cerrarSesion.php'"><i class="fas fa-sign-out-alt"></i>
                 Cerrar sesión</button>
         </div>
     </div>
@@ -109,9 +110,9 @@ if (!isset($errors)) {
     <footer>© Universidad Veracruzana</footer>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="libs/DataTables/datatables.min.js"></script>
+    <script src="<?= BASE_URL; ?>/libs/DataTables/datatables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="assets/js/administrarReportes.js"></script>
+    <script src="<?= BASE_URL; ?>/assets/js/administrarReportes.js"></script>
 </body>
 
 </html>

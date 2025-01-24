@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/Tutoria.php';
 
@@ -20,7 +21,7 @@ class TutoriasTutoradoController
 
         $rolesPermitidos = [2]; 
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: /cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 

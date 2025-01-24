@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/Problematica.php';
 require_once '../models/TipoProblematica.php';
@@ -22,7 +23,7 @@ class ProblematicaController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -49,7 +50,7 @@ class ProblematicaController
         $rolesPermitidos = [3];
 
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -81,7 +82,7 @@ class ProblematicaController
         $rolesPermitidos = [3];
 
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -105,7 +106,7 @@ class ProblematicaController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ./registroProblematica.php');
+                header('Location: ' . BASE_URL . '/registroProblematica.php');
                 exit();
             }
 
@@ -113,15 +114,15 @@ class ProblematicaController
 
             if ($resultado) {
                 $_SESSION['message'] = "Problemática académica registrada exitosamente.";
-                header("Location: ./administrarProblematicas.php");
+                header("Location: " . BASE_URL . "/administrarProblematicas.php");
                 exit();
             } else {
                 $_SESSION['message'] = "Error al registrar la problemática académica.";
-                header("Location: ./registroProblematica.php");
+                header('Location: ' . BASE_URL . '/registroProblematica.php');
                 exit();
             }
         } else {
-            header('Location: ./registroProblematica.php');
+            header('Location: ' . BASE_URL . '/registroProblematica.php');
             exit();
         }
     }
@@ -132,7 +133,7 @@ class ProblematicaController
         $rolesPermitidos = [3];
 
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -157,14 +158,14 @@ class ProblematicaController
                     require_once '../views/editarProblematica.php';
                 } else {
                     $_SESSION['message'] = 'Problemática no encontrada';
-                    header('Location: ./administrarProblematicas.php');
+                    header("Location: " . BASE_URL . "/administrarProblematicas.php");
                 }
             } else {
                 $_SESSION['message'] = 'ID de problemática inválido';
-                header('Location: ./administrarProblematicas.php');
+                header("Location: " . BASE_URL . "/administrarProblematicas.php");
             }
         } else {
-            header('Location: ./administrarProblematicas.php');
+            header("Location: " . BASE_URL . "/administrarProblematicas.php");
         }
     }
 
@@ -174,7 +175,7 @@ class ProblematicaController
         $rolesPermitidos = [3];
 
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -198,7 +199,7 @@ class ProblematicaController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ./editarProblematica.php');
+                header('Location: ' . BASE_URL . '/editarProblematica.php');
                 exit();
             }
 
@@ -206,13 +207,13 @@ class ProblematicaController
 
             if ($resultado) {
                 $_SESSION['message'] = 'Problemática académica actualizada exitosamente.';
-                header('Location: ./administrarProblematicas.php');
+                header("Location: " . BASE_URL . "/administrarProblematicas.php");
             } else {
                 $_SESSION['message'] = 'Error al actualizar la problemática académica.';
-                header('Location: ./editarProblematica.php');
+                header('Location: ' . BASE_URL . '/editarProblematica.php');
             }
         } else {
-            header('Location: ./administrarProblematicas.php');
+            header("Location: " . BASE_URL . "/administrarProblematicas.php");
         }
     }
 
@@ -246,7 +247,7 @@ class ProblematicaController
                 echo json_encode(['status' => 'error', 'message' => 'ID de problemática inválido.']);
             }
         } else {
-            header('Location: ./administrarProblematicas.php');
+            header("Location: " . BASE_URL . "/administrarProblematicas.php");
         }
     }
 }

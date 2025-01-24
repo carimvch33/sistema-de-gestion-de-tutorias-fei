@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/Profesor.php';
 require_once '../models/Coordinador.php';
@@ -22,7 +23,7 @@ class RolController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -53,7 +54,7 @@ class RolController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -78,14 +79,14 @@ class RolController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ./actualizarRol.php');
+                header('Location: ' . BASE_URL . '/actualizarRol.php');
                 exit();
             }
 
             $profesorData = $this->tutorModel->getTutorBySesionId($sesionId);
             if (!$profesorData) {
                 $_SESSION['errors'] = ['No se encontró el profesor seleccionado.'];
-                header('Location: ./actualizarRol.php');
+                header('Location: ' . BASE_URL . '/actualizarRol.php');
                 exit();
             }
 
@@ -133,10 +134,10 @@ class RolController
                 $_SESSION['errors'] = ["Error al actualizar el rol: " . $e->getMessage()];
             }
 
-            header("Location: ./actualizarRol.php");
+            header('Location: ' . BASE_URL . '/actualizarRol.php');
             exit();
         } else {
-            header('Location: ./actualizarRol.php');
+            header('Location: ' . BASE_URL . '/actualizarRol.php');
             exit();
         }
     }

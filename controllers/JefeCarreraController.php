@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/JefeCarrera.php';
 
@@ -19,7 +20,7 @@ class JefeCarreraController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -46,7 +47,7 @@ class JefeCarreraController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -77,7 +78,7 @@ class JefeCarreraController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -110,7 +111,7 @@ class JefeCarreraController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ./registroJefeCarrera.php');
+                header('Location: ' . BASE_URL . '/registroJefeCarrera.php');
                 exit();
             }
 
@@ -127,15 +128,15 @@ class JefeCarreraController
 
             if ($resultado) {
                 $_SESSION['message'] = "Jefe de carrera registrado exitosamente.";
-                header("Location: ./administrarJefesCarrera.php");
+                header("Location: " . BASE_URL . "/administrarJefesCarrera.php");
                 exit();
             } else {
                 $_SESSION['message'] = "Error al registrar el jefe de carrera.";
-                header("Location: ./registroJefeCarrera.php");
+                header("Location: " . BASE_URL . "/registroJefeCarrera.php");
                 exit();
             }
         } else {
-            header('Location: ./registroJefeCarrera.php');
+            header("Location: " . BASE_URL . "/registroJefeCarrera.php");
             exit();
         }
     }

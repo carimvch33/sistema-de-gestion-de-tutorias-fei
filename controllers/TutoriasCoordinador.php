@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/Tutoria.php';
 require_once '../models/Coordinador.php';
@@ -22,7 +23,7 @@ class TutoriasCoordinador
 
         $rolesPermitidos = [4]; // Rol para coordinador
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: /cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 

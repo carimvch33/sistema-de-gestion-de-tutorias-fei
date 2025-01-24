@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/Reporte.php';
 require_once '../models/Problematica.php';
@@ -35,11 +36,11 @@ class ReporteController
     {
         session_start();
 
-        define('logo_UV', './img/UV.png');
+        define('logo_UV', BASE_URL . '/img/UV.png');
 
         $rolesPermitidos = [1, 4];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -58,17 +59,17 @@ class ReporteController
 
         $reportes = $this->reporteModel->getReportesByTutor($userCorreo);
 
-        $menu = './cerrarSesion.php';
+        $menu = BASE_URL . '/cerrarSesion.php';
 
         switch ($_SESSION['rol']) {
             case 1:
-                $menu = './menuTutor.php';
+                $menu = BASE_URL . '/menu.php';
                 break;
             case 4:
-                $menu = './menuCoordinador.php';
+                $menu = BASE_URL . '/menu.php';
                 break;
             default:
-                $menu = './cerrarSesion.php';
+                $menu = BASE_URL . '/cerrarSesion.php';
                 break;
         }
 
@@ -81,7 +82,7 @@ class ReporteController
 
         $rolesPermitidos = [1, 4];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -107,13 +108,13 @@ class ReporteController
         $errors = $_SESSION['errors'] ?? [];
         unset($_SESSION['errors']);
 
-        $menu = './cerrarSesion.php';
+        $menu = BASE_URL . '/cerrarSesion.php';
         switch ($_SESSION['rol']) {
             case 1:
-                $menu = './menuTutor.php';
+                $menu = BASE_URL . '/menu.php';
                 break;
             case 4:
-                $menu = './menuCoordinador.php';
+                $menu = BASE_URL . '/menu.php';
                 break;
         }
 
@@ -130,7 +131,7 @@ class ReporteController
 
         $rolesPermitidos = [1, 4];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -161,7 +162,7 @@ class ReporteController
 
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
-            header('Location: ./registroReporte.php');
+            header('Location: ' . BASE_URL . '/registroReporte.php');
             exit();
         }
 
@@ -192,12 +193,12 @@ class ReporteController
 
             $this->conn->commit();
             $_SESSION['message'] = "Reporte de tutoría registrado exitosamente.";
-            header("Location: ./administrarReportes.php");
+            header("Location: " . BASE_URL . "/administrarReportes.php");
             exit();
         } catch (Exception $e) {
             $this->conn->rollback();
             $_SESSION['errors'] = $errors ?: ['Error al registrar el reporte de tutoría.'];
-            header('Location: ./registroReporte.php');
+            header('Location: ' . BASE_URL . '/registroReporte.php');
             exit();
         }
     }
@@ -287,7 +288,7 @@ class ReporteController
 
         $rolesPermitidos = [1, 4];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -314,7 +315,7 @@ class ReporteController
 
         if (!$reporte) {
             $_SESSION['errors'] = ['No se encontró el reporte'];
-            header('Location: ./administrarReportes.php');
+            header("Location: " . BASE_URL . "/administrarReportes.php");
             exit();
         }
 
@@ -337,13 +338,13 @@ class ReporteController
         $errors = $_SESSION['errors'] ?? [];
         unset($_SESSION['errors']);
 
-        $menu = './cerrarSesion.php';
+        $menu = BASE_URL . '/cerrarSesion.php';
         switch ($_SESSION['rol']) {
             case 1:
-                $menu = './menu.php';
+                $menu = BASE_URL . '/menu.php';
                 break;
             case 4:
-                $menu = './menu.php';
+                $menu = BASE_URL . '/menu.php';
                 break;
         }
 
@@ -361,7 +362,7 @@ class ReporteController
 
         $rolesPermitidos = [1, 4];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -396,7 +397,7 @@ class ReporteController
 
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
-            header("Location: ./editarReporte.php?idReporte=$idReporte");
+            header("Location: " . BASE_URL . "/editarReporte.php?idReporte=$idReporte");
             exit();
         }
 
@@ -421,12 +422,12 @@ class ReporteController
 
             $this->conn->commit();
             $_SESSION['message'] = "Reporte de tutoría actualizado exitosamente.";
-            header("Location: ./administrarReportes.php");
+            header("Location: " . BASE_URL . "/administrarReportes.php");
             exit();
         } catch (Exception $e) {
             $this->conn->rollback();
             $_SESSION['errors'] = ['Error al actualizar el reporte de tutoría. Detalles: ' . $e->getMessage()];
-            header("Location: ./editarReporte.php?idReporte=$idReporte");
+            header("Location: " . BASE_URL . "/editarReporte.php?idReporte=$idReporte");
             exit();
         }
     }

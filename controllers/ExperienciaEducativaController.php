@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/ExperienciaEducativa.php';
 require_once '../models/Carrera.php';
@@ -22,7 +23,7 @@ class ExperienciaEducativaController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -48,7 +49,7 @@ class ExperienciaEducativaController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -79,7 +80,7 @@ class ExperienciaEducativaController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -102,7 +103,7 @@ class ExperienciaEducativaController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ./registroExperienciaEducativa.php');
+                header('Location: ' . BASE_URL . '/registroExperienciaEducativa.php');
                 exit();
             }
 
@@ -110,15 +111,15 @@ class ExperienciaEducativaController
 
             if ($result) {
                 $_SESSION['message'] = "Experiencia educativa registrada exitosamente.";
-                header("Location: ./administrarExperienciasEducativas.php");
+                header('Location: ' . BASE_URL . '/administrarExperienciasEducativas.php');
                 exit();
             } else {
                 $_SESSION['message'] = "Error al registrar la experiencia educativa.";
-                header("Location: ./registroExperienciaEducativa.php");
+                header("Location: " . BASE_URL . "/registroExperienciaEducativa.php");
                 exit();
             }
         } else {
-            header('Location: ./registroExperienciaEducativa.php');
+            header('Location: ' . BASE_URL . '/registroExperienciaEducativa.php');
             exit();
         }
     }
@@ -129,7 +130,7 @@ class ExperienciaEducativaController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -154,16 +155,16 @@ class ExperienciaEducativaController
                     require_once '../views/editarExperienciaEducativa.php';
                 } else {
                     $_SESSION['message'] = 'Experiencia educativa no encontrada';
-                    header('Location: ./administrarExperienciasEducativas.php');
+                    header('Location: ' . BASE_URL . '/administrarExperienciasEducativas.php');
                     exit();
                 }
             } else {
                 $_SESSION['message'] = 'ID de experiencia educativa inválido';
-                header('Location: ./administrarExperienciasEducativas.php');
+                header('Location: ' . BASE_URL . '/administrarExperienciasEducativas.php');
                 exit();
             }
         } else {
-            header('Location: ./administrarExperienciasEducativas.php');
+            header('Location: ' . BASE_URL . '/administrarExperienciasEducativas.php');
             exit();
         }
     }
@@ -174,7 +175,7 @@ class ExperienciaEducativaController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -198,7 +199,7 @@ class ExperienciaEducativaController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ./editarExperienciaEducativa.php');
+                header('Location: ' . BASE_URL . '/editarExperienciaEducativa.php');
                 exit();
             }
 
@@ -206,15 +207,15 @@ class ExperienciaEducativaController
 
             if ($resultado) {
                 $_SESSION['message'] = "Experiencia educativa actualizada exitosamente.";
-                header("Location: ./administrarExperienciasEducativas.php");
+                header('Location: ' . BASE_URL . '/administrarExperienciasEducativas.php');
                 exit();
             } else {
                 $_SESSION['message'] = "Error al actualizar la experiencia educativa.";
-                header('Location: ./editarExperienciaEducativa.php');
+                header('Location: ' . BASE_URL . '/editarExperienciaEducativa.php');
                 exit();
             }
         } else {
-            header('Location: ./administrarExperienciasEducativas.php');
+            header('Location: ' . BASE_URL . '/administrarExperienciasEducativas.php');
             exit();
         }
     }
@@ -249,7 +250,7 @@ class ExperienciaEducativaController
                 echo json_encode(['status' => 'error', 'message' => 'ID de experiencia educativa inválido.']);
             }
         } else {
-            header('Location: ./administrarExperienciasEducativas.php');
+            header('Location: ' . BASE_URL . '/administrarExperienciasEducativas.php');
             exit();
         }
     }

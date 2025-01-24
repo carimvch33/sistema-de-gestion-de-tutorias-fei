@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/Carrera.php';
 
@@ -19,7 +20,7 @@ class CarreraController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -45,7 +46,7 @@ class CarreraController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -65,14 +66,14 @@ class CarreraController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
                 $_SESSION['message'] = "Error: Solicitud no válida.";
-                header('Location: ./registroCarrera.php');
+                header('Location: ' . BASE_URL . '/registroCarrera.php');
                 exit();
             }
 
@@ -84,7 +85,7 @@ class CarreraController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ./registroCarrera.php');
+                header('Location: ' . BASE_URL . '/registroCarrera.php');
                 exit();
             }
 
@@ -92,15 +93,15 @@ class CarreraController
 
             if ($result) {
                 $_SESSION['message'] = "Carrera registrada exitosamente.";
-                header("Location: ./administrarCarreras.php");
+                header("Location: " . BASE_URL . "/administrarCarreras.php");
                 exit();
             } else {
                 $_SESSION['message'] = "Error al registrar la carrera.";
-                header("Location: ./administrarCarreras.php");
+                header("Location: " . BASE_URL . "/administrarCarreras.php");
                 exit();
             }
         } else {
-            header('Location: ./registroCarrera.php');
+            header('Location: ' . BASE_URL . '/registroCarrera.php');
             exit();
         }
     }
@@ -111,7 +112,7 @@ class CarreraController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -122,16 +123,16 @@ class CarreraController
 
             if ($carrera) {
                 $_SESSION['carrera'] = $carrera;
-                header('Location: ./editarCarrera.php');
+                header('Location: ' . BASE_URL . '/editarCarrera.php');
                 exit();
             } else {
                 $_SESSION['message'] = 'Carrera no encontrada';
-                header('Location: ./administrarCarreras.php');
+                header("Location: " . BASE_URL . "/administrarCarreras.php");
                 exit();
             }
         } else {
             $_SESSION['message'] = 'ID de carrera inválido';
-            header('Location: ./administrarCarreras.php');
+            header("Location: " . BASE_URL . "/administrarCarreras.php");
             exit();
         }
     }
@@ -142,7 +143,7 @@ class CarreraController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -161,16 +162,16 @@ class CarreraController
                     require_once '../views/editarCarrera.php';
                 } else {
                     $_SESSION['message'] = 'Carrera no encontrada';
-                    header('Location: ./administrarCarreras.php');
+                    header("Location: " . BASE_URL . "/administrarCarreras.php");
                     exit();
                 }
             } else {
                 $_SESSION['message'] = 'ID de carrera inválido';
-                header('Location: ./administrarCarreras.php');
+                header("Location: " . BASE_URL . "/administrarCarreras.php");
                 exit();
             }
         } else {
-            header('Location: ./administrarCarreras.php');
+            header("Location: " . BASE_URL . "/administrarCarreras.php");
             exit();
         }
     }
@@ -181,14 +182,14 @@ class CarreraController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
                 $_SESSION['message'] = "Error: Solicitud no válida.";
-                header('Location: ./administrarCarreras.php');
+                header("Location: " . BASE_URL . "/administrarCarreras.php");
                 exit();
             }
 
@@ -206,7 +207,7 @@ class CarreraController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ./editarCarrera.php');
+                header('Location: ' . BASE_URL . '/editarCarrera.php');
                 exit();
             }
 
@@ -214,15 +215,15 @@ class CarreraController
 
             if ($result) {
                 $_SESSION['message'] = "Carrera actualizada exitosamente.";
-                header("Location: ./administrarCarreras.php");
+                header("Location: " . BASE_URL . "/administrarCarreras.php");
                 exit();
             } else {
                 $_SESSION['message'] = "Error al actualizar la carrera.";
-                header("Location: ./administrarCarreras.php");
+                header("Location: " . BASE_URL . "/administrarCarreras.php");
                 exit();
             }
         } else {
-            header('Location: ./administrarCarreras.php');
+            header("Location: " . BASE_URL . "/administrarCarreras.php");
             exit();
         }
     }
@@ -257,7 +258,7 @@ class CarreraController
                 echo json_encode(['status' => 'error', 'message' => 'ID de carrera inválido.']);
             }
         } else {
-            header('Location: ./administrarCarreras.php');
+            header("Location: " . BASE_URL . "/administrarCarreras.php");
             exit();
         }
     }

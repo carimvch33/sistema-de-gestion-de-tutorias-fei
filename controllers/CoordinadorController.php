@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/Coordinador.php';
 
@@ -19,7 +20,7 @@ class CoordinadorController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -46,7 +47,7 @@ class CoordinadorController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -81,7 +82,7 @@ class CoordinadorController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -117,7 +118,7 @@ class CoordinadorController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ./registroCoordinador.php');
+                header('Location: ' . BASE_URL . '/registroCoordinador.php');
                 exit();
             }
 
@@ -135,15 +136,15 @@ class CoordinadorController
 
             if ($resultado) {
                 $_SESSION['message'] = "Coordinador registrado exitosamente.";
-                header("Location: ./administrarCoordinadores.php");
+                header('Location: ' . BASE_URL . '/administrarCoordinadores.php');
                 exit();
             } else {
                 $_SESSION['message'] = "Error al registrar el coordinador.";
-                header("Location: ./registroCoordinador.php");
+                header("Location: " . BASE_URL . "/registroCoordinador.php");
                 exit();
             }
         } else {
-            header('Location: ./registroCoordinador.php');
+            header('Location: ' . BASE_URL . '/registroCoordinador.php');
             exit();
         }
     }
@@ -154,7 +155,7 @@ class CoordinadorController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -178,8 +179,8 @@ class CoordinadorController
                     $csrf_token = $_SESSION['csrf_token'];
 
                     $rol = $coordinador['rol'];
-                    $regresar = './cerrarSesion.php';
-                    $regresar = './administrarCoordinadores.php';
+                    $regresar = BASE_URL . '/cerrarSesion.php';
+                    $regresar = BASE_URL . '/administrarCoordinadores.php';
                     $academico = 'Coordinador';
 
 
@@ -196,16 +197,16 @@ class CoordinadorController
                     require_once '../views/editarCoordinador.php';
                 } else {
                     $_SESSION['message'] = 'Profesor no encontrado';
-                    header('Location: ./administraCoordinadoress.php');
+                    header('Location: ' . BASE_URL . '/administrarCoordinadores.php');
                     exit();
                 }
             } else {
                 $_SESSION['message'] = 'ID de profesor inválido';
-                header('Location: ./administrarCoordinadores.php');
+                header('Location: ' . BASE_URL . '/administrarCoordinadores.php');
                 exit();
             }
         } else {
-            header('Location: ./administrarCoordinadores.php');
+            header('Location: ' . BASE_URL . '/administrarCoordinadores.php');
             exit();
         }
     }
@@ -217,7 +218,7 @@ class CoordinadorController
         $rolesPermitidos = [3];
 
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -231,7 +232,7 @@ class CoordinadorController
 
             if ($idTutor <= 0) {
                 $_SESSION['message'] = 'ID de profesor inválido';
-                header('Location: ./administrarCoordinadores.php');
+                header('Location: ' . BASE_URL . '/administrarCoordinadores.php');
                 exit();
             }
 
@@ -263,7 +264,7 @@ class CoordinadorController
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
                 $_POST['idTutor'] = $idTutor;
-                header('Location: ./editarCoordinador.php');
+                header('Location: ' . BASE_URL . '/editarCoordinador.php');
                 exit();
             }
 
@@ -281,15 +282,15 @@ class CoordinadorController
 
             if ($resultado) {
                 $_SESSION['message'] = "Profesor actualizado exitosamente.";
-                header("Location: ./administrarCoordinadores.php");
+                header('Location: ' . BASE_URL . '/administrarCoordinadores.php');
                 exit();
             } else {
                 $_SESSION['message'] = "Error al actualizar el profesor.";
-                header("Location: ./editarCoordinador.php");
+                header("Location: " . BASE_URL . "/editarCoordinador.php");
                 exit();
             }
         } else {
-            header('Location: ./administrarCoordinadores.php');
+            header('Location: ' . BASE_URL . '/administrarCoordinadores.php');
             exit();
         }
     }
@@ -324,7 +325,7 @@ class CoordinadorController
                 echo json_encode(['status' => 'error', 'message' => 'ID de coordinador inválido.']);
             }
         } else {
-            header('Location: ./administrarCoordinadores.php');
+            header('Location: ' . BASE_URL . '/administrarCoordinadores.php');
             exit();
         }
     }

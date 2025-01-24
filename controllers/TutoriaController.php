@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/Tutoria.php';
 require_once '../models/Carrera.php';
@@ -27,14 +28,14 @@ class TutoriaController
         session_start();
         $rolesPermitidos = [1, 4];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: /cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
         $correoInstitucional = $_SESSION['correoInstitucional'];
         $result = $this->tutoriaModel->getTutoriasByTutor($correoInstitucional);
 
-        $menu = '/menu.php';
+        $menu = BASE_URL . '/menu.php';
 
         require '../views/tutorias.php';
     }
@@ -49,7 +50,7 @@ class TutoriaController
 
         $rolesPermitidos = [1, 4];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: /cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -66,7 +67,7 @@ class TutoriaController
 
         if ($result->num_rows === 0) {
             $_SESSION['message'] = 'No se encontró el tutor.';
-            header('Location: /menu.php');
+            header('Location: ' . BASE_URL . '/menu.php');
             exit();
         }
 
@@ -85,18 +86,18 @@ class TutoriaController
         $rolesPermitidos = [1, 4];
 
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ./registroTutoria.php');
+            header('Location: ' . BASE_URL . '/registroTutoria.php');
             exit();
         }
 
         if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
             $_SESSION['message'] = 'Token CSRF inválido';
-            header('Location: ./registroTutoria.php');
+            header('Location: ' . BASE_URL . '/registroTutoria.php');
             exit();
         }
 
@@ -104,7 +105,7 @@ class TutoriaController
 
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
-            header('Location: ./registroTutoria.php');
+            header('Location: ' . BASE_URL . '/registroTutoria.php');
             exit();
         }
 
@@ -113,7 +114,7 @@ class TutoriaController
             $archivoNombre = $this->uploadFile($_FILES['archivo_horario']);
             if (!$archivoNombre) {
                 $_SESSION['message'] = 'Error al subir el archivo.';
-                header('Location: ./registroTutoria.php');
+                header('Location: ' . BASE_URL . '/registroTutoria.php');
                 exit();
             }
         }
@@ -122,7 +123,7 @@ class TutoriaController
         $this->tutoriaModel->crearTutoria($_POST, $correoInstitucional, $archivoNombre);
 
         $_SESSION['message'] = 'Tutoría registrada con éxito';
-        header('Location: ./tutorias.php');
+        header('Location: ' . BASE_URL . '/tutorias.php');
         exit();
     }
 
@@ -171,7 +172,7 @@ class TutoriaController
 
         $rolesPermitidos = [1, 4];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: /cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -180,7 +181,7 @@ class TutoriaController
 
         if (!isset($_POST['idTutoria']) && !isset($_GET['idTutoria'])) {
             $_SESSION['message'] = 'No se especificó la tutoría a editar.';
-            header('Location: ./tutorias.php');
+            header('Location: ' . BASE_URL . '/tutorias.php');
             exit();
         }
 
@@ -191,14 +192,14 @@ class TutoriaController
 
         if (!$idTutor) {
             $_SESSION['message'] = 'No se encontró el tutor.';
-            header('Location: /menu.php');
+            header('Location: ' . BASE_URL . '/menu.php');
             exit();
         }
 
         $tutoria = $this->tutoriaModel->getTutoriaById($idTutoria, $idTutor);
         if (!$tutoria) {
             $_SESSION['message'] = 'No se encontró la tutoría a editar.';
-            header('Location: ./tutorias.php');
+            header('Location: ' . BASE_URL . '/tutorias.php');
             exit();
         }
 
@@ -211,7 +212,7 @@ class TutoriaController
         $horaFin = htmlspecialchars($tutoria['horaFin'] ?? '', ENT_QUOTES, 'UTF-8');
         $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
 
-        $menu = '/menu.php';
+        $menu = BASE_URL . '/menu.php';
 
         require '../views/editarTutoria.php';
     }
@@ -225,19 +226,19 @@ class TutoriaController
         $rolesPermitidos = [1, 4];
 
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_POST['idTutoria'])) {
             $_SESSION['message'] = 'Solicitud no válida.';
-            header('Location: ./tutorias.php');
+            header('Location: ' . BASE_URL . '/tutorias.php');
             exit();
         }
 
         if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
             $_SESSION['message'] = 'Token CSRF inválido';
-            header('Location: ./editarTutoria.php');
+            header('Location: ' . BASE_URL . '/editarTutoria.php');
             exit();
         }
 
@@ -248,7 +249,7 @@ class TutoriaController
 
         if (!$idTutor) {
             $_SESSION['message'] = 'No se encontró el tutor.';
-            header('Location: /menu.php');
+            header('Location: ' . BASE_URL . 'menu.php');
             exit();
         }
 
@@ -256,7 +257,7 @@ class TutoriaController
 
         if ($creadorCorreo !== $correoInstitucional) {
             $_SESSION['message'] = 'No tienes permiso para modificar esta tutoría.';
-            header('Location: ./tutorias.php');
+            header('Location: ' . BASE_URL . '/tutorias.php');
             exit();
         }
 
@@ -264,7 +265,7 @@ class TutoriaController
 
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
-            header('Location: ./editarTutoria.php?idTutoria=' . $idTutoria);
+            header('Location: ' . BASE_URL . '/editarTutoria.php?idTutoria=' . $idTutoria);
             exit();
         }
 
@@ -277,7 +278,7 @@ class TutoriaController
         } else {
             $_SESSION['message'] = 'No se pudo actualizar la tutoría o no hubo cambios';
         }
-        header('Location: ./tutorias.php');
+        header('Location: ' . BASE_URL . '/tutorias.php');
         exit();
     }
 
@@ -289,12 +290,12 @@ class TutoriaController
 
         $rolesPermitidos = [1, 4];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ./tutorias.php');
+            header('Location: ' . BASE_URL . '/tutorias.php');
             exit();
         }
 

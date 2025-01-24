@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/TipoProblematica.php';
 
@@ -19,7 +20,7 @@ class TipoProblematicaController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -46,7 +47,7 @@ class TipoProblematicaController
         $rolesPermitidos = [3];
 
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -75,7 +76,7 @@ class TipoProblematicaController
         $rolesPermitidos = [3];
 
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -95,7 +96,7 @@ class TipoProblematicaController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ./registroProblematica.php');
+                header('Location: ' . BASE_URL . '/registroProblematica.php');
                 exit();
             }
 
@@ -103,15 +104,15 @@ class TipoProblematicaController
 
             if ($resultado) {
                 $_SESSION['message'] = "Tipo de Problemática registrada exitosamente.";
-                header("Location: ./administrarTiposProblematicas.php");
+                header("Location: " . BASE_URL . "/administrarTiposProblematicas.php");
                 exit();
             } else {
                 $_SESSION['message'] = "Error al registrar el tipo de problemática.";
-                header("Location: ./registroTipoProblematica.php");
+                header("Location: " . BASE_URL . "/registroTipoProblematica.php");
                 exit();
             }
         } else {
-            header('Location: ./registroTipoProblematica.php');
+            header("Location: " . BASE_URL . "/registroTipoProblematica.php");
             exit();
         }
     }
@@ -122,7 +123,7 @@ class TipoProblematicaController
         $rolesPermitidos = [3];
 
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -144,14 +145,14 @@ class TipoProblematicaController
                     require_once '../views/editarTipoProblematica.php';
                 } else {
                     $_SESSION['message'] = 'Tipo de problemática no encontrada';
-                    header('Location: ./administrarTiposProblematicas.php');
+                    header("Location: " . BASE_URL . "/administrarTiposProblematicas.php");
                 }
             } else {
                 $_SESSION['message'] = 'ID de tipo de problemática inválido';
-                header('Location: ./administrarTiposProblematicas.php');
+                header("Location: " . BASE_URL . "/administrarTiposProblematicas.php");
             }
         } else {
-            header('Location: ./administrarTiposProblematicas.php');
+            header("Location: " . BASE_URL . "/administrarTiposProblematicas.php");
         }
     }
 
@@ -161,7 +162,7 @@ class TipoProblematicaController
         $rolesPermitidos = [3];
 
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -180,7 +181,7 @@ class TipoProblematicaController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ./editarTipoProblematica.php');
+                header('Location: ' . BASE_URL . '/editarTipoProblematica.php');
                 exit();
             }
 
@@ -188,13 +189,13 @@ class TipoProblematicaController
 
             if ($resultado) {
                 $_SESSION['message'] = 'Tipo de problemática actualizada exitosamente.';
-                header('Location: ./administrarTiposProblematicas.php');
+                header("Location: " . BASE_URL . "/administrarTiposProblematicas.php");
             } else {
                 $_SESSION['message'] = 'Error al actualizar el tipo de problemática.';
-                header('Location: ./editarTipoProblematica.php');
+                header('Location: ' . BASE_URL . '/editarTipoProblematica.php');
             }
         } else {
-            header('Location: ./administrarTiposProblematicas.php');
+            header("Location: " . BASE_URL . "/administrarTiposProblematicas.php");
         }
     }
 
@@ -228,7 +229,7 @@ class TipoProblematicaController
                 echo json_encode(['status' => 'error', 'message' => 'ID de tipo de problemática inválido.']);
             }
         } else {
-            header('Location: ./administrarTiposProblematicas.php');
+            header("Location: " . BASE_URL . "/administrarTiposProblematicas.php");
         }
     }
 }

@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/Seccion.php';
 
@@ -19,7 +20,7 @@ class SeccionController
 
         $rolesPermitidos = [3]; // Ajusta los roles según sea necesario
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -42,7 +43,7 @@ class SeccionController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -79,14 +80,14 @@ class SeccionController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
                 $_SESSION['message'] = "Error: Solicitud no válida.";
-                header('Location: ./registroSeccion.php');
+                header('Location: ' . BASE_URL . '/registroSeccion.php');
                 exit();
             }
 
@@ -112,7 +113,7 @@ class SeccionController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ./registroSeccion.php');
+                header('Location: ' . BASE_URL . '/registroSeccion.php');
                 exit();
             }
 
@@ -120,15 +121,15 @@ class SeccionController
 
             if ($resultado) {
                 $_SESSION['message'] = "Sección registrada exitosamente.";
-                header('Location: ./administrarSecciones.php');
+                header('Location: ' . BASE_URL . '/administrarSecciones.php');
                 exit();
             } else {
                 $_SESSION['message'] = "Error al registrar la sección.";
-                header('Location: ./registroSeccion.php');
+                header('Location: ' . BASE_URL . '/registroSeccion.php');
                 exit();
             }
         } else {
-            header('Location: ./registroSeccion.php');
+            header('Location: ' . BASE_URL . '/registroSeccion.php');
             exit();
         }
     }
@@ -139,7 +140,7 @@ class SeccionController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -175,16 +176,16 @@ class SeccionController
                     require_once '../views/editarSeccion.php';
                 } else {
                     $_SESSION['message'] = 'Sección no encontrada';
-                    header('Location: ./administrarSecciones.php');
+                    header('Location: ' . BASE_URL . '/administrarSecciones.php');
                     exit();
                 }
             } else {
                 $_SESSION['message'] = 'ID de sección inválido';
-                header('Location: ./administrarSecciones.php');
+                header('Location: ' . BASE_URL . '/administrarSecciones.php');
                 exit();
             }
         } else {
-            header('Location: ./administrarSecciones.php');
+            header('Location: ' . BASE_URL . '/administrarSecciones.php');
             exit();
         }
     }
@@ -195,7 +196,7 @@ class SeccionController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -231,7 +232,7 @@ class SeccionController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ./editarSeccion.php');
+                header('Location: ' . BASE_URL . '/editarSeccion.php');
                 exit();
             }
 
@@ -239,15 +240,15 @@ class SeccionController
 
             if ($resultado) {
                 $_SESSION['message'] = "Sección actualizada exitosamente.";
-                header('Location: ./administrarSecciones.php');
+                header('Location: ' . BASE_URL . '/administrarSecciones.php');
                 exit();
             } else {
                 $_SESSION['message'] = "Error al actualizar la sección.";
-                header('Location: ./editarSeccion.php');
+                header('Location: ' . BASE_URL . '/editarSeccion.php');
                 exit();
             }
         } else {
-            header('Location: ./administrarSecciones.php');
+            header('Location: ' . BASE_URL . '/administrarSecciones.php');
             exit();
         }
     }
@@ -285,7 +286,7 @@ class SeccionController
                 echo json_encode(['status' => 'error', 'message' => 'ID de sección inválido.']);
             }
         } else {
-            header('Location: ./administrarSecciones.php');
+            header('Location: ' . BASE_URL . '/administrarSecciones.php');
             exit();
         }
     }

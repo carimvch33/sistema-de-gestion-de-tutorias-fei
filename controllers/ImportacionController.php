@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/Profesor.php';
 require_once '../models/Estudiante.php';
@@ -35,7 +36,7 @@ class ImportacionController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -60,7 +61,7 @@ class ImportacionController
         $rolesPermitidos = [3];
 
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -68,7 +69,7 @@ class ImportacionController
 
             if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
                 $_SESSION['message'] = 'Token CSRF inválido.';
-                header('Location: ./importarDatos.php');
+                header('Location: ' . BASE_URL . '/importarDatos.php');
                 exit();
             }
 
@@ -101,10 +102,10 @@ class ImportacionController
 
             $_SESSION['message'] = 'Importación de datos completada con éxito.';
 
-            header('Location: ./importarDatos.php');
+            header('Location: ' . BASE_URL . '/importarDatos.php');
             exit();
         } else {
-            header('Location: ./importarDatos.php');
+            header('Location: ' . BASE_URL . '/importarDatos.php');
             exit();
         }
     }

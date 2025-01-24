@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/Administrador.php';
 
@@ -24,7 +25,7 @@ class AdministradorController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -53,7 +54,7 @@ class AdministradorController
         $stmt->close();
 
         if (!$idAdministrador) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -68,7 +69,7 @@ class AdministradorController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -99,7 +100,7 @@ class AdministradorController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -161,11 +162,11 @@ class AdministradorController
 
                 if ($resultado) {
                     $_SESSION['message'] = "Administrador registrado exitosamente.";
-                    header("Location: ./administrarAdministradores.php");
+                    header("Location: " . BASE_URL . "/administrarAdministradores.php");
                     exit();
                 } else {
                     $_SESSION['message'] = "Error al registrar el administrador.";
-                    header("Location: ./registroAdministrador.php");
+                    header("Location: " . BASE_URL . "/registroAdministrador.php");
                     exit();
                 }
 
@@ -185,7 +186,7 @@ class AdministradorController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -216,16 +217,16 @@ class AdministradorController
                     require_once '../views/editarAdministrador.php';
                 } else {
                     $_SESSION['message'] = 'Administrador no encontrado';
-                    header('Location: ./administrarAdministradores.php');
+                    header('Location: ' . BASE_URL . '/administrarAdministradores.php');
                     exit();
                 }
             } else {
                 $_SESSION['message'] = 'ID de administrador inválido';
-                header('Location: ./administrarAdministradores.php');
+                header('Location: ' . BASE_URL . '/administrarAdministradores.php');
                 exit();
             }
         } else {
-            header('Location: ./administrarAdministradores.php');
+            header('Location: ' . BASE_URL . '/administrarAdministradores.php');
             exit();
         }
     }
@@ -236,7 +237,7 @@ class AdministradorController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -249,7 +250,7 @@ class AdministradorController
 
             if ($idAdministrador <= 0) {
                 $_SESSION['message'] = 'ID de administrador inválido';
-                header('Location: ./administrarAdministradores.php');
+                header('Location: ' . BASE_URL . '/administrarAdministradores.php');
                 exit();
             }
 
@@ -279,7 +280,7 @@ class AdministradorController
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
                 $_SESSION['old_data'] = $_POST; // Para mantener los datos ingresados
-                header('Location: ./editarAdministrador.php');
+                header('Location: ' . BASE_URL . '/editarAdministrador.php');
                 exit();
             }
 
@@ -299,15 +300,15 @@ class AdministradorController
 
             if ($resultado) {
                 $_SESSION['message'] = "Administrador actualizado exitosamente.";
-                header("Location: ./administrarAdministradores.php");
+                header('Location: ' . BASE_URL . '/administrarAdministradores.php');
                 exit();
             } else {
                 $_SESSION['message'] = "Error al actualizar el administrador.";
-                header("Location: ./editarAdministrador.php");
+                header("Location: " . BASE_URL . "/editarAdministrador.php");
                 exit();
             }
         } else {
-            header('Location: ./administrarAdministradores.php');
+            header('Location: ' . BASE_URL . '/administrarAdministradores.php');
             exit();
         }
     }
@@ -342,7 +343,7 @@ class AdministradorController
                 echo json_encode(['status' => 'error', 'message' => 'ID de administrador inválido.']);
             }
         } else {
-            header('Location: ./administrarAdministradores.php');
+            header('Location: ' . BASE_URL . '/administrarAdministradores.php');
             exit();
         }
     }

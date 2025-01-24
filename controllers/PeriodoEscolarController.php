@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/PeriodoEscolar.php';
 
@@ -19,7 +20,7 @@ class PeriodoEscolarController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -46,7 +47,7 @@ class PeriodoEscolarController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -76,14 +77,14 @@ class PeriodoEscolarController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
                 $_SESSION['message'] = "Error: Solicitud no válida.";
-                header('Location: ./registroPeriodo.php');
+                header('Location: ' . BASE_URL . '/registroPeriodo.php');
                 exit();
             }
 
@@ -101,7 +102,7 @@ class PeriodoEscolarController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ./registroPeriodo.php');
+                header('Location: ' . BASE_URL . '/registroPeriodo.php');
                 exit();
             }
 
@@ -109,15 +110,15 @@ class PeriodoEscolarController
 
             if ($resultado) {
                 $_SESSION['message'] = "Periodo registrado exitosamente.";
-                header('Location: ./administrarPeriodosEscolares.php');
+                header('Location: ' . BASE_URL . '/administrarPeriodosEscolares.php');
                 exit();
             } else {
                 $_SESSION['message'] = "Error al registrar el periodo.";
-                header('Location: ./registroPeriodo.php');
+                header('Location: ' . BASE_URL . '/registroPeriodo.php');
                 exit();
             }
         } else {
-            header('Location: ./registroPeriodo.php');
+            header('Location: ' . BASE_URL . '/registroPeriodo.php');
             exit();
         }
     }
@@ -128,7 +129,7 @@ class PeriodoEscolarController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -151,16 +152,16 @@ class PeriodoEscolarController
                     require_once '../views/editarPeriodo.php';
                 } else {
                     $_SESSION['message'] = 'Periodo no encontrado';
-                    header('Location: ./administrarPeriodosEscolares.php');
+                    header('Location: ' . BASE_URL . '/administrarPeriodosEscolares.php');
                     exit();
                 }
             } else {
                 $_SESSION['message'] = 'ID de periodo inválido';
-                header('Location: ./administrarPeriodosEscolares.php');
+                header('Location: ' . BASE_URL . '/administrarPeriodosEscolares.php');
                 exit();
             }
         } else {
-            header('Location: ./administrarPeriodosEscolares.php');
+            header('Location: ' . BASE_URL . '/administrarPeriodosEscolares.php');
             exit();
         }
     }
@@ -171,7 +172,7 @@ class PeriodoEscolarController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -200,7 +201,7 @@ class PeriodoEscolarController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ./editarPeriodo.php');
+                header('Location: ' . BASE_URL . '/editarPeriodo.php');
                 exit();
             }
 
@@ -208,15 +209,15 @@ class PeriodoEscolarController
 
             if ($resultado) {
                 $_SESSION['message'] = "Periodo actualizado exitosamente.";
-                header('Location: ./administrarPeriodosEscolares.php');
+                header('Location: ' . BASE_URL . '/administrarPeriodosEscolares.php');
                 exit();
             } else {
                 $_SESSION['message'] = "Error al actualizar el periodo escolar.";
-                header('Location: ./editarPeriodo.php');
+                header('Location: ' . BASE_URL . '/editarPeriodo.php');
                 exit();
             }
         } else {
-            header('Location: ./administrarPeriodosEscolares.php');
+            header('Location: ' . BASE_URL . '/administrarPeriodosEscolares.php');
             exit();
         }
     }
@@ -251,7 +252,7 @@ class PeriodoEscolarController
                 echo json_encode(['status' => 'error', 'message' => 'ID de periodo inválido.']);
             }
         } else {
-            header('Location: ./administrarPeriodosEscolares.php');
+            header('Location: ' . BASE_URL . '/administrarPeriodosEscolares.php');
             exit();
         }
     }

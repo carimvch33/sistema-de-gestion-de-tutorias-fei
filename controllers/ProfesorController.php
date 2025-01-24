@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/Profesor.php';
 
@@ -19,7 +20,7 @@ class ProfesorController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -46,7 +47,7 @@ class ProfesorController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -77,7 +78,7 @@ class ProfesorController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -110,7 +111,7 @@ class ProfesorController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ./registroProfesor.php');
+                header('Location: ' . BASE_URL . '/registroProfesor.php');
                 exit();
             }
 
@@ -127,15 +128,15 @@ class ProfesorController
 
             if ($resultado) {
                 $_SESSION['message'] = "Profesor registrado exitosamente.";
-                header("Location: ./administrarProfesores.php");
+                header("Location: " . BASE_URL . "/administrarProfesores.php");
                 exit();
             } else {
                 $_SESSION['message'] = "Error al registrar el profesor.";
-                header("Location: ./registroProfesor.php");
+                header('Location: ' . BASE_URL . '/registroProfesor.php');
                 exit();
             }
         } else {
-            header('Location: ./registroProfesor.php');
+            header('Location: ' . BASE_URL . '/registroProfesor.php');
             exit();
         }
     }
@@ -146,7 +147,7 @@ class ProfesorController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -165,23 +166,23 @@ class ProfesorController
                     $csrf_token = $_SESSION['csrf_token'];
 
                     $rol = $profesor['rol'];
-                    $regresar = './cerrarSesion.php';
+                    $regresar = BASE_URL . '/cerrarSesion.php';
                     $academico = 'Académico';
                     switch ($rol) {
                         case 1:
-                            $regresar = './administrarProfesores.php';
+                            $regresar = BASE_URL . '/administrarProfesores.php';
                             $academico = 'Profesor';
                             break;
                         case 4:
-                            $regresar = './administrarCoordinadores.php';
+                            $regresar = BASE_URL . '/administrarCoordinadores.php';
                             $academico = 'Coordinador';
                             break;
                         case 5:
-                            $regresar = './administrarJefesCarrera.php';
+                            $regresar = BASE_URL . '/administrarJefesCarrera.php';
                             $academico = 'Jefe de Carrera';
                             break;
                         default:
-                            $regresar = './cerrarSesion.php';
+                            $regresar = BASE_URL . '/cerrarSesion.php';
                             break;
                     }
 
@@ -198,16 +199,16 @@ class ProfesorController
                     require_once '../views/editarProfesor.php';
                 } else {
                     $_SESSION['message'] = 'Profesor no encontrado';
-                    header('Location: ./administrarProfesores.php');
+                    header("Location: " . BASE_URL . "/administrarProfesores.php");
                     exit();
                 }
             } else {
                 $_SESSION['message'] = 'ID de profesor inválido';
-                header('Location: ./administrarProfesores.php');
+                header("Location: " . BASE_URL . "/administrarProfesores.php");
                 exit();
             }
         } else {
-            header('Location: ./administrarProfesores.php');
+            header("Location: " . BASE_URL . "/administrarProfesores.php");
             exit();
         }
     }
@@ -219,7 +220,7 @@ class ProfesorController
         $rolesPermitidos = [3];
 
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -233,7 +234,7 @@ class ProfesorController
 
             if ($idTutor <= 0) {
                 $_SESSION['message'] = 'ID de profesor inválido';
-                header('Location: ./administrarProfesores.php');
+                header('Location: ' . BASE_URL . '/administrar’Profesores.php');
                 exit();
             }
 
@@ -260,7 +261,7 @@ class ProfesorController
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
                 $_POST['idTutor'] = $idTutor;
-                header('Location: ./editarProfesor.php');
+                header('Location: ' . BASE_URL . '/editarProfesor.php');
                 exit();
             }
 
@@ -279,21 +280,21 @@ class ProfesorController
                 $_SESSION['message'] = "Profesor actualizado exitosamente.";
 
                 if ($rol === 4) {
-                    header("Location: ./administrarCoordinadores.php");
+                    header("Location: " . BASE_URL . "/administrarCoordinadores.php");
                 } elseif ($rol === 5) {
-                    header("Location: ./administrarJefesCarrera.php");
+                    header("Location: " . BASE_URL . "/administrarJefesCarrera.php");
                 } else {
-                    header("Location: ./administrarProfesores.php");
+                    header("Location: " . BASE_URL . "/administrarProfesores.php");
                 }
 
                 exit();
             } else {
                 $_SESSION['message'] = "Error al actualizar el profesor.";
-                header("Location: ./editarProfesor.php");
+                header("Location: " . BASE_URL . "/editarProfesor.php");
                 exit();
             }
         } else {
-            header('Location: ./administrarProfesores.php');
+            header('Location: ' . BASE_URL . '/administrarProfesores.php');
             exit();
         }
     }
@@ -328,7 +329,7 @@ class ProfesorController
                 echo json_encode(['status' => 'error', 'message' => 'ID de profesor inválido.']);
             }
         } else {
-            header('Location: ./administrarProfesores.php');
+            header('Location: ' . BASE_URL . '/administrar’Profesores.php');
             exit();
         }
     }

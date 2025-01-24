@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/Estudiante.php';
 require_once '../models/Carrera.php';
@@ -25,7 +26,7 @@ class EstudianteController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -52,7 +53,7 @@ class EstudianteController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -86,7 +87,7 @@ class EstudianteController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -145,15 +146,15 @@ class EstudianteController
 
             if ($resultado) {
                 $_SESSION['message'] = "Estudiante registrado exitosamente.";
-                header("Location: ./administrarEstudiantes.php");
+                header('Location: ' . BASE_URL . '/administrarEstudiantes.php');
                 exit();
             } else {
                 $_SESSION['message'] = "Error al registrar el estudiante.";
-                header("Location: ./registroEstudiante.php");
+                header("Location: " . BASE_URL . "/registroEstudiante.php");
                 exit();
             }
         } else {
-            header('Location: ./registroEstudiante.php');
+            header('Location: ' . BASE_URL . '/registroEstudiante.php');
             exit();
         }
     }
@@ -164,7 +165,7 @@ class EstudianteController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -199,16 +200,16 @@ class EstudianteController
                     require_once '../views/editarEstudiante.php';
                 } else {
                     $_SESSION['message'] = 'Estudiante no encontrado';
-                    header('Location: ./administrarEstudiantes.php');
+                    header('Location: ' . BASE_URL . '/administrarEstudiantes.php');
                     exit();
                 }
             } else {
                 $_SESSION['message'] = 'ID de estudiante inválido';
-                header('Location: ./administrarEstudiantes.php');
+                header('Location: ' . BASE_URL . '/administrarEstudiantes.php');
                 exit();
             }
         } else {
-            header('Location: ./administrarEstudiantes.php');
+            header('Location: ' . BASE_URL . '/administrarEstudiantes.php');
             exit();
         }
     }
@@ -219,7 +220,7 @@ class EstudianteController
 
         $rolesPermitidos = [3];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ./cerrarSesion.php');
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
         }
 
@@ -233,7 +234,7 @@ class EstudianteController
 
             if ($idTutorado <= 0) {
                 $_SESSION['message'] = 'ID de estudiante inválido';
-                header('Location: ./administrarEstudiantes.php');
+                header('Location: ' . BASE_URL . '/administrarEstudiantes.php');
                 exit();
             }
 
@@ -267,7 +268,7 @@ class EstudianteController
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
                 $_POST['idTutorado'] = $idTutorado;
-                header('Location: ./editarEstudiante.php');
+                header('Location: ' . BASE_URL . '/editarEstudiante.php');
                 exit();
             }
 
@@ -285,15 +286,15 @@ class EstudianteController
 
             if ($resultado) {
                 $_SESSION['message'] = "Estudiante actualizado exitosamente.";
-                header("Location: ./administrarEstudiantes.php");
+                header('Location: ' . BASE_URL . '/administrarEstudiantes.php');
                 exit();
             } else {
                 $_SESSION['message'] = "Error al actualizar el estudiante.";
-                header("Location: ./editarEstudiante.php");
+                header("Location: " . BASE_URL . "/editarEstudiante.php");
                 exit();
             }
         } else {
-            header('Location: ./administrarEstudiantes.php');
+            header('Location: ' . BASE_URL . '/administrarEstudiantes.php');
             exit();
         }
     }
@@ -328,7 +329,7 @@ class EstudianteController
                 echo json_encode(['status' => 'error', 'message' => 'ID de estudiante inválido.']);
             }
         } else {
-            header('Location: ./administrarEstudiantes.php');
+            header('Location: ' . BASE_URL . '/administrarEstudiantes.php');
             exit();
         }
     }
