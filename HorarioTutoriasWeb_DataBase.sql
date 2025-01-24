@@ -1,3 +1,12 @@
+CREATE DATABASE sistema_registro_tutorias
+USE sistema_registro_tutorias
+
+CREATE USER 'sistema_regitro_tutorias_usuario'@'localhost' IDENTIFIED BY 'wyR8y1pLjj216KQ';
+GRANT ALL PRIVILEGES ON sistema_registro_tutorias.* TO 'sistema_regitro_tutorias_usuario'@'localhost';
+FLUSH PRIVILEGES;
+
+
+
 -- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
 -- Host: localhost    Database: sistema_registro_tutorias
