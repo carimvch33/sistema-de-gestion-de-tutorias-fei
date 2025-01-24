@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -20,12 +21,12 @@ $menuOptions = [
     1 => [ // Tutor
         [
             'title' => 'Registro de Sesión de Tutorías',
-            'link' => '/tutorias.php',
+            'link' => BASE_URL . '/tutorias.php',
             'icon' => 'importar-icon.png',
         ],
         [
             'title' => 'Registro de Reporte de Tutorías',
-            'link' => '/administrarReportes.php',
+            'link' => BASE_URL . '/administrarReportes.php',
             'icon' => 'carrera-icon.png',
         ],
     ],
@@ -34,84 +35,84 @@ $menuOptions = [
     3 => [ // Administrador
         [
             'title' => 'Importación de datos',
-            'link' => '/importarDatos.php',
+            'link' => BASE_URL . '/importarDatos.php',
             'icon' => 'importar-icon.png',
         ],
         [
             'title' => 'Carreras',
-            'link' => '/administrarCarreras.php',
+            'link' => BASE_URL . '/administrarCarreras.php',
             'icon' => 'carrera-icon.png',
         ],
         [
             'title' => 'Periodos escolares',
-            'link' => '/administrarPeriodosEscolares.php',
+            'link' => BASE_URL . '/administrarPeriodosEscolares.php',
             'icon' => 'periodo-icon.png',
         ],
         [
             'title' => 'Experiencias educativas',
-            'link' => '/administrarExperienciasEducativas.php',
+            'link' => BASE_URL . '/administrarExperienciasEducativas.php',
             'icon' => 'rol-icon.png',
         ],
         [
             'title' => 'Secciones',
-            'link' => '/administrarSecciones.php',
+            'link' => BASE_URL . '/administrarSecciones.php',
             'icon' => 'rol-icon.png',
         ],
         [
             'title' => 'Problemáticas académicas',
-            'link' => '/administrarProblematicas.php',
+            'link' => BASE_URL . '/administrarProblematicas.php',
             'icon' => 'problematica-icon.png',
         ],
         [
             'title' => 'Tipos de problemáticas',
-            'link' => '/administrarTiposProblematicas.php',
+            'link' => BASE_URL . '/administrarTiposProblematicas.php',
             'icon' => 'problematica-tipo-icon.png',
         ],
         [
             'title' => 'Estudiantes',
-            'link' => '/administrarEstudiantes.php',
+            'link' => BASE_URL . '/administrarEstudiantes.php',
             'icon' => 'estudiante-icon.png',
         ],
         [
             'title' => 'Profesores',
-            'link' => '/administrarProfesores.php',
+            'link' => BASE_URL . '/administrarProfesores.php',
             'icon' => 'profesor-icon.png',
         ],
         [
             'title' => 'Coordinadores',
-            'link' => '/administrarCoordinadores.php',
+            'link' => BASE_URL . '/administrarCoordinadores.php',
             'icon' => 'coordinador-icon.png',
         ],
         [
             'title' => 'Jefes de Carrera',
-            'link' => '/administrarJefesCarrera.php',
+            'link' => BASE_URL . '/administrarJefesCarrera.php',
             'icon' => 'jefe_carrera-icon.png',
         ],
         [
             'title' => 'Administradores',
-            'link' => '/administrarAdministradores.php',
+            'link' => BASE_URL . '/administrarAdministradores.php',
             'icon' => 'administrador-icon.png',
         ],
         [
             'title' => 'Actualizar roles',
-            'link' => '/actualizarRol.php',
+            'link' => BASE_URL . '/actualizarRol.php',
             'icon' => 'rol-icon.png',
         ],
     ],
     4 => [ // Coordinador
         [
             'title' => 'Consulta de Tutorías',
-            'link' => '/consultarTutorias.php',
+            'link' => BASE_URL . '/consultarTutorias.php',
             'icon' => 'importar-icon.png',
         ],
         [
             'title' => 'Registro de Sesión de Tutorías',
-            'link' => '/tutorias.php',
+            'link' => BASE_URL . '/tutorias.php',
             'icon' => 'importar-icon.png',
         ],
         [
             'title' => 'Registro de Reporte de Tutorías',
-            'link' => '/administrarReportes.php',
+            'link' => BASE_URL . '/administrarReportes.php',
             'icon' => 'carrera-icon.png',
         ],
     ],
@@ -133,19 +134,19 @@ $user = $_SESSION['user'];
 <head>
     <meta charset="UTF-8">
     <title>Menú Principal UV</title>
-    <link rel="stylesheet" href="assets/css/menu.css">
+    <link rel="stylesheet" href="<?= BASE_URL; ?>/assets/css/menu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
     <div class="header-container">
         <div class="header-left">
-            <img src="assets/img/UV.png" alt="UV Logo">
+            <img src="<?= BASE_URL; ?>/assets/img/UV.png" alt="UV Logo">
             <div class="welcome-message">Bienvenid@ <?php echo htmlspecialchars($user); ?></div>
         </div>
         <div class="header-left">
-            <button class="buttonsHead" onclick="location.href='/menu.php'"><i class="fas fa-home"></i> Inicio</button>
-            <button class="buttonsHead" onclick="location.href='/cerrarSesion.php'"><i class="fas fa-sign-out-alt"></i>
+            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/menu.php'"><i class="fas fa-home"></i> Inicio</button>
+            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/cerrarSesion.php'"><i class="fas fa-sign-out-alt"></i>
                 Cerrar sesión</button>
         </div>
     </div>
