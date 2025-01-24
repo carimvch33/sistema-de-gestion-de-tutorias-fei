@@ -45,7 +45,7 @@ require_once '../config/config.php';
         }
         ?>
 
-        <form action="/modificarRol.php" method="POST" id="form">
+        <form action="<?= BASE_URL; ?>/modificarRol.php" method="POST" id="form">
             <div class="form-group">
 
                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">

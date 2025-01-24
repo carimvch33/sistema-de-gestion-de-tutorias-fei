@@ -1,10 +1,11 @@
 <?php
+require_once '../config/config.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
 $user = $_SESSION['user'];
-$menu = '/menu.php';
+$menu = BASE_URL . '/menu.php';
 
 $lugar = htmlspecialchars($tutoria['lugar'] ?? '', ENT_QUOTES, 'UTF-8');
 $fecha = htmlspecialchars($tutoria['fecha'] ?? '', ENT_QUOTES, 'UTF-8');
@@ -18,7 +19,7 @@ $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
 <head>
     <meta charset="UTF-8">
     <title>Formulario de Actualización de Tutorías</title>
-    <link rel="stylesheet" href="../assets/css/editarTutoria.css">
+    <link rel="stylesheet" href="<?= BASE_URL; ?>/assets/css/editarTutoria.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -26,14 +27,14 @@ $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
 <body>
     <div class="header-container">
         <div class="header-left">
-            <img src="assets/img/UV.png" alt="UV Logo">
+            <img src="<?= BASE_URL; ?>/assets/img/UV.png" alt="UV Logo">
             <div class="welcome-message">Bienvenid@ <?php echo htmlspecialchars($user); ?></div>
         </div>
         <div class="header-left">
-            <button class="buttonsHead" onclick="location.href='./tutorias.php'"><i class="fas fa-arrow-left"></i>
+            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/tutorias.php'"><i class="fas fa-arrow-left"></i>
                 Regresar</button>
-            <button class="buttonsHead" onclick="location.href='/menu.php'"><i class="fas fa-home"></i> Inicio</button>
-            <button class="buttonsHead" onclick="location.href='/cerrarSesion.php'"><i class="fas fa-sign-out-alt"></i>
+            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/menu.php'"><i class="fas fa-home"></i> Inicio</button>
+            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/cerrarSesion.php'"><i class="fas fa-sign-out-alt"></i>
                 Cerrar sesión</button>
         </div>
     </div>
@@ -50,7 +51,7 @@ $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
             <?php unset($_SESSION['errors']); ?>
         <?php endif; ?>
 
-        <form action="actualizarTutoria.php" method="POST" enctype="multipart/form-data" id="form">
+        <form action="<?= BASE_URL; ?>/actualizarTutoria.php" method="POST" enctype="multipart/form-data" id="form">
             <!-- Campos ocultos -->
             <input type="hidden" name="idTutoria" value="<?php echo htmlspecialchars($idTutoria); ?>">
             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
@@ -176,7 +177,7 @@ $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../assets/js/editarTutoria.js"></script>
+    <script src="<?= BASE_URL; ?>/assets/js/editarTutoria.js"></script>
 </body>
 
 </html>

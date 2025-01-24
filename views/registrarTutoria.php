@@ -1,4 +1,5 @@
 <?php
+require_once '../config/config.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -10,7 +11,7 @@ if (!isset($_SESSION['user'])) {
 
 $user = $_SESSION['user'];
 $csrf_token = $_SESSION['csrf_token'];
-$menu = '/menu.php';
+$menu = BASE_URL . '/menu.php';
 
 ?>
 <!DOCTYPE html>
@@ -19,7 +20,7 @@ $menu = '/menu.php';
 <head>
     <meta charset="UTF-8">
     <title>Registrar Tutoría</title>
-    <link rel="stylesheet" href="../assets/css/registroTutoria.css">
+    <link rel="stylesheet" href="<?= BASE_URL; ?>/assets/css/registroTutoria.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -28,14 +29,14 @@ $menu = '/menu.php';
 <body>
     <div class="header-container">
         <div class="header-left">
-            <img src="assets/img/UV.png" alt="UV Logo">
+            <img src="<?= BASE_URL; ?>/assets/img/UV.png" alt="UV Logo">
             <div class="welcome-message">Bienvenid@ <?php echo htmlspecialchars($user); ?></div>
         </div>
         <div class="header-left">
-            <button class="buttonsHead" onclick="location.href='./tutorias.php'"><i class="fas fa-arrow-left"></i>
+            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/tutorias.php'"><i class="fas fa-arrow-left"></i>
                 Regresar</button>
-            <button class="buttonsHead" onclick="location.href='/menu.php'"><i class="fas fa-home"></i> Inicio</button>
-            <button class="buttonsHead" onclick="location.href='/cerrarSesion.php'"><i class="fas fa-sign-out-alt"></i>
+            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/menu.php'"><i class="fas fa-home"></i> Inicio</button>
+            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/cerrarSesion.php'"><i class="fas fa-sign-out-alt"></i>
                 Cerrar sesión</button>
         </div>
     </div>
@@ -59,7 +60,7 @@ $menu = '/menu.php';
         }
         ?>
 
-        <form action="crearTutoria.php" method="post" enctype="multipart/form-data" id="form">
+        <form action="<?= BASE_URL; ?>/crearTutoria.php" method="post" enctype="multipart/form-data" id="form">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
 
             <div class="form-group">
@@ -166,7 +167,7 @@ $menu = '/menu.php';
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../assets/js/registroTutoria.js"></script>
+    <script src="<?= BASE_URL; ?>/assets/js/registroTutoria.js"></script>
 </body>
 
 </html>

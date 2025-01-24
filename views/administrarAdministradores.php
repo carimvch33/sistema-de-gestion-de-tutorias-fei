@@ -26,7 +26,7 @@ require_once '../config/config.php';
     </div>
 
     <div class="new-button-container">
-        <button class="buttonNew" onclick="location.href = './registroAdministrador.php' "><i class="fas fa-plus"></i>
+        <button class="buttonNew" onclick="location.href = '<?= BASE_URL; ?>/registroAdministrador.php' "><i class="fas fa-plus"></i>
             Nuevo</button>
     </div>
 

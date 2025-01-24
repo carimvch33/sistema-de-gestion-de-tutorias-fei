@@ -1,3 +1,6 @@
+<?php
+require_once '../config/config.php';
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -8,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="assets/css/editarReporteTutoria.css">
+    <link rel="stylesheet" href="<?= BASE_URL; ?>/assets/css/editarReporteTutoria.css">
 
 </head>
 
@@ -16,14 +19,14 @@
 
     <div class="header-container">
         <div class="header-left">
-            <img src="assets/img/UV.png" alt="UV Logo">
+            <img src="<?= BASE_URL; ?>/assets/img/UV.png" alt="UV Logo">
             <div class="welcome-message">Bienvenid@ <?php echo htmlspecialchars($user); ?></div>
         </div>
         <div class="header-left">
-            <button class="buttonsHead" onclick="location.href='./administrarReportes.php'"><i
+            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/administrarReportes.php'"><i
                     class="fas fa-arrow-left"></i> Regresar</button>
-            <button class="buttonsHead" onclick="location.href='/menu.php'"><i class="fas fa-home"></i> Inicio</button>
-            <button class="buttonsHead" onclick="location.href='/cerrarSesion.php'"><i class="fas fa-sign-out-alt"></i>
+            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/menu.php'"><i class="fas fa-home"></i> Inicio</button>
+            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/cerrarSesion.php'"><i class="fas fa-sign-out-alt"></i>
                 Cerrar sesión</button>
         </div>
     </div>
@@ -45,7 +48,7 @@
             <?php unset($_SESSION['message']); ?>
         <?php } ?>
 
-        <form action="/actualizarReporte.php" method="post"
+        <form action="<?= BASE_URL; ?>/actualizarReporte.php" method="post"
             enctype="multipart/form-data" id="form">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token); ?>">
             <input type="hidden" name="idReporte" value="<?= htmlspecialchars($idReporte); ?>">
@@ -227,7 +230,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="assets/js/editarReporteTutoria.js"></script>
+    <script src="<?= BASE_URL; ?>/assets/js/editarReporteTutoria.js"></script>
 
 </body>
 

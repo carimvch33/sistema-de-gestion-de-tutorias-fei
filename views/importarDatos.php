@@ -1,3 +1,6 @@
+<?php
+require_once '../config/config.php';
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -6,19 +9,19 @@
     <title>Importación de Datos</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/importarDatos.css">
+    <link rel="stylesheet" href="<?= BASE_URL; ?>/assets/css/importarDatos.css">
 </head>
 
 <body>
     <div class="header-container">
         <div class="header-left">
-            <img src="assets/img/UV.png" alt="UV Logo">
+            <img src="<?= BASE_URL; ?>/assets/img/UV.png" alt="UV Logo">
             <div class="welcome-message">Bienvenid@ <?php echo htmlspecialchars($user); ?></div>
         </div>
         <div class="header-left">
-            <button class="buttonsHead" onclick="location.href='./menu.php'"><i class="fas fa-home"></i>
+            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/menu.php'"><i class="fas fa-home"></i>
                 Inicio</button>
-            <button class="buttonsHead" onclick="location.href='./cerrarSesion.php'"><i class="fas fa-sign-out-alt"></i>
+            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/cerrarSesion.php'"><i class="fas fa-sign-out-alt"></i>
                 Cerrar sesión</button>
         </div>
     </div>
@@ -32,7 +35,7 @@
         }
         ?>
 
-        <form action="/importarDatos.php" method="post" enctype="multipart/form-data">
+        <form action="<?= BASE_URL; ?>/importarDatos.php" method="post" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
 
             <div class="form-section">
