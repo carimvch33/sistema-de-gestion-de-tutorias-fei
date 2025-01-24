@@ -5,6 +5,7 @@ body {
     min-height: 100vh;
     margin: 0;
 }
+
 .header-container {
     display: flex;
     justify-content: space-between;
@@ -18,9 +19,11 @@ body {
     gap: 10px;
     align-items: center;
 }
+
 .header-left img {
     width: 150px;
 }
+
 .welcome-message {
     background-color: #bbb;
     padding: 50px 30px;
@@ -32,6 +35,7 @@ body {
     border-radius: 5px 30px;
     font-weight: bold;
 }
+
 .header-left button {
     background-color: #f1f1f1;
     color: black;
@@ -40,18 +44,22 @@ body {
     cursor: pointer;
     font-size: 20px;
 }
+
 .header-left button:hover {
     background-color: #7DCE94;
 }
+
 .header-right {
     font-weight: bold;
     font-size: 30px;
 }
+
 .new-button-container {
-    text-align:end;
-    margin: 30px auto;
-    width: 80%;
+    text-align: right;
+    margin: 20px auto;
+    width: 82%;
 }
+
 .buttonNew {
     background-color: #28AD56;
     color: white;
@@ -59,34 +67,42 @@ body {
     padding: 10px 20px;
     cursor: pointer;
 }
+
 .buttonNew:hover {
     opacity: 0.8;
 }
+
 table {
     width: 60%;
     margin: 20px auto;
     border-collapse: collapse;
 }
-th, td {
+
+th,
+td {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
 }
+
 th {
     background-color: #18529D;
     color: white;
 }
+
 .autoWidthColumn {
     white-space: nowrap;
     width: auto;
     text-align: center;
 }
+
 .action-buttons {
     display: flex;
     justify-content: space-between;
     gap: 10px;
     width: auto;
 }
+
 .action-buttons button {
     background-color: #28AD56;
     color: white;
@@ -95,35 +111,42 @@ th {
     cursor: pointer;
     flex-grow: 1;
 }
+
 .action-buttons button.delete {
     background-color: #dc3545;
 }
+
 .action-buttons button:hover {
     opacity: 0.8;
 }
+
 .table-container {
     text-align: center;
-    margin: 0px 0; 
-    padding: 20px 180px; 
+    margin: 0px 0;
+    padding: 20px 180px;
 }
+
 .top-left {
     text-align: left;
 }
+
 .top-right {
     text-align: right;
 }
+
 .bottom-left {
     margin-top: 10px;
     text-align: left;
 }
+
 .bottom-right {
     margin-top: 10px;
     text-align: right;
 }
+
 footer {
     margin-top: auto;
     text-align: center;
     padding: 10px;
-    position: relative;
     background-color: #f1f1f1;
 }
