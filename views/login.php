@@ -1,7 +1,7 @@
 <?php
 require_once '../config/config.php';
 
-define('LOGO_UV', BASE_URL . '/assets/img/UV-fondoObscuro.png');
+define('logo_uv', BASE_URL . '/assets/img/UV-fondoObscuro.png');
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
