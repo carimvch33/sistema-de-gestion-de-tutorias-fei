@@ -26,7 +26,9 @@ En la carpeta **data**, se incluyen:
 - Archivos de Excel proporcionados originalmente, los cuales serán unificados en un solo documento con la información completa de los estudiantes.
 
 ## Despliegue del Proyecto
-Al momento de realizar el despliegue, es importante revisar el archivo **config/config.php** y modificar la variable **ENVIRONMENT** según sea necesario. Se recomienda migrar esta configuración a un archivo **.env** para una mejor gestión del entorno.
+- Al momento de realizar el despliegue, es importante revisar el archivo **config/config.php** y modificar la variable **ENVIRONMENT** según sea necesario. Se recomienda migrar esta configuración a un archivo **.env** para una mejor gestión del entorno.
+- Se recomienda practicar el despliegue en un entorno local antes de realizarlo en un entorno de producción, ya que de lo contrario suelen surgir varios problemas técnicos durante el proceso.
+
 
 ---
 
