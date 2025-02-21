@@ -122,7 +122,6 @@ class TutoriaController
         $correoInstitucional = $_SESSION['correoInstitucional'];
         $this->tutoriaModel->crearTutoria($_POST, $correoInstitucional, $archivoNombre);
 
-        $_SESSION['message'] = 'Tutoría registrada con éxito';
         header('Location: ' . BASE_URL . '/tutorias.php');
         exit();
     }
@@ -273,11 +272,6 @@ class TutoriaController
 
         $actualizado = $this->tutoriaModel->updateTutoria($idTutoria, $idTutor, $_POST, $archivoNombre);
 
-        if ($actualizado) {
-            $_SESSION['message'] = 'Tutoría actualizada con éxito';
-        } else {
-            $_SESSION['message'] = 'No se pudo actualizar la tutoría o no hubo cambios';
-        }
         header('Location: ' . BASE_URL . '/tutorias.php');
         exit();
     }
