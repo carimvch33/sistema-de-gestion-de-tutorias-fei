@@ -90,6 +90,19 @@ $(document).ready(function () {
         form.submit();
     }
 
+    function showTutoria(idTutoria) {
+        var form = $('<form>', {
+            'method': 'POST',
+            'action': './verTutoria.php'
+        }).append($('<input>', {
+            'type': 'hidden',
+            'name': 'idTutoria',
+            'value': idTutoria
+        }));
+        $('body').append(form);
+        form.submit();
+    }
+
     $(document).on('click', '.delete', function () {
         var idTutoria = $(this).data('id-tutoria');
         var csrfToken = $(this).data('csrf-token');
@@ -99,5 +112,10 @@ $(document).ready(function () {
     $(document).on('click', '.edit', function () {
         var idTutoria = $(this).data('id-tutoria');
         editTutoria(idTutoria);
+    });
+
+    $(document).on('click', '.view', function () {
+        var idTutoria = $(this).data('id-tutoria');
+        showTutoria(idTutoria);
     });
 });

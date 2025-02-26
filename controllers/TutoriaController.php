@@ -317,5 +317,58 @@ class TutoriaController
         }
         exit();
     }
+
+    public function showTutoria()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $rolesPermitidos = [1, 4];
+        if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
+            exit();
+        }
+
+        $idTutoria = $_POST['idTutoria'] ?? $_GET['idTutoria'];
+
+        $correoInstitucional = $_SESSION['correoInstitucional'];
+        $idTutor = $this->tutorModel->getIdTutorByCorreo($correoInstitucional);
+
+        if (!$idTutor) {
+            $_SESSION['message'] = 'No se encontró el tutor.';
+            header('Location: ' . BASE_URL . '/menu.php');
+            exit();
+        }
+
+        if (!$idTutoria) {
+            $_SESSION['message'] = 'No se especificó la tutoría.';
+            header('Location: ' . BASE_URL . '/tutorias.php');
+            exit();
+        }
+
+        $tutoria = $this->tutoriaModel->getTutoriaById($idTutoria, $idTutor);
+
+        if (!$tutoria) {
+            $_SESSION['message'] = 'No se encontró la tutoría.';
+            header('Location: ' . BASE_URL . '/tutorias.php');
+            exit();
+        }
+
+        $carrera = $this->carreraModel->getCarreraById($tutoria['carrera']);
+        $numTutoria = htmlspecialchars($tutoria['numTutoria'] ?? '', ENT_QUOTES, 'UTF-8');
+        $periodo = $this->periodoModel->getPeriodoById($tutoria['periodo']);
+        $modalidad = htmlspecialchars($tutoria['modalidad'] ?? '', ENT_QUOTES, 'UTF-8');
+        $periodoAtencion = htmlspecialchars($tutoria['periodoAtencion'] ?? '', ENT_QUOTES, 'UTF-8');
+        $lugar = htmlspecialchars($tutoria['lugar'] ?? '', ENT_QUOTES, 'UTF-8');
+        $fecha = htmlspecialchars($tutoria['fecha'] ?? '', ENT_QUOTES, 'UTF-8');
+        $horaInicio = htmlspecialchars($tutoria['horaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
+        $horaFin = htmlspecialchars($tutoria['horaFin'] ?? '', ENT_QUOTES, 'UTF-8');
+        $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
+        
+        $menu = BASE_URL . '/menu.php';
+
+        require '../views/verTutoria.php';
+    }
 }
 ?>

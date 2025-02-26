@@ -119,6 +119,10 @@ th {
     background-color: #dc3545;
 }
 
+.action-buttons button.view {
+    background-color: #18529D;
+}
+
 .action-buttons button:hover {
     opacity: 0.8;
 }

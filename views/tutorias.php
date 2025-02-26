@@ -101,6 +101,7 @@ $menu = BASE_URL . '/menu.php';
                         echo "<td class='action-buttons autoTable'>
                                 <button class='edit' data-id-tutoria='{$idTutoria}'><i class='fas fa-edit'></i></button>
                                 <button class='delete' data-id-tutoria='{$idTutoria}' data-csrf-token='{$_SESSION['csrf_token']}'><i class='fas fa-trash-alt'></i></button>
+                                <button class='view' data-id-tutoria='{$idTutoria}'><i class='fas fa-eye'></i></button>
                               </td>
                         </tr>";
                     }
