@@ -95,14 +95,14 @@ class Tutoria
         return $affectedRows > 0;
     }
 
-    public function getTutoriaById($idTutoria, $idTutor)
+    public function getTutoriaById($idTutoria)
     {
         $stmt = $this->conn->prepare("
         SELECT t.numTutoria, t.modalidad, t.periodoAtencion, t.lugar, t.fecha, t.horaInicio, t.horaFin, t.nota, t.carrera, t.periodo, t.archivo
         FROM tutoria t
-        WHERE t.idTutoria = ? AND t.tutor = ?
+        WHERE t.idTutoria = ?
     ");
-        $stmt->bind_param("ii", $idTutoria, $idTutor);
+        $stmt->bind_param("i", $idTutoria);
         $stmt->execute();
         $result = $stmt->get_result();
         $tutoria = $result->fetch_assoc();

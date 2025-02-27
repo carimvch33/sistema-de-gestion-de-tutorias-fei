@@ -195,7 +195,7 @@ class TutoriaController
             exit();
         }
 
-        $tutoria = $this->tutoriaModel->getTutoriaById($idTutoria, $idTutor);
+        $tutoria = $this->tutoriaModel->getTutoriaById($idTutoria);
         if (!$tutoria) {
             $_SESSION['message'] = 'No se encontró la tutoría a editar.';
             header('Location: ' . BASE_URL . '/tutorias.php');
@@ -324,7 +324,7 @@ class TutoriaController
             session_start();
         }
 
-        $rolesPermitidos = [1, 4];
+        $rolesPermitidos = [1, 2, 4];
         if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
             header('Location: ' . BASE_URL . '/cerrarSesion.php');
             exit();
@@ -332,22 +332,13 @@ class TutoriaController
 
         $idTutoria = $_POST['idTutoria'] ?? $_GET['idTutoria'];
 
-        $correoInstitucional = $_SESSION['correoInstitucional'];
-        $idTutor = $this->tutorModel->getIdTutorByCorreo($correoInstitucional);
-
-        if (!$idTutor) {
-            $_SESSION['message'] = 'No se encontró el tutor.';
-            header('Location: ' . BASE_URL . '/menu.php');
-            exit();
-        }
-
         if (!$idTutoria) {
             $_SESSION['message'] = 'No se especificó la tutoría.';
             header('Location: ' . BASE_URL . '/tutorias.php');
             exit();
         }
 
-        $tutoria = $this->tutoriaModel->getTutoriaById($idTutoria, $idTutor);
+        $tutoria = $this->tutoriaModel->getTutoriaById($idTutoria);
 
         if (!$tutoria) {
             $_SESSION['message'] = 'No se encontró la tutoría.';

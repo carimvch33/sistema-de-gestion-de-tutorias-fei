@@ -40,6 +40,7 @@ if (!isset($sesiones))
                     <th class="autoWidthColumn">Lugar</th>
                     <th class="autoWidthColumn">Nota</th>
                     <th class="autoWidthColumn">Archivo</th>
+                    <th class="autoWidthColumn">Ver Detalles</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,6 +69,9 @@ if (!isset($sesiones))
                                 <?php else: ?>
                                     No disponible
                                 <?php endif; ?>
+                            </td>
+                            <td style="text-align: center;">
+                                <button class="view-button" data-id-tutoria='<?= $sesion['idTutoria']; ?>'><i class='fas fa-eye'></i></button>
                             </td>
                         </tr>
                     <?php endforeach; ?>

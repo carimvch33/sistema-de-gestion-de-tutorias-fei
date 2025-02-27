@@ -37,7 +37,7 @@ $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
             <div class="welcome-message">Bienvenid@ <?php echo htmlspecialchars($user); ?></div>
         </div>
         <div class="header-left">
-            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/tutorias.php'"><i class="fas fa-arrow-left"></i>
+            <button class="buttonsHead" onclick="window.history.back();"><i class="fas fa-arrow-left"></i>
                 Regresar</button>
             <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/menu.php'"><i class="fas fa-home"></i> Inicio</button>
             <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/cerrarSesion.php'"><i class="fas fa-sign-out-alt"></i>

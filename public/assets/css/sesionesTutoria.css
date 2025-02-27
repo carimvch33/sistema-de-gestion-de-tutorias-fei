@@ -132,6 +132,19 @@ th {
     opacity: 0.8;
 }
 
+.view-button {
+    background-color: #18529D;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    flex-grow: 1;
+}
+
+.view-button:hover {
+    opacity: 0.8;
+}
+
 .table-container {
     text-align: center;
     margin: 0px 0;

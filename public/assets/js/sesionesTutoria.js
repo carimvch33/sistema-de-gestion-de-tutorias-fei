@@ -27,4 +27,22 @@ $(document).ready(function () {
         ]
     });
 
+    function showTutoria(idTutoria) {
+        var form = $('<form>', {
+            'method': 'POST',
+            'action': './verTutoria.php'
+        }).append($('<input>', {
+            'type': 'hidden',
+            'name': 'idTutoria',
+            'value': idTutoria
+        }));
+        $('body').append(form);
+        form.submit();
+    }
+
+    $(document).on('click', '.view-button', function () {
+        var idTutoria = $(this).data('id-tutoria');
+        showTutoria(idTutoria);
+    });
+
 });
