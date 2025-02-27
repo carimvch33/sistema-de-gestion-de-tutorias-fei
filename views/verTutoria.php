@@ -58,7 +58,16 @@ $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
                 <li class="list-group-item"><strong>Fecha:</strong> <?php echo $fecha; ?></li>
                 <li class="list-group-item"><strong>Hora de inicio:</strong> <?php echo $horaInicio; ?></li>
                 <li class="list-group-item"><strong>Hora de fin:</strong> <?php echo $horaFin; ?></li>
-                <li class="list-group-item"><strong>Notas:</strong> <?php echo nl2br($notas); ?></li>
+                <?php if (!empty($notas)): ?>
+                    <li class="list-group-item"><strong>Notas:</strong> <?php echo nl2br($notas); ?></li>
+                <?php endif; ?>
+                <?php if (!empty($tutoria['archivo'])): ?>
+                    <li class="list-group-item">
+                        <strong>Archivo:</strong> 
+                        <?php echo htmlspecialchars($tutoria['archivo']); ?>
+                        <a href="<?= BASE_URL; ?>/uploads/<?= $tutoria['archivo']; ?>" download>Descargar</a>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </div>
