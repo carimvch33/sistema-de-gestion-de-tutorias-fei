@@ -77,7 +77,15 @@ if (!isset($sesiones))
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="8" class="text-center">No hay sesiones de tutoría disponibles</td>
+                        <td class="text-center">No hay sesiones de tutoría disponibles</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 <?php endif; ?>
             </tbody>
