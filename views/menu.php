@@ -146,21 +146,19 @@ $user = $_SESSION['user'];
         </div>
         <div class="header-left">
             <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/menu.php'"><i class="fas fa-home"></i> Inicio</button>
-            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/cerrarSesion.php'"><i class="fas fa-sign-out-alt"></i>
-                Cerrar sesión</button>
+            <button class="buttonsHead" onclick="location.href='<?= BASE_URL; ?>/cerrarSesion.php'"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
         </div>
     </div>
 
     <div class="button-container">
         <?php foreach ($options as $option): ?>
-            <button class="button-style"
-                style="background-image: url('assets/img/<?= htmlspecialchars($option['icon']) ?>');"
-                onclick="location.href='<?= htmlspecialchars($option['link']) ?>'">
-                <?= htmlspecialchars($option['title']) ?>
+            <button class="button-style" onclick="location.href='<?= htmlspecialchars($option['link']) ?>'">
+                <img src="<?= BASE_URL; ?>/assets/img/<?= htmlspecialchars($option['icon']) ?>" alt="">
+                <span><?= htmlspecialchars($option['title']) ?></span>
             </button>
         <?php endforeach; ?>
     </div>
+
     <footer>© Universidad Veracruzana</footer>
 </body>
-
 </html>
