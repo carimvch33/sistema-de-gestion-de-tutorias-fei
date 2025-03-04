@@ -53,7 +53,7 @@ if (!isset($sesiones))
                         $notaCompleto = htmlspecialchars($sesion['nota'] ?? '', ENT_QUOTES, 'UTF-8');
                         $notaCorto = strlen($notaCompleto) > 30 ? substr($notaCompleto, 0, 30) . '...' : $notaCompleto;
 
-                        $archivoRuta = '/uploads/' . htmlspecialchars($sesion['archivo'] ?? '', ENT_QUOTES, 'UTF-8');
+                        $archivoRuta = 'uploads/' . htmlspecialchars($sesion['archivo'] ?? '', ENT_QUOTES, 'UTF-8');
                         ?>
                         <tr>
                             <td><?= htmlspecialchars($sesion['tutorNombre'] ?? ''); ?></td>
@@ -64,7 +64,7 @@ if (!isset($sesiones))
                             <td title="<?= $lugarCompleto; ?>"><?= $lugarCorto; ?></td>
                             <td class="white-space: normal; word-wrap: break-word; word-break: break-word;" title="<?= $notaCompleto; ?>"><?= $notaCorto; ?></td>
                             <td>
-                                <?php if (!empty($sesion['archivo']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $archivoRuta)): ?>
+                                <?php if (!empty($sesion['archivo'])): ?>
                                     <a href="<?= $archivoRuta; ?>" download>Descargar</a>
                                 <?php else: ?>
                                     No disponible
