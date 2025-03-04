@@ -283,7 +283,8 @@ class Tutoria
                 CONCAT(COALESCE(TIME_FORMAT(ttt.horaInicio, '%H:%i'), ''), ' - ', COALESCE(TIME_FORMAT(ttt.horaFin, '%H:%i'), '')) AS horario, 
                 ttt.lugar, 
                 ttt.nota, 
-                ttt.archivo
+                ttt.archivo,
+                p.nombre as periodo
             FROM 
                 tutoria ttt
             INNER JOIN 
@@ -292,9 +293,11 @@ class Tutoria
                 carrera c ON c.idCarrera = ttt.carrera
             INNER JOIN 
                 tutorado tu ON tu.tutor = tt.idTutor
-            WHERE tu.correoInstitucional = ? AND tu.carrera = ttt.carrera
+            INNER JOIN
+            	periodo p ON p.idPeriodo = ttt.periodo
+            WHERE tu.correoInstitucional = ? AND tu.carrera = ttt.carrera AND p.actual = true
             ORDER BY 
-                ttt.numTutoria DESC;
+                ttt.numTutoria DESC
         ");
 
         $stmt->bind_param("s", $correoTutorado);

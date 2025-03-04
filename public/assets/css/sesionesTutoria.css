@@ -169,6 +169,30 @@ th {
     text-align: right;
 }
 
+.tutor-card {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.tutor-info {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #333;
+}
+
+.tutor-info i {
+    margin-right: 8px;
+    font-size: 18px;
+    color: #18529D;
+}
+
 footer {
     margin-top: auto;
     text-align: center;

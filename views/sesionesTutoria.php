@@ -28,13 +28,25 @@ if (!isset($sesiones))
         </div>
     </div>
 
+    <?php if (!empty($sesiones[0])): ?>
+        <div class="tutor-card">
+            <div class="tutor-info">
+                <i class="fas fa-user-tie"></i>
+                <span><strong>Tutor:</strong> <?php echo htmlspecialchars($sesiones[0]['tutorNombre'] ?? 'Desconocido'); ?></span>
+            </div>
+            <div class="tutor-info">
+                <i class="fas fa-graduation-cap"></i>
+                <span><strong>Carrera:</strong> <?php echo htmlspecialchars($sesiones[0]['carrera'] ?? 'No especificada'); ?></span>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <div class="table-container">
         <table id="tutoriasTable">
             <thead>
                 <tr>
-                    <th class="autoWidthColumn">Tutor</th>
-                    <th class="autoWidthColumn">Carrera</th>
-                    <th class="autoWidthColumn">Tutoría</th>
+                    <th class="autoWidthColumn">Periodo</th>
+                    <th class="autoWidthColumn">No. de Tutoría</th>
                     <th class="autoWidthColumn">Fecha</th>
                     <th class="autoWidthColumn">Horario</th>
                     <th class="autoWidthColumn">Lugar</th>
@@ -56,8 +68,7 @@ if (!isset($sesiones))
                         $archivoRuta = 'uploads/' . htmlspecialchars($sesion['archivo'] ?? '', ENT_QUOTES, 'UTF-8');
                         ?>
                         <tr>
-                            <td><?= htmlspecialchars($sesion['tutorNombre'] ?? ''); ?></td>
-                            <td><?= htmlspecialchars($sesion['carrera'] ?? ''); ?></td>
+                            <td><?= htmlspecialchars($sesion['periodo'] ?? ''); ?></td>
                             <td><?= htmlspecialchars($sesion['tutoria'] ?? ''); ?></td>
                             <td><?= htmlspecialchars($sesion['fecha'] ?? ''); ?></td>
                             <td><?= htmlspecialchars($sesion['horario'] ?? ''); ?></td>
@@ -78,7 +89,6 @@ if (!isset($sesiones))
                 <?php else: ?>
                     <tr>
                         <td class="text-center">No hay sesiones de tutoría disponibles</td>
-                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
