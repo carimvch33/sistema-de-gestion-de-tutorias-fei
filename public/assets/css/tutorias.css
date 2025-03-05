@@ -72,6 +72,18 @@ body {
     opacity: 0.8;
 }
 
+.buttonHistory {
+    background-color: #18529D;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.buttonHistory:hover {
+    opacity: 0.8;
+}
+
 table {
     width: 60%;
     margin: 20px auto;
@@ -100,7 +112,6 @@ th {
     justify-content: center;
     align-items: center;
     text-align: center;
-    gap: 10px;
     width: 20%;
     height: 100%;
 }
@@ -112,6 +123,7 @@ th {
     padding: 5px 10px;
     cursor: pointer;
     flex-grow: 1;
+    margin: 0 5px;
 }
 
 

@@ -25,9 +25,36 @@ class Tutoria
             INNER JOIN tutoria tt ON tt.tutor = t.idTutor
             INNER JOIN periodo p ON p.idPeriodo = tt.periodo
             INNER JOIN carrera c ON c.idCarrera = tt.carrera
-            WHERE t.correoInstitucional = ?
+            WHERE t.correoInstitucional = ? AND p.actual = true
         ");
         $stmt->bind_param("s", $correoInstitucional);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        return $result;
+    }
+
+    public function getTutoringHistoryByTutor($institutionalMail)
+    {
+        $stmt = $this->conn->prepare("
+            SELECT tt.idTutoria, 
+                   CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) AS tutorNombre, 
+                   c.nombre AS carrera, 
+                   tt.numTutoria AS tutoria, 
+                   tt.fecha, 
+                   CONCAT(COALESCE(TIME_FORMAT(tt.horaInicio, '%H:%i'), ''), ' - ', COALESCE(TIME_FORMAT(tt.horaFin, '%H:%i'), '')) AS horario, 
+                   tt.lugar, 
+                   tt.nota, 
+                   tt.archivo,
+                   p.nombre as periodo
+            FROM tutor t
+            INNER JOIN tutoria tt ON tt.tutor = t.idTutor
+            INNER JOIN periodo p ON p.idPeriodo = tt.periodo
+            INNER JOIN carrera c ON c.idCarrera = tt.carrera
+            WHERE t.correoInstitucional = ? AND p.actual = false
+        ");
+        $stmt->bind_param("s", $institutionalMail);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();

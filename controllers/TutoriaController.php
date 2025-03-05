@@ -35,6 +35,25 @@ class TutoriaController
         $correoInstitucional = $_SESSION['correoInstitucional'];
         $result = $this->tutoriaModel->getTutoriasByTutor($correoInstitucional);
 
+        $muestraActual = true;
+        $menu = BASE_URL . '/menu.php';
+
+        require '../views/tutorias.php';
+    }
+
+    public function showTutoringHistory()
+    {
+        session_start();
+        $rolesPermitidos = [1, 4];
+        if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
+            exit();
+        }
+
+        $correoInstitucional = $_SESSION['correoInstitucional'];
+        $result = $this->tutoriaModel->getTutoringHistoryByTutor($correoInstitucional);
+
+        $muestraActual = false;
         $menu = BASE_URL . '/menu.php';
 
         require '../views/tutorias.php';

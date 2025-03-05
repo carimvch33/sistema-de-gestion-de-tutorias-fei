@@ -46,9 +46,20 @@ $menu = BASE_URL . '/menu.php';
     </div>
 
     <div class="new-button-container">
-        <button class="buttonNew" onclick="location.href = '<?= BASE_URL; ?>/registrarTutoria.php' "><i class="fas fa-plus"></i>
-            Nuevo</button>
-    </div>
+    <?php if (!$muestraActual) : ?>
+        <button class="buttonNew" onclick="location.href='<?= BASE_URL; ?>/tutorias.php'">
+            <i class="fas fa-calendar"></i> Período Actual
+        </button>
+    <?php else : ?>
+        <button class="buttonHistory" onclick="location.href='<?= BASE_URL; ?>/historialTutorias.php'">
+            <i class="fas fa-history"></i> Historial
+        </button>
+        <button class="buttonNew" onclick="location.href='<?= BASE_URL; ?>/registrarTutoria.php'">
+            <i class="fas fa-plus"></i> Nuevo
+        </button>
+    <?php endif; ?>
+</div>
+
 
     <div class="table-container">
         <table id="tutoriasTable">
@@ -98,12 +109,13 @@ $menu = BASE_URL . '/menu.php';
                         } else {
                             echo "<td>No disponible</td>";
                         }
-                        echo "<td class='action-buttons autoTable'>
-                                <button class='edit' data-id-tutoria='{$idTutoria}'><i class='fas fa-edit'></i></button>
-                                <button class='delete' data-id-tutoria='{$idTutoria}' data-csrf-token='{$_SESSION['csrf_token']}'><i class='fas fa-trash-alt'></i></button>
-                                <button class='view' data-id-tutoria='{$idTutoria}'><i class='fas fa-eye'></i></button>
-                              </td>
-                        </tr>";
+                        echo "<td class='action-buttons autoTable'>";
+                        if ($muestraActual) {
+                            echo "<button class='edit' data-id-tutoria='{$idTutoria}'><i class='fas fa-edit'></i></button>
+                                <button class='delete' data-id-tutoria='{$idTutoria}' data-csrf-token='{$_SESSION['csrf_token']}'><i class='fas fa-trash-alt'></i></button>";
+                        }
+                        echo "<button class='view' data-id-tutoria='{$idTutoria}'><i class='fas fa-eye'></i></button>";
+                        echo "</td>";
                     }
                 }
                 ?>
