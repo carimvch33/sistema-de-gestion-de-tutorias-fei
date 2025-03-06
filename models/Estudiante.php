@@ -197,4 +197,16 @@ class Estudiante
             return false;
         }
     }
+
+    public function isStudentRegistered($matricula)
+    {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) AS total FROM tutorado WHERE matricula = ?");
+        $stmt->bind_param("s", $matricula);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        
+        return $data['total'] > 0;
+    }
 }

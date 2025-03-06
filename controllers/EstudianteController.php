@@ -130,7 +130,13 @@ class EstudianteController
                 header('Location: registroEstudiante.php');
                 exit();
             }
-
+            
+            if ($this->estudianteModel->isStudentRegistered($matricula)) {
+                $_SESSION['errors'] = ['La matrícula ya está registrada.'];
+                header('Location: registroEstudiante.php');
+                exit();
+            }
+            
             $data = [
                 'nombre' => $nombre,
                 'apellidoPaterno' => $apellidoPaterno,
@@ -141,9 +147,9 @@ class EstudianteController
                 'tutor' => $tutor,
                 'rol' => $rol
             ];
-
+            
             $resultado = $this->estudianteModel->createEstudiante($data);
-
+            
             if ($resultado) {
                 $_SESSION['message'] = "Estudiante registrado exitosamente.";
                 header('Location: ' . BASE_URL . '/administrarEstudiantes.php');
@@ -152,7 +158,7 @@ class EstudianteController
                 $_SESSION['message'] = "Error al registrar el estudiante.";
                 header("Location: " . BASE_URL . "/registroEstudiante.php");
                 exit();
-            }
+            }            
         } else {
             header('Location: ' . BASE_URL . '/registroEstudiante.php');
             exit();
