@@ -27,7 +27,7 @@ require_once '../config/config.php';
         </div>
     </div>
 
-    <div class="container mt-5">
+    <div class="container mt-3">
         <?php
         if (isset($errors)) {
             echo '<div class="alert alert-danger">';
