@@ -22,12 +22,12 @@ $menuOptions = [
         [
             'title' => 'Registro de Sesión de Tutorías',
             'link' => BASE_URL . '/tutorias.php',
-            'icon' => 'importar-icon.png',
+            'icon' => 'import-icon.svg',
         ],
         [
             'title' => 'Registro de Reporte de Tutorías',
             'link' => BASE_URL . '/administrarReportes.php',
-            'icon' => 'carrera-icon.png',
+            'icon' => 'career-icon.svg',
         ],
     ],
     2 => [
@@ -36,84 +36,84 @@ $menuOptions = [
         [
             'title' => 'Importación de datos',
             'link' => BASE_URL . '/importarDatos.php',
-            'icon' => 'importar-icon.png',
+            'icon' => 'import-icon.svg',
         ],
         [
             'title' => 'Carreras',
             'link' => BASE_URL . '/administrarCarreras.php',
-            'icon' => 'carrera-icon.png',
+            'icon' => 'career-icon.svg',
         ],
         [
             'title' => 'Periodos escolares',
             'link' => BASE_URL . '/administrarPeriodosEscolares.php',
-            'icon' => 'periodo-icon.png',
+            'icon' => 'period-icon.svg',
         ],
         [
             'title' => 'Experiencias educativas',
             'link' => BASE_URL . '/administrarExperienciasEducativas.php',
-            'icon' => 'rol-icon.png',
+            'icon' => 'role-icon.svg',
         ],
         [
             'title' => 'Secciones',
             'link' => BASE_URL . '/administrarSecciones.php',
-            'icon' => 'rol-icon.png',
+            'icon' => 'role-icon.svg',
         ],
         [
             'title' => 'Problemáticas académicas',
             'link' => BASE_URL . '/administrarProblematicas.php',
-            'icon' => 'problematica-icon.png',
+            'icon' => 'problem-icon.svg',
         ],
         [
             'title' => 'Tipos de problemáticas',
             'link' => BASE_URL . '/administrarTiposProblematicas.php',
-            'icon' => 'problematica-tipo-icon.png',
+            'icon' => 'problem_type-icon.svg',
         ],
         [
             'title' => 'Estudiantes',
             'link' => BASE_URL . '/administrarEstudiantes.php',
-            'icon' => 'estudiante-icon.png',
+            'icon' => 'student-icon.svg',
         ],
         [
             'title' => 'Profesores',
             'link' => BASE_URL . '/administrarProfesores.php',
-            'icon' => 'profesor-icon.png',
+            'icon' => 'teacher-icon.svg',
         ],
         [
             'title' => 'Coordinadores',
             'link' => BASE_URL . '/administrarCoordinadores.php',
-            'icon' => 'coordinador-icon.png',
+            'icon' => 'coordinator-icon.svg',
         ],
         [
             'title' => 'Jefes de Carrera',
             'link' => BASE_URL . '/administrarJefesCarrera.php',
-            'icon' => 'jefe_carrera-icon.png',
+            'icon' => 'career_manager-icon.svg',
         ],
         [
             'title' => 'Administradores',
             'link' => BASE_URL . '/administrarAdministradores.php',
-            'icon' => 'administrador-icon.png',
+            'icon' => 'administrator-icon.svg',
         ],
         [
             'title' => 'Actualizar roles',
             'link' => BASE_URL . '/actualizarRol.php',
-            'icon' => 'rol-icon.png',
+            'icon' => 'role-icon.svg',
         ],
     ],
     4 => [ // Coordinador
         [
             'title' => 'Consulta de Tutorías',
             'link' => BASE_URL . '/consultarTutorias.php',
-            'icon' => 'importar-icon.png',
+            'icon' => 'import-icon.svg',
         ],
         [
             'title' => 'Registro de Sesión de Tutorías',
             'link' => BASE_URL . '/tutorias.php',
-            'icon' => 'importar-icon.png',
+            'icon' => 'import-icon.svg',
         ],
         [
             'title' => 'Registro de Reporte de Tutorías',
             'link' => BASE_URL . '/administrarReportes.php',
-            'icon' => 'carrera-icon.png',
+            'icon' => 'career-icon.svg',
         ],
     ],
 ];
