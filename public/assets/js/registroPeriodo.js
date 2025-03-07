@@ -1,21 +1,18 @@
-$(document).ready(function() 
-{   
-    $("#enviar").on("click", function(e) 
-    {
+$(document).ready(function() {   
+    $("#enviar").on("click", function(e) {
         e.preventDefault();
         validarFormulario();
     });
 });
 
-function validarFormulario() 
-{
+function validarFormulario() {
     var periodo = $('#periodo').val();
-    var actual = $('#actual').val();
+    var actual = $('#actual').prop('checked'); 
 
     $('.form-control').removeClass("borderRed borderGreen");
 
     var error = false;
-    if (!periodo || !actual) {
+    if (!periodo) {
         Swal.fire({
             title: '¡Error!',
             icon: 'error',
@@ -24,9 +21,7 @@ function validarFormulario()
             timer: 3500
         });
 
-        if (!periodo) $('#periodo').addClass("borderRed");
-        if (!actual) $('#actual').addClass("borderRed");
-        
+        $('#periodo').addClass("borderRed");
         error = true;
     }
 
@@ -34,7 +29,13 @@ function validarFormulario()
         return; 
     }
 
-    $('#periodo, #actual').removeClass("borderRed").addClass("borderGreen");
+    $('#periodo').removeClass("borderRed").addClass("borderGreen");
+
+    if (actual) {
+        $('#actual').val(1);
+    } else {
+        $('#actual').val(0);
+    }
 
     $("#form").submit();
 }

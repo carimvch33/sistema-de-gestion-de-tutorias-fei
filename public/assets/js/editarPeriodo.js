@@ -7,12 +7,12 @@ $(document).ready(function() {
 
 function validarFormulario() {
     var periodo = $('#periodo').val();
-    var actual = $('#actual').val();
+    var actual = $('#actual').prop('checked'); 
 
     $('.form-control').removeClass("borderRed borderGreen");
 
     var error = false;
-    if (!periodo || !actual) {
+    if (!periodo) {
         Swal.fire({
             title: '¡Error!',
             icon: 'error',
@@ -22,8 +22,6 @@ function validarFormulario() {
         });
 
         if (!periodo) $('#periodo').addClass("borderRed");
-        if (!actual) $('#actual').addClass("borderRed");
-
         error = true;
     }
 
@@ -31,7 +29,14 @@ function validarFormulario() {
         return false;
     }
 
-    $('#periodo, #actual').removeClass("borderRed").addClass("borderGreen");
+    $('#periodo').removeClass("borderRed").addClass("borderGreen");
+
+    if (actual) {
+        $('#actual').val(1);
+    }
+    else {
+        $('#actual').val(0);
+    }
 
     $("#form").submit();
 }

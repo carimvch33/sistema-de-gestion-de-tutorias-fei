@@ -64,11 +64,14 @@ require_once '../config/config.php';
 
             <div class="form-group">
                 <label for="actual">Periodo actual: <span class="text-danger">*</span></label>
-                <select class="form-control" name="actual" id="actual">
-                    <option value="" disabled>-----Selecciona si el periodo es el periodo actual o no-----</option>
-                    <option value="1" <?= ($periodoData['actual'] == 1) ? 'selected' : '' ?>>Si</option>
-                    <option value="0" <?= ($periodoData['actual'] == 0) ? 'selected' : '' ?>>No</option>
-                </select>
+                <input type="hidden" name="actual" value="0">
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="actual" name="actual" value="1" <?= ($periodoData['actual'] == 1) ? 'checked' : '' ?>>
+                    <label class="form-check-label" for="actual">
+                        Marcar si es el periodo actual
+                    </label>
+                </div>
             </div>
 
             <div class="form-group row">
