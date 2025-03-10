@@ -3,12 +3,12 @@ require_once '../config/config.php';
 
 function connectiondb()
 {
-    $host = DB_HOST;
-    $port = 3306;
-    $socket = "";
-    $user = "sistema_regitro_tutorias_usuario";
-    $password = "wyR8y1pLjj216KQ";
-    $dbname = "sistema_registro_tutorias";
+    $host = $_ENV['DB_HOST'];
+    $port = (int) $_ENV['DB_PORT'];
+    $socket = $_ENV['DB_SOCKET'];
+    $user = $_ENV['DB_USER'];
+    $password = $_ENV['DB_PASSWORD'];
+    $dbname = $_ENV['DB_NAME'];
     $conn = new mysqli($host, $user, $password, $dbname, $port, $socket);
 
     if ($conn->connect_error) {

@@ -1,10 +1,12 @@
 <?php
-define('ENVIRONMENT', 'development'); // development || production
-define('BASE_URL', ''); //agendatutorias
-define('DB_HOST', 'localhost'); //localhost
+require __DIR__ . '/../vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
+define('BASE_URL', $_ENV['BASE_URL']);
 
 function isProduction()
 {
-    return ENVIRONMENT === 'production';
+    return $_ENV['ENVIRONMENT'] === 'production';
 }
 ?>
