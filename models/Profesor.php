@@ -244,4 +244,16 @@ class Profesor
 
         return $profesor;
     }
+
+    public function isProfessorRegistered($correoInstitucional)
+    {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) AS total FROM tutor WHERE correoInstitucional = ?");
+        $stmt->bind_param("s", $correoInstitucional);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+
+        return $data['total'] > 0;
+    }
 }

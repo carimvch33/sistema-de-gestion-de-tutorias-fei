@@ -115,6 +115,12 @@ class ProfesorController
                 exit();
             }
 
+            if ($this->profesorModel->isProfessorRegistered($correoInstitucional)) {
+                $_SESSION['errors'] = ['Correo institucional ya registrado.'];
+                header('Location: registroProfesor.php');
+                exit();
+            }
+
             $data = [
                 'nombre' => $nombre,
                 'apellidoPaterno' => $apellidoPaterno,
