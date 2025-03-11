@@ -24,6 +24,7 @@ En la carpeta **data**, se incluyen:
 
 ## Despliegue del Proyecto  
 - Durante el despliegue, asegúrese de configurar correctamente el archivo **.env** para la gestión del entorno.
+- Instalar o tener instalado el gestor de dependencias Composer
 - Ejecutar en la raíz del proyecto el comando:
 
 ```composer install```
