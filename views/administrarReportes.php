@@ -1,6 +1,9 @@
 <?php
 require_once '../config/config.php';
 // Aseguramos que las variables necesarias están definidas
+if (!isset($carreras)) {
+    $carreras = [];
+}
 if (!isset($reportes)) {
     $reportes = [];
 }
@@ -46,7 +49,19 @@ if (!isset($errors)) {
         </div>
     <?php endif; ?>
 
-    <div class="new-button-container">
+    <div class="actions-container">
+        <div class="chips-container">
+            <?php if(!empty($carreras) && count($carreras) > 1): ?>
+                <p>Mostrar carreras:</p>
+                <?php foreach($carreras as $carrera): ?>
+                    <div class="chip" data-carrera="<?= htmlspecialchars($carrera) ?>">
+                        <?= htmlspecialchars($carrera) ?>
+                    </div>
+                <?php endforeach; ?>
+                <button id="clearFilters" class="buttonClear" style="display: none;"><i class="fas fa-times"></i></button>
+                <?php endif; ?>
+            </div>
+
         <button class="buttonNew" onclick="location.href = '<?= BASE_URL; ?>/registroReporte.php' "><i class="fas fa-plus"></i>
             Nuevo</button>
     </div>

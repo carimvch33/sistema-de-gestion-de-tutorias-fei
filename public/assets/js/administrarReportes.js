@@ -99,4 +99,30 @@ $(document).ready(function () {
         var idReporte = $(this).data('id-reporte');
         editReporte(idReporte);
     });
+
+    let filtrosSeleccionados = [];
+
+    $(document).on('click', '.chip', function () {
+        var filtro = $(this).data('carrera');
+        
+        if ($(this).hasClass('chip-selected')) {
+            filtrosSeleccionados = filtrosSeleccionados.filter(f => f !== filtro);
+            $(this).removeClass('chip-selected');
+        } else {
+            filtrosSeleccionados.push(filtro);
+            $(this).addClass('chip-selected');
+        }
+
+        let regexFiltro = filtrosSeleccionados.length > 0 ? filtrosSeleccionados.join('|') : '';
+        $('#reportesTable').DataTable().column(0).search(regexFiltro, true, false).draw();
+
+        $('#clearFilters').toggle(filtrosSeleccionados.length > 0);
+    });
+
+    $('#clearFilters').on('click', function () {
+        filtrosSeleccionados = [];
+        $('.chip').removeClass('chip-selected');
+        $('#reportesTable').DataTable().column(0).search('').draw();
+        $(this).hide();
+    });
 });

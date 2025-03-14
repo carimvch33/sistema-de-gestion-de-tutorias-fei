@@ -58,6 +58,15 @@ class ReporteController
         $userCorreo = $_SESSION['correoInstitucional'];
 
         $reportes = $this->reporteModel->getReportesByTutor($userCorreo);
+        $tutorId = $this->reporteModel->getTutorIdByCorreo($userCorreo);
+        $carrerasTutor = $this->tutoriaModel->getCarrerasByTutor($tutorId);
+
+        $carreras = [];
+        while ($row = $carrerasTutor->fetch_assoc()) {
+            if (preg_match('/\((.*?)\)/', $row['nombre'], $matches)) {
+                $carreras[] = $matches[1]; 
+            }
+        }
 
         $menu = BASE_URL . '/cerrarSesion.php';
 
