@@ -27,7 +27,39 @@ class Reporte
                                     INNER JOIN tutor t ON t.idTutor = tc.tutor 
                                     INNER JOIN periodo p ON p.idPeriodo = rt.periodo 
                                     WHERE 
-                                        t.correoInstitucional = ? 
+                                        t.correoInstitucional = ? AND p.actual = 1
+                                    ORDER BY 
+                                        STR_TO_DATE(p.nombre, '%M %Y - %M %Y') DESC");
+
+        $stmt->bind_param("s", $correoInstitucional);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $reportes = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $reportes;
+    }
+
+    public function getReportHistoryByTutor($correoInstitucional)
+    {
+        $stmt = $this->conn->prepare("SELECT  rt.idReporte, 
+                                            c.nombre AS carrera, 
+                                            p.nombre AS periodo, 
+                                            rt.fechaInicioTutoria, 
+                                            rt.fechaFinTutoria, 
+                                            rt.numTutoria, 
+                                            rt.numRiesgo, 
+                                            rt.comentario, 
+                                            (SELECT COUNT(pa.idProblematicaAcademica) FROM problematica_academica pa WHERE pa.reporte = rt.idReporte) AS tieneProblematica, 
+                                            rt.fechaCreacion 
+                                    FROM 
+                                        reporte_tutoria rt 
+                                    INNER JOIN carrera_tutor tc ON tc.idCarreraTutor = rt.carreraTutor 
+                                    INNER JOIN carrera c ON c.idCarrera = tc.carrera 
+                                    INNER JOIN tutor t ON t.idTutor = tc.tutor 
+                                    INNER JOIN periodo p ON p.idPeriodo = rt.periodo 
+                                    WHERE 
+                                        t.correoInstitucional = ? AND p.actual = 0
                                     ORDER BY 
                                         STR_TO_DATE(p.nombre, '%M %Y - %M %Y') DESC");
 

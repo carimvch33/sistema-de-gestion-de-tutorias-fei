@@ -67,7 +67,61 @@ class ReporteController
                 $carreras[] = $matches[1]; 
             }
         }
+        
 
+        $muestraActual = true;
+        $menu = BASE_URL . '/cerrarSesion.php';
+
+        switch ($_SESSION['rol']) {
+            case 1:
+                $menu = BASE_URL . '/menu.php';
+                break;
+            case 4:
+                $menu = BASE_URL . '/menu.php';
+                break;
+            default:
+                $menu = BASE_URL . '/cerrarSesion.php';
+                break;
+        }
+
+        require_once '../views/administrarReportes.php';
+    }
+
+    public function showReportHistory() 
+    {
+        session_start();
+
+        $rolesPermitidos = [1, 4];
+        if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
+            exit();
+        }
+
+        if (isset($_SESSION['errors'])) {
+            $errors = $_SESSION['errors'];
+            unset($_SESSION['errors']);
+        }
+
+        if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+
+        $user = $_SESSION['user'];
+
+        $userCorreo = $_SESSION['correoInstitucional'];
+
+        $reportes = $this->reporteModel->getReportHistoryByTutor($userCorreo);
+        $tutorId = $this->reporteModel->getTutorIdByCorreo($userCorreo);
+        $carrerasTutor = $this->tutoriaModel->getCarrerasByTutor($tutorId);
+
+        $carreras = [];
+        while ($row = $carrerasTutor->fetch_assoc()) {
+            if (preg_match('/\((.*?)\)/', $row['nombre'], $matches)) {
+                $carreras[] = $matches[1]; 
+            }
+        }
+
+        $muestraActual = false;
         $menu = BASE_URL . '/cerrarSesion.php';
 
         switch ($_SESSION['rol']) {

@@ -51,7 +51,7 @@ if (!isset($errors)) {
 
     <div class="actions-container">
         <div class="chips-container">
-            <?php if(!empty($carreras) && count($carreras) > 1): ?>
+            <?php if(!empty($carreras) && count($carreras) > 1 && count($reportes) > 1): ?>
                 <p>Mostrar carreras:</p>
                 <?php foreach($carreras as $carrera): ?>
                     <div class="chip" data-carrera="<?= htmlspecialchars($carrera) ?>">
@@ -62,8 +62,16 @@ if (!isset($errors)) {
                 <?php endif; ?>
             </div>
 
-        <button class="buttonNew" onclick="location.href = '<?= BASE_URL; ?>/registroReporte.php' "><i class="fas fa-plus"></i>
-            Nuevo</button>
+            <?php if (!$muestraActual) : ?>
+                <button class="buttonNew" onclick="location.href='<?= BASE_URL; ?>/administrarReportes.php'">
+                    <i class="fas fa-calendar"></i> Período Actual
+                </button>
+            <?php else : ?>
+                <button class="buttonHistory" onclick="location.href = '<?= BASE_URL; ?>/historialReportes.php' "><i class="fas fa-history"></i>
+                Historial</button>
+                <button class="buttonNew" onclick="location.href = '<?= BASE_URL; ?>/registroReporte.php' "><i class="fas fa-plus"></i>
+                Nuevo</button>
+            <?php endif; ?>
     </div>
 
     <div class="table-container">

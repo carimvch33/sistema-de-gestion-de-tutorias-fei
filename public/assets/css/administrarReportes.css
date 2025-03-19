@@ -79,6 +79,19 @@ body {
     margin-left: auto; 
 }
 
+.buttonHistory {
+    background-color: #18529D;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.buttonHistory:hover {
+    opacity: 0.8;
+}
+
 .buttonNew:hover {
     opacity: 0.8;
 }
