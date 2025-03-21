@@ -175,7 +175,7 @@ require_once '../config/config.php';
                                     $selected = ($problematica['problematica'] == $probOption['idProblematica']) ? 'selected' : '';
 
                                     $idProblematicaEscaped = htmlspecialchars($probOption['idProblematica']);
-                                    $nombreProblematica = htmlspecialchars($probOption['tipoProblematica']);
+                                    $nombreProblematica = htmlspecialchars($probOption['descripcion']);
 
                                     echo "<option value='{$idProblematicaEscaped}' {$selected}>{$nombreProblematica}</option>";
                                 }

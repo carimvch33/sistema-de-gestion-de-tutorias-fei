@@ -463,7 +463,7 @@ $(document).ready(function () {
 
         var problematicaOptionsHtml = '<option value="" disabled selected>-----Problemática-----</option>';
         problematicasOptions.forEach(function (problematica) {
-            problematicaOptionsHtml += `<option value="${problematica.idProblematica}">${problematica.tipoProblematica}</option>`;
+            problematicaOptionsHtml += `<option value="${problematica.idProblematica}">${problematica.descripcion}</option>`;
         });
         problematicaOptionsHtml += '<option value="otro">Otro</option>';
 

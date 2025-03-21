@@ -255,7 +255,6 @@ class ReporteController
             }
 
             $this->conn->commit();
-            $_SESSION['message'] = "Reporte de tutoría registrado exitosamente.";
             header("Location: " . BASE_URL . "/administrarReportes.php");
             exit();
         } catch (Exception $e) {
@@ -484,7 +483,6 @@ class ReporteController
             }
 
             $this->conn->commit();
-            $_SESSION['message'] = "Reporte de tutoría actualizado exitosamente.";
             header("Location: " . BASE_URL . "/administrarReportes.php");
             exit();
         } catch (Exception $e) {
