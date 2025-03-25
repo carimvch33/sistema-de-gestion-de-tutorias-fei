@@ -653,5 +653,53 @@ class ReporteController
         }
     }
 
+    public function showReporte() 
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $rolesPermitidos = [1, 4];
+        if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
+            exit();
+        }
+
+        $idTutoria = $_POST['idTutoria'] ?? $_GET['idTutoria'];
+
+        if (!$idTutoria) {
+            $_SESSION['message'] = 'No se especificó el reporte de tutoría.';
+            header('Location: ' . BASE_URL . '/administrarReportes.php');
+            exit();
+        }
+
+        $reporte = $this->reporteModel->getReporteById($idTutoria);
+
+        if (!$reporte) {
+            $_SESSION['message'] = 'No se encontró el reporte de tutoría.';
+            header('Location: ' . BASE_URL . '/administrarReportes.php');
+            exit();
+        }
+
+        $problematicasReporte = $this->problematicaModel->getProblematicasByReporte($idTutoria);
+
+        $carreraId = $reporte['carrera'];
+
+        $experiencias = $this->experienciaEducativaModel->getExperienciasByCarrera($carreraId);
+        $profesores = $this->profesorModel->getProfesores();
+        $listaProblematicas = $this->problematicaModel->getProblematicas();
+
+        $menu = BASE_URL . '/cerrarSesion.php';
+        switch ($_SESSION['rol']) {
+            case 1:
+                $menu = BASE_URL . '/menu.php';
+                break;
+            case 4:
+                $menu = BASE_URL . '/menu.php';
+                break;
+        }
+
+        require_once '../views/verReporteTutoria.php';
+    }
 }
 ?>

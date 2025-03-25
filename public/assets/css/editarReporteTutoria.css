@@ -126,6 +126,11 @@ th {
     opacity: 0.8;
 }
 
+.list-group-item {
+    font-size: 16px;
+    padding: 12px;
+}
+
 footer {
     margin-top: auto;
     text-align: center;

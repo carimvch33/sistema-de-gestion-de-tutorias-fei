@@ -118,11 +118,15 @@ if (!isset($errors)) {
                             <td><?= htmlspecialchars($problematica) ?></td>
                             <td><?= htmlspecialchars($fechaCreacion) ?></td>
                             <td class='action-buttons autoTable'>
-                                <button class='edit' data-id-reporte='<?= htmlspecialchars($idReporte) ?>'><i
-                                        class='fas fa-edit'></i></button>
-                                <button class='delete' data-id-reporte='<?= htmlspecialchars($idReporte) ?>'
-                                    data-csrf-token='<?= htmlspecialchars($_SESSION['csrf_token']) ?>'><i
-                                        class='fas fa-trash-alt'></i></button>
+                                <?php if($muestraActual) : ?>
+                                    <button class='edit' data-id-reporte='<?= htmlspecialchars($idReporte) ?>'><i
+                                            class='fas fa-edit'></i></button>
+                                    <button class='delete' data-id-reporte='<?= htmlspecialchars($idReporte) ?>'
+                                        data-csrf-token='<?= htmlspecialchars($_SESSION['csrf_token']) ?>'><i
+                                            class='fas fa-trash-alt'></i></button>
+                                <?php endif; ?>
+                                <button class="view" data-id-reporte="<?= htmlspecialchars($idReporte) ?>"><i
+                                            class="fas fa-eye"></i></button>
                             </td>
                         </tr>
                     <?php endforeach; ?>

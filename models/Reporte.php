@@ -165,9 +165,15 @@ class Reporte
                 rt.numTutoria,
                 rt.numAsistencia,
                 rt.numRiesgo,
-                rt.comentario
+                rt.comentario,
+            CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) AS nombreTutor,
+            c.nombre AS nombreCarrera,
+            p.nombre AS nombrePeriodo
             FROM reporte_tutoria rt
             INNER JOIN carrera_tutor tc ON tc.idCarreraTutor = rt.carreraTutor
+            INNER JOIN tutor t ON t.idTutor = tc.tutor
+            INNER JOIN carrera c ON c.idCarrera = tc.carrera
+            INNER JOIN periodo p ON p.idPeriodo = rt.periodo
             WHERE rt.idReporte = ?
         ");
         $stmt->bind_param("i", $idReporte);
