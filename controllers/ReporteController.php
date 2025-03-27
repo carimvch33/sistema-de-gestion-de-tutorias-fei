@@ -208,20 +208,23 @@ class ReporteController
         $numAsistencias = $_POST['numAsistencias'] ?? null;
         $numRiesgo = $_POST['numRiesgo'] ?? null;
         $comentario = $_POST['comentario'] ?? null;
+        $accion = $_POST['accion'] ?? 'enviar';
         $fechaActual = date('Y-m-d');
 
-        if (!$carrera)
-            $errors[] = 'El campo "Carrera" es obligatorio.';
-        if (!$numTutoria)
-            $errors[] = 'El campo "Número de tutoría" es obligatorio.';
-        if (!$fechaInicio)
-            $errors[] = 'El campo "Fecha de inicio" es obligatorio.';
-        if (!$fechaFin)
-            $errors[] = 'El campo "Fecha de fin" es obligatorio.';
-        if ($numAsistencias === '' || $numAsistencias === null)
-            $errors[] = 'El campo "Número de asistencias" es obligatorio.';
-        if ($numRiesgo === '' || $numRiesgo === null)
-            $errors[] = 'El campo "Número de tutorados en riesgo" es obligatorio.';
+        if ($accion === 'enviar') {
+            if (!$carrera)
+                $errors[] = 'El campo "Carrera" es obligatorio.';
+            if (!$numTutoria)
+                $errors[] = 'El campo "Número de tutoría" es obligatorio.';
+            if (!$fechaInicio)
+                $errors[] = 'El campo "Fecha de inicio" es obligatorio.';
+            if (!$fechaFin)
+                $errors[] = 'El campo "Fecha de fin" es obligatorio.';
+            if ($numAsistencias === '' || $numAsistencias === null)
+                $errors[] = 'El campo "Número de asistencias" es obligatorio.';
+            if ($numRiesgo === '' || $numRiesgo === null)
+                $errors[] = 'El campo "Número de tutorados en riesgo" es obligatorio.';
+        }
 
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
@@ -237,6 +240,8 @@ class ReporteController
         try {
             $idCarreraTutor = $this->reporteModel->createCarreraTutor($carrera, $idTutor);
 
+            $esBorrador = ($accion === 'borrador') ? 0 : 1;
+
             $reporteData = [
                 'carreraTutor' => $idCarreraTutor,
                 'periodo' => $periodo,
@@ -246,11 +251,12 @@ class ReporteController
                 'numAsistencias' => $numAsistencias,
                 'numRiesgo' => $numRiesgo,
                 'comentario' => $comentario,
-                'fechaCreacion' => $fechaActual
+                'fechaCreacion' => $fechaActual,
+                'esBorrador' => $esBorrador
             ];
             $idReporte = $this->reporteModel->createReporteTutoria($reporteData);
 
-            if ($_POST['tipo'] === 'problematica') {
+            if ($accion === 'enviar' && $_POST['tipo'] === 'problematica') {
                 $this->handleProblematicas($idReporte);
             }
 

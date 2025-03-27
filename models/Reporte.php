@@ -94,11 +94,11 @@ class Reporte
     public function createReporteTutoria($data)
     {
         $stmt = $this->conn->prepare("
-            INSERT INTO reporte_tutoria (carreraTutor, periodo, numTutoria, fechaInicioTutoria, fechaFinTutoria, numAsistencia, numRiesgo, comentario, fechaCreacion)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO reporte_tutoria (carreraTutor, periodo, numTutoria, fechaInicioTutoria, fechaFinTutoria, numAsistencia, numRiesgo, comentario, fechaCreacion, esBorrador)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
         $stmt->bind_param(
-            'iiisssiss',
+            'iiisssissi',
             $data['carreraTutor'],
             $data['periodo'],
             $data['numTutoria'],
@@ -107,7 +107,8 @@ class Reporte
             $data['numAsistencias'],
             $data['numRiesgo'],
             $data['comentario'],
-            $data['fechaCreacion']
+            $data['fechaCreacion'],
+            $data['esBorrador']
         );
         $stmt->execute();
         $idReporte = $stmt->insert_id;
