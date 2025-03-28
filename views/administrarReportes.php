@@ -80,11 +80,12 @@ if (!isset($errors)) {
                 <tr>
                     <th class="autoWidthColumn">Carrera</th>
                     <th class="autoWidthColumn">Periodo</th>
-                    <th class="autoWidthColumn">Fecha de inicio de tutoría</th>
-                    <th class="autoWidthColumn">Fecha de fin de tutoría</th>
+                    <th class="autoWidthColumn">Fecha de inicio</th>
+                    <th class="autoWidthColumn">Fecha de fin</th>
                     <th class="autoWidthColumn">Comentario</th>
                     <th class="autoWidthColumn">Problemática</th>
                     <th class="autoWidthColumn">Fecha de creación</th>
+                    <th class="autoWidthColumn">Estado</th>
                     <th class="autoWidthColumn">Acción</th>
                 </tr>
             </thead>
@@ -102,6 +103,7 @@ if (!isset($errors)) {
                         $comentarioCompleto = htmlspecialchars($row['comentario'] ?? '', ENT_QUOTES, 'UTF-8');
                         $tieneProblematica = $row['tieneProblematica'] ?? 0;
                         $fechaCreacion = $row['fechaCreacion'] ?? 'Sin fecha de creación';
+                        $estado = $row['esBorrador'] ? 'Borrador' : 'Enviado';
 
                         $problematica = $tieneProblematica > 0 ? "Sí existen problemáticas" : "No existen problemáticas";
 
@@ -117,8 +119,9 @@ if (!isset($errors)) {
                             <td title="<?= $comentarioCompleto ?>"><?= $comentarioCorto ?></td>
                             <td><?= htmlspecialchars($problematica) ?></td>
                             <td><?= htmlspecialchars($fechaCreacion) ?></td>
+                            <td><?= htmlspecialchars($estado) ?></td>
                             <td class='action-buttons autoTable'>
-                                <?php if($muestraActual) : ?>
+                                <?php if($muestraActual && $estado !== 'Enviado'): ?>
                                     <button class='edit' data-id-reporte='<?= htmlspecialchars($idReporte) ?>'><i
                                             class='fas fa-edit'></i></button>
                                     <button class='delete' data-id-reporte='<?= htmlspecialchars($idReporte) ?>'

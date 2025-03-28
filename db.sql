@@ -263,6 +263,7 @@ CREATE TABLE `reporte_tutoria` (
   `comentario` varchar(500) DEFAULT NULL,
   `fechaCreacion` date NOT NULL,
   `carreraTutor` int NOT NULL,
+  `esBorrador` tinyint(1) NOT NULL,
   PRIMARY KEY (`idReporte`),
   KEY `fk_reporte_tutoria_periodo1_idx` (`periodo`),
   KEY `fk_reporte_tutoria_carrera_tutor1_idx` (`carreraTutor`),

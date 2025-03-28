@@ -17,7 +17,8 @@ class Reporte
                                             rt.fechaFinTutoria, 
                                             rt.numTutoria, 
                                             rt.numRiesgo, 
-                                            rt.comentario, 
+                                            rt.comentario,
+                                            rt.esBorrador,
                                             (SELECT COUNT(pa.idProblematicaAcademica) FROM problematica_academica pa WHERE pa.reporte = rt.idReporte) AS tieneProblematica, 
                                             rt.fechaCreacion 
                                     FROM 
@@ -49,7 +50,8 @@ class Reporte
                                             rt.fechaFinTutoria, 
                                             rt.numTutoria, 
                                             rt.numRiesgo, 
-                                            rt.comentario, 
+                                            rt.comentario,
+                                            rt.esBorrador,
                                             (SELECT COUNT(pa.idProblematicaAcademica) FROM problematica_academica pa WHERE pa.reporte = rt.idReporte) AS tieneProblematica, 
                                             rt.fechaCreacion 
                                     FROM 
