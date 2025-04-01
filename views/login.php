@@ -1,7 +1,7 @@
 <?php
 require_once '../config/config.php';
 
-define('logo_uv', BASE_URL . '/assets/img/UV-fondoObscuro.png');
+define('fondo', BASE_URL . '/assets/img/bg.png');
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -25,62 +25,74 @@ if ($mantenimiento) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Inicio de sesión</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= BASE_URL; ?>/assets/css/styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body class="container-fluid text-white full-height d-flex justify-content-center align-items-center">
-    <div class="row w-100">
-        <div class="col-md-5 d-flex justify-content-center left-section">
-            <div class="image-container">
-                <img src="<?= logo_uv ?>" alt="UV Logo" class="img-fluid large-image">
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6" id="colImg">
+                <div class="row">
+                    <div class="col-md-12">
+                        <img src="<?= fondo; ?>" alt="Imagen representativa de una tutoría escolar" class="imgLogin row">
+                    </div>
+                </div>
+            </div>
+            <div id="divIzq" class="col-sm-12 col-md-6">
+                <div class="row float-right">
+                    <div class="pleca">
+                        <a href="https://www.uv.mx" style="color: white;">Universidad Veracruzana</a>
+                    </div>
+                </div>
+                <div style="width: 100%; height: 100%; display: table;">
+                    <div style="display: table-cell; vertical-align: middle;" class="pt-4">
+                        <h2 class="text-center pt-4" style="color: #18529D;">Sistema de Gestión de Tutorías</h2>
+                        <h4 class="text-center">Facultad de Estadística e Informática</h4>
+                        <h2 class="text-center">Inicio de sesión</h2>
+
+                        <form action="./index.php" method="post" id="form">
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-md-8">
+                                    <div class="form-group">
+                                        <label for="user" class="h-3 text">Usuario:</label>
+                                        <input type="email" name="user" id="user" class="form-control" placeholder="Ingrese su usuario/matrícula" required>
+                                        <small class="text-secondary">Ejem: abcgarcia / zS12345678 / GS12345678</small>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-8">
+                                    <div class="form-group">
+                                        <label for="password" class="h-3 text">Contraseña:</label>
+                                        <input type="password" name="password" id="password" class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center mt-4">
+                                    <button type="submit" name="enviar" id="enviar" class="btn btn-primary btn-lg">Iniciar sesión</button>
+                                    <p class="text-secondary mt-3">
+                                        Consulta el <a
+                                            href="https://www.uv.mx/fei/files/2018/10/2023_Aviso-de-privacidad-Integral-TA_ET_FEI.pdf"
+                                            target="_blank">Aviso de Privacidad</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-6 d-flex justify-content-center align-items-center right-section">
-            <div class="w-100 px-3">
-                <h2 class="text-center loginBig">Registro de Tutorías</h2>
-                <h2 class="text-center loginBig">UV</h2>
-                <br></br>
-
-                <form action="./index.php" method="post" id="form">
-                    <div class="mb-3">
-                        <label class="labelDark">Usuario:</label>
-                        <input type="text" id="user" name="user" class="form-control small-input"
-                            placeholder="Ingrese su usuario/matrícula" required>
-                        <p class="text-secondary">Ejem: abcgarcia / zS12345678 / GS12345678</p>
-                    </div>
-                    <div class="mb-3">
-                        <label class="labelDark">Contraseña:</label>
-                        <input type="password" id="password" name="password"
-                            class="form-control text-white small-input input-white" placeholder="Ingrese su contraseña"
-                            required>
-                    </div>
-
-                    <div>
-                        <button type="submit" class="btn btn-primary btn-block smaller-btn" name="enviar" id="enviar"
-                            >Iniciar Sesión</button>
-                    </div>
-
-                    <div class="mt-3 text-center">
-                        <p class="text-secondary" style="font-size: 1.2rem;">
-                            Consulta el <a
-                                href="https://www.uv.mx/fei/files/2018/10/2023_Aviso-de-privacidad-Integral-TA_ET_FEI.pdf"
-                                target="_blank">Aviso de Privacidad</a>
-                        </p>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    </div>    
 
     <?php
     if (isset($message)) {
         $text_error = "";
         if ($message == "no_exist") {
-            $text_error = "La cuenta institucional no pertenece a la Facultad de Estadística e Infomática.";
+            $text_error = "La cuenta institucional no pertenece a la Facultad de Estadística e Informática.";
         }
 
         if ($message == "no_login") {
