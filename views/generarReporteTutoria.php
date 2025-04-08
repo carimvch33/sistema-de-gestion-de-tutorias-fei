@@ -83,7 +83,7 @@ $pdf = new PDF();
 $pdf->AddPage();
 $pdf->SetFont('Arial', 'B', 12);
 
-$pdf->Cell(0, 10, mb_convert_encoding("Reporte General de Tutoría " . $idTutoria, 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
+$pdf->Cell(0, 10, mb_convert_encoding("Reporte General de Tutoría ", 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
 $pdf->Ln(5);
 
 $pdf->SetFont('Arial', 'B', 10);
@@ -245,7 +245,6 @@ $pdf->Cell(0, 10, mb_convert_encoding("Xalapa, Ver., a $fechaFormateada", 'ISO-8
 
 $pdf->Ln(15);
 
-// Nombre del tutor
 $pdf->Cell(0, 10, mb_convert_encoding('Nombre del Tutor:', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
 $pdf->Cell(0, 10, $tutor, 0, 1, 'C');
 
