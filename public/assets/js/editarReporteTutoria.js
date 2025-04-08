@@ -264,7 +264,7 @@ $(document).ready(function () {
     function generarOpcionesProblematicas() {
         var opciones = '<option value="" disabled selected>Seleccione una problemática</option>';
         problematicasOptions.forEach(function (problematica) {
-            opciones += `<option value="${problematica.idProblematica}">${problematica.tipoProblematica}</option>`;
+            opciones += `<option value="${problematica.idProblematica}">${problematica.descripcion}</option>`;
         });
         opciones += '<option value="otro">Otro</option>';
         return opciones;

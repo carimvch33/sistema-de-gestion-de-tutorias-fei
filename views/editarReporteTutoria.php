@@ -210,10 +210,12 @@ require_once '../config/config.php';
                     maxlength="500"><?= htmlspecialchars($reporte['comentario']); ?></textarea>
             </div>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-success" id="enviar">Guardar Reporte de Tutoría</button>
+            <div class="form-group row">
+                <div class="col-md-auto">
+                    <button type="submit" name="accion" class="btn btn-success" id="guardar">Guardar Borrador de Reporte</button>
+                    <button type="submit" name="accion" class="btn btn-primary" id="enviar">Enviar Reporte de Tutoría</button>
+                </div>
             </div>
-
         </form>
     </div>
 
