@@ -102,6 +102,19 @@ $(document).ready(function () {
         form.submit();
     }
 
+    function downloadTutoringReport(idReport) {
+        var form = $('<form>', {
+            'method': 'POST',
+            'action': './generarReporteTutoria.php'
+        }).append($('<input>', {
+            'type': 'hidden',
+            'name': 'idTutoria',
+            'value': idReport
+        }));
+        $('body').append(form);
+        form.submit();
+    } 
+
     $(document).on('click', '.delete', function () {
         var idReporte = $(this).data('id-reporte');
         var csrfToken = $(this).data('csrf-token');
@@ -116,6 +129,11 @@ $(document).ready(function () {
     $(document).on('click', '.view', function () {
         var idReporte = $(this).data('id-reporte');
         showTutoria(idReporte);
+    });
+
+    $(document).on('click', '.download', function () {
+        var idReporte = $(this).data('id-reporte');
+        downloadTutoringReport(idReporte);
     });
 
     let filtrosSeleccionados = [];

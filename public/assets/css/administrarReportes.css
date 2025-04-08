@@ -168,7 +168,6 @@ th {
     border: none;
     padding: 5px 10px;
     cursor: pointer;
-    flex-grow: 1;
 }
 
 .action-buttons button.delete {
