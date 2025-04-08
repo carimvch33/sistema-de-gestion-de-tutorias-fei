@@ -210,6 +210,8 @@ class ReporteController
         $comentario = $_POST['comentario'] ?? null;
         $accion = $_POST['accion'] ?? 'enviar';
         $fechaActual = date('Y-m-d');
+        $accion = $_POST['accion'] ?? null;
+        $esBorrador = ($accion === 'borrador') ? 1 : 0;
 
         if ($accion === 'enviar') {
             if (!$carrera)
@@ -239,8 +241,6 @@ class ReporteController
         $this->conn->begin_transaction();
         try {
             $idCarreraTutor = $this->reporteModel->createCarreraTutor($carrera, $idTutor);
-
-            $esBorrador = ($accion === 'borrador') ? 0 : 1;
 
             $reporteData = [
                 'carreraTutor' => $idCarreraTutor,
@@ -445,6 +445,8 @@ class ReporteController
         $numAsistencias = $_POST['numAsistencias'] ?? null;
         $numRiesgo = $_POST['numRiesgo'] ?? null;
         $comentario = $_POST['comentario'] ?? null;
+        $accion = $_POST['accion'] ?? 'enviar';
+        $esBorrador = ($accion === 'borrador') ? 1 : 0;
 
         if (!$idReporte)
             $errors[] = 'ID del reporte no proporcionado.';
@@ -481,6 +483,7 @@ class ReporteController
                 'numAsistencia' => $numAsistencias,
                 'numRiesgo' => $numRiesgo,
                 'comentario' => $comentario,
+                'esBorrador' => $esBorrador
             ];
             $this->reporteModel->updateReporteTutoria($idReporte, $reporteData);
 

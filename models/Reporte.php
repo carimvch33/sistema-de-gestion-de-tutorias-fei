@@ -200,12 +200,13 @@ class Reporte
                 rt.fechaFinTutoria = ?,
                 rt.numAsistencia = ?,
                 rt.numRiesgo = ?,
-                rt.comentario = ?
+                rt.comentario = ?,
+                rt.esBorrador = ?
             WHERE rt.idReporte = ?
         ");
 
         $stmt->bind_param(
-            "iiisssisi",
+            "iiisssisii",
             $data['carrera'],
             $data['periodo'],
             $data['numTutoria'],
@@ -214,6 +215,7 @@ class Reporte
             $data['numAsistencia'],
             $data['numRiesgo'],
             $data['comentario'],
+            $data['esBorrador'],
             $idReporte
         );
         $stmt->execute();

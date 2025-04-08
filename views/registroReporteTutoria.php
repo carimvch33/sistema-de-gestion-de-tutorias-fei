@@ -149,8 +149,8 @@ if (!isset($problematicas))
 
             <div class="form-group row">
                 <div class="col-md-auto">
-                    <button type="submit" name="accion" class="btn btn-success" id="guardar">Guardar Borrador de Reporte</button>
-                    <button type="submit" name="accion" class="btn btn-primary" id="enviar">Enviar Reporte de Tutoría</button>
+                    <button type="submit" name="accion" class="btn btn-success" value="borrador" id="guardar">Guardar Borrador de Reporte</button>
+                    <button type="submit" name="accion" class="btn btn-primary" value="enviar" id="enviar">Enviar Reporte de Tutoría</button>
                 </div>
             </div>
         </form>
