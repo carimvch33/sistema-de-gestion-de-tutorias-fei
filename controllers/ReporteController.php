@@ -256,7 +256,7 @@ class ReporteController
             ];
             $idReporte = $this->reporteModel->createReporteTutoria($reporteData);
 
-            if ($accion === 'enviar' && $_POST['tipo'] === 'problematica') {
+            if ($_POST['tipo'] === 'problematica') {
                 $this->handleProblematicas($idReporte);
             }
 
