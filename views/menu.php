@@ -106,6 +106,11 @@ $menuOptions = [
             'icon' => 'import-icon.svg',
         ],
         [
+            'title' => 'Consulta de Reportes de Tutorías',
+            'link' => BASE_URL . '/consultarReportes.php',
+            'icon' => 'career-icon.svg',
+        ],
+        [
             'title' => 'Registro de Sesión de Tutorías',
             'link' => BASE_URL . '/tutorias.php',
             'icon' => 'import-icon.svg',
