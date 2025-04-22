@@ -1,0 +1,196 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+
+.header-left {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.header-left img {
+    width: 150px;
+}
+
+.buttonsHead {
+    background-color: #f1f1f1;
+    color: black;
+    border: none;
+    padding: 50px 20px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.buttonsHead:hover {
+    background-color: #7DCE94;
+}
+
+.welcome-message {
+    background-color: #bbb;
+    padding: 50px 30px;
+    width: 300px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-radius: 5px 30px;
+    font-weight: bold;
+}
+
+.header-left button {
+    background-color: #f1f1f1;
+    color: black;
+    border: none;
+    padding: 50px 20px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.header-left button:hover {
+    background-color: #7DCE94;
+}
+
+.header-right {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.actions-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px auto;
+    width: 75%;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.greenButton {
+    background-color: #28AD56;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-left: auto; 
+}
+
+.blueButton {
+    background-color: #18529D;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.blueButton:hover {
+    opacity: 0.8;
+}
+
+.greenButton:hover {
+    opacity: 0.8;
+}
+
+.buttonClear {
+    background-color: transparent;
+    border: none;
+    color: black;
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+table {
+    width: 60%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #18529D;
+    color: white;
+}
+
+.autoWidthColumn {
+    white-space: nowrap;
+    width: auto;
+    text-align: center;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: auto;
+}
+
+.action-buttons button {
+    background-color: #28AD56;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.action-buttons button.delete {
+    background-color: #dc3545;
+}
+
+.action-buttons button.view {
+    background-color: #18529D;
+}
+
+.action-buttons button:hover {
+    opacity: 0.8;
+}
+
+.table-container {
+    text-align: center;
+    margin: 0px 0;
+    padding: 20px 180px;
+}
+
+.top-left {
+    text-align: left;
+}
+
+.top-right {
+    text-align: right;
+}
+
+.bottom-left {
+    margin-top: 10px;
+    text-align: left;
+}
+
+.bottom-right {
+    margin-top: 10px;
+    text-align: right;
+}
+
+footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 10px;
+    background-color: #f1f1f1;
+}
