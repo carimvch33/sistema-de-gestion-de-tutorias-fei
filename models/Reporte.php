@@ -61,11 +61,79 @@ class Reporte
                                     INNER JOIN tutor t ON t.idTutor = tc.tutor 
                                     INNER JOIN periodo p ON p.idPeriodo = rt.periodo 
                                     WHERE 
-                                        t.correoInstitucional = ? AND p.actual = 0
+                                        t.correoInstitucional = ? AND p.actual = 0 AND rt.esBorrador = 0
                                     ORDER BY 
                                         STR_TO_DATE(p.nombre, '%M %Y - %M %Y') DESC");
 
         $stmt->bind_param("s", $correoInstitucional);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $reportes = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $reportes;
+    }
+
+    public function getReportesByCoordinador($idSesion)
+    {
+        $stmt = $this->conn->prepare("SELECT 
+            rt.idReporte,
+            CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) as tutorNombre,
+            c.nombre AS carrera,
+            p.nombre AS periodo,
+            rt.numTutoria,
+            rt.fechaInicioTutoria,
+            rt.fechaFinTutoria,
+            rt.numRiesgo,
+            rt.comentario,
+            (SELECT COUNT(pa.idProblematicaAcademica) FROM problematica_academica pa WHERE pa.reporte = rt.idReporte) AS tieneProblematica,
+            rt.fechaCreacion
+        FROM reporte_tutoria rt
+            INNER JOIN carrera_tutor ct ON ct.idCarreraTutor = rt.carreraTutor
+            INNER JOIN carrera c ON ct.carrera = c.idCarrera
+            INNER JOIN tutor t ON t.idTutor = ct.tutor
+            INNER JOIN coordinador_carrera cc ON cc.idCarrera = c.idCarrera
+            INNER JOIN periodo p ON p.idPeriodo = rt.periodo
+        WHERE 
+            cc.idSesion = ? AND rt.esBorrador = 0 AND p.actual = 1
+        ORDER BY 
+            STR_TO_DATE(SUBSTRING_INDEX(p.nombre, ' - ', 1), '%M %Y') DESC;
+        ");
+        $stmt->bind_param("i", $idSesion);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $reportes = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $reportes;
+    }
+
+    public function getHistorialReportesByCoordinador($idSesion)
+    {
+        $stmt = $this->conn->prepare("SELECT 
+            rt.idReporte,
+            CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) as tutorNombre,
+            c.nombre AS carrera,
+            p.nombre AS periodo,
+            rt.numTutoria,
+            rt.fechaInicioTutoria,
+            rt.fechaFinTutoria,
+            rt.numRiesgo,
+            rt.comentario,
+            (SELECT COUNT(pa.idProblematicaAcademica) FROM problematica_academica pa WHERE pa.reporte = rt.idReporte) AS tieneProblematica,
+            rt.fechaCreacion
+        FROM reporte_tutoria rt
+            INNER JOIN carrera_tutor ct ON ct.idCarreraTutor = rt.carreraTutor
+            INNER JOIN carrera c ON ct.carrera = c.idCarrera
+            INNER JOIN tutor t ON t.idTutor = ct.tutor
+            INNER JOIN coordinador_carrera cc ON cc.idCarrera = c.idCarrera
+            INNER JOIN periodo p ON p.idPeriodo = rt.periodo
+        WHERE 
+            cc.idSesion = ? AND rt.esBorrador = 0 AND p.actual = 0
+        ORDER BY 
+            STR_TO_DATE(SUBSTRING_INDEX(p.nombre, ' - ', 1), '%M %Y') DESC;
+        ");
+        $stmt->bind_param("i", $idSesion);
         $stmt->execute();
         $result = $stmt->get_result();
 
