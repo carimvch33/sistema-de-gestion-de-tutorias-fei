@@ -278,7 +278,7 @@ CREATE TABLE `reporte_tutoria` (
 
 LOCK TABLES `reporte_tutoria` WRITE;
 /*!40000 ALTER TABLE `reporte_tutoria` DISABLE KEYS */;
-INSERT INTO `reporte_tutoria` VALUES (26,14,'2024-12-12','2024-12-12',2,12,12,'chin 2','2025-01-19',26),(28,14,'2023-12-12','2023-12-12',2,12,12,'chinnnnn','2025-01-19',26),(29,1,'2024-12-12','2024-12-12',2,12,12,'Todo mal','2025-01-23',28),(30,1,'2024-12-12','2024-12-12',2,12,12,'21','2025-01-24',28);
+INSERT INTO `reporte_tutoria` VALUES (26,14,'2024-12-12','2024-12-12',2,12,12,'chin 2','2025-01-19',26, 1),(28,14,'2023-12-12','2023-12-12',2,12,12,'chinnnnn','2025-01-19',26, 0),(29,1,'2024-12-12','2024-12-12',2,12,12,'Todo mal','2025-01-23',28,1),(30,1,'2024-12-12','2024-12-12',2,12,12,'21','2025-01-24',28, 0);
 /*!40000 ALTER TABLE `reporte_tutoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -326,7 +326,7 @@ CREATE TABLE `seccion` (
   CONSTRAINT `seccion_ibfk_1` FOREIGN KEY (`idProfesor`) REFERENCES `tutor` (`idTutor`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `seccion_ibfk_2` FOREIGN KEY (`idExperienciaEducativa`) REFERENCES `experiencia_educativa` (`idExperienciaEducativa`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `seccion_ibfk_3` FOREIGN KEY (`idPeriodo`) REFERENCES `periodo` (`idPeriodo`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
