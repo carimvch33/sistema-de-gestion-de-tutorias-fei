@@ -1,2 +1,10 @@
 # dotenv environment variable files
 .env
+
+# Composer
+/vendor/
+/composer.phar
+
+#temp files
+*.log
+*.cache
