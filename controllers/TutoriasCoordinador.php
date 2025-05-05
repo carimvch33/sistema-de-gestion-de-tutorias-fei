@@ -4,6 +4,10 @@ require_once '../config/connection.php';
 require_once '../models/Tutoria.php';
 require_once '../models/Coordinador.php';
 require_once '../models/Reporte.php';
+require_once '../models/Problematica.php';
+require_once '../models/ExperienciaEducativa.php';
+require_once '../models/TipoProblematica.php';
+require_once '../models/Profesor.php';
 
 class TutoriasCoordinador
 {
@@ -11,6 +15,10 @@ class TutoriasCoordinador
     private $tutoriaModel;
     private $coordinadorModel;
     private $reportesModel;
+    private $problematicaModel;
+    private $experienciaEducativaModel;
+    private $tipoProblematicaModel;
+    private $profesorModel;
 
     public function __construct()
     {
@@ -18,6 +26,10 @@ class TutoriasCoordinador
         $this->tutoriaModel = new Tutoria($this->conn);
         $this->coordinadorModel = new Coordinador($this->conn);
         $this->reportesModel = new Reporte($this->conn);
+        $this->problematicaModel = new Problematica($this->conn);
+        $this->experienciaEducativaModel = new ExperienciaEducativa($this->conn);
+        $this->tipoProblematicaModel = new TipoProblematica($this->conn);
+        $this->profesorModel = new Profesor($this->conn);
     }
 
     public function showTutorias()
@@ -111,6 +123,78 @@ class TutoriasCoordinador
 
         $muestraActual = false;
         require_once '../views/consultarReportes.php';
+    }
+
+    public function generatePDFReportSummary() 
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $allowedRole = [4];
+        if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $allowedRole)) {
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
+            exit();
+        }
+
+        $numTutoringSession = $_POST['numTutoria'] ?? null;
+        $reportType = $_POST['tipoReporte'] ?? null;
+        $careers = $_POST['carreras'] ?? null;
+
+        if (!$numTutoringSession || !$reportType || !$careers) {
+            $_SESSION['error'] = 'Ocurrió un error al generar el concentrado de reportes';
+            header('Location: ' . BASE_URL . '/consultarReportes.php');
+            exit();
+        }
+
+        $idSession = $_SESSION['idSesion']; 
+
+        $reports = $this->reportesModel->getReportSummaryByCoordinator($idSession, $numTutoringSession, $careers);
+
+        if ($reportType === 'problematicas') {
+            $this->generateProblemSummary($reports);
+        } elseif ($reportType === 'comentarios') {
+            $this->generateCommentsSummary($reports);
+        }
+    }
+
+    private function generateProblemSummary($reports) 
+    {
+        $dataProblems = [];
+
+        foreach ($reports as $report) {
+            $idReport = $report['idReporte'];
+            $career = $report['carrera']; 
+
+            $problems = $this->problematicaModel->getProblematicasByReporte($idReport);
+
+            foreach($problems as $problem) {
+                $experienciaEducativa = $this->experienciaEducativaModel->getExperienciaById($problem['experienciaEducativa']);
+                $professor = $this->profesorModel->getProfesorById($problem['profesor']);
+                $problematic = $this->problematicaModel->getProblematicaById($problem['problematica']);
+                $problemType = $this->tipoProblematicaModel->getTiposProblematicasById($problematic['tipoProblematica']);
+
+                $dataProblems[$career][] = [
+                    'experienciaEducativa' => $experienciaEducativa['nombre'],
+                    'profesor' => $professor['nombre'] . ' ' . $professor['apellidoPaterno'] . ' ' . $professor['apellidoMaterno'],
+                    'problematica' => $problematic['descripcion'],
+                    'tipoProblematica' => $problemType['nombre'],
+                    'numAlumnos' => $problem['numAlumnos'],
+                ];
+            }
+        }
+
+        $coordinator = $this->coordinadorModel->getCoordinadorById($_SESSION['idSesion']);
+
+        $numTutoringSession = $_POST['numTutoria'];
+        $careers = $_POST['carreras'];
+
+        require_once '../views/generarReporteConcentradoPDF.php';
+    }
+
+    private function generateCommentsSummary($reportes) 
+    {
+        
     }
 }
 ?>

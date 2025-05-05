@@ -56,4 +56,14 @@ class Carrera
         return $result;
     }
 
+    public function getCareersByCoordinator($idCoordinator)
+    {
+        $stmt = $this->conn->prepare("SELECT c.idCarrera, c.nombre AS carrera FROM carrera c INNER JOIN coordinador_carrera cc ON c.idCarrera = cc.idCarrera WHERE cc.idSesion = ?");
+        $stmt->bind_param("i", $idCoordinator);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $carreras = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $carreras;
+    }
 }

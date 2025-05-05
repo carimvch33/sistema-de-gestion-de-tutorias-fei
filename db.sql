@@ -246,6 +246,37 @@ INSERT INTO `problematica_academica` VALUES (19,14,2,3,12,'En revisión',26,NULL
 UNLOCK TABLES;
 
 --
+-- Table structure for table `fecha_tutoria`
+--
+DROP TABLE IF EXISTS `fecha_tutoria`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fecha_tutoria` (
+  `idFechaTutoria` int NOT NULL AUTO_INCREMENT,
+  `fechaInicio` date NOT NULL,
+  `fechaFin` date NOT NULL,
+  `numSesion` int NOT NULL,
+  `carrera` int NOT NULL,
+  `periodo` int NOT NULL,
+  PRIMARY KEY (`idFechaTutoria`),
+  KEY `fk_fecha_tutoria_carrera1_idx` (`carrera`),
+  KEY `fk_fecha_tutoria_periodo1_idx` (`periodo`),
+  CONSTRAINT `fk_fecha_tutoria_carrera1` FOREIGN KEY (`carrera`) REFERENCES `carrera` (`idCarrera`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_fecha_tutoria_periodo1` FOREIGN KEY (`periodo`) REFERENCES `periodo` (`idPeriodo`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `fecha_tutoria`
+--
+
+LOCK TABLES `fecha_tutoria` WRITE;
+/*!40000 ALTER TABLE `fecha_tutoria` DISABLE KEYS */;
+INSERT INTO `fecha_tutoria` VALUES (1,'2025-02-18','2025-02-18',1,2,14),(2,'2025-01-18','2025-01-18',1,3,14),(3,'2025-01-19','2025-01-19',1,4,14),(4,'2025-01-19','2025-01-19',1,5,14),(5,'2025-01-19','2025-01-19',1,6,14);
+/*!40000 ALTER TABLE `fecha_tutoria` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `reporte_tutoria`
 --
 
@@ -255,20 +286,20 @@ DROP TABLE IF EXISTS `reporte_tutoria`;
 CREATE TABLE `reporte_tutoria` (
   `idReporte` int NOT NULL AUTO_INCREMENT,
   `periodo` int NOT NULL,
-  `fechaInicioTutoria` date NOT NULL,
-  `fechaFinTutoria` date NOT NULL,
-  `numTutoria` int NOT NULL,
   `numAsistencia` int NOT NULL,
   `numRiesgo` int NOT NULL,
   `comentario` varchar(500) DEFAULT NULL,
   `fechaCreacion` date NOT NULL,
   `carreraTutor` int NOT NULL,
   `esBorrador` tinyint(1) NOT NULL,
+  `fechaTutoria` int NOT NULL,
   PRIMARY KEY (`idReporte`),
   KEY `fk_reporte_tutoria_periodo1_idx` (`periodo`),
   KEY `fk_reporte_tutoria_carrera_tutor1_idx` (`carreraTutor`),
+  KEY `fk_reporte_tutoria_fecha_tutoria1_idx` (`fechaTutoria`),
   CONSTRAINT `fk_reporte_tutoria_carrera_tutor1` FOREIGN KEY (`carreraTutor`) REFERENCES `carrera_tutor` (`idCarreraTutor`),
-  CONSTRAINT `fk_reporte_tutoria_periodo1` FOREIGN KEY (`periodo`) REFERENCES `periodo` (`idPeriodo`)
+  CONSTRAINT `fk_reporte_tutoria_periodo1` FOREIGN KEY (`periodo`) REFERENCES `periodo` (`idPeriodo`),
+  CONSTRAINT `fk_reporte_tutoria_fecha_tutoria1` FOREIGN KEY (`fechaTutoria`) REFERENCES `fecha_tutoria` (`idFechaTutoria`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -278,8 +309,13 @@ CREATE TABLE `reporte_tutoria` (
 
 LOCK TABLES `reporte_tutoria` WRITE;
 /*!40000 ALTER TABLE `reporte_tutoria` DISABLE KEYS */;
-INSERT INTO `reporte_tutoria` VALUES (26,14,'2024-12-12','2024-12-12',2,12,12,'chin 2','2025-01-19',26, 1),(28,14,'2023-12-12','2023-12-12',2,12,12,'chinnnnn','2025-01-19',26, 0),(29,1,'2024-12-12','2024-12-12',2,12,12,'Todo mal','2025-01-23',28,1),(30,1,'2024-12-12','2024-12-12',2,12,12,'21','2025-01-24',28, 0);
-/*!40000 ALTER TABLE `reporte_tutoria` ENABLE KEYS */;
+INSERT INTO `reporte_tutoria` (
+  idReporte, periodo, numAsistencia, numRiesgo, comentario, fechaCreacion, carreraTutor, esBorrador, fechaTutoria
+) VALUES
+  (26, 14, 2, 12, 'chin 2', '2025-01-19', 26, 1, 1),
+  (28, 14, 2, 12, 'chinnnnn', '2025-01-19', 26, 0, 2),
+  (29, 1, 2, 12, 'Todo mal', '2025-01-23', 28, 1, 4),
+  (30, 1, 2, 12, '21', '2025-01-24', 28, 1, 5);
 UNLOCK TABLES;
 
 --
@@ -467,7 +503,6 @@ DROP TABLE IF EXISTS `tutoria`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tutoria` (
   `idTutoria` int NOT NULL AUTO_INCREMENT,
-  `numTutoria` int NOT NULL,
   `modalidad` varchar(11) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `periodoAtencion` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `fecha` date DEFAULT NULL,
@@ -479,13 +514,16 @@ CREATE TABLE `tutoria` (
   `carrera` int NOT NULL,
   `periodo` int NOT NULL,
   `tutor` int NOT NULL,
+  `fechaTutoria` int NOT NULL,
   PRIMARY KEY (`idTutoria`),
   KEY `fk_tutoria_carrera1_idx` (`carrera`),
   KEY `fk_tutoria_periodo1_idx` (`periodo`),
   KEY `fk_tutoria_tutor1_idx` (`tutor`),
+  KEY `fk_tutoria_fechaTutoria1_idx` (`fechaTutoria`),
   CONSTRAINT `fk_tutoria_carrera1` FOREIGN KEY (`carrera`) REFERENCES `carrera` (`idCarrera`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_tutoria_periodo1` FOREIGN KEY (`periodo`) REFERENCES `periodo` (`idPeriodo`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_tutoria_tutor1` FOREIGN KEY (`tutor`) REFERENCES `tutor` (`idTutor`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_tutoria_tutor1` FOREIGN KEY (`tutor`) REFERENCES `tutor` (`idTutor`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_tutoria_fechaTutoria1` FOREIGN KEY (`fechaTutoria`) REFERENCES `fecha_tutoria` (`idFechaTutoria`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -495,7 +533,16 @@ CREATE TABLE `tutoria` (
 
 LOCK TABLES `tutoria` WRITE;
 /*!40000 ALTER TABLE `tutoria` DISABLE KEYS */;
-INSERT INTO `tutoria` VALUES (39,2,'Presencial','Un solo día','2024-04-05','00:12:00','00:30:00','Aula 1','Hola',_binary 'Evaluación Reporte FINAL_César.pdf',3,1,1),(40,2,'Presencial','Un solo día','2003-04-05','00:12:00','00:30:00','Aula 1','Hola',_binary 'Evaluación Reporte FINAL_César.pdf',3,1,1),(41,3,'Presencial','Un solo día','2024-12-12','00:12:00','00:12:00','Aula 1','Hola',_binary 'Evaluación Reporte FINAL_César.pdf',3,1,1),(42,2,'Virtual','Un solo día','2003-04-05','00:30:00','15:12:00','Aula 1','500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CAR',_binary 'Seminario_LezamaCesar.pdf',3,1,56),(44,3,'Presencial','Un solo día','2025-12-12','12:12:00','20:08:00','Aula 100','chin 2',NULL,4,14,56),(45,2,'Virtual','Un solo día','2021-12-12','00:12:00','12:12:00','Aula 100','ALELUYA',NULL,2,14,56),(46,3,'Presencial','Un solo día','2024-12-12','00:12:00','12:12:00','Aula 100','Nota',NULL,3,1,56);
+INSERT INTO `tutoria`(
+    idTutoria, modalidad, periodoAtencion, fecha, horaInicio, horaFin, lugar, nota, archivo, carrera, periodo, tutor, fechaTutoria
+) VALUES 
+  (39,'Presencial','Un solo día','2024-04-05','00:12:00','00:30:00','Aula 1','Hola',_binary 'Evaluación Reporte FINAL_César.pdf',3,1,1,1),
+  (40,'Presencial','Un solo día','2003-04-05','00:12:00','00:30:00','Aula 1','Hola',_binary 'Evaluación Reporte FINAL_César.pdf',3,1,1,1),
+  (41,'Presencial','Un solo día','2024-12-12','00:12:00','00:12:00','Aula 1','Hola',_binary 'Evaluación Reporte FINAL_César.pdf',3,1,1,1),
+  (42,'Virtual','Un solo día','2003-04-05','00:30:00','15:12:00','Aula 1','500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CAR',_binary 'Seminario_LezamaCesar.pdf',3,1,56,2),
+  (44,'Presencial','Un solo día','2025-12-12','12:12:00','20:08:00','Aula 100','chin 2',NULL,4,14,56,4),
+  (45,'Virtual','Un solo día','2021-12-12','00:12:00','12:12:00','Aula 100','ALELUYA',NULL,2,14,56,3),
+  (46,'Presencial','Un solo día','2024-12-12','00:12:00','12:12:00','Aula 100','Nota',NULL,3,1,56,5);
 /*!40000 ALTER TABLE `tutoria` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

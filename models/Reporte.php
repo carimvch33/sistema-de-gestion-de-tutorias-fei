@@ -332,5 +332,52 @@ class Reporte
             $stmt->close();
         }
     }
+
+    public function getReportSummaryByCoordinator($idSessionCoordinator, $noTutoringSession, $careers)
+    {
+    $inCareers = implode(',', array_fill(0, count($careers), '?'));
+    $types = str_repeat('i', count($careers));
+    $types = 'i' . 'i' . $types; 
+
+    $query = "
+        SELECT 
+            rt.idReporte,
+            CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) AS tutorNombre,
+            c.nombre AS carrera,
+            p.nombre AS periodo,
+            rt.numTutoria,
+            rt.fechaInicioTutoria,
+            rt.fechaFinTutoria,
+            rt.numAsistencia,
+            rt.numRiesgo,
+            rt.comentario,
+            (SELECT COUNT(pa.idProblematicaAcademica) FROM problematica_academica pa WHERE pa.reporte = rt.idReporte) AS tieneProblematica
+        FROM reporte_tutoria rt
+            INNER JOIN carrera_tutor ct ON ct.idCarreraTutor = rt.carreraTutor
+            INNER JOIN carrera c ON ct.carrera = c.idCarrera
+            INNER JOIN tutor t ON t.idTutor = ct.tutor
+            INNER JOIN coordinador_carrera cc ON cc.idCarrera = c.idCarrera
+            INNER JOIN periodo p ON p.idPeriodo = rt.periodo
+        WHERE 
+            cc.idSesion = ?
+            AND rt.numTutoria = ?
+            AND c.idCarrera IN ($inCareers)
+            AND rt.esBorrador = 0
+        ORDER BY 
+            STR_TO_DATE(SUBSTRING_INDEX(p.nombre, ' - ', 1), '%M %Y') DESC
+    ";
+
+    $stmt = $this->conn->prepare($query);
+
+    $params = array_merge([$idSessionCoordinator, $noTutoringSession], $careers);
+    $stmt->bind_param($types, ...$params);
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $reports = $result->fetch_all(MYSQLI_ASSOC);
+
+    $stmt->close();
+    return $reports;
+    }
 }
 ?>

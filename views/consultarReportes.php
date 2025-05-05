@@ -60,8 +60,7 @@ if(!isset($errors)) {
                 <i class="fas fa-history"></i> Ver Historial de Reportes
             </button>
         <?php endif; ?>
-        <button class="greenButton" id="btnExportarCSV"><i class="fas fa-file-excel"></i> Exportar a CSV</button>
-        <button class="blueButton" id="btnExportarPDF"><i class="fas fa-file-pdf"></i> Exportar a PDF</button>
+        <button class="greenButton" id="btnExportarConcentrado"><i class="fas fa-file-alt"></i> Exportar concentrado de reportes</button>
     </div>
 
     <div class="table-container">
@@ -118,8 +117,6 @@ if(!isset($errors)) {
                             </td>
                         </tr>
                     <?php endforeach; ?>
-                <?php else: ?>
-                    <tr><td colspan="4">No hay reportes disponibles.</td></tr>
                 <?php endif; ?>
             </tbody>
         </table>
@@ -130,5 +127,5 @@ if(!isset($errors)) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?= BASE_URL; ?>/libs/DataTables/datatables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="<?= BASE_URL; ?>/assets/js/administrarReportes.js"></script>
+    <script src="<?= BASE_URL; ?>/assets/js/consultarReportes.js"></script>
 </body>

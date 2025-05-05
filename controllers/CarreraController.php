@@ -2,16 +2,19 @@
 require_once '../config/config.php';
 require_once '../config/connection.php';
 require_once '../models/Carrera.php';
+require_once '../models/Coordinador.php';
 
 class CarreraController
 {
     private $conn;
     private $carreraModel;
+    private $coordinadorModel;
 
     public function __construct()
     {
         $this->conn = connectiondb();
         $this->carreraModel = new Carrera($this->conn);
+        $this->coordinadorModel = new Coordinador($this->conn);
     }
 
     public function showCarreras()
@@ -260,6 +263,26 @@ class CarreraController
         } else {
             header("Location: " . BASE_URL . "/administrarCarreras.php");
             exit();
+        }
+    }
+
+    public function getCareersByCoordinator()
+    {
+        session_start();
+
+        $rolesPermitidos = [4];
+        if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
+            exit();
+        }
+
+        $idSessionCoordinator = $this->coordinadorModel->getIdSesionByCorreo($_SESSION['correoInstitucional']);
+
+        if ($idSessionCoordinator) {
+            $carreras = $this->carreraModel->getCareersByCoordinator($idSessionCoordinator);
+            echo json_encode(['carreras' => $carreras]);
+        } else {
+            echo json_encode([]);
         }
     }
 }
