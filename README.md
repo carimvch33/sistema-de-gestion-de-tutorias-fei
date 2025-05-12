@@ -14,6 +14,11 @@ Este proyecto fue recibido en **febrero de 2025** e incluía el código fuente y
 ## Base de Datos  
 La base de datos del proyecto se encuentra en el archivo **db.sql**.
 
+El diagrama de la base de datos muestra la estructura lógica de las tablas que conforman el sistema, así como sus relaciones. Este permite comprender mejor cómo fluye la información entre las entidades principales, como los estudiantes tutorados, los tutores, las sesiones de tutoría, las problemáticas reportadas, entre otras. Esta visualización facilita tareas como el mantenimiento, la ampliación de funcionalidades o la depuración de errores.
+
+Puedes consultar el diagrama actualizado en el siguiente enlace:  
+🔗 [Diagrama de la base de datos - TutoriasFEI](https://dbdocs.io/kikgamboa/tutorias-fei)
+
 ## Diagramas  
 Los diagramas proporcionados se encuentran en la carpeta **diagrams**.
 
