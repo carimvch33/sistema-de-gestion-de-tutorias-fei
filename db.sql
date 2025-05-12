@@ -246,34 +246,34 @@ INSERT INTO `problematica_academica` VALUES (19,14,2,3,12,'En revisión',26,NULL
 UNLOCK TABLES;
 
 --
--- Table structure for table `fecha_tutoria`
+-- Table structure for table `periodo_tutorias`
 --
-DROP TABLE IF EXISTS `fecha_tutoria`;
+DROP TABLE IF EXISTS `periodo_tutorias`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `fecha_tutoria` (
-  `idFechaTutoria` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `periodo_tutorias` (
+  `idPeriodoTutorias` int NOT NULL AUTO_INCREMENT,
   `fechaInicio` date NOT NULL,
   `fechaFin` date NOT NULL,
   `numSesion` int NOT NULL,
   `carrera` int NOT NULL,
   `periodo` int NOT NULL,
-  PRIMARY KEY (`idFechaTutoria`),
-  KEY `fk_fecha_tutoria_carrera1_idx` (`carrera`),
-  KEY `fk_fecha_tutoria_periodo1_idx` (`periodo`),
-  CONSTRAINT `fk_fecha_tutoria_carrera1` FOREIGN KEY (`carrera`) REFERENCES `carrera` (`idCarrera`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_fecha_tutoria_periodo1` FOREIGN KEY (`periodo`) REFERENCES `periodo` (`idPeriodo`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`idPeriodoTutorias`),
+  KEY `fk_periodo_tutorias_carrera1_idx` (`carrera`),
+  KEY `fk_periodo_tutorias_periodo1_idx` (`periodo`),
+  CONSTRAINT `fk_periodo_tutorias_carrera1` FOREIGN KEY (`carrera`) REFERENCES `carrera` (`idCarrera`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_periodo_tutorias_periodo1` FOREIGN KEY (`periodo`) REFERENCES `periodo` (`idPeriodo`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `fecha_tutoria`
+-- Dumping data for table `periodo_tutorias`
 --
 
-LOCK TABLES `fecha_tutoria` WRITE;
-/*!40000 ALTER TABLE `fecha_tutoria` DISABLE KEYS */;
-INSERT INTO `fecha_tutoria` VALUES (1,'2025-02-18','2025-02-18',1,2,14),(2,'2025-01-18','2025-01-18',1,3,14),(3,'2025-01-19','2025-01-19',1,4,14),(4,'2025-01-19','2025-01-19',1,5,14),(5,'2025-01-19','2025-01-19',1,6,14);
-/*!40000 ALTER TABLE `fecha_tutoria` ENABLE KEYS */;
+LOCK TABLES `periodo_tutorias` WRITE;
+/*!40000 ALTER TABLE `periodo_tutorias` DISABLE KEYS */;
+INSERT INTO `periodo_tutorias` VALUES (1,'2025-02-18','2025-02-18',1,2,14),(2,'2025-01-18','2025-01-18',1,3,14),(3,'2025-01-19','2025-01-19',1,4,14),(4,'2025-01-19','2025-01-19',1,5,14),(5,'2025-01-19','2025-01-19',1,6,14);
+/*!40000 ALTER TABLE `periodo_tutorias` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -292,14 +292,14 @@ CREATE TABLE `reporte_tutoria` (
   `fechaCreacion` date NOT NULL,
   `carreraTutor` int NOT NULL,
   `esBorrador` tinyint(1) NOT NULL,
-  `fechaTutoria` int NOT NULL,
+  `periodoTutorias` int NOT NULL,
   PRIMARY KEY (`idReporte`),
   KEY `fk_reporte_tutoria_periodo1_idx` (`periodo`),
   KEY `fk_reporte_tutoria_carrera_tutor1_idx` (`carreraTutor`),
-  KEY `fk_reporte_tutoria_fecha_tutoria1_idx` (`fechaTutoria`),
+  KEY `fk_reporte_tutoria_periodo_tutorias1_idx` (`periodoTutorias`),
   CONSTRAINT `fk_reporte_tutoria_carrera_tutor1` FOREIGN KEY (`carreraTutor`) REFERENCES `carrera_tutor` (`idCarreraTutor`),
   CONSTRAINT `fk_reporte_tutoria_periodo1` FOREIGN KEY (`periodo`) REFERENCES `periodo` (`idPeriodo`),
-  CONSTRAINT `fk_reporte_tutoria_fecha_tutoria1` FOREIGN KEY (`fechaTutoria`) REFERENCES `fecha_tutoria` (`idFechaTutoria`)
+  CONSTRAINT `fk_reporte_tutoria_periodo_tutorias1` FOREIGN KEY (`periodoTutorias`) REFERENCES `periodo_tutorias` (`idPeriodoTutorias`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -310,7 +310,7 @@ CREATE TABLE `reporte_tutoria` (
 LOCK TABLES `reporte_tutoria` WRITE;
 /*!40000 ALTER TABLE `reporte_tutoria` DISABLE KEYS */;
 INSERT INTO `reporte_tutoria` (
-  idReporte, periodo, numAsistencia, numRiesgo, comentario, fechaCreacion, carreraTutor, esBorrador, fechaTutoria
+  idReporte, periodo, numAsistencia, numRiesgo, comentario, fechaCreacion, carreraTutor, esBorrador, periodoTutorias
 ) VALUES
   (26, 14, 2, 12, 'chin 2', '2025-01-19', 26, 1, 1),
   (28, 14, 2, 12, 'chinnnnn', '2025-01-19', 26, 0, 2),
@@ -514,16 +514,16 @@ CREATE TABLE `tutoria` (
   `carrera` int NOT NULL,
   `periodo` int NOT NULL,
   `tutor` int NOT NULL,
-  `fechaTutoria` int NOT NULL,
+  `periodoTutorias` int NOT NULL,
   PRIMARY KEY (`idTutoria`),
   KEY `fk_tutoria_carrera1_idx` (`carrera`),
   KEY `fk_tutoria_periodo1_idx` (`periodo`),
   KEY `fk_tutoria_tutor1_idx` (`tutor`),
-  KEY `fk_tutoria_fechaTutoria1_idx` (`fechaTutoria`),
+  KEY `fk_tutoria_periodo_tutorias1_idx` (`periodoTutorias`),
   CONSTRAINT `fk_tutoria_carrera1` FOREIGN KEY (`carrera`) REFERENCES `carrera` (`idCarrera`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_tutoria_periodo1` FOREIGN KEY (`periodo`) REFERENCES `periodo` (`idPeriodo`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_tutoria_tutor1` FOREIGN KEY (`tutor`) REFERENCES `tutor` (`idTutor`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_tutoria_fechaTutoria1` FOREIGN KEY (`fechaTutoria`) REFERENCES `fecha_tutoria` (`idFechaTutoria`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_tutoria_periodo_tutorias1` FOREIGN KEY (`periodoTutorias`) REFERENCES `periodo_tutorias` (`idPeriodoTutorias`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -534,7 +534,7 @@ CREATE TABLE `tutoria` (
 LOCK TABLES `tutoria` WRITE;
 /*!40000 ALTER TABLE `tutoria` DISABLE KEYS */;
 INSERT INTO `tutoria`(
-    idTutoria, modalidad, periodoAtencion, fecha, horaInicio, horaFin, lugar, nota, archivo, carrera, periodo, tutor, fechaTutoria
+    idTutoria, modalidad, periodoAtencion, fecha, horaInicio, horaFin, lugar, nota, archivo, carrera, periodo, tutor, periodoTutorias
 ) VALUES 
   (39,'Presencial','Un solo día','2024-04-05','00:12:00','00:30:00','Aula 1','Hola',_binary 'Evaluación Reporte FINAL_César.pdf',3,1,1,1),
   (40,'Presencial','Un solo día','2003-04-05','00:12:00','00:30:00','Aula 1','Hola',_binary 'Evaluación Reporte FINAL_César.pdf',3,1,1,1),
