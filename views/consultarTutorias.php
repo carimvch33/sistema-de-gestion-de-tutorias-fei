@@ -55,12 +55,18 @@ if (!isset($csrf_token))
                         $notaCorto = strlen($notaCompleto) > 30 ? substr($notaCompleto, 0, 30) . '...' : $notaCompleto;
 
                         $archivoRuta = '/uploads/' . htmlspecialchars($tutoria['archivo'] ?? '', ENT_QUOTES, 'UTF-8');
+
+                        $fechaInicio = htmlspecialchars($tutoria['fechaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
+                        $fechaFin = htmlspecialchars($tutoria['fechaFin'] ?? '', ENT_QUOTES, 'UTF-8');
+                        $fechaMostrar = ($fechaInicio && $fechaFin && $fechaInicio !== $fechaFin)
+                            ? "del $fechaInicio al $fechaFin"
+                            : $fechaInicio;
                         ?>
                         <tr>
                             <td><?= htmlspecialchars($tutoria['tutorNombre'] ?? ''); ?></td>
                             <td><?= htmlspecialchars($tutoria['carrera'] ?? ''); ?></td>
                             <td><?= htmlspecialchars($tutoria['tutoria'] ?? ''); ?></td>
-                            <td><?= htmlspecialchars($tutoria['fecha'] ?? ''); ?></td>
+                            <td><?= $fechaMostrar; ?></td>
                             <td><?= htmlspecialchars($tutoria['horario'] ?? ''); ?></td>
                             <td><?= $lugarCompleto; ?></td>
                             <td class="white-space: normal; word-wrap: break-word; word-break: break-word;" title="<?= $notaCompleto; ?>"><?= $notaCorto; ?></td>

@@ -152,17 +152,14 @@ class TutoriaController
         if (empty($data['carrera'])) {
             $errors[] = 'La carrera es obligatoria.';
         }
-        if (empty($data['numTutoria'])) {
-            $errors[] = 'El número de tutoría es obligatorio.';
+        if (empty($data['periodoTutoria'])) {
+            $errors[] = 'El periodo de tutoría es obligatorio.';
         }
         if (empty($data['periodo'])) {
             $errors[] = 'El periodo escolar es obligatorio.';
         }
         if (empty($data['modalidad'])) {
             $errors[] = 'La modalidad es obligatoria.';
-        }
-        if (empty($data['periodoAtencion'])) {
-            $errors[] = 'El periodo de atención es obligatorio.';
         }
 
         return $errors;
@@ -225,7 +222,8 @@ class TutoriaController
         $periodos = $this->periodoModel->getCurrentPeriodo();
 
         $lugar = htmlspecialchars($tutoria['lugar'] ?? '', ENT_QUOTES, 'UTF-8');
-        $fecha = htmlspecialchars($tutoria['fecha'] ?? '', ENT_QUOTES, 'UTF-8');
+        $fechaInicio = htmlspecialchars($tutoria['fechaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
+        $fechaFin = htmlspecialchars($tutoria['fechaFin'] ?? '', ENT_QUOTES, 'UTF-8');
         $horaInicio = htmlspecialchars($tutoria['horaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
         $horaFin = htmlspecialchars($tutoria['horaFin'] ?? '', ENT_QUOTES, 'UTF-8');
         $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
@@ -369,9 +367,9 @@ class TutoriaController
         $numTutoria = htmlspecialchars($tutoria['numTutoria'] ?? '', ENT_QUOTES, 'UTF-8');
         $periodo = $this->periodoModel->getPeriodoById($tutoria['periodo']);
         $modalidad = htmlspecialchars($tutoria['modalidad'] ?? '', ENT_QUOTES, 'UTF-8');
-        $periodoAtencion = htmlspecialchars($tutoria['periodoAtencion'] ?? '', ENT_QUOTES, 'UTF-8');
         $lugar = htmlspecialchars($tutoria['lugar'] ?? '', ENT_QUOTES, 'UTF-8');
-        $fecha = htmlspecialchars($tutoria['fecha'] ?? '', ENT_QUOTES, 'UTF-8');
+        $fechaInicio = htmlspecialchars($tutoria['fechaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
+        $fechaFin = htmlspecialchars($tutoria['fechaFin'] ?? '', ENT_QUOTES, 'UTF-8');
         $horaInicio = htmlspecialchars($tutoria['horaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
         $horaFin = htmlspecialchars($tutoria['horaFin'] ?? '', ENT_QUOTES, 'UTF-8');
         $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');

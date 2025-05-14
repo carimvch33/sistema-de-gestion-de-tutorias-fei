@@ -104,8 +104,8 @@ class Tutoria
         $stmt->bind_param(
             "ssssssssii",
             $data['modalidad'],
-            $data['fechaInicio'],
-            $data['fechaFin'],
+            $data['fecha'],
+            $data['fecha_fin'],
             $data['hora_inicio'],
             $data['hora_final'],
             $data['lugar'],

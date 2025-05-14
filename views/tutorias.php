@@ -83,7 +83,6 @@ $menu = BASE_URL . '/menu.php';
                         $idTutoria = $row['idTutoria'];
                         $archivo = $row['archivo'];
 
-
                         $lugarCompleto = htmlspecialchars($row['lugar'] ?? '', ENT_QUOTES, 'UTF-8');
                         $lugarCorto = strlen($row['lugar'] ?? '') > 20
                             ? htmlspecialchars(substr($row['lugar'], 0, 20), ENT_QUOTES, 'UTF-8') . "..."
@@ -96,11 +95,19 @@ $menu = BASE_URL . '/menu.php';
 
                         $archivoRuta = './uploads/' . $archivo;
 
+                        $fechaInicio = $row['fechaInicio'] ?? '';
+                        $fechaFin = $row['fechaFin'] ?? '';
+                        if ($fechaInicio && $fechaFin && $fechaInicio !== $fechaFin) {
+                            $fechaMostrar = "Del " . htmlspecialchars($fechaInicio, ENT_QUOTES, 'UTF-8') . " al " . htmlspecialchars($fechaFin, ENT_QUOTES, 'UTF-8');
+                        } else {
+                            $fechaMostrar = htmlspecialchars($fechaInicio ?: $fechaFin, ENT_QUOTES, 'UTF-8');
+                        }
+
                         echo "<tr>
                             <td>{$row['periodo']}</td>
                             <td>{$row['carrera']}</td>
                             <td>{$row['tutoria']}</td>
-                            <td>{$row['fecha']}</td>
+                            <td>{$fechaMostrar}</td>
                             <td>{$row['horario']}</td>
                             <td title=\"{$lugarCompleto}\">{$lugarCorto}</td>
                             <td title=\"{$notaCompleto}\">{$notaCorto}</td>";

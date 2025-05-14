@@ -64,6 +64,14 @@ $menu = BASE_URL . '/menu.php';
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
 
             <div class="form-group">
+                <label for="periodo">Periodo Escolar:</label>
+                <input type="text" class="form-control" value="<?php echo htmlspecialchars($periodos[0]['periodo']); ?>"
+                    readonly>
+                <input type="hidden" style="display: none;" id="periodoE" name="periodo" readonly
+                    value="<?php echo htmlspecialchars($periodos[0]['idPeriodo']); ?>">
+            </div>
+
+            <div class="form-group">
                 <label for="carrera">Carrera: <span class="text-danger">*</span></label>
                 <select class="form-control" id="carrera" name="carrera" required>
                     <option value="" disabled selected>-----Selecciona una carrera-----</option>
@@ -76,21 +84,10 @@ $menu = BASE_URL . '/menu.php';
             </div>
 
             <div class="form-group">
-                <label for="numTutoria">Tutoría: <span class="text-danger">*</span></label>
-                <select class="form-control" name="numTutoria" id="numTutoria" required>
-                    <option value="" disabled selected>-----Selecciona el número de tutoría-----</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
+                <label for="periodoTutoria">Periodo de Tutoría: <span class="text-danger">*</span></label>
+                <select class="form-control" name="periodoTutoria" id="periodoTutoria" required>
+                    <option value="" disabled selected>-----Selecciona un periodo de tutorías-----</option>
                 </select>
-            </div>
-
-            <div class="form-group">
-                <label for="periodo">Periodo Escolar:</label>
-                <input type="text" class="form-control" value="<?php echo htmlspecialchars($periodos[0]['periodo']); ?>"
-                    readonly>
-                <input type="hidden" style="display: none;!" id="periodoE" name="periodo" readonly
-                    value="<?php echo htmlspecialchars($periodos[0]['idPeriodo']); ?>">
             </div>
 
             <div class="form-group">
@@ -111,6 +108,12 @@ $menu = BASE_URL . '/menu.php';
             </div>
 
             <div class="form-group">
+                <label for="lugar">Lugar:</label>
+                <input type="text" class="form-control" id="lugar" name="lugar"
+                placeholder="Lugar de tutoría (máximo 300 caracteres)" maxlength="300">
+            </div>
+            
+            <div class="form-group">
                 <span>Período Atención: <span class="text-danger">*</span></span><br>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="periodoAtencion" id="un_solo_dia"
@@ -120,20 +123,18 @@ $menu = BASE_URL . '/menu.php';
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="periodoAtencion" id="mas_de_un_dia"
                         value="Más de un día" required>
-                    <label class="form-check-label" for="mas_de_un_dia">Más de un día (Capture toda la información
-                        necesaria en el campo Notas, o bien, agregue un archivo)</label>
+                    <label class="form-check-label" for="mas_de_un_dia">Más de un día</label>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="lugar">Lugar:</label>
-                <input type="text" class="form-control" id="lugar" name="lugar"
-                    placeholder="Lugar de tutoría (máximo 300 caracteres)" maxlength="300">
-            </div>
-
-            <div class="form-group">
+            <div class="form-group" id="div_fecha">
                 <label for="fecha">Fecha:</label>
                 <input type="date" class="form-control" id="fecha" name="fecha" placeholder="dd/mm/aaaa">
+            </div>
+
+            <div class="form-group" id="div_fecha_fin" style="display: none;">
+                <label for="fecha_fin">Fecha fin:</label>
+                <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" placeholder="dd/mm/aaaa">
             </div>
 
             <div class="form-group">
