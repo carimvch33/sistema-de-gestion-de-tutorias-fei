@@ -10,22 +10,25 @@ class Tutoria
 
     public function getTutoriasByTutor($correoInstitucional)
     {
-        $stmt = $this->conn->prepare("
-            SELECT tt.idTutoria, 
-                   CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) AS tutorNombre, 
-                   c.nombre AS carrera, 
-                   tt.numTutoria AS tutoria, 
-                   tt.fecha, 
-                   CONCAT(COALESCE(TIME_FORMAT(tt.horaInicio, '%H:%i'), ''), ' - ', COALESCE(TIME_FORMAT(tt.horaFin, '%H:%i'), '')) AS horario, 
-                   tt.lugar, 
-                   tt.nota, 
-                   tt.archivo,
-                   p.nombre as periodo
+        $stmt = $this->conn->prepare("SELECT 
+                tt.idTutoria, 
+                CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) AS tutorNombre, 
+                c.nombre AS carrera, 
+                pt.numSesion AS tutoria, 
+                tt.fechaInicio,
+                tt.fechaFin, 
+                CONCAT(COALESCE(TIME_FORMAT(tt.horaInicio, '%H:%i'), ''), ' - ', COALESCE(TIME_FORMAT(tt.horaFin, '%H:%i'), '')) AS horario, 
+                tt.lugar, 
+                tt.nota, 
+                tt.archivo,
+                p.nombre AS periodo
             FROM tutor t
             INNER JOIN tutoria tt ON tt.tutor = t.idTutor
-            INNER JOIN periodo p ON p.idPeriodo = tt.periodo
-            INNER JOIN carrera c ON c.idCarrera = tt.carrera
-            WHERE t.correoInstitucional = ? AND p.actual = true
+            INNER JOIN periodo_tutorias pt ON pt.idPeriodoTutorias = tt.periodoTutorias
+            INNER JOIN carrera c ON c.idCarrera = pt.carrera
+            INNER JOIN periodo p ON p.idPeriodo = pt.periodo
+            WHERE t.correoInstitucional = ? 
+            AND p.actual = 1;
         ");
         $stmt->bind_param("s", $correoInstitucional);
         $stmt->execute();
@@ -37,12 +40,12 @@ class Tutoria
 
     public function getTutoringHistoryByTutor($institutionalMail)
     {
-        $stmt = $this->conn->prepare("
-            SELECT tt.idTutoria, 
+        $stmt = $this->conn->prepare("SELECT tt.idTutoria, 
                    CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) AS tutorNombre, 
                    c.nombre AS carrera, 
-                   tt.numTutoria AS tutoria, 
-                   tt.fecha, 
+                   pt.numSesion AS tutoria, 
+                   tt.fechaInicio,
+                   tt.fechaFin, 
                    CONCAT(COALESCE(TIME_FORMAT(tt.horaInicio, '%H:%i'), ''), ' - ', COALESCE(TIME_FORMAT(tt.horaFin, '%H:%i'), '')) AS horario, 
                    tt.lugar, 
                    tt.nota, 
@@ -50,9 +53,10 @@ class Tutoria
                    p.nombre as periodo
             FROM tutor t
             INNER JOIN tutoria tt ON tt.tutor = t.idTutor
-            INNER JOIN periodo p ON p.idPeriodo = tt.periodo
-            INNER JOIN carrera c ON c.idCarrera = tt.carrera
-            WHERE t.correoInstitucional = ? AND p.actual = false
+            INNER JOIN periodo_tutorias pt ON pt.idPeriodoTutorias = tt.periodoTutorias
+            INNER JOIN carrera c ON c.idCarrera = pt.carrera
+            INNER JOIN periodo p ON p.idPeriodo = pt.periodo
+            WHERE t.correoInstitucional = ? AND p.actual = 0
         ");
         $stmt->bind_param("s", $institutionalMail);
         $stmt->execute();
@@ -64,11 +68,10 @@ class Tutoria
 
     public function getCarrerasByTutor($idTutor)
     {
-        $stmt = $this->conn->prepare("
-            SELECT DISTINCT c.idCarrera, c.nombre
+        $stmt = $this->conn->prepare("SELECT DISTINCT c.idCarrera, c.nombre
             FROM carrera c
-            INNER JOIN tutorado tdo ON tdo.carrera = c.idCarrera
-            WHERE tdo.tutor = ?
+            INNER JOIN carrera_tutor ct ON ct.carrera = c.idCarrera
+            WHERE ct.tutor = ?
         ");
 
         $stmt->bind_param("i", $idTutor);
@@ -94,25 +97,22 @@ class Tutoria
         $row = $result->fetch_assoc();
         $idTutor = $row['idTutor'];
 
-        $stmt = $this->conn->prepare("
-            INSERT INTO tutoria (tutor, carrera, periodo, numTutoria, modalidad, periodoAtencion, lugar, fecha, horaInicio, horaFin, nota, archivo)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        $stmt = $this->conn->prepare("INSERT INTO tutoria (modalidad, fechaInicio, fechaFin, horaInicio, horaFin, lugar, nota, archivo, tutor, periodoTutorias)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         ");
 
         $stmt->bind_param(
-            "iiisssssssss",
-            $idTutor,
-            $data['carrera'],
-            $data['periodo'],
-            $data['numTutoria'],
+            "ssssssssii",
             $data['modalidad'],
-            $data['periodoAtencion'],
-            $data['lugar'],
-            $data['fecha'],
+            $data['fechaInicio'],
+            $data['fechaFin'],
             $data['hora_inicio'],
             $data['hora_final'],
+            $data['lugar'],
             $data['notas'],
-            $archivoNombre
+            $archivoNombre,
+            $idTutor,
+            $data['periodoTutoria']
         );
 
         $stmt->execute();
@@ -124,8 +124,7 @@ class Tutoria
 
     public function getTutoriaById($idTutoria)
     {
-        $stmt = $this->conn->prepare("
-        SELECT t.numTutoria, t.modalidad, t.periodoAtencion, t.lugar, t.fecha, t.horaInicio, t.horaFin, t.nota, t.carrera, t.periodo, t.archivo
+        $stmt = $this->conn->prepare("SELECT t.numTutoria, t.modalidad, t.lugar, t.fechaInicio, t.fechaFin, t.horaInicio, t.horaFin, t.nota, t.carrera, t.periodo, t.archivo
         FROM tutoria t
         WHERE t.idTutoria = ?
     ");
@@ -140,32 +139,28 @@ class Tutoria
 
     public function updateTutoria($idTutoria, $idTutor, $data, $archivoNombre = null)
     {
-        $sql = "UPDATE tutoria SET carrera = ?, periodo = ?, numTutoria = ?, modalidad = ?, periodoAtencion = ?, lugar = ?, fecha = ?, horaInicio = ?, horaFin = ?, nota = ?";
+        $sql = "UPDATE tutoria SET modalidad = ?, lugar = ?, fechaInicio = ?, fechaFin = ?, horaInicio = ?, horaFin = ?, nota = ?, periodoTutorias = ?";
         $params = [];
-        $types = 'iiisssssss'; // 10 caracteres
-    
-        $carrera = $data['carrera'];
-        $periodo = $data['periodo'];
-        $numTutoria = $data['numTutoria'];
+        $types = 'sssssssi';
+        
         $modalidad = $data['modalidad'];
-        $periodoAtencion = $data['periodoAtencion'];
         $lugar = !empty($data['lugar']) ? $data['lugar'] : null;
-        $fecha = !empty($data['fecha']) ? $data['fecha'] : null;
+        $fechaInicio = !empty($data['fechaInicio']) ? $data['fechaInicio'] : null;
+        $fechaFin = !empty($data['fechaFin']) ? $data['fechaFin'] : null;
         $horaInicio = !empty($data['hora_inicio']) ? $data['hora_inicio'] : null;
         $horaFin = !empty($data['hora_final']) ? $data['hora_final'] : null;
         $notas = !empty($data['notas']) ? $data['notas'] : null;
+        $periodoTutorias = $data['periodoTutoria'];
     
         $params = [
-            &$carrera,          // 'i'
-            &$periodo,          // 'i'
-            &$numTutoria,       // 'i'
             &$modalidad,        // 's'
-            &$periodoAtencion,  // 's'
             &$lugar,            // 's'
-            &$fecha,            // 's'
+            &$fechaInicio,      // 's'
+            &$fechaFin,         // 's'
             &$horaInicio,       // 's'
             &$horaFin,          // 's'
-            &$notas             // 's'
+            &$notas,            // 's'
+            &$periodoTutorias   // 'i'
         ];
     
         if ($archivoNombre !== null) {
@@ -203,8 +198,7 @@ class Tutoria
     {
         $creadorCorreo = null;
 
-        $stmt = $this->conn->prepare("
-        SELECT tt.correoInstitucional
+        $stmt = $this->conn->prepare("SELECT tt.correoInstitucional
         FROM tutoria t
         INNER JOIN tutor tt ON tt.idTutor = t.tutor
         WHERE t.idTutoria = ?
@@ -300,13 +294,13 @@ class Tutoria
 
     public function getSesionesByTutorado($correoTutorado)
     {
-        $stmt = $this->conn->prepare("
-           SELECT 
+        $stmt = $this->conn->prepare("SELECT 
                 ttt.idTutoria, 
                 CONCAT(tt.nombre, ' ', COALESCE(tt.apellidoPaterno, ''), ' ', COALESCE(tt.apellidoMaterno, '')) AS tutorNombre, 
                 c.nombre AS carrera, 
-                ttt.numTutoria AS tutoria, 
-                ttt.fecha, 
+                pt.numSesion AS tutoria, 
+                ttt.fechaInicio,
+                ttt.fechaFin, 
                 CONCAT(COALESCE(TIME_FORMAT(ttt.horaInicio, '%H:%i'), ''), ' - ', COALESCE(TIME_FORMAT(ttt.horaFin, '%H:%i'), '')) AS horario, 
                 ttt.lugar, 
                 ttt.nota, 
@@ -317,14 +311,16 @@ class Tutoria
             INNER JOIN 
                 tutor tt ON tt.idTutor = ttt.tutor
             INNER JOIN 
-                carrera c ON c.idCarrera = ttt.carrera
+                periodo_tutorias pt ON pt.idPeriodoTutorias = ttt.periodoTutorias
+            INNER JOIN 
+                carrera c ON c.idCarrera = pt.carrera
             INNER JOIN 
                 tutorado tu ON tu.tutor = tt.idTutor
             INNER JOIN
-            	periodo p ON p.idPeriodo = ttt.periodo
-            WHERE tu.correoInstitucional = ? AND tu.carrera = ttt.carrera AND p.actual = true
+                periodo p ON p.idPeriodo = pt.periodo
+            WHERE tu.correoInstitucional = ? AND tu.carrera = pt.carrera AND p.actual = 1
             ORDER BY 
-                ttt.numTutoria DESC
+                pt.numSesion DESC
         ");
 
         $stmt->bind_param("s", $correoTutorado);
@@ -343,20 +339,22 @@ class Tutoria
 
     public function getAllTutorias()
     {
-        $stmt = $this->conn->prepare("
-            SELECT tt.idTutoria, 
+        $stmt = $this->conn->prepare("SELECT tt.idTutoria, 
                 CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) AS tutorNombre, 
                 c.nombre AS carrera, 
-                tt.numTutoria AS tutoria, 
-                tt.fecha, 
+                pt.numSesion AS tutoria, 
+                tt.fechaInicio,
+                tt.fechaFin, 
                 CONCAT(COALESCE(TIME_FORMAT(tt.horaInicio, '%H:%i'), ''), ' - ', COALESCE(TIME_FORMAT(tt.horaFin, '%H:%i'), '')) AS horario, 
                 tt.lugar, 
                 tt.nota, 
-                tt.archivo
+                tt.archivo,
+                p.nombre as periodo
             FROM tutor t
             INNER JOIN tutoria tt ON tt.tutor = t.idTutor
-            INNER JOIN periodo p ON p.idPeriodo = tt.periodo
-            INNER JOIN carrera c ON c.idCarrera = tt.carrera
+            INNER JOIN periodo_tutorias pt ON pt.idPeriodoTutorias = tt.periodoTutorias
+            INNER JOIN carrera c ON c.idCarrera = pt.carrera
+            INNER JOIN periodo p ON p.idPeriodo = pt.periodo
         ");
         $stmt->execute();
         $result = $stmt->get_result();
@@ -373,19 +371,22 @@ class Tutoria
 
     public function getTutoriasByCoordinador($idSesion)
     {
-        $stmt = $this->conn->prepare("
-            SELECT tt.idTutoria, 
+        $stmt = $this->conn->prepare("SELECT tt.idTutoria, 
                 CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) AS tutorNombre, 
                 c.nombre AS carrera, 
-                tt.numTutoria AS tutoria, 
-                tt.fecha, 
+                pt.numSesion AS tutoria, 
+                tt.fechaInicio,
+                tt.fechaFin, 
                 CONCAT(COALESCE(TIME_FORMAT(tt.horaInicio, '%H:%i'), ''), ' - ', COALESCE(TIME_FORMAT(tt.horaFin, '%H:%i'), '')) AS horario, 
                 tt.lugar, 
                 tt.nota, 
-                tt.archivo
+                tt.archivo,
+                p.nombre as periodo
             FROM tutoria tt
             INNER JOIN tutor t ON t.idTutor = tt.tutor
-            INNER JOIN carrera c ON c.idCarrera = tt.carrera
+            INNER JOIN periodo_tutorias pt ON pt.idPeriodoTutorias = tt.periodoTutorias
+            INNER JOIN carrera c ON c.idCarrera = pt.carrera
+            INNER JOIN periodo p ON p.idPeriodo = pt.periodo
             INNER JOIN coordinador_carrera cc ON cc.idCarrera = c.idCarrera
             WHERE cc.idSesion = ?
         ");
