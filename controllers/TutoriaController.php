@@ -5,6 +5,7 @@ require_once '../models/Tutoria.php';
 require_once '../models/Carrera.php';
 require_once '../models/Profesor.php';
 require_once '../models/PeriodoEscolar.php';
+require_once '../models/PeriodoTutorias.php';
 
 class TutoriaController
 {
@@ -13,6 +14,7 @@ class TutoriaController
     private $carreraModel;
     private $periodoModel;
     private $tutorModel;
+    private $periodoTutoriasModel;
 
     public function __construct()
     {
@@ -21,6 +23,7 @@ class TutoriaController
         $this->carreraModel = new Carrera($this->conn);
         $this->tutorModel = new Profesor($this->conn);
         $this->periodoModel = new PeriodoEscolar($this->conn);
+        $this->periodoTutoriasModel = new PeriodoTutorias($this->conn);
     }
 
     public function showTutorias()
@@ -220,12 +223,11 @@ class TutoriaController
 
         $carreras = $this->tutoriaModel->getCarrerasByTutor($idTutor);
         $periodos = $this->periodoModel->getCurrentPeriodo();
+        $periodoTutoriasActual = $this->periodoTutoriasModel->getPeriodoTutoriasById($tutoria['periodoTutorias']);
 
         $lugar = htmlspecialchars($tutoria['lugar'] ?? '', ENT_QUOTES, 'UTF-8');
         $fechaInicio = htmlspecialchars($tutoria['fechaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
         $fechaFin = htmlspecialchars($tutoria['fechaFin'] ?? '', ENT_QUOTES, 'UTF-8');
-        $horaInicio = htmlspecialchars($tutoria['horaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
-        $horaFin = htmlspecialchars($tutoria['horaFin'] ?? '', ENT_QUOTES, 'UTF-8');
         $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
 
         $menu = BASE_URL . '/menu.php';
