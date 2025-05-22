@@ -37,7 +37,6 @@ function validarFormulario() {
     var tutoriaSeleccionada = $('#numTutoria').val();
     var periodoSeleccionado = $('#periodo').val();
     var modalidadSeleccionada = $('input[name="modalidad"]:checked').val();
-    var periodoAtencionSeleccionado = $('input[name="periodoAtencion"]:checked').val();
     var fecha = $('#fecha').val();
     var horaInicio = $('#hora_inicio').val();
     var horaFinal = $('#hora_final').val();
@@ -60,7 +59,6 @@ function validarFormulario() {
         if (!tutoriaSeleccionada) $('#numTutoria').addClass("borderRed");
         if (!periodoSeleccionado) $('#periodo').addClass("borderRed");
         if (!modalidadSeleccionada) $('input[name="modalidad"]').addClass("borderRed");
-        if (!periodoAtencionSeleccionado) $('input[name="periodoAtencion"]').addClass("borderRed");
 
         error = true;
     }
