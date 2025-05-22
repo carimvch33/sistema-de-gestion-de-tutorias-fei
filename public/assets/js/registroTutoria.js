@@ -152,8 +152,6 @@ function validarFormulario() {
     const fechaSeleccionada = fechaVisible ? $("#fecha").val() : null;
     const fechaFinVisible = $("#div_fecha_fin").is(":visible");
     const fechaFinSeleccionada = fechaFinVisible ? $("#fecha_fin").val() : null;
-    const horaInicio = $("#hora_inicio").val();
-    const horaFinal = $("#hora_final").val();
     const notas = $("#notas").val();
     const lugar = $("#lugar").val();
     const archivo = $("#archivo_horario").val();
@@ -185,12 +183,6 @@ function validarFormulario() {
     }
     if (fechaFinVisible && !fechaFinSeleccionada) {
         mensajeError += "<p>Debes seleccionar una fecha fin válida.</p>";
-        error = true;
-    }
-
-    if (horaInicio && horaFinal && horaInicio > horaFinal) {
-        mensajeError +=
-            "<p>La hora final no puede ser anterior a la hora de inicio.</p>";
         error = true;
     }
 
@@ -244,7 +236,7 @@ function validarFormulario() {
     }
 
     $(
-        "#carrera, #periodoTutoria, #periodoE, #fecha, #fecha_fin, #hora_inicio, #hora_final, #notas, #lugar"
+        "#carrera, #periodoTutoria, #periodoE, #fecha, #fecha_fin, #notas, #lugar"
     )
         .removeClass("border border-danger border-2")
         .addClass("border border-success border-2");

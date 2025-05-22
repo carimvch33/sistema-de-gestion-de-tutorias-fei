@@ -138,16 +138,6 @@ $menu = BASE_URL . '/menu.php';
             </div>
 
             <div class="form-group">
-                <label for="hora_inicio">Hora Inicio:</label>
-                <input type="time" class="form-control" id="hora_inicio" name="hora_inicio">
-            </div>
-
-            <div class="form-group">
-                <label for="hora_final">Hora Final:</label>
-                <input type="time" class="form-control" id="hora_final" name="hora_final">
-            </div>
-
-            <div class="form-group">
                 <label for="notas">Notas:</label>
                 <textarea class="form-control" id="notas" name="notas" rows="3" placeholder="Máximo 500 caracteres"
                     maxlength="500"></textarea>
