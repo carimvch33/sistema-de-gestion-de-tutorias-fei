@@ -33,7 +33,7 @@ class PeriodoTutoriasController
         $idCarrera = isset($_GET['idCarrera']) ? intval($_GET['idCarrera']) : 0;
 
         try {
-            $periodoTutorias = $this->periodoTutoriasModel->getPeriodosByCarrera($idCarrera);
+            $periodoTutorias = $this->periodoTutoriasModel->getPeriodosTutoriasByCarrera($idCarrera);
             
             foreach ($periodoTutorias as &$tutoria) {
                 $fechaInicio = $tutoria['fechaInicio'];
