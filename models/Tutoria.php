@@ -17,7 +17,6 @@ class Tutoria
                 pt.numSesion AS tutoria, 
                 tt.fechaInicio,
                 tt.fechaFin, 
-                CONCAT(COALESCE(TIME_FORMAT(tt.horaInicio, '%H:%i'), ''), ' - ', COALESCE(TIME_FORMAT(tt.horaFin, '%H:%i'), '')) AS horario, 
                 tt.lugar, 
                 tt.nota, 
                 tt.archivo,
@@ -46,7 +45,6 @@ class Tutoria
                    pt.numSesion AS tutoria, 
                    tt.fechaInicio,
                    tt.fechaFin, 
-                   CONCAT(COALESCE(TIME_FORMAT(tt.horaInicio, '%H:%i'), ''), ' - ', COALESCE(TIME_FORMAT(tt.horaFin, '%H:%i'), '')) AS horario, 
                    tt.lugar, 
                    tt.nota, 
                    tt.archivo,
@@ -97,17 +95,15 @@ class Tutoria
         $row = $result->fetch_assoc();
         $idTutor = $row['idTutor'];
 
-        $stmt = $this->conn->prepare("INSERT INTO tutoria (modalidad, fechaInicio, fechaFin, horaInicio, horaFin, lugar, nota, archivo, tutor, periodoTutorias)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        $stmt = $this->conn->prepare("INSERT INTO tutoria (modalidad, fechaInicio, fechaFin, lugar, nota, archivo, tutor, periodoTutorias)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?);
         ");
 
         $stmt->bind_param(
-            "ssssssssii",
+            "ssssssii",
             $data['modalidad'],
             $data['fecha'],
             $data['fecha_fin'],
-            $data['hora_inicio'],
-            $data['hora_final'],
             $data['lugar'],
             $data['notas'],
             $archivoNombre,
@@ -124,9 +120,16 @@ class Tutoria
 
     public function getTutoriaById($idTutoria)
     {
-        $stmt = $this->conn->prepare("SELECT t.numTutoria, t.modalidad, t.lugar, t.fechaInicio, t.fechaFin, t.horaInicio, t.horaFin, t.nota, t.carrera, t.periodo, t.archivo
+        $stmt = $this->conn->prepare("SELECT 
+            t.modalidad,
+            t.fechaInicio,
+            t.fechaFin,
+            t.lugar,
+            t.nota,
+            t.archivo,
+            t.periodoTutorias
         FROM tutoria t
-        WHERE t.idTutoria = ?
+        WHERE t.idTutoria = ?;
     ");
         $stmt->bind_param("i", $idTutoria);
         $stmt->execute();
@@ -139,7 +142,7 @@ class Tutoria
 
     public function updateTutoria($idTutoria, $idTutor, $data, $archivoNombre = null)
     {
-        $sql = "UPDATE tutoria SET modalidad = ?, lugar = ?, fechaInicio = ?, fechaFin = ?, horaInicio = ?, horaFin = ?, nota = ?, periodoTutorias = ?";
+        $sql = "UPDATE tutoria SET modalidad = ?, lugar = ?, fechaInicio = ?, fechaFin = ?, nota = ?, periodoTutorias = ?";
         $params = [];
         $types = 'sssssssi';
         
@@ -147,8 +150,6 @@ class Tutoria
         $lugar = !empty($data['lugar']) ? $data['lugar'] : null;
         $fechaInicio = !empty($data['fechaInicio']) ? $data['fechaInicio'] : null;
         $fechaFin = !empty($data['fechaFin']) ? $data['fechaFin'] : null;
-        $horaInicio = !empty($data['hora_inicio']) ? $data['hora_inicio'] : null;
-        $horaFin = !empty($data['hora_final']) ? $data['hora_final'] : null;
         $notas = !empty($data['notas']) ? $data['notas'] : null;
         $periodoTutorias = $data['periodoTutoria'];
     
@@ -157,8 +158,6 @@ class Tutoria
             &$lugar,            // 's'
             &$fechaInicio,      // 's'
             &$fechaFin,         // 's'
-            &$horaInicio,       // 's'
-            &$horaFin,          // 's'
             &$notas,            // 's'
             &$periodoTutorias   // 'i'
         ];
@@ -301,7 +300,6 @@ class Tutoria
                 pt.numSesion AS tutoria, 
                 ttt.fechaInicio,
                 ttt.fechaFin, 
-                CONCAT(COALESCE(TIME_FORMAT(ttt.horaInicio, '%H:%i'), ''), ' - ', COALESCE(TIME_FORMAT(ttt.horaFin, '%H:%i'), '')) AS horario, 
                 ttt.lugar, 
                 ttt.nota, 
                 ttt.archivo,
@@ -345,7 +343,6 @@ class Tutoria
                 pt.numSesion AS tutoria, 
                 tt.fechaInicio,
                 tt.fechaFin, 
-                CONCAT(COALESCE(TIME_FORMAT(tt.horaInicio, '%H:%i'), ''), ' - ', COALESCE(TIME_FORMAT(tt.horaFin, '%H:%i'), '')) AS horario, 
                 tt.lugar, 
                 tt.nota, 
                 tt.archivo,
@@ -377,7 +374,6 @@ class Tutoria
                 pt.numSesion AS tutoria, 
                 tt.fechaInicio,
                 tt.fechaFin, 
-                CONCAT(COALESCE(TIME_FORMAT(tt.horaInicio, '%H:%i'), ''), ' - ', COALESCE(TIME_FORMAT(tt.horaFin, '%H:%i'), '')) AS horario, 
                 tt.lugar, 
                 tt.nota, 
                 tt.archivo,
