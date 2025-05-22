@@ -8,7 +8,7 @@ class PeriodoTutorias
         $this->conn = $conn;
     }
 
-    public function getPeriodosByCarrera($idCarrera)
+    public function getPeriodosTutoriasByCarrera($idCarrera)
     {
         $stmt = $this->conn->prepare("SELECT 
                 pt.idPeriodoTutorias,
@@ -21,6 +21,26 @@ class PeriodoTutorias
             WHERE p.actual = true AND pt.carrera = ?;
         ");
         $stmt->bind_param("i", $idCarrera);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $fechas = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $fechas;
+    }
+
+    public function getPeriodoTutoriasById($idPeriodoTutorias)
+    {
+        $stmt = $this->conn->prepare("SELECT 
+                pt.idPeriodoTutorias,
+                pt.fechaInicio,
+                pt.fechaFin,
+                pt.numSesion,
+                pt.carrera,
+                pt.periodo
+            FROM periodo_tutorias pt
+            WHERE pt.idPeriodoTutorias = ?;
+        ");
+        $stmt->bind_param("i", $idPeriodoTutorias);
         $stmt->execute();
         $result = $stmt->get_result();
         $fechas = $result->fetch_all(MYSQLI_ASSOC);
