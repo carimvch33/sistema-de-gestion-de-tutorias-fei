@@ -69,7 +69,6 @@ $menu = BASE_URL . '/menu.php';
                     <th class="autoWidthColumn">Carrera</th>
                     <th class="autoWidthColumn">Tutoría</th>
                     <th class="autoWidthColumn">Fecha</th>
-                    <th class="autoWidthColumn">Horario</th>
                     <th class="autoWidthColumn">Lugar</th>
                     <th class="autoWidthColumn">Nota</th>
                     <th class="autoWidthColumn">Archivo</th>
@@ -80,6 +79,7 @@ $menu = BASE_URL . '/menu.php';
                 <?php
                 if ($result && $result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
+                        echo "<script>console.log(" . json_encode($row) . ");</script>";
                         $idTutoria = $row['idTutoria'];
                         $archivo = $row['archivo'];
 
@@ -108,7 +108,6 @@ $menu = BASE_URL . '/menu.php';
                             <td>{$row['carrera']}</td>
                             <td>{$row['tutoria']}</td>
                             <td>{$fechaMostrar}</td>
-                            <td>{$row['horario']}</td>
                             <td title=\"{$lugarCompleto}\">{$lugarCorto}</td>
                             <td title=\"{$notaCompleto}\">{$notaCorto}</td>";
                         if (!empty($archivo)) {
