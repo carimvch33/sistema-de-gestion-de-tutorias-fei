@@ -4,14 +4,21 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+if (!isset($_SESSION['user'])) {
+    header('Location: ./cerrarSesion.php');
+    exit();
+}
+
 $user = $_SESSION['user'];
+$csrf_token = $_SESSION['csrf_token'];
 $menu = BASE_URL . '/menu.php';
 
 $lugar = htmlspecialchars($tutoria['lugar'] ?? '', ENT_QUOTES, 'UTF-8');
-$fecha = htmlspecialchars($tutoria['fecha'] ?? '', ENT_QUOTES, 'UTF-8');
-$horaInicio = htmlspecialchars($tutoria['horaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
-$horaFin = htmlspecialchars($tutoria['horaFin'] ?? '', ENT_QUOTES, 'UTF-8');
+$fecha = htmlspecialchars($tutoria['fechaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
+$fecha_fin = htmlspecialchars($tutoria['fechaFin'] ?? '', ENT_QUOTES, 'UTF-8');
 $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
+$periodoAtencion = $tutoria['periodoAtencion'] ?? '';
+$periodoTutoria = $tutoria['periodoTutoria'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -40,16 +47,23 @@ $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
     </div>
 
     <div class="container mt-5">
-        <?php if (isset($_SESSION['errors'])): ?>
-            <div class="alert alert-danger">
-                <ul>
-                    <?php foreach ($_SESSION['errors'] as $error): ?>
-                        <li><?php echo htmlspecialchars($error); ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-            <?php unset($_SESSION['errors']); ?>
-        <?php endif; ?>
+        <?php
+        if (isset($_SESSION['errors'])) {
+            echo '<div class="alert alert-danger">';
+            foreach ($_SESSION['errors'] as $error) {
+                echo "<p>" . htmlspecialchars($error) . "</p>";
+            }
+            echo '</div>';
+            unset($_SESSION['errors']);
+        }
+
+        if (isset($_SESSION['message'])) {
+            echo '<div class="alert alert-success">';
+            echo "<p>" . htmlspecialchars($_SESSION['message']) . "</p>";
+            echo '</div>';
+            unset($_SESSION['message']);
+        }
+        ?>
 
         <form action="<?= BASE_URL; ?>/actualizarTutoria.php" method="POST" enctype="multipart/form-data" id="form">
             <!-- Campos ocultos -->
@@ -57,11 +71,19 @@ $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
 
             <div class="form-group">
+                <label for="periodo">Periodo Escolar:</label>
+                <input type="text" class="form-control" value="<?php echo htmlspecialchars($periodos[0]['periodo']); ?>"
+                    readonly>
+                <input type="hidden" style="display: none;" id="periodoE" name="periodo" readonly
+                    value="<?php echo htmlspecialchars($periodos[0]['idPeriodo']); ?>">
+            </div>
+
+            <div class="form-group">
                 <label for="carrera">Carrera: <span class="text-danger">*</span></label>
                 <select class="form-control" id="carrera" name="carrera" required>
-                    <option value="" disabled selected>-----Selecciona una carrera-----</option>
+                    <option value="" disabled>-----Selecciona una carrera-----</option>
                     <?php foreach ($carreras as $carrera): ?>
-                        <?php $selected = ($tutoria['carrera'] == $carrera['idCarrera']) ? 'selected' : ''; ?>
+                        <?php $selected = ($periodoTutoriasActual['carrera'] == $carrera['idCarrera']) ? 'selected' : ''; ?>
                         <option value="<?= $carrera['idCarrera']; ?>" <?= $selected; ?>>
                             <?= htmlspecialchars($carrera['nombre']); ?>
                         </option>
@@ -70,31 +92,14 @@ $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
             </div>
 
             <div class="form-group">
-                <label for="numTutoria">Tutoría: <span class="text-danger">*</span></label>
-                <select class="form-control" name="numTutoria" id="numTutoria" required>
-                    <option value="" disabled selected>-----Selecciona el numero de tutoría-----</option>
-                    <?php
-                    $tutoriaOptions = [1, 2, 3];
-                    foreach ($tutoriaOptions as $option) {
-                        $selected = ($tutoria['numTutoria'] == $option) ? 'selected' : '';
-                        echo "<option value='$option' $selected>$option</option>";
-                    }
-                    ?>
+                <label for="periodoTutoria">Periodo de Tutoría: <span class="text-danger">*</span></label>
+                <select class="form-control" name="periodoTutoria" id="periodoTutoria" required>
+                    <option value="" disabled selected>-----Selecciona un periodo de tutorías-----</option>
                 </select>
             </div>
 
-            <!-- Periodo Escolar -->
             <div class="form-group">
-                <label for="periodo">Periodo Escolar:</label>
-                <input type="text" class="form-control" value="<?php echo htmlspecialchars($periodos[0]['periodo']); ?>"
-                    readonly>
-                <input type="hidden" style="display: none;!" id="periodo" name="periodo" readonly
-                    value="<?php echo htmlspecialchars($periodos[0]['idPeriodo']); ?>">
-            </div>
-
-            <!-- Modalidad -->
-            <div class="form-group">
-                <span>Modalidad: <span class="text-danger">*</span></span><br>
+                <span for="modalidad">Modalidad: <span class="text-danger">*</span></span><br>
                 <?php
                 $modalidades = ['Presencial', 'Virtual', 'Mixta'];
                 foreach ($modalidades as $modalidad) {
@@ -107,69 +112,54 @@ $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
                 ?>
             </div>
 
-            <!-- Período Atención -->
-            <div class="form-group">
-                <span>Período Atención: <span class="text-danger">*</span></span><br>
-                <?php
-                $periodosAtencion = ['Un solo día', 'Más de un día'];
-                foreach ($periodosAtencion as $periodoAtencion) {
-                    $checked = ($tutoria['periodoAtencion'] == $periodoAtencion) ? 'checked' : '';
-                    echo "<div class='form-check'>
-                            <input class='form-check-input' type='radio' name='periodoAtencion' id='$periodoAtencion' value='$periodoAtencion' $checked required>
-                            <label class='form-check-label' for='$periodoAtencion'>$periodoAtencion</label>
-                          </div>";
-                }
-                ?>
-            </div>
-
-            <!-- Lugar -->
             <div class="form-group">
                 <label for="lugar">Lugar:</label>
                 <input type="text" class="form-control" id="lugar" name="lugar"
-                    placeholder="Lugar de tutoría máximo 300 caracteres" maxlength="300" value="<?php echo $lugar; ?>">
+                placeholder="Lugar de tutoría (máximo 300 caracteres)" maxlength="300">
             </div>
 
-            <!-- Fecha -->
             <div class="form-group">
+                <span>Período Atención: <span class="text-danger">*</span></span><br>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="periodoAtencion" id="un_solo_dia"
+                        value="Un solo día" required <?php if($periodoAtencion=="Un solo día") echo 'checked'; ?>>
+                    <label class="form-check-label" for="un_solo_dia">Un solo día</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="periodoAtencion" id="mas_de_un_dia"
+                        value="Más de un día" required <?php if($periodoAtencion=="Más de un día") echo 'checked'; ?>>
+                    <label class="form-check-label" for="mas_de_un_dia">Más de un día</label>
+                </div>
+            </div>
+
+            <div class="form-group" id="div_fecha" style="<?php if($periodoAtencion=="Más de un día") echo 'display:none;'; ?>">
                 <label for="fecha">Fecha:</label>
                 <input type="date" class="form-control" id="fecha" name="fecha" value="<?php echo $fecha; ?>">
             </div>
 
-            <!-- Hora Inicio y Hora Fin -->
-            <div class="form-group">
-                <label for="hora_inicio">Hora Inicio:</label>
-                <input type="time" class="form-control" id="hora_inicio" name="hora_inicio"
-                    value="<?php echo $horaInicio; ?>">
+            <div class="form-group" id="div_fecha_fin" style="<?php if($periodoAtencion!="Más de un día") echo 'display:none;'; ?>">
+                <label for="fecha_fin">Fecha fin:</label>
+                <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" value="<?php echo $fecha_fin; ?>">
             </div>
 
-            <div class="form-group">
-                <label for="hora_final">Hora Final:</label>
-                <input type="time" class="form-control" id="hora_final" name="hora_final"
-                    value="<?php echo $horaFin; ?>">
-            </div>
-
-            <!-- Notas -->
             <div class="form-group">
                 <label for="notas">Notas:</label>
                 <textarea class="form-control" id="notas" name="notas" rows="3" placeholder="Máximo 500 caracteres"
                     maxlength="500"><?php echo $notas; ?></textarea>
             </div>
 
-            <!-- Archivo -->
-            <div class="form-group">
-                <label for="archivo_horario">Archivo:</label>
-                <?php if (!empty($tutoria['archivo'])): ?>
-                    <div class="mb-2">
-                        <strong>Archivo Actual:</strong> <?php echo htmlspecialchars($tutoria['archivo']); ?>
-                    </div>
-                <?php endif; ?>
-                <input type="file" class="form-control-file widthInput" id="archivo_horario" name="archivo_horario"
-                    accept=".pdf,.doc,.docx,.xls,.xlsx">
-            </div>
-
             <div class="form-group row">
                 <div class="col-md-auto">
-                    <button type="submit" class="btn btn-success buttonGreen" id="enviar">Guardar Horario</button>
+                    <button type="submit" class="btn btn-success buttonGreen" id="enviar">Guardar Tutoría</button>
+                </div>
+                <div class="col-md-auto">
+                    <input type="file" class="form-control-file widthInput" id="archivo_horario" name="archivo_horario"
+                        accept=".pdf,.doc,.docx,.xls,.xlsx">
+                    <?php if (!empty($tutoria['archivo'])): ?>
+                        <div class="mb-2">
+                            <strong>Archivo Actual:</strong> <?php echo htmlspecialchars($tutoria['archivo']); ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </form>
