@@ -144,15 +144,15 @@ class Tutoria
     {
         $sql = "UPDATE tutoria SET modalidad = ?, lugar = ?, fechaInicio = ?, fechaFin = ?, nota = ?, periodoTutorias = ?";
         $params = [];
-        $types = 'sssssssi';
+        $types = 'sssssi';
         
         $modalidad = $data['modalidad'];
-        $lugar = !empty($data['lugar']) ? $data['lugar'] : null;
-        $fechaInicio = !empty($data['fechaInicio']) ? $data['fechaInicio'] : null;
-        $fechaFin = !empty($data['fechaFin']) ? $data['fechaFin'] : null;
-        $notas = !empty($data['notas']) ? $data['notas'] : null;
+        $lugar = isset($data['lugar']) ? $data['lugar'] : null;
+        $fechaInicio = isset($data['fecha']) ? $data['fecha'] : null;
+        $fechaFin = isset($data['fecha_fin']) ? $data['fecha_fin'] : null;
+        $notas = isset($data['notas']) ? $data['notas'] : null;
         $periodoTutorias = $data['periodoTutoria'];
-    
+
         $params = [
             &$modalidad,        // 's'
             &$lugar,            // 's'
@@ -161,35 +161,35 @@ class Tutoria
             &$notas,            // 's'
             &$periodoTutorias   // 'i'
         ];
-    
+
         if ($archivoNombre !== null) {
             $sql .= ", archivo = ?";
             $types .= 's';
             $params[] = &$archivoNombre;
         }
-    
+
         $sql .= " WHERE idTutoria = ? AND tutor = ?";
         $types .= 'ii';
         $params[] = &$idTutoria;
         $params[] = &$idTutor;
-    
+
         $stmt = $this->conn->prepare($sql);
-    
+
         if (!$stmt) {
             die("Error en la preparación de la consulta: " . $this->conn->error);
         }
-    
+
         if (strlen($types) !== count($params)) {
             die("Número de tipos y variables no coincide");
         }
-    
+
         $stmt->bind_param($types, ...$params);
-    
+
         $stmt->execute();
-    
+
         $affectedRows = $stmt->affected_rows;
         $stmt->close();
-    
+
         return $affectedRows > 0;
     } 
 
