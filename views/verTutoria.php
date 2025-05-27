@@ -7,15 +7,14 @@ if (session_status() === PHP_SESSION_NONE) {
 $user = $_SESSION['user'];
 $menu = BASE_URL . '/menu.php';
 
+$tutorNombre = htmlspecialchars($tutoria['tutorNombre'] ?? '', ENT_QUOTES, 'UTF-8');
 $carrera = htmlspecialchars($carrera['carrera'] ?? '', ENT_QUOTES, 'UTF-8');
 $numTutoria = htmlspecialchars($numTutoria ?? '', ENT_QUOTES, 'UTF-8');
 $periodo = htmlspecialchars($periodo['periodo'] ?? '', ENT_QUOTES, 'UTF-8'); 
 $modalidad = htmlspecialchars($modalidad ?? '', ENT_QUOTES, 'UTF-8');
-$periodoAtencion = htmlspecialchars($periodoAtencion ?? '', ENT_QUOTES, 'UTF-8');
 $lugar = htmlspecialchars($tutoria['lugar'] ?? '', ENT_QUOTES, 'UTF-8');
-$fecha = htmlspecialchars($tutoria['fecha'] ?? '', ENT_QUOTES, 'UTF-8');
-$horaInicio = htmlspecialchars($tutoria['horaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
-$horaFin = htmlspecialchars($tutoria['horaFin'] ?? '', ENT_QUOTES, 'UTF-8');
+$fechaInicio = htmlspecialchars($tutoria['fechaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
+$fechaFin = htmlspecialchars($tutoria['fechaFin'] ?? '', ENT_QUOTES, 'UTF-8');
 $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
 ?>
 
@@ -49,15 +48,23 @@ $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
         <div class="card p-4 shadow-sm">
             <h3 class="mb-4">Detalles de la Sesión de Tutoría</h3>
             <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Tutor:</strong> <?php echo $tutorNombre; ?></li>
                 <li class="list-group-item"><strong>Carrera:</strong> <?php echo $carrera; ?></li>
                 <li class="list-group-item"><strong>Número de tutoría:</strong> <?php echo $numTutoria; ?></li>
                 <li class="list-group-item"><strong>Periodo:</strong> <?php echo $periodo; ?></li>
                 <li class="list-group-item"><strong>Modalidad:</strong> <?php echo $modalidad; ?></li>
-                <li class="list-group-item"><strong>Periodo de atención:</strong> <?php echo $periodoAtencion; ?></li>
                 <li class="list-group-item"><strong>Lugar:</strong> <?php echo $lugar; ?></li>
-                <li class="list-group-item"><strong>Fecha:</strong> <?php echo $fecha; ?></li>
-                <li class="list-group-item"><strong>Hora de inicio:</strong> <?php echo $horaInicio; ?></li>
-                <li class="list-group-item"><strong>Hora de fin:</strong> <?php echo $horaFin; ?></li>
+
+                <li class="list-group-item"><strong>Fecha:</strong>
+                    <?php
+                    if ($fechaInicio === $fechaFin) {
+                        echo $fechaInicio;
+                    } else {
+                        echo "Del $fechaInicio al $fechaFin";
+                    }
+                    ?>
+                </li>
+
                 <?php if (!empty($notas)): ?>
                     <li class="list-group-item"><strong>Notas:</strong> <?php echo nl2br($notas); ?></li>
                 <?php endif; ?>

@@ -127,8 +127,14 @@ class Tutoria
             t.lugar,
             t.nota,
             t.archivo,
-            t.periodoTutorias
+            t.periodoTutorias,
+            pt.carrera,
+            pt.periodo,
+            pt.numSesion AS numTutoria,
+            CONCAT(tt.nombre, ' ', COALESCE(tt.apellidoPaterno, ''), ' ', COALESCE(tt.apellidoMaterno, '')) AS tutorNombre
         FROM tutoria t
+        INNER JOIN periodo_tutorias pt ON pt.idPeriodoTutorias = t.periodoTutorias
+        INNER JOIN tutor tt ON tt.idTutor = t.tutor
         WHERE t.idTutoria = ?;
     ");
         $stmt->bind_param("i", $idTutoria);
