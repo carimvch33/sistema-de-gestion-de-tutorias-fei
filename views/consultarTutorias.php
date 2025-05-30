@@ -39,7 +39,6 @@ if (!isset($csrf_token))
                     <th class="autoWidthColumn">Carrera</th>
                     <th class="autoWidthColumn">Tutoría</th>
                     <th class="autoWidthColumn">Fecha</th>
-                    <th class="autoWidthColumn">Horario</th>
                     <th class="autoWidthColumn">Lugar</th>
                     <th class="autoWidthColumn">Nota</th>
                     <th class="autoWidthColumn">Archivo</th>
@@ -59,7 +58,7 @@ if (!isset($csrf_token))
                         $fechaInicio = htmlspecialchars($tutoria['fechaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
                         $fechaFin = htmlspecialchars($tutoria['fechaFin'] ?? '', ENT_QUOTES, 'UTF-8');
                         $fechaMostrar = ($fechaInicio && $fechaFin && $fechaInicio !== $fechaFin)
-                            ? "del $fechaInicio al $fechaFin"
+                            ? "Del $fechaInicio al $fechaFin"
                             : $fechaInicio;
                         ?>
                         <tr>
@@ -67,7 +66,6 @@ if (!isset($csrf_token))
                             <td><?= htmlspecialchars($tutoria['carrera'] ?? ''); ?></td>
                             <td><?= htmlspecialchars($tutoria['tutoria'] ?? ''); ?></td>
                             <td><?= $fechaMostrar; ?></td>
-                            <td><?= htmlspecialchars($tutoria['horario'] ?? ''); ?></td>
                             <td><?= $lugarCompleto; ?></td>
                             <td class="white-space: normal; word-wrap: break-word; word-break: break-word;" title="<?= $notaCompleto; ?>"><?= $notaCorto; ?></td>
                             <td>

@@ -48,7 +48,6 @@ if (!isset($sesiones))
                     <th class="autoWidthColumn">Periodo</th>
                     <th class="autoWidthColumn">No. de Tutoría</th>
                     <th class="autoWidthColumn">Fecha</th>
-                    <th class="autoWidthColumn">Horario</th>
                     <th class="autoWidthColumn">Lugar</th>
                     <th class="autoWidthColumn">Nota</th>
                     <th class="autoWidthColumn">Archivo</th>
@@ -66,12 +65,16 @@ if (!isset($sesiones))
                         $notaCorto = strlen($notaCompleto) > 30 ? substr($notaCompleto, 0, 30) . '...' : $notaCompleto;
 
                         $archivoRuta = 'uploads/' . htmlspecialchars($sesion['archivo'] ?? '', ENT_QUOTES, 'UTF-8');
+                        $fechaInicio = htmlspecialchars($tutoria['fechaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
+                        $fechaFin = htmlspecialchars($tutoria['fechaFin'] ?? '', ENT_QUOTES, 'UTF-8');
+                        $fechaMostrar = ($fechaInicio && $fechaFin && $fechaInicio !== $fechaFin)
+                            ? "Del $fechaInicio al $fechaFin"
+                            : $fechaInicio;
                         ?>
                         <tr>
                             <td><?= htmlspecialchars($sesion['periodo'] ?? ''); ?></td>
                             <td><?= htmlspecialchars($sesion['tutoria'] ?? ''); ?></td>
-                            <td><?= htmlspecialchars($sesion['fecha'] ?? ''); ?></td>
-                            <td><?= htmlspecialchars($sesion['horario'] ?? ''); ?></td>
+                            <td><?= $fechaMostrar; ?></td>
                             <td title="<?= $lugarCompleto; ?>"><?= $lugarCorto; ?></td>
                             <td class="white-space: normal; word-wrap: break-word; word-break: break-word;" title="<?= $notaCompleto; ?>"><?= $notaCorto; ?></td>
                             <td>
