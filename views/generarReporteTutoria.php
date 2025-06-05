@@ -1,7 +1,8 @@
 <?php
 ob_start();
-require('../vendor/fpdf/fpdf.php');
+require('../vendor/autoload.php');
 require_once '../config/config.php';
+use FPDF\FPDF;
 
 $user = $_SESSION['user'];
 $idTutoria = $_POST['idTutoria'] ?? $_GET['idTutoria'];
