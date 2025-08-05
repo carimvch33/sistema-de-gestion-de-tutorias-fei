@@ -28,6 +28,7 @@ class Reporte
                                 FROM problematica_academica pa
                                 WHERE pa.reporte = rt.idReporte
                                 ) AS tieneProblematica,
+                                rt.esBorrador,
                                 rt.fechaCreacion
                             FROM reporte_tutoria rt
                             INNER JOIN carrera_tutor ct       ON ct.idCarreraTutor   = rt.carreraTutor
@@ -38,8 +39,7 @@ class Reporte
                             INNER JOIN periodo_tutorias pt    ON pt.idPeriodoTutorias= tu.periodoTutorias
                             INNER JOIN periodo p              ON p.idPeriodo         = pt.periodo
                             WHERE
-                                cc.idSesion    = ?      
-                                AND rt.esBorrador = 0  
+                                t.correoInstitucional = ?     
                                 AND p.actual      = 1  
                             ORDER BY
                                 tu.fechaInicio DESC;
