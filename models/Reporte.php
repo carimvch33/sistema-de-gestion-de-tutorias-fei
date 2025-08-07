@@ -34,7 +34,6 @@ class Reporte
                             INNER JOIN carrera_tutor ct       ON ct.idCarreraTutor   = rt.carreraTutor
                             INNER JOIN carrera c              ON c.idCarrera         = ct.carrera
                             INNER JOIN tutor t                ON t.idTutor           = ct.tutor
-                            INNER JOIN coordinador_carrera cc ON cc.idCarrera        = c.idCarrera
                             INNER JOIN tutoria tu             ON tu.idTutoria        = rt.tutoria
                             INNER JOIN periodo_tutorias pt    ON pt.idPeriodoTutorias= tu.periodoTutorias
                             INNER JOIN periodo p              ON p.idPeriodo         = pt.periodo
@@ -249,27 +248,27 @@ class Reporte
 
     public function getReporteById($idReporte)
     {
-        $stmt = $this->conn->prepare("
-            SELECT 
+        $stmt = $this->conn->prepare("SELECT
                 rt.idReporte,
-                rt.periodo,
-                tc.carrera,
-                tc.tutor,
-                rt.fechaInicioTutoria,
-                rt.fechaFinTutoria,
-                rt.numTutoria,
+                c.idCarrera AS carrera,
+                tu.tutor,
+                tu.fechaInicio AS fechaInicioTutoria,
+                tu.fechaFin AS fechaFinTutoria,
+                pt.numSesion as numTutoria,
                 rt.numAsistencia,
                 rt.numRiesgo,
                 rt.comentario,
-            CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) AS nombreTutor,
-            c.nombre AS nombreCarrera,
-            p.nombre AS nombrePeriodo
+                CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) AS nombreTutor,
+                c.nombre AS nombreCarrera,
+                p.nombre AS nombrePeriodo
             FROM reporte_tutoria rt
-            INNER JOIN carrera_tutor tc ON tc.idCarreraTutor = rt.carreraTutor
-            INNER JOIN tutor t ON t.idTutor = tc.tutor
-            INNER JOIN carrera c ON c.idCarrera = tc.carrera
-            INNER JOIN periodo p ON p.idPeriodo = rt.periodo
-            WHERE rt.idReporte = ?
+            INNER JOIN carrera_tutor ct       ON ct.idCarreraTutor   = rt.carreraTutor
+            INNER JOIN carrera c              ON c.idCarrera         = ct.carrera
+            INNER JOIN tutor t                ON t.idTutor           = ct.tutor
+			INNER JOIN tutoria tu             ON tu.idTutoria        = rt.tutoria
+			INNER JOIN periodo_tutorias pt    ON pt.idPeriodoTutorias= tu.periodoTutorias
+            INNER JOIN periodo p              ON p.idPeriodo         = pt.periodo
+            WHERE rt.idReporte = ?;
         ");
         $stmt->bind_param("i", $idReporte);
         $stmt->execute();
@@ -359,11 +358,11 @@ class Reporte
 
     public function getReportSummaryByCoordinator($idSessionCoordinator, $noTutoringSession, $careers)
     {
-    $inCareers = implode(',', array_fill(0, count($careers), '?'));
-    $types = str_repeat('i', count($careers));
-    $types = 'i' . 'i' . $types; 
+        $inCareers = implode(',', array_fill(0, count($careers), '?'));
+        $types = str_repeat('i', count($careers));
+        $types = 'i' . 'i' . $types;
 
-    $query = "
+        $query = "
         SELECT 
             rt.idReporte,
             CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) AS tutorNombre,
@@ -391,17 +390,16 @@ class Reporte
             STR_TO_DATE(SUBSTRING_INDEX(p.nombre, ' - ', 1), '%M %Y') DESC
     ";
 
-    $stmt = $this->conn->prepare($query);
+        $stmt = $this->conn->prepare($query);
 
-    $params = array_merge([$idSessionCoordinator, $noTutoringSession], $careers);
-    $stmt->bind_param($types, ...$params);
+        $params = array_merge([$idSessionCoordinator, $noTutoringSession], $careers);
+        $stmt->bind_param($types, ...$params);
 
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $reports = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $reports = $result->fetch_all(MYSQLI_ASSOC);
 
-    $stmt->close();
-    return $reports;
+        $stmt->close();
+        return $reports;
     }
 }
-?>

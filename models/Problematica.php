@@ -70,8 +70,7 @@ class Problematica
 
     public function getProblematicasByReporte($idReporte)
     {
-        $stmt = $this->conn->prepare("
-            SELECT 
+        $stmt = $this->conn->prepare("SELECT 
                 pa.idProblematicaAcademica, 
                 pa.experienciaEducativa, 
                 pa.profesor,
@@ -79,7 +78,7 @@ class Problematica
                 pa.numAlumnos, 
                 pa.estado, 
                 pa.otro 
-            FROM problematica_academica pa 
+            FROM problematica_academica pa  
             WHERE pa.reporte = ?
         ");
         $stmt->bind_param("i", $idReporte);

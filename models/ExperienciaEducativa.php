@@ -73,9 +73,9 @@ class ExperienciaEducativa
 
     public function getExperienciasByCarrera($idCarrera)
     {
-        $stmt = $this->conn->prepare("
-        SELECT ee.idExperienciaEducativa, 
-               ee.nombre
+        $stmt = $this->conn->prepare("SELECT 
+            ee.idExperienciaEducativa, 
+            ee.nombre
         FROM experiencia_educativa ee 
         WHERE ee.programaEducativo = ?
     ");

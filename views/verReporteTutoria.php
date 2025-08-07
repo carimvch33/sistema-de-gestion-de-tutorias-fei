@@ -23,7 +23,7 @@ $tutor = htmlspecialchars($reporte['nombreTutor'] ?? '', ENT_QUOTES, 'UTF-8');
 
 <head>
     <meta charset="UTF-8">
-    <title>Reporte de Tutoría></title>
+    <title>Reporte de Tutoría</title>
     <link rel="stylesheet" href="<?= BASE_URL; ?>/assets/css/editarReporteTutoria.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
