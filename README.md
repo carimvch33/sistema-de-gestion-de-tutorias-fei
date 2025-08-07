@@ -6,10 +6,12 @@ El proyecto **TutoriasFEI** tiene como objetivo registrar las sesiones de tutor�
 ## Tecnología Utilizada  
 - **PHP puro**
 
-## Estado del Proyecto  
-Este proyecto fue recibido en **febrero de 2025** e incluía el código fuente y diagramas. Con las horas disponibles, se realizaron algunos cambios en funcionalidades y en la arquitectura del sistema. Sin embargo, aún quedan pendientes varias mejoras, entre ellas:  
-- Mejoras en la calidad del código.  
-- Mejora en los diagramas de diseño.  
+## Estado del Proyecto y Seguimiento de Tareas
+
+El seguimiento de los pendientes, sugerencias y tareas realizadas se gestiona a través del siguiente tablero de Trello:  
+🔗 [Tablero de Trello - TutoriasFEI](https://trello.com/b/mgNVv1nG/sistemas-fei)
+
+En este tablero podrás consultar el estado actual del proyecto, las mejoras pendientes, así como las funcionalidades ya implementadas.
 
 ## Base de Datos  
 La base de datos del proyecto se encuentra en el archivo **db.sql**.
