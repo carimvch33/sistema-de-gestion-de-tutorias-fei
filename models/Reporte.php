@@ -56,28 +56,39 @@ class Reporte
 
     public function getReportHistoryByTutor($correoInstitucional)
     {
-        $stmt = $this->conn->prepare("SELECT  rt.idReporte, 
-                                            c.nombre AS carrera, 
-                                            p.nombre AS periodo, 
-                                            rt.fechaInicioTutoria, 
-                                            rt.fechaFinTutoria, 
-                                            rt.numTutoria, 
-                                            rt.numRiesgo, 
-                                            rt.comentario,
-                                            rt.esBorrador,
-                                            (SELECT COUNT(pa.idProblematicaAcademica) FROM problematica_academica pa WHERE pa.reporte = rt.idReporte) AS tieneProblematica, 
-                                            rt.fechaCreacion 
-                                    FROM 
-                                        reporte_tutoria rt 
-                                    INNER JOIN carrera_tutor tc ON tc.idCarreraTutor = rt.carreraTutor 
-                                    INNER JOIN carrera c ON c.idCarrera = tc.carrera 
-                                    INNER JOIN tutor t ON t.idTutor = tc.tutor 
-                                    INNER JOIN periodo p ON p.idPeriodo = rt.periodo 
-                                    WHERE 
-                                        t.correoInstitucional = ? AND p.actual = 0 AND rt.esBorrador = 0
-                                    ORDER BY 
-                                        STR_TO_DATE(p.nombre, '%M %Y - %M %Y') DESC");
-
+        $stmt = $this->conn->prepare("SELECT
+                                rt.idReporte,
+                                CONCAT(t.nombre, ' ',
+                                    COALESCE(t.apellidoPaterno, ''), ' ',
+                                    COALESCE(t.apellidoMaterno, '')
+                                ) AS tutorNombre,
+                                c.nombre AS carrera,
+                                p.nombre AS periodo,
+                                pt.numSesion       AS numTutoria,
+                                tu.fechaInicio     AS fechaInicioTutoria,
+                                tu.fechaFin        AS fechaFinTutoria,
+                                rt.numRiesgo,
+                                rt.comentario,
+                                (
+                                SELECT COUNT(pa.idProblematicaAcademica)
+                                FROM problematica_academica pa
+                                WHERE pa.reporte = rt.idReporte
+                                ) AS tieneProblematica,
+                                rt.esBorrador,
+                                rt.fechaCreacion
+                            FROM reporte_tutoria rt
+                            INNER JOIN carrera_tutor ct       ON ct.idCarreraTutor   = rt.carreraTutor
+                            INNER JOIN carrera c              ON c.idCarrera         = ct.carrera
+                            INNER JOIN tutor t                ON t.idTutor           = ct.tutor
+                            INNER JOIN tutoria tu             ON tu.idTutoria        = rt.tutoria
+                            INNER JOIN periodo_tutorias pt    ON pt.idPeriodoTutorias= tu.periodoTutorias
+                            INNER JOIN periodo p              ON p.idPeriodo         = pt.periodo
+                            WHERE
+                                t.correoInstitucional = ?     
+                                AND p.actual      = 0
+                                AND rt.esBorrador = 0
+                            ORDER BY
+                                STR_TO_DATE(p.nombre, '%M %Y - %M %Y') DESC");
         $stmt->bind_param("s", $correoInstitucional);
         $stmt->execute();
         $result = $stmt->get_result();

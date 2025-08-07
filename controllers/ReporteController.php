@@ -64,10 +64,10 @@ class ReporteController
         $carreras = [];
         while ($row = $carrerasTutor->fetch_assoc()) {
             if (preg_match('/\((.*?)\)/', $row['nombre'], $matches)) {
-                $carreras[] = $matches[1]; 
+                $carreras[] = $matches[1];
             }
         }
-        
+
 
         $muestraActual = true;
         $menu = BASE_URL . '/cerrarSesion.php';
@@ -87,7 +87,7 @@ class ReporteController
         require_once '../views/administrarReportes.php';
     }
 
-    public function showReportHistory() 
+    public function showReportHistory()
     {
         session_start();
 
@@ -117,7 +117,7 @@ class ReporteController
         $carreras = [];
         while ($row = $carrerasTutor->fetch_assoc()) {
             if (preg_match('/\((.*?)\)/', $row['nombre'], $matches)) {
-                $carreras[] = $matches[1]; 
+                $carreras[] = $matches[1];
             }
         }
 
@@ -662,7 +662,7 @@ class ReporteController
         }
     }
 
-    public function showReporte() 
+    public function showReporte()
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -711,7 +711,8 @@ class ReporteController
         require_once '../views/verReporteTutoria.php';
     }
 
-    public function generateTutoringReport() {
+    public function generateTutoringReport()
+    {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
@@ -757,4 +758,3 @@ class ReporteController
         require_once '../views/generarReporteTutoria.php';
     }
 }
-?>
