@@ -186,26 +186,32 @@ class Reporte
 
     public function createReporteTutoria($data)
     {
-        $stmt = $this->conn->prepare("
-            INSERT INTO reporte_tutoria (carreraTutor, periodo, numTutoria, fechaInicioTutoria, fechaFinTutoria, numAsistencia, numRiesgo, comentario, fechaCreacion, esBorrador)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ");
-        $stmt->bind_param(
-            'iiisssissi',
-            $data['carreraTutor'],
-            $data['periodo'],
-            $data['numTutoria'],
-            $data['fechaInicio'],
-            $data['fechaFin'],
+        $stmt = $this->conn->prepare("INSERT INTO reporte_tutoria (
+            numAsistencia, 
+            numRiesgo, 
+            comentario, 
+            fechaCreacion, 
+            carreraTutor, 
+            esBorrador, 
+            tutoria
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ");
+
+        $stmt->bind_param('iissiii',
             $data['numAsistencias'],
-            $data['numRiesgo'],
+            $data['numRiesgo'],   
             $data['comentario'],
             $data['fechaCreacion'],
-            $data['esBorrador']
+            $data['carreraTutor'],
+            $data['esBorrador'],
+            $data['tutoria']
         );
+
         $stmt->execute();
         $idReporte = $stmt->insert_id;
         $stmt->close();
+
         return $idReporte;
     }
 

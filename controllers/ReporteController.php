@@ -201,27 +201,20 @@ class ReporteController
         $errors = [];
 
         $idTutor = $_POST['tutor'] ?? null;
+        $idTutoria = $_POST['sesionTutoria'] ?? null;
         $carrera = $_POST['carrera'] ?? null;
-        $numTutoria = $_POST['numTutoria'] ?? null;
-        $fechaInicio = $_POST['fechaInicio'] ?? null;
-        $fechaFin = $_POST['fechaFin'] ?? null;
         $numAsistencias = $_POST['numAsistencias'] ?? null;
         $numRiesgo = $_POST['numRiesgo'] ?? null;
         $comentario = $_POST['comentario'] ?? null;
         $accion = $_POST['accion'] ?? 'enviar';
         $fechaActual = date('Y-m-d');
-        $accion = $_POST['accion'] ?? null;
         $esBorrador = ($accion === 'borrador') ? 1 : 0;
 
         if ($accion === 'enviar') {
             if (!$carrera)
                 $errors[] = 'El campo "Carrera" es obligatorio.';
-            if (!$numTutoria)
-                $errors[] = 'El campo "Número de tutoría" es obligatorio.';
-            if (!$fechaInicio)
-                $errors[] = 'El campo "Fecha de inicio" es obligatorio.';
-            if (!$fechaFin)
-                $errors[] = 'El campo "Fecha de fin" es obligatorio.';
+            if (!$idTutoria)
+                $errors[] = 'El campo "Sesión de tutoría" es obligatorio.';
             if ($numAsistencias === '' || $numAsistencias === null)
                 $errors[] = 'El campo "Número de asistencias" es obligatorio.';
             if ($numRiesgo === '' || $numRiesgo === null)
@@ -234,41 +227,27 @@ class ReporteController
             exit();
         }
 
-        $periodoActual = $_SESSION['periodoActual'];
-        $periodoData = $this->periodoModel->getPeriodoByNombre($periodoActual);
-        $periodo = $periodoData['idPeriodo'];
-
         $this->conn->begin_transaction();
-        try {
-            $idCarreraTutor = $this->reporteModel->createCarreraTutor($carrera, $idTutor);
+        $idCarreraTutor = $this->reporteModel->createCarreraTutor($carrera, $idTutor);
 
-            $reporteData = [
-                'carreraTutor' => $idCarreraTutor,
-                'periodo' => $periodo,
-                'numTutoria' => $numTutoria,
-                'fechaInicio' => $fechaInicio,
-                'fechaFin' => $fechaFin,
-                'numAsistencias' => $numAsistencias,
-                'numRiesgo' => $numRiesgo,
-                'comentario' => $comentario,
-                'fechaCreacion' => $fechaActual,
-                'esBorrador' => $esBorrador
-            ];
-            $idReporte = $this->reporteModel->createReporteTutoria($reporteData);
+        $reporteData = [
+            'numAsistencias' => $numAsistencias,
+            'numRiesgo' => $numRiesgo,
+            'comentario' => $comentario,
+            'fechaCreacion' => $fechaActual,
+            'carreraTutor' => $idCarreraTutor,
+            'esBorrador' => $esBorrador,
+            'tutoria' => $idTutoria
+        ];
+        $idReporte = $this->reporteModel->createReporteTutoria($reporteData);
 
-            if ($_POST['tipo'] === 'problematica') {
-                $this->handleProblematicas($idReporte);
-            }
-
-            $this->conn->commit();
-            header("Location: " . BASE_URL . "/administrarReportes.php");
-            exit();
-        } catch (Exception $e) {
-            $this->conn->rollback();
-            $_SESSION['errors'] = $errors ?: ['Error al registrar el reporte de tutoría.'];
-            header('Location: ' . BASE_URL . '/registroReporte.php');
-            exit();
+        if ($_POST['tipo'] === 'problematica') {
+            $this->handleProblematicas($idReporte);
         }
+
+        $this->conn->commit();
+        header("Location: " . BASE_URL . "/administrarReportes.php");
+        exit();
     }
 
     private function handleProblematicas($idReporte)
@@ -756,5 +735,44 @@ class ReporteController
                 break;
         }
         require_once '../views/generarReporteTutoria.php';
+    }
+
+    public function getSesionesTutoria($idCarrera)
+    {
+        session_start();
+
+        $rolesPermitidos = [1, 4];
+        if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
+            exit();
+        }
+
+        if (isset($_SESSION['errors'])) {
+            $errors = $_SESSION['errors'];
+            unset($_SESSION['errors']);
+        }
+
+        if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+
+        if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
+            header('HTTP/1.1 400 Bad Request');
+            echo json_encode(['error' => 'Solicitud inválida']);
+            exit();
+        }
+
+        if (!isset($_POST['idCarrera'])) {
+            echo json_encode(['error' => 'ID de carrera no proporcionado']);
+            exit();
+        }
+
+        $idCarrera = $_POST['idCarrera'];
+        $userCorreo = $_SESSION['correoInstitucional'];
+
+        $sesiones = $this->tutoriaModel->getTutoriasByCarreraTutor($idCarrera, $userCorreo);
+
+        header('Content-Type: application/json');
+        echo json_encode(['sesiones' => $sesiones]);
     }
 }

@@ -160,7 +160,6 @@
 //         });
 //     }
 
-
 //     $('input[name="tipo"]').change(function () {
 //         if ($(this).val() === 'ninguno') {
 //             $('.problematica-table').hide();
@@ -351,7 +350,7 @@
 // });
 
 $(document).ready(function () {
-    $('#carrera').select2();
+    $("#carrera").select2();
 
     var experiencias = [];
     var profesores = [];
@@ -359,55 +358,99 @@ $(document).ready(function () {
     var problematicas = problematicasInject || [];
     var secciones = [];
 
-    $('#carrera').on('focus', function () {
-        $(this).data('previous', $(this).val());
+    $("#carrera").on("focus", function () {
+        $(this).data("previous", $(this).val());
     });
 
-    $('#carrera').on('change', function () {
-        var previousCareerValue = $(this).data('previous');
+    $("#carrera").on("change", function () {
+        var previousCareerValue = $(this).data("previous");
         var idCarrera = $(this).val();
 
         // Si ya hay problemáticas agregadas, confirmar con el usuario
-        if ($('#problematicaTable tbody tr').length > 0) {
+        if ($("#problematicaTable tbody tr").length > 0) {
             Swal.fire({
-                title: 'Cambiar la carrera',
-                text: 'Al cambiar la carrera, las problemáticas agregadas se perderán. ¿Deseas continuar?',
-                icon: 'warning',
+                title: "Cambiar la carrera",
+                text: "Al cambiar la carrera, las problemáticas agregadas se perderán. ¿Deseas continuar?",
+                icon: "warning",
                 showCancelButton: true,
-                confirmButtonText: 'Sí, cambiar',
-                cancelButtonText: 'No, cancelar'
+                confirmButtonText: "Sí, cambiar",
+                cancelButtonText: "No, cancelar",
             }).then((result) => {
                 if (result.isConfirmed) {
                     // El usuario confirma cambiar la carrera
                     // Vaciar la tabla de problemáticas
-                    $('#problematicaTable tbody').empty();
+                    $("#problematicaTable tbody").empty();
 
                     // Actualizar los datos de la nueva carrera
-                    actualizarDatosCarrera(idCarrera);
+                    cargarSesionesTutoria(idCarrera);
                 } else {
                     // El usuario canceló, restablecer el valor anterior de la carrera
-                    $('#carrera').val(previousCareerValue).trigger('change.select2');
+                    $("#carrera")
+                        .val(previousCareerValue)
+                        .trigger("change.select2");
                 }
             });
         } else {
             // Si no hay problemáticas agregadas, simplemente actualizar los datos
-            actualizarDatosCarrera(idCarrera);
+            cargarSesionesTutoria(idCarrera);
         }
     });
+
+    function cargarSesionesTutoria(idCarrera) {
+        $.ajax({
+            url: "getSesionesTutoria.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+                idCarrera: idCarrera,
+                csrf_token: $('input[name="csrf_token"]').val(),
+            },
+            success: function (response) {
+                if (response.error) {
+                    Swal.fire("Error", response.error, "error");
+                    return;
+                }
+
+                let $select = $("#sesionTutoria");
+                $select.empty();
+                $select.append(
+                    '<option value="" disabled selected>-----Selecciona la sesión de tutoría que reporta-----</option>'
+                );
+
+                response.sesiones.forEach(function (sesion) {
+                    let fechaMostrar =
+                        sesion.fechaInicio !== sesion.fechaFin
+                            ? `${sesion.fechaInicio} a ${sesion.fechaFin}`
+                            : sesion.fechaInicio;
+
+                    $select.append(
+                        `<option value="${sesion.idTutoria}">
+                        Sesión #${sesion.numTutoria} ${sesion.modalidad} - ${fechaMostrar} [${sesion.lugar}]
+                    </option>`
+                    );
+                });
+
+                actualizarDatosCarrera(idCarrera);
+            },
+            error: function () {
+                Swal.fire("Error", "Hubo un error al cargar las sesiones de tutoría.", "error");
+            }
+        });
+    }
 
     function actualizarDatosCarrera(idCarrera) {
         // Realizar una solicitud AJAX para obtener los datos relacionados con la nueva carrera
         $.ajax({
-            url: 'getCarreraDatos.php', // Asegúrate de que esta ruta sea correcta
-            type: 'POST',
-            dataType: 'json',
+            url: "getCarreraDatos.php", // Asegúrate de que esta ruta sea correcta
+            type: "POST",
+            dataType: "json",
             data: {
                 idCarrera: idCarrera,
-                csrf_token: $('input[name="csrf_token"]').val()
+                csrf_token: $('input[name="csrf_token"]').val(),
             },
             success: function (response) {
                 if (response.error) {
-                    Swal.fire('Error', response.error, 'error');
+                    Swal.fire("Error", response.error, "error");
                     return;
                 }
 
@@ -419,49 +462,65 @@ $(document).ready(function () {
             },
             error: function () {
                 Swal.fire({
-                    title: 'Error',
-                    text: 'Hubo un error al obtener los datos de la carrera seleccionada.',
-                    icon: 'error',
-                    confirmButtonText: 'Aceptar'
+                    title: "Error",
+                    text: "Hubo un error al obtener los datos de la carrera seleccionada.",
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
                 });
-            }
+            },
         });
     }
 
     $('input[name="tipo"]').change(function () {
-        if ($(this).val() === 'ninguno') {
-            $('.problematica-table').hide();
-            $('#problematicaTable tbody').empty();
+        if ($(this).val() === "ninguno") {
+            $(".problematica-table").hide();
+            $("#problematicaTable tbody").empty();
         } else {
-            $('.problematica-table').show();
+            $(".problematica-table").show();
         }
     });
 
-    $('#agregarFilaBtn').click(function () {
-        var idCarrera = $('#carrera').val();
+    $("#agregarFilaBtn").click(function () {
+        var idCarrera = $("#carrera").val();
         if (!idCarrera) {
-            Swal.fire('Error', 'Por favor, selecciona una carrera antes de agregar una problemática.', 'warning');
+            Swal.fire(
+                "Error",
+                "Por favor, selecciona una carrera antes de agregar una problemática.",
+                "warning"
+            );
             return;
         }
 
         // Verificar si las variables están cargadas
-        if (experiencias.length === 0 || profesores.length === 0 || problematicasOptions.length === 0 || secciones.length === 0) {
-            Swal.fire('Información', 'Los datos de la carrera aún no se han cargado. Por favor, espera un momento.', 'info');
+        if (
+            experiencias.length === 0 ||
+            profesores.length === 0 ||
+            problematicasOptions.length === 0 ||
+            secciones.length === 0
+        ) {
+            Swal.fire(
+                "Información",
+                "Los datos de la carrera aún no se han cargado. Por favor, espera un momento.",
+                "info"
+            );
             return;
         }
 
         // Generar las opciones iniciales de experiencias y profesores
-        var experienciasOptions = '<option value="" disabled selected>-----Selecciona una experiencia educativa-----</option>';
+        var experienciasOptions =
+            '<option value="" disabled selected>-----Selecciona una experiencia educativa-----</option>';
         experiencias.forEach(function (exp) {
             experienciasOptions += `<option value="${exp.idExperienciaEducativa}">${exp.nombre}</option>`;
         });
 
-        var profesoresOptions = '<option value="" disabled selected>-----Selecciona un profesor-----</option>';
+        var profesoresOptions =
+            '<option value="" disabled selected>-----Selecciona un profesor-----</option>';
         profesores.forEach(function (prof) {
             profesoresOptions += `<option value="${prof.idTutor}">${prof.tutorNombre}</option>`;
         });
 
-        var problematicaOptionsHtml = '<option value="" disabled selected>-----Problemática-----</option>';
+        var problematicaOptionsHtml =
+            '<option value="" disabled selected>-----Problemática-----</option>';
         problematicasOptions.forEach(function (problematica) {
             problematicaOptionsHtml += `<option value="${problematica.idProblematica}">${problematica.descripcion}</option>`;
         });
@@ -495,27 +554,34 @@ $(document).ready(function () {
                 </td>
             </tr>
         `;
-        $('#problematicaTable tbody').append(nuevaFila);
+        $("#problematicaTable tbody").append(nuevaFila);
 
-        var $ultimaFila = $('#problematicaTable tbody tr:last');
+        var $ultimaFila = $("#problematicaTable tbody tr:last");
 
-        $ultimaFila.find('.experiencia-educativa, .profesor-problematica').select2();
+        $ultimaFila
+            .find(".experiencia-educativa, .profesor-problematica")
+            .select2();
 
-        $ultimaFila.find('.experiencia-educativa').change(function () {
+        $ultimaFila.find(".experiencia-educativa").change(function () {
             var experienciaId = $(this).val();
-            var $profesorSelect = $(this).closest('tr').find('.profesor-problematica');
+            var $profesorSelect = $(this)
+                .closest("tr")
+                .find(".profesor-problematica");
 
             var profesorSeleccionado = $profesorSelect.val();
 
-            var profesoresFiltrados = secciones.filter(function (seccion) {
-                return seccion.idExperienciaEducativa == experienciaId;
-            }).map(function (seccion) {
-                return profesores.find(function (profesor) {
-                    return profesor.idTutor == seccion.idProfesor;
+            var profesoresFiltrados = secciones
+                .filter(function (seccion) {
+                    return seccion.idExperienciaEducativa == experienciaId;
+                })
+                .map(function (seccion) {
+                    return profesores.find(function (profesor) {
+                        return profesor.idTutor == seccion.idProfesor;
+                    });
                 });
-            });
 
-            var opcionesProfesor = '<option value="" disabled selected>-----Selecciona un profesor-----</option>';
+            var opcionesProfesor =
+                '<option value="" disabled selected>-----Selecciona un profesor-----</option>';
 
             var profesoresUnicos = {};
             profesoresFiltrados.forEach(function (profesor) {
@@ -529,36 +595,49 @@ $(document).ready(function () {
                 opcionesProfesor += `<option value="${profesor.idTutor}">${profesor.tutorNombre}</option>`;
             }
 
-            $profesorSelect.html(opcionesProfesor).prop('disabled', false);
+            $profesorSelect.html(opcionesProfesor).prop("disabled", false);
 
             if (profesoresUnicos[profesorSeleccionado]) {
-                $profesorSelect.val(profesorSeleccionado).trigger('change.select2');
+                $profesorSelect
+                    .val(profesorSeleccionado)
+                    .trigger("change.select2");
             } else {
-                $profesorSelect.val(null).trigger('change.select2');
+                $profesorSelect.val(null).trigger("change.select2");
             }
-
         });
 
-        $ultimaFila.find('.profesor-problematica').change(function () {
+        $ultimaFila.find(".profesor-problematica").change(function () {
             var profesorId = $(this).val();
-            var $experienciaSelect = $(this).closest('tr').find('.experiencia-educativa');
+            var $experienciaSelect = $(this)
+                .closest("tr")
+                .find(".experiencia-educativa");
 
             var experienciaSeleccionada = $experienciaSelect.val();
 
-            var experienciasFiltradas = secciones.filter(function (seccion) {
-                return seccion.idProfesor == profesorId;
-            }).map(function (seccion) {
-                return experiencias.find(function (experiencia) {
-                    return experiencia.idExperienciaEducativa == seccion.idExperienciaEducativa;
+            var experienciasFiltradas = secciones
+                .filter(function (seccion) {
+                    return seccion.idProfesor == profesorId;
+                })
+                .map(function (seccion) {
+                    return experiencias.find(function (experiencia) {
+                        return (
+                            experiencia.idExperienciaEducativa ==
+                            seccion.idExperienciaEducativa
+                        );
+                    });
                 });
-            });
 
-            var opcionesExperiencia = '<option value="" disabled selected>-----Selecciona una experiencia educativa-----</option>';
+            var opcionesExperiencia =
+                '<option value="" disabled selected>-----Selecciona una experiencia educativa-----</option>';
 
             var experienciasUnicas = {};
             experienciasFiltradas.forEach(function (experiencia) {
-                if (experiencia && !experienciasUnicas[experiencia.idExperienciaEducativa]) {
-                    experienciasUnicas[experiencia.idExperienciaEducativa] = experiencia;
+                if (
+                    experiencia &&
+                    !experienciasUnicas[experiencia.idExperienciaEducativa]
+                ) {
+                    experienciasUnicas[experiencia.idExperienciaEducativa] =
+                        experiencia;
                 }
             });
 
@@ -567,34 +646,38 @@ $(document).ready(function () {
                 opcionesExperiencia += `<option value="${experiencia.idExperienciaEducativa}">${experiencia.nombre}</option>`;
             }
 
-            $experienciaSelect.html(opcionesExperiencia).prop('disabled', false);
+            $experienciaSelect
+                .html(opcionesExperiencia)
+                .prop("disabled", false);
 
             if (experienciasUnicas[experienciaSeleccionada]) {
-                $experienciaSelect.val(experienciaSeleccionada).trigger('change.select2');
+                $experienciaSelect
+                    .val(experienciaSeleccionada)
+                    .trigger("change.select2");
             } else {
-                $experienciaSelect.val(null).trigger('change.select2');
+                $experienciaSelect.val(null).trigger("change.select2");
             }
         });
     });
 
-    $(document).on('change', '.problematica-select', function () {
-        var $fila = $(this).closest('tr');
-        var $textarea = $fila.find('.otro-textarea');
-        if ($(this).val() === 'otro') {
-            $textarea.show().prop('required', true);
+    $(document).on("change", ".problematica-select", function () {
+        var $fila = $(this).closest("tr");
+        var $textarea = $fila.find(".otro-textarea");
+        if ($(this).val() === "otro") {
+            $textarea.show().prop("required", true);
         } else {
-            $textarea.hide().prop('required', false).val('');
+            $textarea.hide().prop("required", false).val("");
         }
     });
 
-    $(document).on('click', '.eliminarFila', function () {
-        $(this).closest('tr').remove();
+    $(document).on("click", ".eliminarFila", function () {
+        $(this).closest("tr").remove();
     });
 
-    $('#enviar').on('click', function (e) {
+    $("#enviar").on("click", function (e) {
         e.preventDefault();
         if (validarFormulario()) {
-            $('#form').submit();
+            $("#form").submit();
         }
     });
 
@@ -602,52 +685,72 @@ $(document).ready(function () {
         var valid = true;
         var errores = [];
 
-        $('#form [required]').each(function () {
-            if ($(this).val() === '' || $(this).val() === null) {
+        $("#form [required]").each(function () {
+            if ($(this).val() === "" || $(this).val() === null) {
                 valid = false;
-                $(this).addClass('is-invalid');
-                errores.push('El campo "' + $(this).closest('div').find('label').text().trim() + '" es obligatorio.');
+                $(this).addClass("is-invalid");
+                errores.push(
+                    'El campo "' +
+                        $(this).closest("div").find("label").text().trim() +
+                        '" es obligatorio.'
+                );
             } else {
-                $(this).removeClass('is-invalid');
+                $(this).removeClass("is-invalid");
             }
         });
 
-        var fechaInicio = $('#fechaInicio').val();
-        var fechaFin = $('#fechaFin').val();
-        if (fechaInicio && fechaFin && new Date(fechaFin) < new Date(fechaInicio)) {
+        var fechaInicio = $("#fechaInicio").val();
+        var fechaFin = $("#fechaFin").val();
+        if (
+            fechaInicio &&
+            fechaFin &&
+            new Date(fechaFin) < new Date(fechaInicio)
+        ) {
             valid = false;
-            $('#fechaFin').addClass('is-invalid');
-            errores.push('La fecha de fin no puede ser menor que la fecha de inicio.');
+            $("#fechaFin").addClass("is-invalid");
+            errores.push(
+                "La fecha de fin no puede ser menor que la fecha de inicio."
+            );
         } else {
-            $('#fechaFin').removeClass('is-invalid');
+            $("#fechaFin").removeClass("is-invalid");
         }
 
-        if ($('input[name="tipo"]:checked').val() === 'problematica') {
-            if ($('#problematicaTable tbody tr').length === 0) {
+        if ($('input[name="tipo"]:checked').val() === "problematica") {
+            if ($("#problematicaTable tbody tr").length === 0) {
                 valid = false;
-                errores.push('Debe agregar al menos una problemática.');
+                errores.push("Debe agregar al menos una problemática.");
             }
 
-            $('#problematicaTable tbody tr').each(function (index, row) {
-                $(row).find('[required]').each(function () {
-                    if ($(this).val() === '' || $(this).val() === null) {
-                        valid = false;
-                        $(this).addClass('is-invalid');
-                        errores.push('Todos los campos de la problemática son obligatorios en la fila ' + (index + 1) + '.');
-                    } else {
-                        $(this).removeClass('is-invalid');
-                    }
-                });
+            $("#problematicaTable tbody tr").each(function (index, row) {
+                $(row)
+                    .find("[required]")
+                    .each(function () {
+                        if ($(this).val() === "" || $(this).val() === null) {
+                            valid = false;
+                            $(this).addClass("is-invalid");
+                            errores.push(
+                                "Todos los campos de la problemática son obligatorios en la fila " +
+                                    (index + 1) +
+                                    "."
+                            );
+                        } else {
+                            $(this).removeClass("is-invalid");
+                        }
+                    });
 
-                var $problematicaSelect = $(row).find('.problematica-select');
-                if ($problematicaSelect.val() === 'otro') {
-                    var $otroTextarea = $(row).find('.otro-textarea');
-                    if ($otroTextarea.val().trim() === '') {
+                var $problematicaSelect = $(row).find(".problematica-select");
+                if ($problematicaSelect.val() === "otro") {
+                    var $otroTextarea = $(row).find(".otro-textarea");
+                    if ($otroTextarea.val().trim() === "") {
                         valid = false;
-                        $otroTextarea.addClass('is-invalid');
-                        errores.push('Debe describir la problemática en la fila ' + (index + 1) + '.');
+                        $otroTextarea.addClass("is-invalid");
+                        errores.push(
+                            "Debe describir la problemática en la fila " +
+                                (index + 1) +
+                                "."
+                        );
                     } else {
-                        $otroTextarea.removeClass('is-invalid');
+                        $otroTextarea.removeClass("is-invalid");
                     }
                 }
             });
@@ -655,38 +758,38 @@ $(document).ready(function () {
 
         if (!valid && errores.length > 0) {
             Swal.fire({
-                title: 'Errores en el formulario',
-                icon: 'error',
-                html: errores.join('<br>'),
+                title: "Errores en el formulario",
+                icon: "error",
+                html: errores.join("<br>"),
             });
         }
 
         return valid;
     }
 
-    $('#comentario').on('input', function () {
+    $("#comentario").on("input", function () {
         var maxLength = 500;
         var currentLength = $(this).val().length;
 
         if (currentLength > maxLength) {
             $(this).val($(this).val().substring(0, maxLength));
             Swal.fire({
-                title: 'Límite alcanzado',
-                text: 'Has alcanzado el máximo de 500 caracteres para el campo Comentario.',
-                icon: 'info',
+                title: "Límite alcanzado",
+                text: "Has alcanzado el máximo de 500 caracteres para el campo Comentario.",
+                icon: "info",
                 timer: 2000,
-                showConfirmButton: false
+                showConfirmButton: false,
             });
         }
     });
 
-    $(document).on('input', '.otro-textarea', function () {
+    $(document).on("input", ".otro-textarea", function () {
         var maxLength = 500;
         var currentLength = $(this).val().length;
 
         if (currentLength > maxLength) {
             $(this).val($(this).val().substring(0, maxLength));
-            alert('Has alcanzado el límite de 500 caracteres.');
+            alert("Has alcanzado el límite de 500 caracteres.");
         }
     });
 });

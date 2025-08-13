@@ -403,5 +403,33 @@ class Tutoria
         return $tutorias;
     }
 
+    public function getTutoriasByCarreraTutor($idCarrera, $correoInstitucional) {
+        $stmt = $this->conn->prepare(
+            "SELECT
+                tt.idTutoria,
+                pt.numSesion AS numTutoria,
+                tt.modalidad,
+                tt.fechaInicio,
+                tt.fechaFin,
+                tt.lugar
+            FROM tutoria tt
+            INNER JOIN tutor t ON t.idTutor = tt.tutor
+            INNER JOIN periodo_tutorias pt ON pt.idPeriodoTutorias = tt.periodoTutorias
+            INNER JOIN carrera c ON c.idCarrera = pt.carrera	
+            INNER JOIN periodo p ON p.idPeriodo = pt.periodo
+            LEFT JOIN reporte_tutoria rt ON rt.tutoria = tt.idTutoria
+            WHERE c.idCarrera = ? AND t.correoInstitucional = ? 
+            AND p.actual = 1 AND rt.idReporte IS NULL;"
+        );
+        $stmt->bind_param("is", $idCarrera, $correoInstitucional);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $tutorias = [];
+        while ($row = $result->fetch_assoc()) {
+            $tutorias[] = $row;
+        }
+        $stmt->close();
+        return $tutorias;
+    }
 }
 ?>

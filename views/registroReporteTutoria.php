@@ -60,7 +60,7 @@ if (!isset($problematicas))
             <input type="hidden" name="tutor" value="<?= htmlspecialchars($tutor) ?>">
 
             <div class="form-group">
-                <label for="periodo">Periodo escolar: <span class="text-danger">*</span></label>
+                <label for="periodo">Periodo Escolar Actual:</label>
                 <input type="text" class="form-control" id="periodo" value="<?= htmlspecialchars($periodoActual) ?>"
                     readonly>
             </div>
@@ -78,24 +78,10 @@ if (!isset($problematicas))
             </div>
 
             <div class="form-group">
-                <label for="numTutoria">Número de Tutoría: <span class="text-danger">*</span></label>
-                <select class="form-control" name="numTutoria" id="numTutoria" required>
-                    <option value="" disabled selected>-----Selecciona el número de tutoría-----</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
+                <label for="sesionTutoria">Sesión de Tutoría: <span class="text-danger">*</span></label>
+                <select class="form-control" name="sesionTutoria" id="sesionTutoria" required>
+                    <option value="" disabled selected>-----Selecciona la sesión de tutoría que reporta-----</option>
                 </select>
-            </div>
-
-            <div class="form-group">
-                <label for="fechaInicio">Fecha de Inicio: <span class="text-danger">*</span></label>
-                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" placeholder="dd/mm/aaaa"
-                    required>
-            </div>
-
-            <div class="form-group">
-                <label for="fechaFin">Fecha de Fin: <span class="text-danger">*</span></label>
-                <input type="date" class="form-control" id="fechaFin" name="fechaFin" placeholder="dd/mm/aaaa" required>
             </div>
 
             <div class="form-group">
