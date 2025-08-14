@@ -46,7 +46,7 @@ body {
 }
 
 .header-left button:hover {
-    background-color: #7DCE94;
+    background-color: #7dce94;
 }
 
 .header-right {
@@ -71,16 +71,16 @@ body {
 }
 
 .buttonNew {
-    background-color: #28AD56;
+    background-color: #28ad56;
     color: white;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
-    margin-left: auto; 
+    margin-left: auto;
 }
 
 .buttonHistory {
-    background-color: #18529D;
+    background-color: #18529d;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -100,7 +100,7 @@ body {
     display: flex;
     align-items: center;
     padding: 8px 12px;
-    border: #28AD56 1px solid;
+    border: #28ad56 1px solid;
     border-radius: 20px;
     font-size: 14px;
     cursor: pointer;
@@ -108,16 +108,16 @@ body {
 }
 
 .chip-selected {
-    background-color: #28AD56;
+    background-color: #28ad56;
 }
 
 .chip-selected:hover {
-    background-color: #1E7D42;
+    background-color: #1e7d42;
     color: white;
 }
 
 .chip:hover {
-    background-color: #1E7D42;
+    background-color: #1e7d42;
     color: white;
 }
 
@@ -145,7 +145,7 @@ td {
 }
 
 th {
-    background-color: #18529D;
+    background-color: #18529d;
     color: white;
 }
 
@@ -163,7 +163,7 @@ th {
 }
 
 .action-buttons button {
-    background-color: #28AD56;
+    background-color: #28ad56;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -175,7 +175,7 @@ th {
 }
 
 .action-buttons button.view {
-    background-color: #18529D;
+    background-color: #18529d;
 }
 
 .action-buttons button:hover {
@@ -204,6 +204,30 @@ th {
 .bottom-right {
     margin-top: 10px;
     text-align: right;
+}
+
+.periodo-card {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.periodo-info {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #333;
+}
+
+.periodo-info i {
+    margin-right: 8px;
+    font-size: 18px;
+    color: #18529d;
 }
 
 footer {

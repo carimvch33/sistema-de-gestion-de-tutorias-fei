@@ -41,6 +41,13 @@ if (!isset($errors)) {
         </div>
     </div>
 
+    <div class="periodo-card">
+        <div class="periodo-info">
+            <i class="fas fa-calendar-alt"></i>
+            <span><strong>Periodo Actual:</strong> <?php echo htmlspecialchars($_SESSION['periodoActual'] ?? ''); ?></span>
+        </div>
+    </div>
+
     <?php if (!empty($errors)): ?>
         <div class="error-container">
             <?php foreach ($errors as $error): ?>
@@ -79,9 +86,7 @@ if (!isset($errors)) {
             <thead>
                 <tr>
                     <th class="autoWidthColumn">Carrera</th>
-                    <th class="autoWidthColumn">Periodo</th>
-                    <th class="autoWidthColumn">Fecha de inicio</th>
-                    <th class="autoWidthColumn">Fecha de fin</th>
+                    <th class="autoWidthColumn">Sesión de Tutoría</th>
                     <th class="autoWidthColumn">Comentario</th>
                     <th class="autoWidthColumn">Problemática</th>
                     <th class="autoWidthColumn">Fecha de creación</th>
@@ -95,9 +100,20 @@ if (!isset($errors)) {
                         <?php
                         $idReporte = $row['idReporte'] ?? '';
                         $carrera = $row['carrera'] ?? 'Sin carrera';
-                        $periodo = $row['periodo'] ?? 'Sin periodo';
-                        $fechaInicioTutoria = $row['fechaInicioTutoria'] ?? 'Sin fecha de inicio';
-                        $fechaFinTutoria = $row['fechaFinTutoria'] ?? 'Sin fecha de cierre';
+                        
+                        $modalidad = $row['modalidadTutoria'] ?? '';
+                        $numSesion = $row['numTutoria'] ?? '';
+                        $lugar = $row['lugarTutoria'] ?? '';
+                        $fechaInicio = $row['fechaInicioTutoria'] ?? '';
+                        $fechaFin = $row['fechaFinTutoria'] ?? '';
+
+                        if ($fechaInicio && $fechaFin && $fechaInicio !== $fechaFin) {
+                            $fechaMostrar = htmlspecialchars($fechaInicio) . " a " . htmlspecialchars($fechaFin);
+                        } else {
+                            $fechaMostrar = htmlspecialchars($fechaInicio);
+                        }
+
+                        $sesion = "Sesión #{$numSesion} {$modalidad} {$fechaMostrar} [{$lugar}]";
                         $numTutoria = $row['numTutoria'] ?? 'Sin número de tutoría';
                         $numRiesgo = $row['numRiesgo'] ?? 'Sin número de alumnos en riesgo';
                         $comentarioCompleto = htmlspecialchars($row['comentario'] ?? '', ENT_QUOTES, 'UTF-8');
@@ -113,9 +129,7 @@ if (!isset($errors)) {
                         ?>
                         <tr>
                             <td><?= htmlspecialchars($carrera) ?></td>
-                            <td><?= htmlspecialchars($periodo) ?></td>
-                            <td><?= htmlspecialchars($fechaInicioTutoria) ?></td>
-                            <td><?= htmlspecialchars($fechaFinTutoria) ?></td>
+                            <td><?= htmlspecialchars($sesion) ?></td>
                             <td title="<?= $comentarioCompleto ?>"><?= $comentarioCorto ?></td>
                             <td><?= htmlspecialchars($problematica) ?></td>
                             <td><?= htmlspecialchars($fechaCreacion) ?></td>
