@@ -1,547 +1,3243 @@
--- MySQL dump 10.13  Distrib 8.0.38, for macos14 (arm64)
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost    Database: sistema_registro_tutorias
--- ------------------------------------------------------
--- Server version	8.0.30
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 14-08-2025 a las 22:55:26
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Table structure for table `administrador`
+-- Base de datos: `sistema_registro_tutorias`
 --
 
-DROP TABLE IF EXISTS `administrador`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `administrador`
+--
+
 CREATE TABLE `administrador` (
-  `idAdministrador` int NOT NULL AUTO_INCREMENT,
+  `idAdministrador` int(11) NOT NULL,
   `nombre` varchar(70) NOT NULL,
   `apellidoPaterno` varchar(70) DEFAULT NULL,
   `apellidoMaterno` varchar(70) DEFAULT NULL,
   `correoInstitucional` varchar(50) NOT NULL,
-  `sesion` int NOT NULL,
-  `password` varchar(255) NOT NULL,
-  PRIMARY KEY (`idAdministrador`),
-  KEY `fk_administrador_Sesion1_idx` (`sesion`),
-  CONSTRAINT `fk_administrador_Sesion1` FOREIGN KEY (`sesion`) REFERENCES `sesion` (`idSesion`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `sesion` int(11) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `administrador`
+-- Volcado de datos para la tabla `administrador`
 --
 
-LOCK TABLES `administrador` WRITE;
-/*!40000 ALTER TABLE `administrador` DISABLE KEYS */;
-INSERT INTO `administrador` VALUES (1,'Erika','Meneses','Rico','admintuto@uv.mx',1,''),(15,'Cesar Emiliano 2','Lezama','Lopez','admin@admin.com',13750,'$2y$10$S8Y57Nayzy6od301GDfyY.h0dn.sF/P/Hb7bsfjXSMdQLdnyJL6lm'),(16,'Cesar Emiliano','Lezama','Lopez','admin2@admin.com',13751,'$2y$10$S8Y57Nayzy6od301GDfyY.h0dn.sF/P/Hb7bsfjXSMdQLdnyJL6lm');
-/*!40000 ALTER TABLE `administrador` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `administrador` (`idAdministrador`, `nombre`, `apellidoPaterno`, `apellidoMaterno`, `correoInstitucional`, `sesion`, `password`) VALUES
+(1, 'Erika', 'Meneses', 'Rico', 'admintuto@uv.mx', 1, ''),
+(15, 'Cesar Emiliano 2', 'Lezama', 'Lopez', 'admin@admin.com', 13750, '$2y$10$S8Y57Nayzy6od301GDfyY.h0dn.sF/P/Hb7bsfjXSMdQLdnyJL6lm'),
+(16, 'Cesar Emiliano', 'Lezama', 'Lopez', 'admin2@admin.com', 13751, '$2y$10$S8Y57Nayzy6od301GDfyY.h0dn.sF/P/Hb7bsfjXSMdQLdnyJL6lm');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `carrera`
+-- Estructura de tabla para la tabla `carrera`
 --
 
-DROP TABLE IF EXISTS `carrera`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `carrera` (
-  `idCarrera` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(200) NOT NULL,
-  PRIMARY KEY (`idCarrera`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `idCarrera` int(11) NOT NULL,
+  `nombre` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `carrera`
+-- Volcado de datos para la tabla `carrera`
 --
 
-LOCK TABLES `carrera` WRITE;
-/*!40000 ALTER TABLE `carrera` DISABLE KEYS */;
-INSERT INTO `carrera` VALUES (1,'Estadística (LEST)'),(2,'Ingeniería de Ciberseguridad e Infraestructura de Cómputo (ICIC)'),(3,'Ingeniería de Software 2014 (ISOF 14)'),(4,'Ingeniería de Software 2023 (ISOF 23)'),(5,'Ingeniería en Sistemas y Tecnologías de la Información (ISTI)'),(6,'Ingeniería en Ciencia de Datos (LICD)'),(7,'Redes y Servicios de Cómputo (LRSC)'),(8,'Tecnologías Computacionales (LTC)'),(18,'Juanito 10'),(20,'Juanito 3'),(21,'Gran carrera');
-/*!40000 ALTER TABLE `carrera` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `carrera` (`idCarrera`, `nombre`) VALUES
+(1, 'Estadística (LEST)'),
+(2, 'Ingeniería de Ciberseguridad e Infraestructura de Cómputo (ICIC)'),
+(3, 'Ingeniería de Software 2014 (ISOF 14)'),
+(4, 'Ingeniería de Software 2023 (ISOF 23)'),
+(5, 'Ingeniería en Sistemas y Tecnologías de la Información (ISTI)'),
+(6, 'Ingeniería en Ciencia de Datos (LICD)'),
+(7, 'Redes y Servicios de Cómputo (LRSC)'),
+(8, 'Tecnologías Computacionales (LTC)'),
+(18, 'Juanito 10'),
+(20, 'Juanito 3'),
+(21, 'Gran carrera');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `carrera_tutor`
+-- Estructura de tabla para la tabla `carrera_tutor`
 --
 
-DROP TABLE IF EXISTS `carrera_tutor`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `carrera_tutor` (
-  `idCarreraTutor` int NOT NULL AUTO_INCREMENT,
-  `carrera` int NOT NULL,
-  `tutor` int NOT NULL,
-  PRIMARY KEY (`idCarreraTutor`),
-  KEY `fk_carrera_has_tutor_tutor1_idx` (`tutor`),
-  KEY `fk_carrera_has_tutor_carrera1_idx` (`carrera`),
-  CONSTRAINT `fk_carrera_has_tutor_carrera1` FOREIGN KEY (`carrera`) REFERENCES `carrera` (`idCarrera`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_carrera_has_tutor_tutor1` FOREIGN KEY (`tutor`) REFERENCES `tutor` (`idTutor`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `idCarreraTutor` int(11) NOT NULL,
+  `carrera` int(11) NOT NULL,
+  `tutor` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `carrera_tutor`
+-- Volcado de datos para la tabla `carrera_tutor`
 --
 
-LOCK TABLES `carrera_tutor` WRITE;
-/*!40000 ALTER TABLE `carrera_tutor` DISABLE KEYS */;
-INSERT INTO `carrera_tutor` VALUES (26,2,56),(27,2,56),(28,3,56);
-/*!40000 ALTER TABLE `carrera_tutor` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `carrera_tutor` (`idCarreraTutor`, `carrera`, `tutor`) VALUES
+(26, 2, 56),
+(27, 2, 56),
+(28, 3, 56);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `coordinador_carrera`
+-- Estructura de tabla para la tabla `coordinador_carrera`
 --
 
-DROP TABLE IF EXISTS `coordinador_carrera`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `coordinador_carrera` (
-  `idCoordinadorCarrera` int NOT NULL AUTO_INCREMENT,
-  `idSesion` int NOT NULL,
-  `idCarrera` int NOT NULL,
-  PRIMARY KEY (`idCoordinadorCarrera`),
-  KEY `fk_coordinador_carrera_sesion_idx` (`idSesion`),
-  KEY `fk_coordinador_carrera_carrera_idx` (`idCarrera`),
-  CONSTRAINT `fk_coordinador_carrera_carrera` FOREIGN KEY (`idCarrera`) REFERENCES `carrera` (`idCarrera`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_coordinador_carrera_sesion` FOREIGN KEY (`idSesion`) REFERENCES `sesion` (`idSesion`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `idCoordinadorCarrera` int(11) NOT NULL,
+  `idSesion` int(11) NOT NULL,
+  `idCarrera` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `coordinador_carrera`
+-- Volcado de datos para la tabla `coordinador_carrera`
 --
 
-LOCK TABLES `coordinador_carrera` WRITE;
-/*!40000 ALTER TABLE `coordinador_carrera` DISABLE KEYS */;
-INSERT INTO `coordinador_carrera` VALUES (6,53,3),(7,53,4);
-/*!40000 ALTER TABLE `coordinador_carrera` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `coordinador_carrera` (`idCoordinadorCarrera`, `idSesion`, `idCarrera`) VALUES
+(6, 53, 3),
+(7, 53, 4);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `experiencia_educativa`
+-- Estructura de tabla para la tabla `experiencia_educativa`
 --
 
-DROP TABLE IF EXISTS `experiencia_educativa`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `experiencia_educativa` (
-  `idExperienciaEducativa` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `programaEducativo` int NOT NULL,
-  PRIMARY KEY (`idExperienciaEducativa`),
-  KEY `fk_experiencia_educativa_carrera1_idx` (`programaEducativo`),
-  CONSTRAINT `fk_experiencia_educativa_carrera1` FOREIGN KEY (`programaEducativo`) REFERENCES `carrera` (`idCarrera`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `idExperienciaEducativa` int(11) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `programaEducativo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `experiencia_educativa`
+-- Volcado de datos para la tabla `experiencia_educativa`
 --
 
-LOCK TABLES `experiencia_educativa` WRITE;
-/*!40000 ALTER TABLE `experiencia_educativa` DISABLE KEYS */;
-INSERT INTO `experiencia_educativa` VALUES (9,'Arquitectura 1',5),(11,'Experiencia 1',1),(13,'Principios de construcción de software',3),(14,'Materia 2000',2),(15,'Diseño de software',3),(16,'Tecnologías para la construcción de software',3);
-/*!40000 ALTER TABLE `experiencia_educativa` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `experiencia_educativa` (`idExperienciaEducativa`, `nombre`, `programaEducativo`) VALUES
+(9, 'Arquitectura 1', 5),
+(11, 'Experiencia 1', 1),
+(13, 'Principios de construcción de software', 3),
+(14, 'Materia 2000', 2),
+(15, 'Diseño de software', 3),
+(16, 'Tecnologías para la construcción de software', 3);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `periodo`
+-- Estructura de tabla para la tabla `fecha_tutoria`
 --
 
-DROP TABLE IF EXISTS `periodo`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `periodo` (
-  `idPeriodo` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(80) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `actual` tinyint NOT NULL,
-  PRIMARY KEY (`idPeriodo`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `periodo`
---
-
-LOCK TABLES `periodo` WRITE;
-/*!40000 ALTER TABLE `periodo` DISABLE KEYS */;
-INSERT INTO `periodo` VALUES (1,'Agosto 2024 - Enero 2025',0),(14,'Febrero 2025 - Julio 2025',1),(15,'Periodo 1',0);
-/*!40000 ALTER TABLE `periodo` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `problematica`
---
-
-DROP TABLE IF EXISTS `problematica`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `problematica` (
-  `idProblematica` int NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(500) NOT NULL,
-  `tipoProblematica` int NOT NULL,
-  PRIMARY KEY (`idProblematica`),
-  KEY `fk_problematica_tipo_problematica1_idx` (`tipoProblematica`),
-  CONSTRAINT `fk_problematica_tipo_problematica1` FOREIGN KEY (`tipoProblematica`) REFERENCES `tipo_problematica` (`idTipoProblematica`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `problematica`
---
-
-LOCK TABLES `problematica` WRITE;
-/*!40000 ALTER TABLE `problematica` DISABLE KEYS */;
-INSERT INTO `problematica` VALUES (1,'El estudiante no tiene conocimiento de la planificación de los contenidos.',1),(2,'El estudiante no conoce la rúbrica de evaluación del curso. ',1),(3,'El estudiante estima que los temas evaluados en el examen no coinciden con los abordados en clase.',2),(4,'El estudiante no conoce la calificación de su examen',2),(5,'El estudiante no ha obtenido la revisión de su examen ',2),(6,'El estudiante percibe que las estrategias de enseñanza no favorecen su estilo de aprendizaje.',3),(7,'El estudiante opina que el material empleado en clase ha sido insuficiente.',3),(8,'El estudiante percibe que la retroalimentación podría ser brindada con mayorfrecuencia.',3),(9,'El estudiante considera que el avance de la experiencia educativa no está acorde con la planificación.',4),(10,'El estudiante opina que los saberes teóricos de la experiencia educativa se abordan muy rápido o de forma confusa.',4),(11,'El estudiante considera que el ambiente generado en clase no ha propiciado (interacción y/o diálogo) el intercambio de ideas y planteamiento de dudas entre todos los integrantes del grupo. ',4);
-/*!40000 ALTER TABLE `problematica` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `problematica_academica`
---
-
-DROP TABLE IF EXISTS `problematica_academica`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `problematica_academica` (
-  `idProblematicaAcademica` int NOT NULL AUTO_INCREMENT,
-  `experienciaEducativa` int NOT NULL,
-  `profesor` int NOT NULL,
-  `problematica` int DEFAULT NULL,
-  `numAlumnos` int NOT NULL,
-  `estado` varchar(80) NOT NULL,
-  `reporte` int NOT NULL,
-  `otro` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`idProblematicaAcademica`),
-  KEY `fk_problema_academico_reporte_tutoria1_idx` (`reporte`),
-  KEY `fk_problema_academico_experiencia_educativa1_idx` (`experienciaEducativa`),
-  KEY `fk_problema_academico_problema1_idx` (`problematica`),
-  KEY `fk_problematica_academica_tutor` (`profesor`),
-  CONSTRAINT `fk_problema_academico_experiencia_educativa1` FOREIGN KEY (`experienciaEducativa`) REFERENCES `experiencia_educativa` (`idExperienciaEducativa`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_problema_academico_problema1` FOREIGN KEY (`problematica`) REFERENCES `problematica` (`idProblematica`),
-  CONSTRAINT `fk_problema_academico_reporte_tutoria1` FOREIGN KEY (`reporte`) REFERENCES `reporte_tutoria` (`idReporte`),
-  CONSTRAINT `fk_problematica_academica_tutor` FOREIGN KEY (`profesor`) REFERENCES `tutor` (`idTutor`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `problematica_academica`
---
-
-LOCK TABLES `problematica_academica` WRITE;
-/*!40000 ALTER TABLE `problematica_academica` DISABLE KEYS */;
-INSERT INTO `problematica_academica` VALUES (19,14,2,3,12,'En revisión',26,NULL),(21,14,5,5,12,'En revisión',28,NULL),(22,13,56,2,1,'En revisión',29,NULL),(23,15,51,6,2,'En revisión',29,NULL),(24,15,51,2,12,'En revisión',30,NULL);
-/*!40000 ALTER TABLE `problematica_academica` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `periodo_tutorias`
---
-DROP TABLE IF EXISTS `periodo_tutorias`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `periodo_tutorias` (
-  `idPeriodoTutorias` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `fecha_tutoria` (
+  `idFechaTutoria` int(11) NOT NULL,
   `fechaInicio` date NOT NULL,
   `fechaFin` date NOT NULL,
-  `numSesion` int NOT NULL,
-  `carrera` int NOT NULL,
-  `periodo` int NOT NULL,
-  PRIMARY KEY (`idPeriodoTutorias`),
-  KEY `fk_periodo_tutorias_carrera1_idx` (`carrera`),
-  KEY `fk_periodo_tutorias_periodo1_idx` (`periodo`),
-  CONSTRAINT `fk_periodo_tutorias_carrera1` FOREIGN KEY (`carrera`) REFERENCES `carrera` (`idCarrera`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_periodo_tutorias_periodo1` FOREIGN KEY (`periodo`) REFERENCES `periodo` (`idPeriodo`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `numSesion` int(11) NOT NULL,
+  `carrera` int(11) NOT NULL,
+  `periodo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `periodo_tutorias`
+-- Volcado de datos para la tabla `fecha_tutoria`
 --
 
-LOCK TABLES `periodo_tutorias` WRITE;
-/*!40000 ALTER TABLE `periodo_tutorias` DISABLE KEYS */;
-INSERT INTO `periodo_tutorias` VALUES (1,'2025-02-18','2025-02-18',1,2,14),(2,'2025-01-18','2025-01-18',1,3,14),(3,'2025-01-19','2025-01-19',1,4,14),(4,'2025-01-19','2025-01-19',1,5,14),(5,'2025-01-19','2025-01-19',1,6,14);
-/*!40000 ALTER TABLE `periodo_tutorias` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `fecha_tutoria` (`idFechaTutoria`, `fechaInicio`, `fechaFin`, `numSesion`, `carrera`, `periodo`) VALUES
+(1, '2025-02-18', '2025-02-18', 1, 2, 14),
+(2, '2025-01-18', '2025-01-18', 1, 3, 14),
+(3, '2025-01-19', '2025-01-19', 1, 4, 14),
+(4, '2025-01-19', '2025-01-19', 1, 5, 14),
+(5, '2025-01-19', '2025-01-19', 1, 6, 14);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `reporte_tutoria`
+-- Estructura de tabla para la tabla `periodo`
 --
 
-DROP TABLE IF EXISTS `reporte_tutoria`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `periodo` (
+  `idPeriodo` int(11) NOT NULL,
+  `nombre` varchar(80) NOT NULL,
+  `actual` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `periodo`
+--
+
+INSERT INTO `periodo` (`idPeriodo`, `nombre`, `actual`) VALUES
+(1, 'Agosto 2024 - Enero 2025', 0),
+(14, 'Febrero 2025 - Julio 2025', 1),
+(15, 'Periodo 1', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `periodo_tutorias`
+--
+
+CREATE TABLE `periodo_tutorias` (
+  `idPeriodoTutorias` int(11) NOT NULL,
+  `fechaInicio` date NOT NULL,
+  `fechaFin` date NOT NULL,
+  `numSesion` int(11) NOT NULL,
+  `carrera` int(11) NOT NULL,
+  `periodo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `periodo_tutorias`
+--
+
+INSERT INTO `periodo_tutorias` (`idPeriodoTutorias`, `fechaInicio`, `fechaFin`, `numSesion`, `carrera`, `periodo`) VALUES
+(1, '2025-02-18', '2025-02-18', 1, 2, 14),
+(2, '2025-01-18', '2025-01-18', 1, 3, 14),
+(3, '2025-01-19', '2025-01-19', 1, 4, 14),
+(4, '2025-01-19', '2025-01-19', 1, 5, 1),
+(5, '2025-01-19', '2025-01-19', 1, 6, 14),
+(6, '2025-04-18', '2025-04-20', 2, 3, 14),
+(7, '2025-06-19', '2025-06-20', 3, 3, 14);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `problematica`
+--
+
+CREATE TABLE `problematica` (
+  `idProblematica` int(11) NOT NULL,
+  `descripcion` varchar(500) NOT NULL,
+  `tipoProblematica` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `problematica`
+--
+
+INSERT INTO `problematica` (`idProblematica`, `descripcion`, `tipoProblematica`) VALUES
+(1, 'El estudiante no tiene conocimiento de la planificación de los contenidos.', 1),
+(2, 'El estudiante no conoce la rúbrica de evaluación del curso. ', 1),
+(3, 'El estudiante estima que los temas evaluados en el examen no coinciden con los abordados en clase.', 2),
+(4, 'El estudiante no conoce la calificación de su examen', 2),
+(5, 'El estudiante no ha obtenido la revisión de su examen ', 2),
+(6, 'El estudiante percibe que las estrategias de enseñanza no favorecen su estilo de aprendizaje.', 3),
+(7, 'El estudiante opina que el material empleado en clase ha sido insuficiente.', 3),
+(8, 'El estudiante percibe que la retroalimentación podría ser brindada con mayorfrecuencia.', 3),
+(9, 'El estudiante considera que el avance de la experiencia educativa no está acorde con la planificación.', 4),
+(10, 'El estudiante opina que los saberes teóricos de la experiencia educativa se abordan muy rápido o de forma confusa.', 4),
+(11, 'El estudiante considera que el ambiente generado en clase no ha propiciado (interacción y/o diálogo) el intercambio de ideas y planteamiento de dudas entre todos los integrantes del grupo. ', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `problematica_academica`
+--
+
+CREATE TABLE `problematica_academica` (
+  `idProblematicaAcademica` int(11) NOT NULL,
+  `experienciaEducativa` int(11) NOT NULL,
+  `profesor` int(11) NOT NULL,
+  `problematica` int(11) DEFAULT NULL,
+  `numAlumnos` int(11) NOT NULL,
+  `estado` varchar(80) NOT NULL,
+  `reporte` int(11) NOT NULL,
+  `otro` varchar(500) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `problematica_academica`
+--
+
+INSERT INTO `problematica_academica` (`idProblematicaAcademica`, `experienciaEducativa`, `profesor`, `problematica`, `numAlumnos`, `estado`, `reporte`, `otro`) VALUES
+(19, 14, 2, 3, 12, 'En revisión', 26, NULL),
+(21, 14, 5, 5, 12, 'En revisión', 28, NULL),
+(22, 13, 56, 2, 1, 'En revisión', 29, NULL),
+(23, 15, 51, 6, 2, 'En revisión', 29, NULL),
+(26, 15, 51, 2, 12, 'En revisión', 30, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `reporte_tutoria`
+--
+
 CREATE TABLE `reporte_tutoria` (
-  `idReporte` int NOT NULL AUTO_INCREMENT,
-  `numAsistencia` int NOT NULL,
-  `numRiesgo` int NOT NULL,
+  `idReporte` int(11) NOT NULL,
+  `numAsistencia` int(11) NOT NULL,
+  `numRiesgo` int(11) NOT NULL,
   `comentario` varchar(500) DEFAULT NULL,
   `fechaCreacion` date NOT NULL,
-  `carreraTutor` int NOT NULL,
+  `carreraTutor` int(11) NOT NULL,
   `esBorrador` tinyint(1) NOT NULL,
-  `tutoria` int NOT NULL UNIQUE,
-  PRIMARY KEY (`idReporte`),
-  KEY `fk_reporte_tutoria_carrera_tutor1_idx` (`carreraTutor`),
-  KEY `fk_reporte_tutoria_tutoria1_idx` (`tutoria`),
-  CONSTRAINT `fk_reporte_tutoria_carrera_tutor1` FOREIGN KEY (`carreraTutor`) REFERENCES `carrera_tutor` (`idCarreraTutor`),
-  CONSTRAINT `fk_reporte_tutoria_tutoria1` FOREIGN KEY (`tutoria`) REFERENCES `tutoria` (`idTutoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `tutoria` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `reporte_tutoria`
+-- Volcado de datos para la tabla `reporte_tutoria`
 --
 
-LOCK TABLES `reporte_tutoria` WRITE;
-/*!40000 ALTER TABLE `reporte_tutoria` DISABLE KEYS */;
-INSERT INTO `reporte_tutoria` (
-  idReporte, numAsistencia, numRiesgo, comentario, fechaCreacion, carreraTutor, esBorrador, tutoria
-) VALUES
-  (26, 2, 12, 'chin 2', '2025-01-19', 26, 1, 42),
-  (28, 2, 12, 'chinnnnn', '2025-01-19', 26, 0, 45),
-  (29, 2, 12, 'Todo mal', '2025-01-23', 28, 1, 46),
-  (30, 2, 12, '21', '2025-01-24', 28, 1, 48);
-UNLOCK TABLES;
+INSERT INTO `reporte_tutoria` (`idReporte`, `numAsistencia`, `numRiesgo`, `comentario`, `fechaCreacion`, `carreraTutor`, `esBorrador`, `tutoria`) VALUES
+(26, 2, 12, 'chin 2', '2025-01-19', 26, 0, 42),
+(28, 2, 12, 'chinnnnn', '2025-01-19', 26, 0, 45),
+(29, 2, 12, 'Todo mal', '2025-01-23', 28, 1, 46),
+(30, 20, 12, '21', '2025-01-24', 28, 0, 48),
+(33, 2, 12, 'Reporte de tutorías pasado borrador', '2025-01-24', 28, 1, 44);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `rol`
+-- Estructura de tabla para la tabla `rol`
 --
 
-DROP TABLE IF EXISTS `rol`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `rol` (
-  `idRol` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL,
-  PRIMARY KEY (`idRol`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `idRol` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `rol`
+-- Volcado de datos para la tabla `rol`
 --
 
-LOCK TABLES `rol` WRITE;
-/*!40000 ALTER TABLE `rol` DISABLE KEYS */;
-INSERT INTO `rol` VALUES (1,'tutor'),(2,'tutorado'),(3,'administrador'),(4,'coordinador de tutorías'),(5,'jefe de carrera');
-/*!40000 ALTER TABLE `rol` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `rol` (`idRol`, `nombre`) VALUES
+(1, 'tutor'),
+(2, 'tutorado'),
+(3, 'administrador'),
+(4, 'coordinador de tutorías'),
+(5, 'jefe de carrera');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `seccion`
+-- Estructura de tabla para la tabla `seccion`
 --
 
-DROP TABLE IF EXISTS `seccion`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `seccion` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `idProfesor` int NOT NULL,
-  `idExperienciaEducativa` int NOT NULL,
-  `idPeriodo` int NOT NULL,
-  `nrc` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idProfesor` (`idProfesor`),
-  KEY `idExperienciaEducativa` (`idExperienciaEducativa`),
-  KEY `idPeriodo` (`idPeriodo`),
-  CONSTRAINT `seccion_ibfk_1` FOREIGN KEY (`idProfesor`) REFERENCES `tutor` (`idTutor`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `seccion_ibfk_2` FOREIGN KEY (`idExperienciaEducativa`) REFERENCES `experiencia_educativa` (`idExperienciaEducativa`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `seccion_ibfk_3` FOREIGN KEY (`idPeriodo`) REFERENCES `periodo` (`idPeriodo`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `id` int(11) NOT NULL,
+  `idProfesor` int(11) NOT NULL,
+  `idExperienciaEducativa` int(11) NOT NULL,
+  `idPeriodo` int(11) NOT NULL,
+  `nrc` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `seccion`
+-- Volcado de datos para la tabla `seccion`
 --
 
-LOCK TABLES `seccion` WRITE;
-/*!40000 ALTER TABLE `seccion` DISABLE KEYS */;
-INSERT INTO `seccion` VALUES (2,56,16,1,'12345'),(3,56,13,1,'9876'),(4,51,15,1,'5476'),(5,86,13,1,'98764');
-/*!40000 ALTER TABLE `seccion` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `seccion` (`id`, `idProfesor`, `idExperienciaEducativa`, `idPeriodo`, `nrc`) VALUES
+(2, 56, 16, 1, '12345'),
+(3, 56, 13, 1, '9876'),
+(4, 51, 15, 1, '5476'),
+(5, 86, 13, 1, '98764');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `sesion`
+-- Estructura de tabla para la tabla `sesion`
 --
 
-DROP TABLE IF EXISTS `sesion`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sesion` (
-  `idSesion` int NOT NULL AUTO_INCREMENT,
-  `correoInstitucional` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `rol` int NOT NULL,
-  PRIMARY KEY (`idSesion`),
-  KEY `fk_login_rol1_idx` (`rol`),
-  CONSTRAINT `fk_login_rol1` FOREIGN KEY (`rol`) REFERENCES `rol` (`idRol`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13752 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `idSesion` int(11) NOT NULL,
+  `correoInstitucional` varchar(50) NOT NULL,
+  `rol` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `sesion`
+-- Volcado de datos para la tabla `sesion`
 --
 
-LOCK TABLES `sesion` WRITE;
-/*!40000 ALTER TABLE `sesion` DISABLE KEYS */;
-INSERT INTO `sesion` VALUES (1,'admintuto@uv.mx',3),(3,'aarenas@uv.mx',1),(4,'aarguello@uv.mx',1),(5,'acerdan@uv.mx',1),(6,'albecruz@uv.mx',1),(7,'alfduran@uv.mx',1),(8,'alsanchez@uv.mx',1),(9,'aminon@uv.mx',1),(10,'anabramirez@uv.mx',1),(11,'anaviveros@uv.mx',1),(12,'angegarcia@uv.mx',1),(13,'angelperez@uv.mx',1),(14,'angesanchez@uv.mx',1),(15,'auraguilar@uv.mx',1),(16,'aorduna@uv.mx',1),(17,'apolo@uv.mx',1),(18,'armbarradas@uv.mx',1),(19,'auraguilar@uv.mx',1),(20,'carlogarcia@uv.mx',1),(21,'ccastro@uv.mx',1),(22,'ceccruz@uv.mx',1),(23,'chperez@uv.mx',1),(24,'cmezura@uv.mx',1),(25,'cochoa@uv.mx',1),(26,'ctriana@uv.mx',1),(27,'dcallejas@uv.mx',1),(28,'dcarillo@uv.mx',1),(29,'dvalderrabano@uv.mx',1),(30,'dvargas@uv.mx',1),(31,'edbenitez@uv.mx',1),(32,'eddiaz@uv.mx',1),(33,'edmendoza@uv.mx',1),(34,'egabriel@uv.mx',1),(35,'eldominguez@uv.mx',1),(36,'ermeneses@uv.mx',1),(37,'evgarcia@uv.mx',1),(38,'ezacosta@uv.mx',1),(39,'fcastaneda@uv.mx',1),(40,'fmunoz@uv.mx',1),(41,'gbalderas@uv.mx',1),(42,'gcontreras@uv.mx',1),(43,'guillermohernandez02@uv.mx',1),(44,'hlimon@uv.mx',1),(45,'itreyes@uv.mx',1),(46,'jacoperez@uv.mx',1),(47,'javsanchez@uv.mx',1),(48,'jemejia@uv.mx',1),(49,'jescalante@uv.mx',1),(50,'jeshernandez@uv.mx',1),(51,'jmendez@uv.mx',1),(52,'jmontero@uv.mx',1),(53,'jocharan@uv.mx',4),(54,'jruiz@uv.mx',1),(55,'juangarcia06@uv.mx',1),(56,'juangutierrez02@uv.mx',1),(57,'juanmunoz@uv.mx',1),(58,'juaperez@uv.mx',1),(59,'judiaz@uv.mx',1),(60,'judrodriguez@uv.mx',1),(61,'julmontano@uv.mx',1),(62,'julopez@uv.mx',1),(63,'kcortes@uv.mx',1),(64,'lalonso@uv.mx',1),(65,'lcolorado@uv.mx',1),(66,'lereyes@uv.mx',1),(67,'lizhernandez@uv.mx',1),(68,'lmontane@uv.mx',1),(69,'lonavarro@uv.mx',1),(70,'lorlopez@uv.mx',1),(71,'lourhernandez@uv.mx',1),(72,'lovelasco@uv.mx',1),(73,'luisoto@uv.mx',1),(74,'lwatty@uv.mx',1),(75,'malonso@uv.mx',1),(76,'maribelcarmona@uv.mx',1),(77,'marthrodriguez@uv.mx',1),(78,'mcanal@uv.mx',1),(79,'mialarcon@uv.mx',1),(80,'minreyes@uv.mx',1),(81,'mmelgarejo@uv.mx',1),(82,'mojeda@uv.mx',1),(83,'niemartinez@uv.mx',1),(84,'olrosas@uv.mx',1),(85,'paguzman@uv.mx',1),(86,'pcuellar@uv.mx',1),(87,'radelafuente@uv.mx',1),(88,'ramongomez@uv.mx',1),(89,'roberlara@uv.mx',1),(90,'rosorio@uv.mx',1),(91,'rrojano@uv.mx',1),(92,'rsarmiento@uv.mx',1),(93,'rualdama@uv.mx',1),(94,'sauldominguez@uv.mx',1),(95,'sgarcia@uv.mx',1),(96,'vlagunes@uv.mx',1),(97,'vmendez@uv.mx',1),(98,'vorozco@uv.mx',1),(99,'vtlapa@uv.mx',1),(100,'wzarate@uv.mx',1),(101,'yzavaleta@uv.mx',1),(102,'zmorales@uv.mx',1),(103,'zs19016362@estudiantes.uv.mx',1),(104,'eochoa@uv.mx',1),(105,'omtexon@uv.mx',1),(106,'patdiaz@uv.mx',1),(107,'gvera@uv.mx',1),(108,'edsortiz@uv.mx',1),(109,'uortega@uv.mx',1),(110,'yoortega@uv.mx',1),(111,'mortigoza@uv.mx',1),(112,'alirojas@uv.mx',1),(113,'mmillan@uv.mx',1),(114,'marcordoba@uv.mx',1),(115,'kamartinez@uv.mx',1),(116,'iromero@uv.mx',1),(117,'ruthrodriguez@uv.mx',1),(118,'norasanchez@uv.mx',1),(119,'yanreyes@uv.mx',1),(120,'elmurrieta@uv.mx',1),(121,'mariohernandez02@uv.mx',1),(122,'mrosenkranz@uv.mx',1),(123,'jenvazquez@uv.mx',1),(124,'jafernandez@uv.mx',1),(125,'zs15011624@estudiantes.uv.mx',1),(126,'almcordova@uv.mx',1),(127,'oalonso@uv.mx',1),(128,'brjimenez@uv.mx',1),(129,'cansosa@uv.mx',1),(130,'jazgarcia@uv.mx',1),(131,'luisoto@uv.mx',1),(132,'zmorales@uv.mx',1),(133,'maribarradas@uv.mx',1),(12615,'zs16011696@estudiantes.uv.mx',2),(12616,'zs17022144@estudiantes.uv.mx',2),(12617,'zs18012146@estudiantes.uv.mx',2),(12618,'zs18012193@estudiantes.uv.mx',2),(12619,'zs18014080@estudiantes.uv.mx',2),(12620,'zs18014082@estudiantes.uv.mx',2),(12621,'zs18014098@estudiantes.uv.mx',2),(12622,'zs18014102@estudiantes.uv.mx',2),(12623,'zs18014105@estudiantes.uv.mx',2),(12624,'zs18014119@estudiantes.uv.mx',2),(12625,'zs18014503@estudiantes.uv.mx',2),(12626,'zs18019961@estudiantes.uv.mx',2),(12627,'zs18019963@estudiantes.uv.mx',2),(12628,'zs18026719@estudiantes.uv.mx',2),(12629,'zs19013197@estudiantes.uv.mx',2),(12630,'zs19013229@estudiantes.uv.mx',2),(12631,'zs19013244@estudiantes.uv.mx',2),(12632,'zs19013252@estudiantes.uv.mx',2),(12633,'zs19013294@estudiantes.uv.mx',2),(12634,'zs19013988@estudiantes.uv.mx',2),(12635,'zs19013990@estudiantes.uv.mx',2),(12636,'zs19013993@estudiantes.uv.mx',2),(12637,'zs19013994@estudiantes.uv.mx',2),(12638,'zs19013995@estudiantes.uv.mx',2),(12639,'zs19014003@estudiantes.uv.mx',2),(12640,'zs19014012@estudiantes.uv.mx',2),(12641,'zs19014015@estudiantes.uv.mx',2),(12642,'zs19014016@estudiantes.uv.mx',2),(12643,'zs19014018@estudiantes.uv.mx',2),(12644,'zs19014020@estudiantes.uv.mx',2),(12645,'zs19014021@estudiantes.uv.mx',2),(12646,'zs19014025@estudiantes.uv.mx',2),(12647,'zs19014027@estudiantes.uv.mx',2),(12648,'zs19014030@estudiantes.uv.mx',2),(12649,'zs19014034@estudiantes.uv.mx',2),(12650,'zs19014038@estudiantes.uv.mx',2),(12651,'zs19014041@estudiantes.uv.mx',2),(12652,'zs19014047@estudiantes.uv.mx',2),(12653,'zs19014049@estudiantes.uv.mx',2),(12654,'zs19014050@estudiantes.uv.mx',2),(12655,'zs19015963@estudiantes.uv.mx',2),(12656,'zs19015973@estudiantes.uv.mx',2),(12657,'zs19015993@estudiantes.uv.mx',2),(12658,'zs19016000@estudiantes.uv.mx',2),(12659,'zs19016004@estudiantes.uv.mx',2),(12660,'zs19016005@estudiantes.uv.mx',2),(12661,'zs19016009@estudiantes.uv.mx',2),(12662,'zs19016010@estudiantes.uv.mx',2),(12663,'zs19016011@estudiantes.uv.mx',2),(12664,'zs19016013@estudiantes.uv.mx',2),(12665,'zs19016016@estudiantes.uv.mx',2),(12666,'zs19016019@estudiantes.uv.mx',2),(12667,'zs19016022@estudiantes.uv.mx',2),(12668,'zs19016023@estudiantes.uv.mx',2),(12669,'zs19016024@estudiantes.uv.mx',2),(12670,'zs19016349@estudiantes.uv.mx',2),(12671,'zs19016350@estudiantes.uv.mx',2),(12672,'zs19016375@estudiantes.uv.mx',2),(12673,'zs19016388@estudiantes.uv.mx',2),(12674,'zs19016391@estudiantes.uv.mx',2),(12675,'zs19016407@estudiantes.uv.mx',2),(12676,'zs19016416@estudiantes.uv.mx',2),(12677,'zs19023584@estudiantes.uv.mx',2),(12678,'zs19023587@estudiantes.uv.mx',2),(12679,'zs19023589@estudiantes.uv.mx',2),(12680,'zs19023590@estudiantes.uv.mx',2),(12681,'zs19024979@estudiantes.uv.mx',2),(12682,'zs19024992@estudiantes.uv.mx',2),(12683,'zs19025092@estudiantes.uv.mx',2),(12684,'zs19030167@estudiantes.uv.mx',2),(12685,'zs19030168@estudiantes.uv.mx',2),(12686,'zs19030171@estudiantes.uv.mx',2),(12687,'zs19030173@estudiantes.uv.mx',2),(12688,'zs19030174@estudiantes.uv.mx',2),(12689,'zs20015034@estudiantes.uv.mx',2),(12690,'zs20015035@estudiantes.uv.mx',2),(12691,'zs20015037@estudiantes.uv.mx',2),(12692,'zs20015039@estudiantes.uv.mx',2),(12693,'zs20015047@estudiantes.uv.mx',2),(12694,'zs20015050@estudiantes.uv.mx',2),(12695,'zs20015052@estudiantes.uv.mx',2),(12696,'zs20015053@estudiantes.uv.mx',2),(12697,'zs20015060@estudiantes.uv.mx',2),(12698,'zs20015062@estudiantes.uv.mx',2),(12699,'zs20015063@estudiantes.uv.mx',2),(12700,'zs20015064@estudiantes.uv.mx',2),(12701,'zs20015068@estudiantes.uv.mx',2),(12702,'zs20015073@estudiantes.uv.mx',2),(12703,'zs20015075@estudiantes.uv.mx',2),(12704,'zs20015077@estudiantes.uv.mx',2),(12705,'zs20015078@estudiantes.uv.mx',2),(12706,'zs20015080@estudiantes.uv.mx',2),(12707,'zs20015082@estudiantes.uv.mx',2),(12708,'zs20015083@estudiantes.uv.mx',2),(12709,'zs20015092@estudiantes.uv.mx',2),(12710,'zs20015094@estudiantes.uv.mx',2),(12711,'zs20015097@estudiantes.uv.mx',2),(12712,'zs20015099@estudiantes.uv.mx',2),(12713,'zs20015103@estudiantes.uv.mx',2),(12714,'zs20015105@estudiantes.uv.mx',2),(12715,'zs20015110@estudiantes.uv.mx',2),(12716,'zs20015681@estudiantes.uv.mx',2),(12717,'zs20015683@estudiantes.uv.mx',2),(12718,'zs20015687@estudiantes.uv.mx',2),(12719,'zs20015690@estudiantes.uv.mx',2),(12720,'zs20015691@estudiantes.uv.mx',2),(12721,'zs20015692@estudiantes.uv.mx',2),(12722,'zs20015693@estudiantes.uv.mx',2),(12723,'zs20015694@estudiantes.uv.mx',2),(12724,'zs20015696@estudiantes.uv.mx',2),(12725,'zs20015697@estudiantes.uv.mx',2),(12726,'zs20015699@estudiantes.uv.mx',2),(12727,'zs20015700@estudiantes.uv.mx',2),(12728,'zs20015702@estudiantes.uv.mx',2),(12729,'zs20015704@estudiantes.uv.mx',2),(12730,'zs20015708@estudiantes.uv.mx',2),(12731,'zs20015709@estudiantes.uv.mx',2),(12732,'zs20015714@estudiantes.uv.mx',2),(12733,'zs20015715@estudiantes.uv.mx',2),(12734,'zs20015719@estudiantes.uv.mx',2),(12735,'zs20015721@estudiantes.uv.mx',2),(12736,'zs20015724@estudiantes.uv.mx',2),(12737,'zs20015725@estudiantes.uv.mx',2),(12738,'zs20015727@estudiantes.uv.mx',2),(12739,'zs20015728@estudiantes.uv.mx',2),(12740,'zs20015729@estudiantes.uv.mx',2),(12741,'zs20015730@estudiantes.uv.mx',2),(12742,'zs20015736@estudiantes.uv.mx',2),(12743,'zs20015738@estudiantes.uv.mx',2),(12744,'zs20015742@estudiantes.uv.mx',2),(12745,'zs20015744@estudiantes.uv.mx',2),(12746,'zs20015745@estudiantes.uv.mx',2),(12747,'zs20015749@estudiantes.uv.mx',2),(12748,'zs20015751@estudiantes.uv.mx',2),(12749,'zs20015752@estudiantes.uv.mx',2),(12750,'zs20015753@estudiantes.uv.mx',2),(12751,'zs20015755@estudiantes.uv.mx',2),(12752,'zs20015760@estudiantes.uv.mx',2),(12753,'zs20017752@estudiantes.uv.mx',2),(12754,'zs20017754@estudiantes.uv.mx',2),(12755,'zs20017759@estudiantes.uv.mx',2),(12756,'zs20017763@estudiantes.uv.mx',2),(12758,'zs20017767@estudiantes.uv.mx',2),(12759,'zs20017769@estudiantes.uv.mx',2),(12760,'zs20017773@estudiantes.uv.mx',2),(12761,'zs20017774@estudiantes.uv.mx',2),(12762,'zs20017777@estudiantes.uv.mx',2),(12763,'zs20017778@estudiantes.uv.mx',2),(12764,'zs20017782@estudiantes.uv.mx',2),(12765,'zs20017788@estudiantes.uv.mx',2),(12766,'zs20017790@estudiantes.uv.mx',2),(12768,'zs20017796@estudiantes.uv.mx',2),(12769,'zs20017800@estudiantes.uv.mx',2),(12770,'zs20017801@estudiantes.uv.mx',2),(12771,'zs20017809@estudiantes.uv.mx',2),(12772,'zs20017812@estudiantes.uv.mx',2),(12773,'zs20017815@estudiantes.uv.mx',2),(12774,'zs20017818@estudiantes.uv.mx',2),(12775,'zs20018147@estudiantes.uv.mx',2),(12776,'zs20018149@estudiantes.uv.mx',2),(12777,'zs20018150@estudiantes.uv.mx',2),(12778,'zs20018152@estudiantes.uv.mx',2),(12779,'zs20018158@estudiantes.uv.mx',2),(12780,'zs20018160@estudiantes.uv.mx',2),(12781,'zs20018164@estudiantes.uv.mx',2),(12782,'zs20018166@estudiantes.uv.mx',2),(12783,'zs20018167@estudiantes.uv.mx',2),(12784,'zs20018168@estudiantes.uv.mx',2),(12785,'zs20018172@estudiantes.uv.mx',2),(12786,'zs20018173@estudiantes.uv.mx',2),(12787,'zs20018175@estudiantes.uv.mx',2),(12790,'zs20018182@estudiantes.uv.mx',2),(12791,'zs20018183@estudiantes.uv.mx',2),(12792,'zs20018184@estudiantes.uv.mx',2),(12793,'zs20018188@estudiantes.uv.mx',2),(12794,'zs20018191@estudiantes.uv.mx',2),(12795,'zs20018198@estudiantes.uv.mx',2),(12796,'zs20018199@estudiantes.uv.mx',2),(12797,'zs20018201@estudiantes.uv.mx',2),(12798,'zs20018203@estudiantes.uv.mx',2),(12799,'zs20018205@estudiantes.uv.mx',2),(12800,'zs20018222@estudiantes.uv.mx',2),(12801,'zs20018223@estudiantes.uv.mx',2),(12802,'zs20018226@estudiantes.uv.mx',2),(12803,'zs20020852@estudiantes.uv.mx',2),(12804,'zs20020853@estudiantes.uv.mx',2),(12805,'zs20020854@estudiantes.uv.mx',2),(12806,'zs20020855@estudiantes.uv.mx',2),(12807,'zs20021059@estudiantes.uv.mx',2),(12808,'zs20021997@estudiantes.uv.mx',2),(12809,'zs20022002@estudiantes.uv.mx',2),(12810,'zs20022005@estudiantes.uv.mx',2),(12811,'zs20022009@estudiantes.uv.mx',2),(12812,'zs20022010@estudiantes.uv.mx',2),(12813,'zs20022018@estudiantes.uv.mx',2),(12814,'zs20022022@estudiantes.uv.mx',2),(12815,'zs20022086@estudiantes.uv.mx',2),(12816,'zs20022112@estudiantes.uv.mx',2),(12817,'zs20022115@estudiantes.uv.mx',2),(12818,'zs20022479@estudiantes.uv.mx',2),(12819,'zs21013235@estudiantes.uv.mx',2),(12820,'zs21013236@estudiantes.uv.mx',2),(12821,'zs21013238@estudiantes.uv.mx',2),(12822,'zs21013242@estudiantes.uv.mx',2),(12823,'zs21013243@estudiantes.uv.mx',2),(12824,'zs21013247@estudiantes.uv.mx',2),(12825,'zs21013248@estudiantes.uv.mx',2),(12826,'zs21013253@estudiantes.uv.mx',2),(12827,'zs21013257@estudiantes.uv.mx',2),(12828,'zs21013258@estudiantes.uv.mx',2),(12829,'zs21013259@estudiantes.uv.mx',2),(12830,'zs21013260@estudiantes.uv.mx',2),(12831,'zs21013261@estudiantes.uv.mx',2),(12832,'zs21013263@estudiantes.uv.mx',2),(12833,'zs21013264@estudiantes.uv.mx',2),(12834,'zs21013265@estudiantes.uv.mx',2),(12835,'zs21013266@estudiantes.uv.mx',2),(12836,'zs21013268@estudiantes.uv.mx',2),(12837,'zs21013271@estudiantes.uv.mx',2),(12838,'zs21013273@estudiantes.uv.mx',2),(12839,'zs21013274@estudiantes.uv.mx',2),(12840,'zs21013278@estudiantes.uv.mx',2),(12841,'zs21013282@estudiantes.uv.mx',2),(12842,'zs21013284@estudiantes.uv.mx',2),(12843,'zs21013288@estudiantes.uv.mx',2),(12844,'zs21013830@estudiantes.uv.mx',2),(12845,'zs21013834@estudiantes.uv.mx',2),(12846,'zs21013835@estudiantes.uv.mx',2),(12847,'zs21013836@estudiantes.uv.mx',2),(12848,'zs21013841@estudiantes.uv.mx',2),(12849,'zs21013846@estudiantes.uv.mx',2),(12850,'zs21013848@estudiantes.uv.mx',2),(12851,'zs21013850@estudiantes.uv.mx',2),(12852,'zs21013852@estudiantes.uv.mx',2),(12853,'zs21013853@estudiantes.uv.mx',2),(12854,'zs21013854@estudiantes.uv.mx',2),(12855,'zs21013857@estudiantes.uv.mx',2),(12856,'zs21013858@estudiantes.uv.mx',2),(12857,'zs21013859@estudiantes.uv.mx',2),(12858,'zs21013860@estudiantes.uv.mx',2),(12859,'zs21013861@estudiantes.uv.mx',2),(12860,'zs21013862@estudiantes.uv.mx',2),(12861,'zs21013863@estudiantes.uv.mx',2),(12862,'zs21013864@estudiantes.uv.mx',2),(12863,'zs21013865@estudiantes.uv.mx',2),(12864,'zs21013866@estudiantes.uv.mx',2),(12865,'zs21013868@estudiantes.uv.mx',2),(12866,'zs21013870@estudiantes.uv.mx',2),(12867,'zs21013871@estudiantes.uv.mx',2),(12868,'zs21013873@estudiantes.uv.mx',2),(12869,'zs21013875@estudiantes.uv.mx',2),(12870,'zs21013876@estudiantes.uv.mx',2),(12871,'zs21013878@estudiantes.uv.mx',2),(12872,'zs21013881@estudiantes.uv.mx',2),(12873,'zs21013882@estudiantes.uv.mx',2),(12874,'zs21013884@estudiantes.uv.mx',2),(12875,'zs21013885@estudiantes.uv.mx',2),(12876,'zs21013886@estudiantes.uv.mx',2),(12877,'zs21013887@estudiantes.uv.mx',2),(12878,'zs21013888@estudiantes.uv.mx',2),(12879,'zs21013891@estudiantes.uv.mx',2),(12880,'zs21013893@estudiantes.uv.mx',2),(12881,'zs21013897@estudiantes.uv.mx',2),(12882,'zs21013898@estudiantes.uv.mx',2),(12883,'zs21013900@estudiantes.uv.mx',2),(12884,'zs21013903@estudiantes.uv.mx',2),(12885,'zs21013907@estudiantes.uv.mx',2),(12886,'zs21013908@estudiantes.uv.mx',2),(12887,'zs21013909@estudiantes.uv.mx',2),(12889,'zs21015916@estudiantes.uv.mx',2),(12890,'zs21015917@estudiantes.uv.mx',2),(12891,'zs21015921@estudiantes.uv.mx',2),(12893,'zs21015929@estudiantes.uv.mx',2),(12894,'zs21015931@estudiantes.uv.mx',2),(12895,'zs21015940@estudiantes.uv.mx',2),(12896,'zs21015946@estudiantes.uv.mx',2),(12897,'zs21015948@estudiantes.uv.mx',2),(12898,'zs21015956@estudiantes.uv.mx',2),(12899,'zs21015959@estudiantes.uv.mx',2),(12900,'zs21015960@estudiantes.uv.mx',2),(12901,'zs21015961@estudiantes.uv.mx',2),(12902,'zs21015964@estudiantes.uv.mx',2),(12903,'zs21015965@estudiantes.uv.mx',2),(12904,'zs21015974@estudiantes.uv.mx',2),(12905,'zs21015975@estudiantes.uv.mx',2),(12906,'zs21015978@estudiantes.uv.mx',2),(12907,'zs21015980@estudiantes.uv.mx',2),(12908,'zs21016323@estudiantes.uv.mx',2),(12909,'zs21016325@estudiantes.uv.mx',2),(12910,'zs21016328@estudiantes.uv.mx',2),(12911,'zs21016329@estudiantes.uv.mx',2),(12912,'zs21016332@estudiantes.uv.mx',2),(12913,'zs21016333@estudiantes.uv.mx',2),(12914,'zs21016335@estudiantes.uv.mx',2),(12915,'zs21016338@estudiantes.uv.mx',2),(12916,'zs21016339@estudiantes.uv.mx',2),(12917,'zs21016340@estudiantes.uv.mx',2),(12918,'zs21016346@estudiantes.uv.mx',2),(12919,'zs21016348@estudiantes.uv.mx',2),(12921,'zs21016350@estudiantes.uv.mx',2),(12922,'zs21016351@estudiantes.uv.mx',2),(12923,'zs21016355@estudiantes.uv.mx',2),(12924,'zs21016357@estudiantes.uv.mx',2),(12926,'zs21016364@estudiantes.uv.mx',2),(12927,'zs21016367@estudiantes.uv.mx',2),(12928,'zs21016371@estudiantes.uv.mx',2),(12929,'zs21016376@estudiantes.uv.mx',2),(12930,'zs21016377@estudiantes.uv.mx',2),(12931,'zs21016382@estudiantes.uv.mx',2),(12932,'zs21016383@estudiantes.uv.mx',2),(12933,'zs21016392@estudiantes.uv.mx',2),(12934,'zs21017270@estudiantes.uv.mx',2),(12935,'zs21021432@estudiantes.uv.mx',2),(12936,'zs21021434@estudiantes.uv.mx',2),(12937,'zs21021435@estudiantes.uv.mx',2),(12938,'zs21021436@estudiantes.uv.mx',2),(12939,'zs21021441@estudiantes.uv.mx',2),(12940,'zs21021652@estudiantes.uv.mx',2),(12941,'zs21021654@estudiantes.uv.mx',2),(12942,'zs21021681@estudiantes.uv.mx',2),(12943,'zs21021683@estudiantes.uv.mx',2),(12944,'zs21023157@estudiantes.uv.mx',2),(12945,'zs21023158@estudiantes.uv.mx',2),(12946,'zs21023159@estudiantes.uv.mx',2),(12947,'zs21023160@estudiantes.uv.mx',2),(12948,'zs21023161@estudiantes.uv.mx',2),(12949,'zs21023168@estudiantes.uv.mx',2),(12950,'zs21023196@estudiantes.uv.mx',2),(12951,'zs21023197@estudiantes.uv.mx',2),(12952,'zs21023205@estudiantes.uv.mx',2),(12953,'zs21023210@estudiantes.uv.mx',2),(12954,'zs21023215@estudiantes.uv.mx',2),(12955,'zs21023220@estudiantes.uv.mx',2),(12956,'zs21023221@estudiantes.uv.mx',2),(12957,'zs21026430@estudiantes.uv.mx',2),(12958,'zs21026431@estudiantes.uv.mx',2),(12959,'zs21026432@estudiantes.uv.mx',2),(12960,'zs21026433@estudiantes.uv.mx',2),(12961,'zs22013011@estudiantes.uv.mx',2),(12962,'zs22013015@estudiantes.uv.mx',2),(12963,'zs22013016@estudiantes.uv.mx',2),(12964,'zs22013017@estudiantes.uv.mx',2),(12966,'zs22013021@estudiantes.uv.mx',2),(12967,'zs22013024@estudiantes.uv.mx',2),(12968,'zs22013028@estudiantes.uv.mx',2),(12969,'zs22013029@estudiantes.uv.mx',2),(12970,'zs22013030@estudiantes.uv.mx',2),(12971,'zs22013031@estudiantes.uv.mx',2),(12972,'zs22013035@estudiantes.uv.mx',2),(12973,'zs22013039@estudiantes.uv.mx',2),(12974,'zs22013040@estudiantes.uv.mx',2),(12975,'zs22013042@estudiantes.uv.mx',2),(12976,'zs22013044@estudiantes.uv.mx',2),(12977,'zs22013045@estudiantes.uv.mx',2),(12978,'zs22013049@estudiantes.uv.mx',2),(12979,'zs22013051@estudiantes.uv.mx',2),(12980,'zs22013053@estudiantes.uv.mx',2),(12981,'zs22013054@estudiantes.uv.mx',2),(12982,'zs22013056@estudiantes.uv.mx',2),(12983,'zs22013620@estudiantes.uv.mx',2),(12984,'zs22013624@estudiantes.uv.mx',2),(12985,'zs22013626@estudiantes.uv.mx',2),(12986,'zs22013627@estudiantes.uv.mx',2),(12987,'zs22013628@estudiantes.uv.mx',2),(12988,'zs22013630@estudiantes.uv.mx',2),(12989,'zs22013631@estudiantes.uv.mx',2),(12990,'zs22013636@estudiantes.uv.mx',2),(12991,'zs22013637@estudiantes.uv.mx',2),(12992,'zs22013638@estudiantes.uv.mx',2),(12993,'zs22013639@estudiantes.uv.mx',2),(12994,'zs22013640@estudiantes.uv.mx',2),(12995,'zs22013641@estudiantes.uv.mx',2),(12996,'zs22013642@estudiantes.uv.mx',2),(12997,'zs22013643@estudiantes.uv.mx',2),(12998,'zs22013645@estudiantes.uv.mx',2),(12999,'zs22013646@estudiantes.uv.mx',2),(13000,'zs22013647@estudiantes.uv.mx',2),(13001,'zs22013648@estudiantes.uv.mx',2),(13002,'zs22013650@estudiantes.uv.mx',2),(13003,'zs22013651@estudiantes.uv.mx',2),(13004,'zs22013653@estudiantes.uv.mx',2),(13005,'zs22013656@estudiantes.uv.mx',2),(13006,'zs22013658@estudiantes.uv.mx',2),(13007,'zs22013659@estudiantes.uv.mx',2),(13008,'zs22013660@estudiantes.uv.mx',2),(13009,'zs22013661@estudiantes.uv.mx',2),(13010,'zs22013662@estudiantes.uv.mx',2),(13011,'zs22013663@estudiantes.uv.mx',2),(13012,'zs22013664@estudiantes.uv.mx',2),(13013,'zs22013665@estudiantes.uv.mx',2),(13014,'zs22013666@estudiantes.uv.mx',2),(13016,'zs22013668@estudiantes.uv.mx',2),(13017,'zs22013669@estudiantes.uv.mx',2),(13018,'zs22013670@estudiantes.uv.mx',2),(13019,'zs22013671@estudiantes.uv.mx',2),(13020,'zs22013672@estudiantes.uv.mx',2),(13021,'zs22013674@estudiantes.uv.mx',2),(13022,'zs22013675@estudiantes.uv.mx',2),(13023,'zs22013676@estudiantes.uv.mx',2),(13024,'zs22013678@estudiantes.uv.mx',2),(13025,'zs22013679@estudiantes.uv.mx',2),(13026,'zs22013681@estudiantes.uv.mx',2),(13027,'zs22013683@estudiantes.uv.mx',2),(13028,'zs22013686@estudiantes.uv.mx',2),(13029,'zs22013688@estudiantes.uv.mx',2),(13030,'zs22013690@estudiantes.uv.mx',2),(13031,'zs22013691@estudiantes.uv.mx',2),(13032,'zs22013692@estudiantes.uv.mx',2),(13033,'zs22013693@estudiantes.uv.mx',2),(13034,'zs22013694@estudiantes.uv.mx',2),(13035,'zs22013695@estudiantes.uv.mx',2),(13036,'zs22013696@estudiantes.uv.mx',2),(13037,'zs22013698@estudiantes.uv.mx',2),(13038,'zs22015683@estudiantes.uv.mx',2),(13039,'zs22015684@estudiantes.uv.mx',2),(13040,'zs22015686@estudiantes.uv.mx',2),(13041,'zs22015688@estudiantes.uv.mx',2),(13042,'zs22015689@estudiantes.uv.mx',2),(13043,'zs22015700@estudiantes.uv.mx',2),(13046,'zs22015705@estudiantes.uv.mx',2),(13047,'zs22015706@estudiantes.uv.mx',2),(13048,'zs22015707@estudiantes.uv.mx',2),(13049,'zs22015708@estudiantes.uv.mx',2),(13050,'zs22015710@estudiantes.uv.mx',2),(13051,'zs22015711@estudiantes.uv.mx',2),(13052,'zs22015714@estudiantes.uv.mx',2),(13053,'zs22015715@estudiantes.uv.mx',2),(13054,'zs22015719@estudiantes.uv.mx',2),(13055,'zs22015721@estudiantes.uv.mx',2),(13056,'zs22015722@estudiantes.uv.mx',2),(13057,'zs22015723@estudiantes.uv.mx',2),(13058,'zs22015727@estudiantes.uv.mx',2),(13059,'zs22015729@estudiantes.uv.mx',2),(13060,'zs22015732@estudiantes.uv.mx',2),(13061,'zs22015734@estudiantes.uv.mx',2),(13062,'zs22015735@estudiantes.uv.mx',2),(13063,'zs22016061@estudiantes.uv.mx',2),(13064,'zs22016063@estudiantes.uv.mx',2),(13065,'zs22016064@estudiantes.uv.mx',2),(13066,'zs22016065@estudiantes.uv.mx',2),(13067,'zs22016068@estudiantes.uv.mx',2),(13068,'zs22016070@estudiantes.uv.mx',2),(13069,'zs22016072@estudiantes.uv.mx',2),(13070,'zs22016075@estudiantes.uv.mx',2),(13071,'zs22016078@estudiantes.uv.mx',2),(13072,'zs22016079@estudiantes.uv.mx',2),(13074,'zs22016082@estudiantes.uv.mx',2),(13075,'zs22016084@estudiantes.uv.mx',2),(13076,'zs22016085@estudiantes.uv.mx',2),(13077,'zs22016087@estudiantes.uv.mx',2),(13078,'zs22016089@estudiantes.uv.mx',2),(13079,'zs22016090@estudiantes.uv.mx',2),(13080,'zs22016091@estudiantes.uv.mx',2),(13081,'zs22016094@estudiantes.uv.mx',2),(13082,'zs22016095@estudiantes.uv.mx',2),(13083,'zs22016096@estudiantes.uv.mx',2),(13084,'zs22016100@estudiantes.uv.mx',2),(13085,'zs22016101@estudiantes.uv.mx',2),(13086,'zs22016102@estudiantes.uv.mx',2),(13087,'zs22016103@estudiantes.uv.mx',2),(13088,'zs22016108@estudiantes.uv.mx',2),(13089,'zs22016109@estudiantes.uv.mx',2),(13090,'zs22016112@estudiantes.uv.mx',2),(13091,'zs22016113@estudiantes.uv.mx',2),(13092,'zs22016114@estudiantes.uv.mx',2),(13093,'zs22016115@estudiantes.uv.mx',2),(13094,'zs22016116@estudiantes.uv.mx',2),(13095,'zs22016117@estudiantes.uv.mx',2),(13096,'zs22016119@estudiantes.uv.mx',2),(13097,'zs22016120@estudiantes.uv.mx',2),(13098,'zs22016126@estudiantes.uv.mx',2),(13099,'zs22016127@estudiantes.uv.mx',2),(13100,'zs22016128@estudiantes.uv.mx',2),(13101,'zs22016130@estudiantes.uv.mx',2),(13102,'zs22016131@estudiantes.uv.mx',2),(13103,'zs22016132@estudiantes.uv.mx',2),(13104,'zs22016134@estudiantes.uv.mx',2),(13105,'zs22016137@estudiantes.uv.mx',2),(13106,'zs22016138@estudiantes.uv.mx',2),(13107,'zs22020936@estudiantes.uv.mx',2),(13109,'zs22020939@estudiantes.uv.mx',2),(13110,'zs22020940@estudiantes.uv.mx',2),(13111,'zs22020943@estudiantes.uv.mx',2),(13112,'zs22020945@estudiantes.uv.mx',2),(13113,'zs22021217@estudiantes.uv.mx',2),(13115,'zs22022955@estudiantes.uv.mx',2),(13116,'zs22022958@estudiantes.uv.mx',2),(13117,'zs22022966@estudiantes.uv.mx',2),(13118,'zs22022967@estudiantes.uv.mx',2),(13119,'zs22022968@estudiantes.uv.mx',2),(13120,'zs22022986@estudiantes.uv.mx',2),(13121,'zs22022989@estudiantes.uv.mx',2),(13122,'zs22022996@estudiantes.uv.mx',2),(13123,'zs22023000@estudiantes.uv.mx',2),(13124,'zs22023008@estudiantes.uv.mx',2),(13125,'zs22023010@estudiantes.uv.mx',2),(13126,'zs22023012@estudiantes.uv.mx',2),(13127,'zs22023013@estudiantes.uv.mx',2),(13128,'zs22023015@estudiantes.uv.mx',2),(13129,'zs22023017@estudiantes.uv.mx',2),(13131,'zs22023021@estudiantes.uv.mx',2),(13132,'zs22023023@estudiantes.uv.mx',2),(13133,'zs22023143@estudiantes.uv.mx',2),(13134,'zs22023144@estudiantes.uv.mx',2),(13135,'zs22023145@estudiantes.uv.mx',2),(13136,'zs22023149@estudiantes.uv.mx',2),(13137,'zs22023150@estudiantes.uv.mx',2),(13139,'zs22023154@estudiantes.uv.mx',2),(13140,'zs22023155@estudiantes.uv.mx',2),(13141,'zs22023156@estudiantes.uv.mx',2),(13142,'zs22023159@estudiantes.uv.mx',2),(13143,'zs22024133@estudiantes.uv.mx',2),(13144,'zs22024135@estudiantes.uv.mx',2),(13145,'zs22024136@estudiantes.uv.mx',2),(13146,'zs22024137@estudiantes.uv.mx',2),(13147,'zs22028185@estudiantes.uv.mx',2),(13149,'zs22028192@estudiantes.uv.mx',2),(13150,'zs22028194@estudiantes.uv.mx',2),(13152,'zs23013385@estudiantes.uv.mx',2),(13153,'zs23013389@estudiantes.uv.mx',2),(13154,'zs23013391@estudiantes.uv.mx',2),(13155,'zs23013396@estudiantes.uv.mx',2),(13156,'zs23013398@estudiantes.uv.mx',2),(13157,'zs23013399@estudiantes.uv.mx',2),(13158,'zs23013400@estudiantes.uv.mx',2),(13159,'zs23013401@estudiantes.uv.mx',2),(13160,'zs23013405@estudiantes.uv.mx',2),(13161,'zs23013407@estudiantes.uv.mx',2),(13162,'zs23013408@estudiantes.uv.mx',2),(13163,'zs23013409@estudiantes.uv.mx',2),(13164,'zs23013410@estudiantes.uv.mx',2),(13165,'zs23013411@estudiantes.uv.mx',2),(13166,'zs23013413@estudiantes.uv.mx',2),(13167,'zs23013417@estudiantes.uv.mx',2),(13168,'zs23013419@estudiantes.uv.mx',2),(13169,'zs23013421@estudiantes.uv.mx',2),(13170,'zs23013422@estudiantes.uv.mx',2),(13171,'zs23013423@estudiantes.uv.mx',2),(13172,'zs23013426@estudiantes.uv.mx',2),(13173,'zs23013428@estudiantes.uv.mx',2),(13174,'zs23013433@estudiantes.uv.mx',2),(13175,'zs23013434@estudiantes.uv.mx',2),(13176,'zs23013826@estudiantes.uv.mx',2),(13177,'zs23013827@estudiantes.uv.mx',2),(13178,'zs23013828@estudiantes.uv.mx',2),(13179,'zs23013829@estudiantes.uv.mx',2),(13180,'zs23013831@estudiantes.uv.mx',2),(13181,'zs23013832@estudiantes.uv.mx',2),(13182,'zs23013833@estudiantes.uv.mx',2),(13184,'zs23013835@estudiantes.uv.mx',2),(13185,'zs23013836@estudiantes.uv.mx',2),(13186,'zs23013838@estudiantes.uv.mx',2),(13187,'zs23013839@estudiantes.uv.mx',2),(13188,'zs23013840@estudiantes.uv.mx',2),(13189,'zs23013841@estudiantes.uv.mx',2),(13190,'zs23013842@estudiantes.uv.mx',2),(13191,'zs23013844@estudiantes.uv.mx',2),(13192,'zs23013845@estudiantes.uv.mx',2),(13193,'zs23013846@estudiantes.uv.mx',2),(13194,'zs23013847@estudiantes.uv.mx',2),(13195,'zs23013848@estudiantes.uv.mx',2),(13196,'zs23013849@estudiantes.uv.mx',2),(13197,'zs23013850@estudiantes.uv.mx',2),(13198,'zs23013851@estudiantes.uv.mx',2),(13199,'zs23013852@estudiantes.uv.mx',2),(13200,'zs23013853@estudiantes.uv.mx',2),(13202,'zs23013855@estudiantes.uv.mx',2),(13203,'zs23013856@estudiantes.uv.mx',2),(13204,'zs23013857@estudiantes.uv.mx',2),(13205,'zs23013858@estudiantes.uv.mx',2),(13206,'zs23013860@estudiantes.uv.mx',2),(13207,'zs23013861@estudiantes.uv.mx',2),(13208,'zs23013863@estudiantes.uv.mx',2),(13209,'zs23013864@estudiantes.uv.mx',2),(13210,'zs23013865@estudiantes.uv.mx',2),(13212,'zs23013868@estudiantes.uv.mx',2),(13214,'zs23013870@estudiantes.uv.mx',2),(13215,'zs23013871@estudiantes.uv.mx',2),(13217,'zs23013873@estudiantes.uv.mx',2),(13218,'zs23013874@estudiantes.uv.mx',2),(13219,'zs23013875@estudiantes.uv.mx',2),(13220,'zs23013876@estudiantes.uv.mx',2),(13222,'zs23013878@estudiantes.uv.mx',2),(13223,'zs23013880@estudiantes.uv.mx',2),(13224,'zs23013881@estudiantes.uv.mx',2),(13225,'zs23013883@estudiantes.uv.mx',2),(13226,'zs23013885@estudiantes.uv.mx',2),(13227,'zs23013886@estudiantes.uv.mx',2),(13229,'zs23013888@estudiantes.uv.mx',2),(13230,'zs23013889@estudiantes.uv.mx',2),(13231,'zs23013890@estudiantes.uv.mx',2),(13232,'zs23013891@estudiantes.uv.mx',2),(13233,'zs23013892@estudiantes.uv.mx',2),(13234,'zs23013893@estudiantes.uv.mx',2),(13235,'zs23013894@estudiantes.uv.mx',2),(13236,'zs23013895@estudiantes.uv.mx',2),(13237,'zs23013897@estudiantes.uv.mx',2),(13238,'zs23014037@estudiantes.uv.mx',2),(13239,'zs23014038@estudiantes.uv.mx',2),(13240,'zs23014039@estudiantes.uv.mx',2),(13241,'zs23014040@estudiantes.uv.mx',2),(13242,'zs23014042@estudiantes.uv.mx',2),(13243,'zs23014043@estudiantes.uv.mx',2),(13246,'zs23014046@estudiantes.uv.mx',2),(13247,'zs23014047@estudiantes.uv.mx',2),(13248,'zs23014048@estudiantes.uv.mx',2),(13249,'zs23014049@estudiantes.uv.mx',2),(13250,'zs23014050@estudiantes.uv.mx',2),(13251,'zs23014051@estudiantes.uv.mx',2),(13252,'zs23014052@estudiantes.uv.mx',2),(13253,'zs23014054@estudiantes.uv.mx',2),(13254,'zs23014056@estudiantes.uv.mx',2),(13255,'zs23014057@estudiantes.uv.mx',2),(13256,'zs23014058@estudiantes.uv.mx',2),(13257,'zs23014060@estudiantes.uv.mx',2),(13258,'zs23014061@estudiantes.uv.mx',2),(13259,'zs23014063@estudiantes.uv.mx',2),(13260,'zs23014065@estudiantes.uv.mx',2),(13261,'zs23014068@estudiantes.uv.mx',2),(13262,'zs23014069@estudiantes.uv.mx',2),(13263,'zs23014071@estudiantes.uv.mx',2),(13264,'zs23014072@estudiantes.uv.mx',2),(13265,'zs23014073@estudiantes.uv.mx',2),(13266,'zs23014074@estudiantes.uv.mx',2),(13267,'zs23014076@estudiantes.uv.mx',2),(13268,'zs23014077@estudiantes.uv.mx',2),(13269,'zs23014078@estudiantes.uv.mx',2),(13270,'zs23014080@estudiantes.uv.mx',2),(13271,'zs23014083@estudiantes.uv.mx',2),(13272,'zs23014084@estudiantes.uv.mx',2),(13273,'zs23014085@estudiantes.uv.mx',2),(13274,'zs23014087@estudiantes.uv.mx',2),(13275,'zs23014088@estudiantes.uv.mx',2),(13276,'zs23014089@estudiantes.uv.mx',2),(13277,'zs23014090@estudiantes.uv.mx',2),(13278,'zs23014092@estudiantes.uv.mx',2),(13279,'zs23014093@estudiantes.uv.mx',2),(13280,'zs23014094@estudiantes.uv.mx',2),(13281,'zs23014095@estudiantes.uv.mx',2),(13282,'zs23014096@estudiantes.uv.mx',2),(13283,'zs23014097@estudiantes.uv.mx',2),(13284,'zs23014100@estudiantes.uv.mx',2),(13285,'zs23014102@estudiantes.uv.mx',2),(13286,'zs23014103@estudiantes.uv.mx',2),(13287,'zs23014104@estudiantes.uv.mx',2),(13288,'zs23014106@estudiantes.uv.mx',2),(13289,'zs23014107@estudiantes.uv.mx',2),(13290,'zs23014109@estudiantes.uv.mx',2),(13291,'zs23014110@estudiantes.uv.mx',2),(13292,'zs23014111@estudiantes.uv.mx',2),(13293,'zs23014112@estudiantes.uv.mx',2),(13294,'zs23014113@estudiantes.uv.mx',2),(13295,'zs23014115@estudiantes.uv.mx',2),(13296,'zs23014116@estudiantes.uv.mx',2),(13297,'zs23014118@estudiantes.uv.mx',2),(13298,'zs23014119@estudiantes.uv.mx',2),(13299,'zs23014120@estudiantes.uv.mx',2),(13300,'zs23014122@estudiantes.uv.mx',2),(13301,'zs23014123@estudiantes.uv.mx',2),(13302,'zs23014124@estudiantes.uv.mx',2),(13303,'zs23014127@estudiantes.uv.mx',2),(13304,'zs23014129@estudiantes.uv.mx',2),(13305,'zs23014130@estudiantes.uv.mx',2),(13306,'zs23014132@estudiantes.uv.mx',2),(13307,'zs23014133@estudiantes.uv.mx',2),(13308,'zs23014134@estudiantes.uv.mx',2),(13309,'zs23014136@estudiantes.uv.mx',2),(13310,'zs23014137@estudiantes.uv.mx',2),(13311,'zs23014138@estudiantes.uv.mx',2),(13312,'zs23014139@estudiantes.uv.mx',2),(13313,'zs23014140@estudiantes.uv.mx',2),(13314,'zs23014142@estudiantes.uv.mx',2),(13315,'zs23014143@estudiantes.uv.mx',2),(13316,'zs23014144@estudiantes.uv.mx',2),(13318,'zs23014147@estudiantes.uv.mx',2),(13319,'zs23014148@estudiantes.uv.mx',2),(13320,'zs23014149@estudiantes.uv.mx',2),(13321,'zs23014150@estudiantes.uv.mx',2),(13322,'zs23014151@estudiantes.uv.mx',2),(13323,'zs23014152@estudiantes.uv.mx',2),(13324,'zs23014153@estudiantes.uv.mx',2),(13325,'zs23014154@estudiantes.uv.mx',2),(13326,'zs23014155@estudiantes.uv.mx',2),(13327,'zs23014157@estudiantes.uv.mx',2),(13328,'zs23014158@estudiantes.uv.mx',2),(13329,'zs23014159@estudiantes.uv.mx',2),(13330,'zs23014160@estudiantes.uv.mx',2),(13331,'zs23014161@estudiantes.uv.mx',2),(13332,'zs23014164@estudiantes.uv.mx',2),(13333,'zs23014165@estudiantes.uv.mx',2),(13334,'zs23014166@estudiantes.uv.mx',2),(13336,'zs23014169@estudiantes.uv.mx',2),(13337,'zs23014170@estudiantes.uv.mx',2),(13338,'zs23014172@estudiantes.uv.mx',2),(13339,'zs23014173@estudiantes.uv.mx',2),(13340,'zs23014174@estudiantes.uv.mx',2),(13341,'zs23014175@estudiantes.uv.mx',2),(13342,'zs23014176@estudiantes.uv.mx',2),(13343,'zs23014177@estudiantes.uv.mx',2),(13344,'zs23014179@estudiantes.uv.mx',2),(13345,'zs23014180@estudiantes.uv.mx',2),(13346,'zs23014182@estudiantes.uv.mx',2),(13347,'zs23014183@estudiantes.uv.mx',2),(13348,'zs23014184@estudiantes.uv.mx',2),(13349,'zs23014185@estudiantes.uv.mx',2),(13350,'zs23014187@estudiantes.uv.mx',2),(13351,'zs23014188@estudiantes.uv.mx',2),(13352,'zs23014189@estudiantes.uv.mx',2),(13353,'zs23014190@estudiantes.uv.mx',2),(13354,'zs23014191@estudiantes.uv.mx',2),(13355,'zs23014192@estudiantes.uv.mx',2),(13356,'zs23014193@estudiantes.uv.mx',2),(13357,'zs23014194@estudiantes.uv.mx',2),(13358,'zs23014196@estudiantes.uv.mx',2),(13359,'zs23014197@estudiantes.uv.mx',2),(13360,'zs23021453@estudiantes.uv.mx',2),(13361,'zs23021454@estudiantes.uv.mx',2),(13362,'zs23021468@estudiantes.uv.mx',2),(13363,'zs23021469@estudiantes.uv.mx',2),(13364,'zs23021470@estudiantes.uv.mx',2),(13365,'zs23021471@estudiantes.uv.mx',2),(13366,'zs23021472@estudiantes.uv.mx',2),(13367,'zs23021473@estudiantes.uv.mx',2),(13368,'zs23021475@estudiantes.uv.mx',2),(13369,'zs23021476@estudiantes.uv.mx',2),(13370,'zs23021477@estudiantes.uv.mx',2),(13371,'zs23021478@estudiantes.uv.mx',2),(13372,'zs23021480@estudiantes.uv.mx',2),(13373,'zs23021482@estudiantes.uv.mx',2),(13374,'zs23021483@estudiantes.uv.mx',2),(13375,'zs23021484@estudiantes.uv.mx',2),(13376,'zs23021485@estudiantes.uv.mx',2),(13377,'zs23023265@estudiantes.uv.mx',2),(13378,'zs23023267@estudiantes.uv.mx',2),(13379,'zs23023270@estudiantes.uv.mx',2),(13380,'zs23023285@estudiantes.uv.mx',2),(13382,'zs23023289@estudiantes.uv.mx',2),(13383,'zs23023291@estudiantes.uv.mx',2),(13384,'zs23023292@estudiantes.uv.mx',2),(13385,'zs23023295@estudiantes.uv.mx',2),(13386,'zs23023301@estudiantes.uv.mx',2),(13387,'zs23023303@estudiantes.uv.mx',2),(13388,'zs23023308@estudiantes.uv.mx',2),(13389,'zs23023312@estudiantes.uv.mx',2),(13390,'zs23023318@estudiantes.uv.mx',2),(13391,'zs23023323@estudiantes.uv.mx',2),(13392,'zs23023324@estudiantes.uv.mx',2),(13393,'zs23023325@estudiantes.uv.mx',2),(13394,'zs23023327@estudiantes.uv.mx',2),(13395,'zs23023335@estudiantes.uv.mx',2),(13396,'zs23023336@estudiantes.uv.mx',2),(13397,'zs23023425@estudiantes.uv.mx',2),(13398,'zs23023426@estudiantes.uv.mx',2),(13399,'zs23024133@estudiantes.uv.mx',2),(13400,'zs23024135@estudiantes.uv.mx',2),(13401,'zs23024137@estudiantes.uv.mx',2),(13402,'zs23024138@estudiantes.uv.mx',2),(13403,'zs24013021@estudiantes.uv.mx',2),(13404,'zs24013022@estudiantes.uv.mx',2),(13405,'zs24013023@estudiantes.uv.mx',2),(13406,'zs24013024@estudiantes.uv.mx',2),(13407,'zs24013025@estudiantes.uv.mx',2),(13408,'zs24013026@estudiantes.uv.mx',2),(13409,'zs24013027@estudiantes.uv.mx',2),(13410,'zs24013028@estudiantes.uv.mx',2),(13411,'zs24013029@estudiantes.uv.mx',2),(13412,'zs24013031@estudiantes.uv.mx',2),(13413,'zs24013032@estudiantes.uv.mx',2),(13414,'zs24013033@estudiantes.uv.mx',2),(13415,'zs24013034@estudiantes.uv.mx',2),(13416,'zs24013035@estudiantes.uv.mx',2),(13417,'zs24013036@estudiantes.uv.mx',2),(13422,'zs24013041@estudiantes.uv.mx',2),(13423,'zs24013042@estudiantes.uv.mx',2),(13424,'zs24013043@estudiantes.uv.mx',2),(13425,'zs24013044@estudiantes.uv.mx',2),(13426,'zs24013045@estudiantes.uv.mx',2),(13427,'zs24013046@estudiantes.uv.mx',2),(13428,'zs24013047@estudiantes.uv.mx',2),(13432,'zs24013051@estudiantes.uv.mx',2),(13433,'zs24013052@estudiantes.uv.mx',2),(13434,'zs24013053@estudiantes.uv.mx',2),(13435,'zs24013054@estudiantes.uv.mx',2),(13436,'zs24013055@estudiantes.uv.mx',2),(13437,'zs24013056@estudiantes.uv.mx',2),(13438,'zs24013057@estudiantes.uv.mx',2),(13439,'zs24013058@estudiantes.uv.mx',2),(13440,'zs24013059@estudiantes.uv.mx',2),(13441,'zs24013060@estudiantes.uv.mx',2),(13442,'zs24013061@estudiantes.uv.mx',2),(13443,'zs24013062@estudiantes.uv.mx',2),(13444,'zs24013063@estudiantes.uv.mx',2),(13445,'zs24013064@estudiantes.uv.mx',2),(13446,'zs24013065@estudiantes.uv.mx',2),(13447,'zs24013066@estudiantes.uv.mx',2),(13448,'zs24013067@estudiantes.uv.mx',2),(13449,'zs24013068@estudiantes.uv.mx',2),(13450,'zs24013069@estudiantes.uv.mx',2),(13451,'zs24013070@estudiantes.uv.mx',2),(13452,'zs24013071@estudiantes.uv.mx',2),(13453,'zs24013072@estudiantes.uv.mx',2),(13454,'zs24013073@estudiantes.uv.mx',2),(13455,'zs24013074@estudiantes.uv.mx',2),(13456,'zs24013075@estudiantes.uv.mx',2),(13457,'zs24013076@estudiantes.uv.mx',2),(13458,'zs24013077@estudiantes.uv.mx',2),(13459,'zs24013078@estudiantes.uv.mx',2),(13460,'zs24013079@estudiantes.uv.mx',2),(13461,'zs24013080@estudiantes.uv.mx',2),(13462,'zs24013081@estudiantes.uv.mx',2),(13463,'zs24013082@estudiantes.uv.mx',2),(13464,'zs24013083@estudiantes.uv.mx',2),(13465,'zs24013084@estudiantes.uv.mx',2),(13466,'zs24013085@estudiantes.uv.mx',2),(13467,'zs24013086@estudiantes.uv.mx',2),(13468,'zs24013087@estudiantes.uv.mx',2),(13469,'zs24013088@estudiantes.uv.mx',2),(13473,'zs24013094@estudiantes.uv.mx',2),(13474,'zs24013095@estudiantes.uv.mx',2),(13475,'zs24013247@estudiantes.uv.mx',2),(13476,'zs24013248@estudiantes.uv.mx',2),(13477,'zs24013249@estudiantes.uv.mx',2),(13478,'zs24013250@estudiantes.uv.mx',2),(13479,'zs24013253@estudiantes.uv.mx',2),(13480,'zs24013254@estudiantes.uv.mx',2),(13481,'zs24013255@estudiantes.uv.mx',2),(13482,'zs24013256@estudiantes.uv.mx',2),(13483,'zs24013257@estudiantes.uv.mx',2),(13484,'zs24013258@estudiantes.uv.mx',2),(13485,'zs24013259@estudiantes.uv.mx',2),(13486,'zs24013260@estudiantes.uv.mx',2),(13487,'zs24013261@estudiantes.uv.mx',2),(13488,'zs24013262@estudiantes.uv.mx',2),(13489,'zs24013263@estudiantes.uv.mx',2),(13490,'zs24013264@estudiantes.uv.mx',2),(13491,'zs24013265@estudiantes.uv.mx',2),(13492,'zs24013267@estudiantes.uv.mx',2),(13493,'zs24013269@estudiantes.uv.mx',2),(13494,'zs24013270@estudiantes.uv.mx',2),(13495,'zs24013271@estudiantes.uv.mx',2),(13496,'zs24013272@estudiantes.uv.mx',2),(13497,'zs24013273@estudiantes.uv.mx',2),(13498,'zs24013274@estudiantes.uv.mx',2),(13499,'zs24013275@estudiantes.uv.mx',2),(13500,'zs24013276@estudiantes.uv.mx',2),(13501,'zs24013278@estudiantes.uv.mx',2),(13502,'zs24013279@estudiantes.uv.mx',2),(13503,'zs24013280@estudiantes.uv.mx',2),(13504,'zs24013281@estudiantes.uv.mx',2),(13505,'zs24013282@estudiantes.uv.mx',2),(13506,'zs24013283@estudiantes.uv.mx',2),(13507,'zs24013284@estudiantes.uv.mx',2),(13508,'zs24013285@estudiantes.uv.mx',2),(13509,'zs24013286@estudiantes.uv.mx',2),(13510,'zs24013287@estudiantes.uv.mx',2),(13511,'zs24013288@estudiantes.uv.mx',2),(13512,'zs24013289@estudiantes.uv.mx',2),(13513,'zs24013290@estudiantes.uv.mx',2),(13514,'zs24013291@estudiantes.uv.mx',2),(13515,'zs24013292@estudiantes.uv.mx',2),(13516,'zs24013293@estudiantes.uv.mx',2),(13517,'zs24013294@estudiantes.uv.mx',2),(13518,'zs24013295@estudiantes.uv.mx',2),(13519,'zs24013296@estudiantes.uv.mx',2),(13520,'zs24013297@estudiantes.uv.mx',2),(13521,'zs24013298@estudiantes.uv.mx',2),(13522,'zs24013299@estudiantes.uv.mx',2),(13523,'zs24013300@estudiantes.uv.mx',2),(13524,'zs24013301@estudiantes.uv.mx',2),(13525,'zs24013302@estudiantes.uv.mx',2),(13526,'zs24013303@estudiantes.uv.mx',2),(13527,'zs24013304@estudiantes.uv.mx',2),(13528,'zs24013305@estudiantes.uv.mx',2),(13529,'zs24013306@estudiantes.uv.mx',2),(13530,'zs24013307@estudiantes.uv.mx',2),(13531,'zs24013308@estudiantes.uv.mx',2),(13532,'zs24013309@estudiantes.uv.mx',2),(13533,'zs24013310@estudiantes.uv.mx',2),(13534,'zs24013311@estudiantes.uv.mx',2),(13535,'zs24013312@estudiantes.uv.mx',2),(13536,'zs24013314@estudiantes.uv.mx',2),(13537,'zs24013315@estudiantes.uv.mx',2),(13538,'zs24013316@estudiantes.uv.mx',2),(13539,'zs24013317@estudiantes.uv.mx',2),(13540,'zs24013318@estudiantes.uv.mx',2),(13541,'zs24013319@estudiantes.uv.mx',2),(13542,'zs24013320@estudiantes.uv.mx',2),(13543,'zs24013321@estudiantes.uv.mx',2),(13544,'zs24013322@estudiantes.uv.mx',2),(13545,'zs24013323@estudiantes.uv.mx',2),(13546,'zs24013324@estudiantes.uv.mx',2),(13547,'zs24013327@estudiantes.uv.mx',2),(13548,'zs24013329@estudiantes.uv.mx',2),(13549,'zs24013331@estudiantes.uv.mx',2),(13550,'zs24013332@estudiantes.uv.mx',2),(13551,'zs24013333@estudiantes.uv.mx',2),(13552,'zs24013334@estudiantes.uv.mx',2),(13553,'zs24013335@estudiantes.uv.mx',2),(13554,'zs24013337@estudiantes.uv.mx',2),(13555,'zs24013338@estudiantes.uv.mx',2),(13556,'zs24013339@estudiantes.uv.mx',2),(13557,'zs24013340@estudiantes.uv.mx',2),(13558,'zs24013341@estudiantes.uv.mx',2),(13559,'zs24013342@estudiantes.uv.mx',2),(13560,'zs24013343@estudiantes.uv.mx',2),(13561,'zs24013344@estudiantes.uv.mx',2),(13562,'zs24013345@estudiantes.uv.mx',2),(13563,'zs24013346@estudiantes.uv.mx',2),(13564,'zs24013348@estudiantes.uv.mx',2),(13565,'zs24013349@estudiantes.uv.mx',2),(13566,'zs24013350@estudiantes.uv.mx',2),(13567,'zs24013351@estudiantes.uv.mx',2),(13568,'zs24013352@estudiantes.uv.mx',2),(13569,'zs24013353@estudiantes.uv.mx',2),(13570,'zs24013354@estudiantes.uv.mx',2),(13571,'zs24013356@estudiantes.uv.mx',2),(13572,'zs24013357@estudiantes.uv.mx',2),(13573,'zs24013359@estudiantes.uv.mx',2),(13574,'zs24013360@estudiantes.uv.mx',2),(13575,'zs24013362@estudiantes.uv.mx',2),(13576,'zs24013363@estudiantes.uv.mx',2),(13577,'zs24013364@estudiantes.uv.mx',2),(13578,'zs24013365@estudiantes.uv.mx',2),(13579,'zs24013366@estudiantes.uv.mx',2),(13580,'zs24013367@estudiantes.uv.mx',2),(13581,'zs24013368@estudiantes.uv.mx',2),(13582,'zs24013369@estudiantes.uv.mx',2),(13583,'zs24013370@estudiantes.uv.mx',2),(13584,'zs24013371@estudiantes.uv.mx',2),(13585,'zs24013373@estudiantes.uv.mx',2),(13586,'zs24013374@estudiantes.uv.mx',2),(13588,'zs24013376@estudiantes.uv.mx',2),(13589,'zs24013377@estudiantes.uv.mx',2),(13590,'zs24013378@estudiantes.uv.mx',2),(13591,'zs24013379@estudiantes.uv.mx',2),(13592,'zs24013380@estudiantes.uv.mx',2),(13593,'zs24013381@estudiantes.uv.mx',2),(13594,'zs24013382@estudiantes.uv.mx',2),(13595,'zs24013383@estudiantes.uv.mx',2),(13596,'zs24013384@estudiantes.uv.mx',2),(13597,'zs24013385@estudiantes.uv.mx',2),(13598,'zs24013386@estudiantes.uv.mx',2),(13599,'zs24013387@estudiantes.uv.mx',2),(13600,'zs24013388@estudiantes.uv.mx',2),(13601,'zs24013389@estudiantes.uv.mx',2),(13603,'zs24013392@estudiantes.uv.mx',2),(13604,'zs24013394@estudiantes.uv.mx',2),(13605,'zs24013395@estudiantes.uv.mx',2),(13607,'zs24013397@estudiantes.uv.mx',2),(13609,'zs24013399@estudiantes.uv.mx',2),(13610,'zs24013400@estudiantes.uv.mx',2),(13611,'zs24013401@estudiantes.uv.mx',2),(13612,'zs24013402@estudiantes.uv.mx',2),(13613,'zs24013403@estudiantes.uv.mx',2),(13614,'zs24013404@estudiantes.uv.mx',2),(13615,'zs24013405@estudiantes.uv.mx',2),(13616,'zs24013451@estudiantes.uv.mx',2),(13617,'zs24013452@estudiantes.uv.mx',2),(13618,'zs24013453@estudiantes.uv.mx',2),(13619,'zs24013454@estudiantes.uv.mx',2),(13620,'zs24013455@estudiantes.uv.mx',2),(13621,'zs24013456@estudiantes.uv.mx',2),(13622,'zs24013457@estudiantes.uv.mx',2),(13623,'zs24013458@estudiantes.uv.mx',2),(13624,'zs24013459@estudiantes.uv.mx',2),(13625,'zs24013460@estudiantes.uv.mx',2),(13626,'zs24013461@estudiantes.uv.mx',2),(13627,'zs24013462@estudiantes.uv.mx',2),(13628,'zs24013464@estudiantes.uv.mx',2),(13629,'zs24013465@estudiantes.uv.mx',2),(13630,'zs24013466@estudiantes.uv.mx',2),(13631,'zs24013467@estudiantes.uv.mx',2),(13632,'zs24013468@estudiantes.uv.mx',2),(13633,'zs24013469@estudiantes.uv.mx',2),(13634,'zs24013470@estudiantes.uv.mx',2),(13635,'zs24013471@estudiantes.uv.mx',2),(13636,'zs24013472@estudiantes.uv.mx',2),(13637,'zs24013474@estudiantes.uv.mx',2),(13638,'zs24013475@estudiantes.uv.mx',2),(13639,'zs24013476@estudiantes.uv.mx',2),(13640,'zs24013477@estudiantes.uv.mx',2),(13641,'zs24013478@estudiantes.uv.mx',2),(13642,'zs24013480@estudiantes.uv.mx',2),(13643,'zs24013481@estudiantes.uv.mx',2),(13644,'zs24013482@estudiantes.uv.mx',2),(13645,'zs24013483@estudiantes.uv.mx',2),(13646,'zs24013484@estudiantes.uv.mx',2),(13647,'zs24013486@estudiantes.uv.mx',2),(13648,'zs24013487@estudiantes.uv.mx',2),(13649,'zs24013488@estudiantes.uv.mx',2),(13650,'zs24013489@estudiantes.uv.mx',2),(13651,'zs24013490@estudiantes.uv.mx',2),(13652,'zs24013491@estudiantes.uv.mx',2),(13653,'zs24013492@estudiantes.uv.mx',2),(13654,'zs24013493@estudiantes.uv.mx',2),(13655,'zs24013494@estudiantes.uv.mx',2),(13656,'zs24013495@estudiantes.uv.mx',2),(13657,'zs24013496@estudiantes.uv.mx',2),(13658,'zs24013498@estudiantes.uv.mx',2),(13659,'zs24013500@estudiantes.uv.mx',2),(13660,'zs24013501@estudiantes.uv.mx',2),(13661,'zs24013503@estudiantes.uv.mx',2),(13662,'zs24013504@estudiantes.uv.mx',2),(13663,'zs24013505@estudiantes.uv.mx',2),(13664,'zs24013506@estudiantes.uv.mx',2),(13665,'zs24013507@estudiantes.uv.mx',2),(13666,'zs24013508@estudiantes.uv.mx',2),(13667,'zs24013509@estudiantes.uv.mx',2),(13668,'zs24013510@estudiantes.uv.mx',2),(13669,'zs24013511@estudiantes.uv.mx',2),(13670,'zs24013512@estudiantes.uv.mx',2),(13671,'zs24013513@estudiantes.uv.mx',2),(13672,'zs24013514@estudiantes.uv.mx',2),(13673,'zs24013516@estudiantes.uv.mx',2),(13674,'zs24013517@estudiantes.uv.mx',2),(13675,'zs24013518@estudiantes.uv.mx',2),(13676,'zs24013519@estudiantes.uv.mx',2),(13677,'zs24013520@estudiantes.uv.mx',2),(13678,'zs24013523@estudiantes.uv.mx',2),(13681,'zs24021885@estudiantes.uv.mx',2),(13682,'zs24021886@estudiantes.uv.mx',2),(13683,'zs24021887@estudiantes.uv.mx',2),(13684,'zs24021888@estudiantes.uv.mx',2),(13685,'zs24021889@estudiantes.uv.mx',2),(13686,'zs24021891@estudiantes.uv.mx',2),(13687,'zs24021892@estudiantes.uv.mx',2),(13688,'zs24021893@estudiantes.uv.mx',2),(13689,'zs24021895@estudiantes.uv.mx',2),(13690,'zs24021896@estudiantes.uv.mx',2),(13691,'zs24021899@estudiantes.uv.mx',2),(13692,'zs24021900@estudiantes.uv.mx',2),(13693,'zs24021901@estudiantes.uv.mx',2),(13694,'zs24024420@estudiantes.uv.mx',2),(13695,'zs24024421@estudiantes.uv.mx',2),(13696,'zs24024422@estudiantes.uv.mx',2),(13697,'zs24024423@estudiantes.uv.mx',2),(13698,'zs24024424@estudiantes.uv.mx',2),(13699,'zs24024425@estudiantes.uv.mx',2),(13700,'zs24024426@estudiantes.uv.mx',2),(13701,'zs24024427@estudiantes.uv.mx',2),(13702,'zs24024429@estudiantes.uv.mx',2),(13703,'zs24024430@estudiantes.uv.mx',2),(13704,'zs24024431@estudiantes.uv.mx',2),(13705,'zs24024432@estudiantes.uv.mx',2),(13706,'zs24024433@estudiantes.uv.mx',2),(13707,'zs24024435@estudiantes.uv.mx',2),(13708,'zs24024436@estudiantes.uv.mx',2),(13710,'zs24024439@estudiantes.uv.mx',2),(13711,'zs24024440@estudiantes.uv.mx',2),(13712,'zs24024441@estudiantes.uv.mx',2),(13713,'zs24024442@estudiantes.uv.mx',2),(13714,'zs24024443@estudiantes.uv.mx',2),(13715,'zs24024444@estudiantes.uv.mx',2),(13716,'zs24024445@estudiantes.uv.mx',2),(13717,'zs24024446@estudiantes.uv.mx',2),(13718,'zs24024447@estudiantes.uv.mx',2),(13720,'zs24024450@estudiantes.uv.mx',2),(13721,'zs24024451@estudiantes.uv.mx',2),(13722,'zs24024452@estudiantes.uv.mx',2),(13724,'zs24024454@estudiantes.uv.mx',2),(13725,'zs24024455@estudiantes.uv.mx',2),(13726,'zs24024456@estudiantes.uv.mx',2),(13727,'zs24024457@estudiantes.uv.mx',2),(13728,'zs24024458@estudiantes.uv.mx',2),(13729,'zs24024459@estudiantes.uv.mx',2),(13730,'zs24024460@estudiantes.uv.mx',2),(13731,'zs24024461@estudiantes.uv.mx',2),(13732,'zs24024463@estudiantes.uv.mx',2),(13734,'zs24024465@estudiantes.uv.mx',2),(13735,'zs24024466@estudiantes.uv.mx',2),(13736,'zs24024467@estudiantes.uv.mx',2),(13737,'zs24024468@estudiantes.uv.mx',2),(13738,'zs24024469@estudiantes.uv.mx',2),(13739,'zs24024470@estudiantes.uv.mx',2),(13740,'zs24024472@estudiantes.uv.mx',2),(13741,'zs24024473@estudiantes.uv.mx',2),(13750,'admin@admin.com',3),(13751,'admin2@admin.com',3);
-/*!40000 ALTER TABLE `sesion` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `sesion` (`idSesion`, `correoInstitucional`, `rol`) VALUES
+(1, 'admintuto@uv.mx', 3),
+(3, 'aarenas@uv.mx', 1),
+(4, 'aarguello@uv.mx', 1),
+(5, 'acerdan@uv.mx', 1),
+(6, 'albecruz@uv.mx', 1),
+(7, 'alfduran@uv.mx', 1),
+(8, 'alsanchez@uv.mx', 1),
+(9, 'aminon@uv.mx', 1),
+(10, 'anabramirez@uv.mx', 1),
+(11, 'anaviveros@uv.mx', 1),
+(12, 'angegarcia@uv.mx', 1),
+(13, 'angelperez@uv.mx', 1),
+(14, 'angesanchez@uv.mx', 1),
+(15, 'auraguilar@uv.mx', 1),
+(16, 'aorduna@uv.mx', 1),
+(17, 'apolo@uv.mx', 1),
+(18, 'armbarradas@uv.mx', 1),
+(19, 'auraguilar@uv.mx', 1),
+(20, 'carlogarcia@uv.mx', 1),
+(21, 'ccastro@uv.mx', 1),
+(22, 'ceccruz@uv.mx', 1),
+(23, 'chperez@uv.mx', 1),
+(24, 'cmezura@uv.mx', 1),
+(25, 'cochoa@uv.mx', 1),
+(26, 'ctriana@uv.mx', 1),
+(27, 'dcallejas@uv.mx', 1),
+(28, 'dcarillo@uv.mx', 1),
+(29, 'dvalderrabano@uv.mx', 1),
+(30, 'dvargas@uv.mx', 1),
+(31, 'edbenitez@uv.mx', 1),
+(32, 'eddiaz@uv.mx', 1),
+(33, 'edmendoza@uv.mx', 1),
+(34, 'egabriel@uv.mx', 1),
+(35, 'eldominguez@uv.mx', 1),
+(36, 'ermeneses@uv.mx', 1),
+(37, 'evgarcia@uv.mx', 1),
+(38, 'ezacosta@uv.mx', 1),
+(39, 'fcastaneda@uv.mx', 1),
+(40, 'fmunoz@uv.mx', 1),
+(41, 'gbalderas@uv.mx', 1),
+(42, 'gcontreras@uv.mx', 1),
+(43, 'guillermohernandez02@uv.mx', 1),
+(44, 'hlimon@uv.mx', 1),
+(45, 'itreyes@uv.mx', 1),
+(46, 'jacoperez@uv.mx', 1),
+(47, 'javsanchez@uv.mx', 1),
+(48, 'jemejia@uv.mx', 1),
+(49, 'jescalante@uv.mx', 1),
+(50, 'jeshernandez@uv.mx', 1),
+(51, 'jmendez@uv.mx', 1),
+(52, 'jmontero@uv.mx', 1),
+(53, 'jocharan@uv.mx', 4),
+(54, 'jruiz@uv.mx', 1),
+(55, 'juangarcia06@uv.mx', 1),
+(56, 'juangutierrez02@uv.mx', 1),
+(57, 'juanmunoz@uv.mx', 1),
+(58, 'juaperez@uv.mx', 1),
+(59, 'judiaz@uv.mx', 1),
+(60, 'judrodriguez@uv.mx', 1),
+(61, 'julmontano@uv.mx', 1),
+(62, 'julopez@uv.mx', 1),
+(63, 'kcortes@uv.mx', 1),
+(64, 'lalonso@uv.mx', 1),
+(65, 'lcolorado@uv.mx', 1),
+(66, 'lereyes@uv.mx', 1),
+(67, 'lizhernandez@uv.mx', 1),
+(68, 'lmontane@uv.mx', 1),
+(69, 'lonavarro@uv.mx', 1),
+(70, 'lorlopez@uv.mx', 1),
+(71, 'lourhernandez@uv.mx', 1),
+(72, 'lovelasco@uv.mx', 1),
+(73, 'luisoto@uv.mx', 1),
+(74, 'lwatty@uv.mx', 1),
+(75, 'malonso@uv.mx', 1),
+(76, 'maribelcarmona@uv.mx', 1),
+(77, 'marthrodriguez@uv.mx', 1),
+(78, 'mcanal@uv.mx', 1),
+(79, 'mialarcon@uv.mx', 1),
+(80, 'minreyes@uv.mx', 1),
+(81, 'mmelgarejo@uv.mx', 1),
+(82, 'mojeda@uv.mx', 1),
+(83, 'niemartinez@uv.mx', 1),
+(84, 'olrosas@uv.mx', 1),
+(85, 'paguzman@uv.mx', 1),
+(86, 'pcuellar@uv.mx', 1),
+(87, 'radelafuente@uv.mx', 1),
+(88, 'ramongomez@uv.mx', 1),
+(89, 'roberlara@uv.mx', 1),
+(90, 'rosorio@uv.mx', 1),
+(91, 'rrojano@uv.mx', 1),
+(92, 'rsarmiento@uv.mx', 1),
+(93, 'rualdama@uv.mx', 1),
+(94, 'sauldominguez@uv.mx', 1),
+(95, 'sgarcia@uv.mx', 1),
+(96, 'vlagunes@uv.mx', 1),
+(97, 'vmendez@uv.mx', 1),
+(98, 'vorozco@uv.mx', 1),
+(99, 'vtlapa@uv.mx', 1),
+(100, 'wzarate@uv.mx', 1),
+(101, 'yzavaleta@uv.mx', 1),
+(102, 'zmorales@uv.mx', 1),
+(103, 'zs19016362@estudiantes.uv.mx', 1),
+(104, 'eochoa@uv.mx', 1),
+(105, 'omtexon@uv.mx', 1),
+(106, 'patdiaz@uv.mx', 1),
+(107, 'gvera@uv.mx', 1),
+(108, 'edsortiz@uv.mx', 1),
+(109, 'uortega@uv.mx', 1),
+(110, 'yoortega@uv.mx', 1),
+(111, 'mortigoza@uv.mx', 1),
+(112, 'alirojas@uv.mx', 1),
+(113, 'mmillan@uv.mx', 1),
+(114, 'marcordoba@uv.mx', 1),
+(115, 'kamartinez@uv.mx', 1),
+(116, 'iromero@uv.mx', 1),
+(117, 'ruthrodriguez@uv.mx', 1),
+(118, 'norasanchez@uv.mx', 1),
+(119, 'yanreyes@uv.mx', 1),
+(120, 'elmurrieta@uv.mx', 1),
+(121, 'mariohernandez02@uv.mx', 1),
+(122, 'mrosenkranz@uv.mx', 1),
+(123, 'jenvazquez@uv.mx', 1),
+(124, 'jafernandez@uv.mx', 1),
+(125, 'zs15011624@estudiantes.uv.mx', 1),
+(126, 'almcordova@uv.mx', 1),
+(127, 'oalonso@uv.mx', 1),
+(128, 'brjimenez@uv.mx', 1),
+(129, 'cansosa@uv.mx', 1),
+(130, 'jazgarcia@uv.mx', 1),
+(131, 'luisoto@uv.mx', 1),
+(132, 'zmorales@uv.mx', 1),
+(133, 'maribarradas@uv.mx', 1),
+(12615, 'zs16011696@estudiantes.uv.mx', 2),
+(12616, 'zs17022144@estudiantes.uv.mx', 2),
+(12617, 'zs18012146@estudiantes.uv.mx', 2),
+(12618, 'zs18012193@estudiantes.uv.mx', 2),
+(12619, 'zs18014080@estudiantes.uv.mx', 2),
+(12620, 'zs18014082@estudiantes.uv.mx', 2),
+(12621, 'zs18014098@estudiantes.uv.mx', 2),
+(12622, 'zs18014102@estudiantes.uv.mx', 2),
+(12623, 'zs18014105@estudiantes.uv.mx', 2),
+(12624, 'zs18014119@estudiantes.uv.mx', 2),
+(12625, 'zs18014503@estudiantes.uv.mx', 2),
+(12626, 'zs18019961@estudiantes.uv.mx', 2),
+(12627, 'zs18019963@estudiantes.uv.mx', 2),
+(12628, 'zs18026719@estudiantes.uv.mx', 2),
+(12629, 'zs19013197@estudiantes.uv.mx', 2),
+(12630, 'zs19013229@estudiantes.uv.mx', 2),
+(12631, 'zs19013244@estudiantes.uv.mx', 2),
+(12632, 'zs19013252@estudiantes.uv.mx', 2),
+(12633, 'zs19013294@estudiantes.uv.mx', 2),
+(12634, 'zs19013988@estudiantes.uv.mx', 2),
+(12635, 'zs19013990@estudiantes.uv.mx', 2),
+(12636, 'zs19013993@estudiantes.uv.mx', 2),
+(12637, 'zs19013994@estudiantes.uv.mx', 2),
+(12638, 'zs19013995@estudiantes.uv.mx', 2),
+(12639, 'zs19014003@estudiantes.uv.mx', 2),
+(12640, 'zs19014012@estudiantes.uv.mx', 2),
+(12641, 'zs19014015@estudiantes.uv.mx', 2),
+(12642, 'zs19014016@estudiantes.uv.mx', 2),
+(12643, 'zs19014018@estudiantes.uv.mx', 2),
+(12644, 'zs19014020@estudiantes.uv.mx', 2),
+(12645, 'zs19014021@estudiantes.uv.mx', 2),
+(12646, 'zs19014025@estudiantes.uv.mx', 2),
+(12647, 'zs19014027@estudiantes.uv.mx', 2),
+(12648, 'zs19014030@estudiantes.uv.mx', 2),
+(12649, 'zs19014034@estudiantes.uv.mx', 2),
+(12650, 'zs19014038@estudiantes.uv.mx', 2),
+(12651, 'zs19014041@estudiantes.uv.mx', 2),
+(12652, 'zs19014047@estudiantes.uv.mx', 2),
+(12653, 'zs19014049@estudiantes.uv.mx', 2),
+(12654, 'zs19014050@estudiantes.uv.mx', 2),
+(12655, 'zs19015963@estudiantes.uv.mx', 2),
+(12656, 'zs19015973@estudiantes.uv.mx', 2),
+(12657, 'zs19015993@estudiantes.uv.mx', 2),
+(12658, 'zs19016000@estudiantes.uv.mx', 2),
+(12659, 'zs19016004@estudiantes.uv.mx', 2),
+(12660, 'zs19016005@estudiantes.uv.mx', 2),
+(12661, 'zs19016009@estudiantes.uv.mx', 2),
+(12662, 'zs19016010@estudiantes.uv.mx', 2),
+(12663, 'zs19016011@estudiantes.uv.mx', 2),
+(12664, 'zs19016013@estudiantes.uv.mx', 2),
+(12665, 'zs19016016@estudiantes.uv.mx', 2),
+(12666, 'zs19016019@estudiantes.uv.mx', 2),
+(12667, 'zs19016022@estudiantes.uv.mx', 2),
+(12668, 'zs19016023@estudiantes.uv.mx', 2),
+(12669, 'zs19016024@estudiantes.uv.mx', 2),
+(12670, 'zs19016349@estudiantes.uv.mx', 2),
+(12671, 'zs19016350@estudiantes.uv.mx', 2),
+(12672, 'zs19016375@estudiantes.uv.mx', 2),
+(12673, 'zs19016388@estudiantes.uv.mx', 2),
+(12674, 'zs19016391@estudiantes.uv.mx', 2),
+(12675, 'zs19016407@estudiantes.uv.mx', 2),
+(12676, 'zs19016416@estudiantes.uv.mx', 2),
+(12677, 'zs19023584@estudiantes.uv.mx', 2),
+(12678, 'zs19023587@estudiantes.uv.mx', 2),
+(12679, 'zs19023589@estudiantes.uv.mx', 2),
+(12680, 'zs19023590@estudiantes.uv.mx', 2),
+(12681, 'zs19024979@estudiantes.uv.mx', 2),
+(12682, 'zs19024992@estudiantes.uv.mx', 2),
+(12683, 'zs19025092@estudiantes.uv.mx', 2),
+(12684, 'zs19030167@estudiantes.uv.mx', 2),
+(12685, 'zs19030168@estudiantes.uv.mx', 2),
+(12686, 'zs19030171@estudiantes.uv.mx', 2),
+(12687, 'zs19030173@estudiantes.uv.mx', 2),
+(12688, 'zs19030174@estudiantes.uv.mx', 2),
+(12689, 'zs20015034@estudiantes.uv.mx', 2),
+(12690, 'zs20015035@estudiantes.uv.mx', 2),
+(12691, 'zs20015037@estudiantes.uv.mx', 2),
+(12692, 'zs20015039@estudiantes.uv.mx', 2),
+(12693, 'zs20015047@estudiantes.uv.mx', 2),
+(12694, 'zs20015050@estudiantes.uv.mx', 2),
+(12695, 'zs20015052@estudiantes.uv.mx', 2),
+(12696, 'zs20015053@estudiantes.uv.mx', 2),
+(12697, 'zs20015060@estudiantes.uv.mx', 2),
+(12698, 'zs20015062@estudiantes.uv.mx', 2),
+(12699, 'zs20015063@estudiantes.uv.mx', 2),
+(12700, 'zs20015064@estudiantes.uv.mx', 2),
+(12701, 'zs20015068@estudiantes.uv.mx', 2),
+(12702, 'zs20015073@estudiantes.uv.mx', 2),
+(12703, 'zs20015075@estudiantes.uv.mx', 2),
+(12704, 'zs20015077@estudiantes.uv.mx', 2),
+(12705, 'zs20015078@estudiantes.uv.mx', 2),
+(12706, 'zs20015080@estudiantes.uv.mx', 2),
+(12707, 'zs20015082@estudiantes.uv.mx', 2),
+(12708, 'zs20015083@estudiantes.uv.mx', 2),
+(12709, 'zs20015092@estudiantes.uv.mx', 2),
+(12710, 'zs20015094@estudiantes.uv.mx', 2),
+(12711, 'zs20015097@estudiantes.uv.mx', 2),
+(12712, 'zs20015099@estudiantes.uv.mx', 2),
+(12713, 'zs20015103@estudiantes.uv.mx', 2),
+(12714, 'zs20015105@estudiantes.uv.mx', 2),
+(12715, 'zs20015110@estudiantes.uv.mx', 2),
+(12716, 'zs20015681@estudiantes.uv.mx', 2),
+(12717, 'zs20015683@estudiantes.uv.mx', 2),
+(12718, 'zs20015687@estudiantes.uv.mx', 2),
+(12719, 'zs20015690@estudiantes.uv.mx', 2),
+(12720, 'zs20015691@estudiantes.uv.mx', 2),
+(12721, 'zs20015692@estudiantes.uv.mx', 2),
+(12722, 'zs20015693@estudiantes.uv.mx', 2),
+(12723, 'zs20015694@estudiantes.uv.mx', 2),
+(12724, 'zs20015696@estudiantes.uv.mx', 2),
+(12725, 'zs20015697@estudiantes.uv.mx', 2),
+(12726, 'zs20015699@estudiantes.uv.mx', 2),
+(12727, 'zs20015700@estudiantes.uv.mx', 2),
+(12728, 'zs20015702@estudiantes.uv.mx', 2),
+(12729, 'zs20015704@estudiantes.uv.mx', 2),
+(12730, 'zs20015708@estudiantes.uv.mx', 2),
+(12731, 'zs20015709@estudiantes.uv.mx', 2),
+(12732, 'zs20015714@estudiantes.uv.mx', 2),
+(12733, 'zs20015715@estudiantes.uv.mx', 2),
+(12734, 'zs20015719@estudiantes.uv.mx', 2),
+(12735, 'zs20015721@estudiantes.uv.mx', 2),
+(12736, 'zs20015724@estudiantes.uv.mx', 2),
+(12737, 'zs20015725@estudiantes.uv.mx', 2),
+(12738, 'zs20015727@estudiantes.uv.mx', 2),
+(12739, 'zs20015728@estudiantes.uv.mx', 2),
+(12740, 'zs20015729@estudiantes.uv.mx', 2),
+(12741, 'zs20015730@estudiantes.uv.mx', 2),
+(12742, 'zs20015736@estudiantes.uv.mx', 2),
+(12743, 'zs20015738@estudiantes.uv.mx', 2),
+(12744, 'zs20015742@estudiantes.uv.mx', 2),
+(12745, 'zs20015744@estudiantes.uv.mx', 2),
+(12746, 'zs20015745@estudiantes.uv.mx', 2),
+(12747, 'zs20015749@estudiantes.uv.mx', 2),
+(12748, 'zs20015751@estudiantes.uv.mx', 2),
+(12749, 'zs20015752@estudiantes.uv.mx', 2),
+(12750, 'zs20015753@estudiantes.uv.mx', 2),
+(12751, 'zs20015755@estudiantes.uv.mx', 2),
+(12752, 'zs20015760@estudiantes.uv.mx', 2),
+(12753, 'zs20017752@estudiantes.uv.mx', 2),
+(12754, 'zs20017754@estudiantes.uv.mx', 2),
+(12755, 'zs20017759@estudiantes.uv.mx', 2),
+(12756, 'zs20017763@estudiantes.uv.mx', 2),
+(12758, 'zs20017767@estudiantes.uv.mx', 2),
+(12759, 'zs20017769@estudiantes.uv.mx', 2),
+(12760, 'zs20017773@estudiantes.uv.mx', 2),
+(12761, 'zs20017774@estudiantes.uv.mx', 2),
+(12762, 'zs20017777@estudiantes.uv.mx', 2),
+(12763, 'zs20017778@estudiantes.uv.mx', 2),
+(12764, 'zs20017782@estudiantes.uv.mx', 2),
+(12765, 'zs20017788@estudiantes.uv.mx', 2),
+(12766, 'zs20017790@estudiantes.uv.mx', 2),
+(12768, 'zs20017796@estudiantes.uv.mx', 2),
+(12769, 'zs20017800@estudiantes.uv.mx', 2),
+(12770, 'zs20017801@estudiantes.uv.mx', 2),
+(12771, 'zs20017809@estudiantes.uv.mx', 2),
+(12772, 'zs20017812@estudiantes.uv.mx', 2),
+(12773, 'zs20017815@estudiantes.uv.mx', 2),
+(12774, 'zs20017818@estudiantes.uv.mx', 2),
+(12775, 'zs20018147@estudiantes.uv.mx', 2),
+(12776, 'zs20018149@estudiantes.uv.mx', 2),
+(12777, 'zs20018150@estudiantes.uv.mx', 2),
+(12778, 'zs20018152@estudiantes.uv.mx', 2),
+(12779, 'zs20018158@estudiantes.uv.mx', 2),
+(12780, 'zs20018160@estudiantes.uv.mx', 2),
+(12781, 'zs20018164@estudiantes.uv.mx', 2),
+(12782, 'zs20018166@estudiantes.uv.mx', 2),
+(12783, 'zs20018167@estudiantes.uv.mx', 2),
+(12784, 'zs20018168@estudiantes.uv.mx', 2),
+(12785, 'zs20018172@estudiantes.uv.mx', 2),
+(12786, 'zs20018173@estudiantes.uv.mx', 2),
+(12787, 'zs20018175@estudiantes.uv.mx', 2),
+(12790, 'zs20018182@estudiantes.uv.mx', 2),
+(12791, 'zs20018183@estudiantes.uv.mx', 2),
+(12792, 'zs20018184@estudiantes.uv.mx', 2),
+(12793, 'zs20018188@estudiantes.uv.mx', 2),
+(12794, 'zs20018191@estudiantes.uv.mx', 2),
+(12795, 'zs20018198@estudiantes.uv.mx', 2),
+(12796, 'zs20018199@estudiantes.uv.mx', 2),
+(12797, 'zs20018201@estudiantes.uv.mx', 2),
+(12798, 'zs20018203@estudiantes.uv.mx', 2),
+(12799, 'zs20018205@estudiantes.uv.mx', 2),
+(12800, 'zs20018222@estudiantes.uv.mx', 2),
+(12801, 'zs20018223@estudiantes.uv.mx', 2),
+(12802, 'zs20018226@estudiantes.uv.mx', 2),
+(12803, 'zs20020852@estudiantes.uv.mx', 2),
+(12804, 'zs20020853@estudiantes.uv.mx', 2),
+(12805, 'zs20020854@estudiantes.uv.mx', 2),
+(12806, 'zs20020855@estudiantes.uv.mx', 2),
+(12807, 'zs20021059@estudiantes.uv.mx', 2),
+(12808, 'zs20021997@estudiantes.uv.mx', 2),
+(12809, 'zs20022002@estudiantes.uv.mx', 2),
+(12810, 'zs20022005@estudiantes.uv.mx', 2),
+(12811, 'zs20022009@estudiantes.uv.mx', 2),
+(12812, 'zs20022010@estudiantes.uv.mx', 2),
+(12813, 'zs20022018@estudiantes.uv.mx', 2),
+(12814, 'zs20022022@estudiantes.uv.mx', 2),
+(12815, 'zs20022086@estudiantes.uv.mx', 2),
+(12816, 'zs20022112@estudiantes.uv.mx', 2),
+(12817, 'zs20022115@estudiantes.uv.mx', 2),
+(12818, 'zs20022479@estudiantes.uv.mx', 2),
+(12819, 'zs21013235@estudiantes.uv.mx', 2),
+(12820, 'zs21013236@estudiantes.uv.mx', 2),
+(12821, 'zs21013238@estudiantes.uv.mx', 2),
+(12822, 'zs21013242@estudiantes.uv.mx', 2),
+(12823, 'zs21013243@estudiantes.uv.mx', 2),
+(12824, 'zs21013247@estudiantes.uv.mx', 2),
+(12825, 'zs21013248@estudiantes.uv.mx', 2),
+(12826, 'zs21013253@estudiantes.uv.mx', 2),
+(12827, 'zs21013257@estudiantes.uv.mx', 2),
+(12828, 'zs21013258@estudiantes.uv.mx', 2),
+(12829, 'zs21013259@estudiantes.uv.mx', 2),
+(12830, 'zs21013260@estudiantes.uv.mx', 2),
+(12831, 'zs21013261@estudiantes.uv.mx', 2),
+(12832, 'zs21013263@estudiantes.uv.mx', 2),
+(12833, 'zs21013264@estudiantes.uv.mx', 2),
+(12834, 'zs21013265@estudiantes.uv.mx', 2),
+(12835, 'zs21013266@estudiantes.uv.mx', 2),
+(12836, 'zs21013268@estudiantes.uv.mx', 2),
+(12837, 'zs21013271@estudiantes.uv.mx', 2),
+(12838, 'zs21013273@estudiantes.uv.mx', 2),
+(12839, 'zs21013274@estudiantes.uv.mx', 2),
+(12840, 'zs21013278@estudiantes.uv.mx', 2),
+(12841, 'zs21013282@estudiantes.uv.mx', 2),
+(12842, 'zs21013284@estudiantes.uv.mx', 2),
+(12843, 'zs21013288@estudiantes.uv.mx', 2),
+(12844, 'zs21013830@estudiantes.uv.mx', 2),
+(12845, 'zs21013834@estudiantes.uv.mx', 2),
+(12846, 'zs21013835@estudiantes.uv.mx', 2),
+(12847, 'zs21013836@estudiantes.uv.mx', 2),
+(12848, 'zs21013841@estudiantes.uv.mx', 2),
+(12849, 'zs21013846@estudiantes.uv.mx', 2),
+(12850, 'zs21013848@estudiantes.uv.mx', 2),
+(12851, 'zs21013850@estudiantes.uv.mx', 2),
+(12852, 'zs21013852@estudiantes.uv.mx', 2),
+(12853, 'zs21013853@estudiantes.uv.mx', 2),
+(12854, 'zs21013854@estudiantes.uv.mx', 2),
+(12855, 'zs21013857@estudiantes.uv.mx', 2),
+(12856, 'zs21013858@estudiantes.uv.mx', 2),
+(12857, 'zs21013859@estudiantes.uv.mx', 2),
+(12858, 'zs21013860@estudiantes.uv.mx', 2),
+(12859, 'zs21013861@estudiantes.uv.mx', 2),
+(12860, 'zs21013862@estudiantes.uv.mx', 2),
+(12861, 'zs21013863@estudiantes.uv.mx', 2),
+(12862, 'zs21013864@estudiantes.uv.mx', 2),
+(12863, 'zs21013865@estudiantes.uv.mx', 2),
+(12864, 'zs21013866@estudiantes.uv.mx', 2),
+(12865, 'zs21013868@estudiantes.uv.mx', 2),
+(12866, 'zs21013870@estudiantes.uv.mx', 2),
+(12867, 'zs21013871@estudiantes.uv.mx', 2),
+(12868, 'zs21013873@estudiantes.uv.mx', 2),
+(12869, 'zs21013875@estudiantes.uv.mx', 2),
+(12870, 'zs21013876@estudiantes.uv.mx', 2),
+(12871, 'zs21013878@estudiantes.uv.mx', 2),
+(12872, 'zs21013881@estudiantes.uv.mx', 2),
+(12873, 'zs21013882@estudiantes.uv.mx', 2),
+(12874, 'zs21013884@estudiantes.uv.mx', 2),
+(12875, 'zs21013885@estudiantes.uv.mx', 2),
+(12876, 'zs21013886@estudiantes.uv.mx', 2),
+(12877, 'zs21013887@estudiantes.uv.mx', 2),
+(12878, 'zs21013888@estudiantes.uv.mx', 2),
+(12879, 'zs21013891@estudiantes.uv.mx', 2),
+(12880, 'zs21013893@estudiantes.uv.mx', 2),
+(12881, 'zs21013897@estudiantes.uv.mx', 2),
+(12882, 'zs21013898@estudiantes.uv.mx', 2),
+(12883, 'zs21013900@estudiantes.uv.mx', 2),
+(12884, 'zs21013903@estudiantes.uv.mx', 2),
+(12885, 'zs21013907@estudiantes.uv.mx', 2),
+(12886, 'zs21013908@estudiantes.uv.mx', 2),
+(12887, 'zs21013909@estudiantes.uv.mx', 2),
+(12889, 'zs21015916@estudiantes.uv.mx', 2),
+(12890, 'zs21015917@estudiantes.uv.mx', 2),
+(12891, 'zs21015921@estudiantes.uv.mx', 2),
+(12893, 'zs21015929@estudiantes.uv.mx', 2),
+(12894, 'zs21015931@estudiantes.uv.mx', 2),
+(12895, 'zs21015940@estudiantes.uv.mx', 2),
+(12896, 'zs21015946@estudiantes.uv.mx', 2),
+(12897, 'zs21015948@estudiantes.uv.mx', 2),
+(12898, 'zs21015956@estudiantes.uv.mx', 2),
+(12899, 'zs21015959@estudiantes.uv.mx', 2),
+(12900, 'zs21015960@estudiantes.uv.mx', 2),
+(12901, 'zs21015961@estudiantes.uv.mx', 2),
+(12902, 'zs21015964@estudiantes.uv.mx', 2),
+(12903, 'zs21015965@estudiantes.uv.mx', 2),
+(12904, 'zs21015974@estudiantes.uv.mx', 2),
+(12905, 'zs21015975@estudiantes.uv.mx', 2),
+(12906, 'zs21015978@estudiantes.uv.mx', 2),
+(12907, 'zs21015980@estudiantes.uv.mx', 2),
+(12908, 'zs21016323@estudiantes.uv.mx', 2),
+(12909, 'zs21016325@estudiantes.uv.mx', 2),
+(12910, 'zs21016328@estudiantes.uv.mx', 2),
+(12911, 'zs21016329@estudiantes.uv.mx', 2),
+(12912, 'zs21016332@estudiantes.uv.mx', 2),
+(12913, 'zs21016333@estudiantes.uv.mx', 2),
+(12914, 'zs21016335@estudiantes.uv.mx', 2),
+(12915, 'zs21016338@estudiantes.uv.mx', 2),
+(12916, 'zs21016339@estudiantes.uv.mx', 2),
+(12917, 'zs21016340@estudiantes.uv.mx', 2),
+(12918, 'zs21016346@estudiantes.uv.mx', 2),
+(12919, 'zs21016348@estudiantes.uv.mx', 2),
+(12921, 'zs21016350@estudiantes.uv.mx', 2),
+(12922, 'zs21016351@estudiantes.uv.mx', 2),
+(12923, 'zs21016355@estudiantes.uv.mx', 2),
+(12924, 'zs21016357@estudiantes.uv.mx', 2),
+(12926, 'zs21016364@estudiantes.uv.mx', 2),
+(12927, 'zs21016367@estudiantes.uv.mx', 2),
+(12928, 'zs21016371@estudiantes.uv.mx', 2),
+(12929, 'zs21016376@estudiantes.uv.mx', 2),
+(12930, 'zs21016377@estudiantes.uv.mx', 2),
+(12931, 'zs21016382@estudiantes.uv.mx', 2),
+(12932, 'zs21016383@estudiantes.uv.mx', 2),
+(12933, 'zs21016392@estudiantes.uv.mx', 2),
+(12934, 'zs21017270@estudiantes.uv.mx', 2),
+(12935, 'zs21021432@estudiantes.uv.mx', 2),
+(12936, 'zs21021434@estudiantes.uv.mx', 2),
+(12937, 'zs21021435@estudiantes.uv.mx', 2),
+(12938, 'zs21021436@estudiantes.uv.mx', 2),
+(12939, 'zs21021441@estudiantes.uv.mx', 2),
+(12940, 'zs21021652@estudiantes.uv.mx', 2),
+(12941, 'zs21021654@estudiantes.uv.mx', 2),
+(12942, 'zs21021681@estudiantes.uv.mx', 2),
+(12943, 'zs21021683@estudiantes.uv.mx', 2),
+(12944, 'zs21023157@estudiantes.uv.mx', 2),
+(12945, 'zs21023158@estudiantes.uv.mx', 2),
+(12946, 'zs21023159@estudiantes.uv.mx', 2),
+(12947, 'zs21023160@estudiantes.uv.mx', 2),
+(12948, 'zs21023161@estudiantes.uv.mx', 2),
+(12949, 'zs21023168@estudiantes.uv.mx', 2),
+(12950, 'zs21023196@estudiantes.uv.mx', 2),
+(12951, 'zs21023197@estudiantes.uv.mx', 2),
+(12952, 'zs21023205@estudiantes.uv.mx', 2),
+(12953, 'zs21023210@estudiantes.uv.mx', 2),
+(12954, 'zs21023215@estudiantes.uv.mx', 2),
+(12955, 'zs21023220@estudiantes.uv.mx', 2),
+(12956, 'zs21023221@estudiantes.uv.mx', 2),
+(12957, 'zs21026430@estudiantes.uv.mx', 2),
+(12958, 'zs21026431@estudiantes.uv.mx', 2),
+(12959, 'zs21026432@estudiantes.uv.mx', 2),
+(12960, 'zs21026433@estudiantes.uv.mx', 2),
+(12961, 'zs22013011@estudiantes.uv.mx', 2),
+(12962, 'zs22013015@estudiantes.uv.mx', 2),
+(12963, 'zs22013016@estudiantes.uv.mx', 2),
+(12964, 'zs22013017@estudiantes.uv.mx', 2),
+(12966, 'zs22013021@estudiantes.uv.mx', 2),
+(12967, 'zs22013024@estudiantes.uv.mx', 2),
+(12968, 'zs22013028@estudiantes.uv.mx', 2),
+(12969, 'zs22013029@estudiantes.uv.mx', 2),
+(12970, 'zs22013030@estudiantes.uv.mx', 2),
+(12971, 'zs22013031@estudiantes.uv.mx', 2),
+(12972, 'zs22013035@estudiantes.uv.mx', 2),
+(12973, 'zs22013039@estudiantes.uv.mx', 2),
+(12974, 'zs22013040@estudiantes.uv.mx', 2),
+(12975, 'zs22013042@estudiantes.uv.mx', 2),
+(12976, 'zs22013044@estudiantes.uv.mx', 2),
+(12977, 'zs22013045@estudiantes.uv.mx', 2),
+(12978, 'zs22013049@estudiantes.uv.mx', 2),
+(12979, 'zs22013051@estudiantes.uv.mx', 2),
+(12980, 'zs22013053@estudiantes.uv.mx', 2),
+(12981, 'zs22013054@estudiantes.uv.mx', 2),
+(12982, 'zs22013056@estudiantes.uv.mx', 2),
+(12983, 'zs22013620@estudiantes.uv.mx', 2),
+(12984, 'zs22013624@estudiantes.uv.mx', 2),
+(12985, 'zs22013626@estudiantes.uv.mx', 2),
+(12986, 'zs22013627@estudiantes.uv.mx', 2),
+(12987, 'zs22013628@estudiantes.uv.mx', 2),
+(12988, 'zs22013630@estudiantes.uv.mx', 2),
+(12989, 'zs22013631@estudiantes.uv.mx', 2),
+(12990, 'zs22013636@estudiantes.uv.mx', 2),
+(12991, 'zs22013637@estudiantes.uv.mx', 2),
+(12992, 'zs22013638@estudiantes.uv.mx', 2),
+(12993, 'zs22013639@estudiantes.uv.mx', 2),
+(12994, 'zs22013640@estudiantes.uv.mx', 2),
+(12995, 'zs22013641@estudiantes.uv.mx', 2),
+(12996, 'zs22013642@estudiantes.uv.mx', 2),
+(12997, 'zs22013643@estudiantes.uv.mx', 2),
+(12998, 'zs22013645@estudiantes.uv.mx', 2),
+(12999, 'zs22013646@estudiantes.uv.mx', 2),
+(13000, 'zs22013647@estudiantes.uv.mx', 2),
+(13001, 'zs22013648@estudiantes.uv.mx', 2),
+(13002, 'zs22013650@estudiantes.uv.mx', 2),
+(13003, 'zs22013651@estudiantes.uv.mx', 2),
+(13004, 'zs22013653@estudiantes.uv.mx', 2),
+(13005, 'zs22013656@estudiantes.uv.mx', 2),
+(13006, 'zs22013658@estudiantes.uv.mx', 2),
+(13007, 'zs22013659@estudiantes.uv.mx', 2),
+(13008, 'zs22013660@estudiantes.uv.mx', 2),
+(13009, 'zs22013661@estudiantes.uv.mx', 2),
+(13010, 'zs22013662@estudiantes.uv.mx', 2),
+(13011, 'zs22013663@estudiantes.uv.mx', 2),
+(13012, 'zs22013664@estudiantes.uv.mx', 2),
+(13013, 'zs22013665@estudiantes.uv.mx', 2),
+(13014, 'zs22013666@estudiantes.uv.mx', 2),
+(13016, 'zs22013668@estudiantes.uv.mx', 2),
+(13017, 'zs22013669@estudiantes.uv.mx', 2),
+(13018, 'zs22013670@estudiantes.uv.mx', 2),
+(13019, 'zs22013671@estudiantes.uv.mx', 2),
+(13020, 'zs22013672@estudiantes.uv.mx', 2),
+(13021, 'zs22013674@estudiantes.uv.mx', 2),
+(13022, 'zs22013675@estudiantes.uv.mx', 2),
+(13023, 'zs22013676@estudiantes.uv.mx', 2),
+(13024, 'zs22013678@estudiantes.uv.mx', 2),
+(13025, 'zs22013679@estudiantes.uv.mx', 2),
+(13026, 'zs22013681@estudiantes.uv.mx', 2),
+(13027, 'zs22013683@estudiantes.uv.mx', 2),
+(13028, 'zs22013686@estudiantes.uv.mx', 2),
+(13029, 'zs22013688@estudiantes.uv.mx', 2),
+(13030, 'zs22013690@estudiantes.uv.mx', 2),
+(13031, 'zs22013691@estudiantes.uv.mx', 2),
+(13032, 'zs22013692@estudiantes.uv.mx', 2),
+(13033, 'zs22013693@estudiantes.uv.mx', 2),
+(13034, 'zs22013694@estudiantes.uv.mx', 2),
+(13035, 'zs22013695@estudiantes.uv.mx', 2),
+(13036, 'zs22013696@estudiantes.uv.mx', 2),
+(13037, 'zs22013698@estudiantes.uv.mx', 2),
+(13038, 'zs22015683@estudiantes.uv.mx', 2),
+(13039, 'zs22015684@estudiantes.uv.mx', 2),
+(13040, 'zs22015686@estudiantes.uv.mx', 2),
+(13041, 'zs22015688@estudiantes.uv.mx', 2),
+(13042, 'zs22015689@estudiantes.uv.mx', 2),
+(13043, 'zs22015700@estudiantes.uv.mx', 2),
+(13046, 'zs22015705@estudiantes.uv.mx', 2),
+(13047, 'zs22015706@estudiantes.uv.mx', 2),
+(13048, 'zs22015707@estudiantes.uv.mx', 2),
+(13049, 'zs22015708@estudiantes.uv.mx', 2),
+(13050, 'zs22015710@estudiantes.uv.mx', 2),
+(13051, 'zs22015711@estudiantes.uv.mx', 2),
+(13052, 'zs22015714@estudiantes.uv.mx', 2),
+(13053, 'zs22015715@estudiantes.uv.mx', 2),
+(13054, 'zs22015719@estudiantes.uv.mx', 2),
+(13055, 'zs22015721@estudiantes.uv.mx', 2),
+(13056, 'zs22015722@estudiantes.uv.mx', 2),
+(13057, 'zs22015723@estudiantes.uv.mx', 2),
+(13058, 'zs22015727@estudiantes.uv.mx', 2),
+(13059, 'zs22015729@estudiantes.uv.mx', 2),
+(13060, 'zs22015732@estudiantes.uv.mx', 2),
+(13061, 'zs22015734@estudiantes.uv.mx', 2),
+(13062, 'zs22015735@estudiantes.uv.mx', 2),
+(13063, 'zs22016061@estudiantes.uv.mx', 2),
+(13064, 'zs22016063@estudiantes.uv.mx', 2),
+(13065, 'zs22016064@estudiantes.uv.mx', 2),
+(13066, 'zs22016065@estudiantes.uv.mx', 2),
+(13067, 'zs22016068@estudiantes.uv.mx', 2),
+(13068, 'zs22016070@estudiantes.uv.mx', 2),
+(13069, 'zs22016072@estudiantes.uv.mx', 2),
+(13070, 'zs22016075@estudiantes.uv.mx', 2),
+(13071, 'zs22016078@estudiantes.uv.mx', 2),
+(13072, 'zs22016079@estudiantes.uv.mx', 2),
+(13074, 'zs22016082@estudiantes.uv.mx', 2),
+(13075, 'zs22016084@estudiantes.uv.mx', 2),
+(13076, 'zs22016085@estudiantes.uv.mx', 2),
+(13077, 'zs22016087@estudiantes.uv.mx', 2),
+(13078, 'zs22016089@estudiantes.uv.mx', 2),
+(13079, 'zs22016090@estudiantes.uv.mx', 2),
+(13080, 'zs22016091@estudiantes.uv.mx', 2),
+(13081, 'zs22016094@estudiantes.uv.mx', 2),
+(13082, 'zs22016095@estudiantes.uv.mx', 2),
+(13083, 'zs22016096@estudiantes.uv.mx', 2),
+(13084, 'zs22016100@estudiantes.uv.mx', 2),
+(13085, 'zs22016101@estudiantes.uv.mx', 2),
+(13086, 'zs22016102@estudiantes.uv.mx', 2),
+(13087, 'zs22016103@estudiantes.uv.mx', 2),
+(13088, 'zs22016108@estudiantes.uv.mx', 2),
+(13089, 'zs22016109@estudiantes.uv.mx', 2),
+(13090, 'zs22016112@estudiantes.uv.mx', 2),
+(13091, 'zs22016113@estudiantes.uv.mx', 2),
+(13092, 'zs22016114@estudiantes.uv.mx', 2),
+(13093, 'zs22016115@estudiantes.uv.mx', 2),
+(13094, 'zs22016116@estudiantes.uv.mx', 2),
+(13095, 'zs22016117@estudiantes.uv.mx', 2),
+(13096, 'zs22016119@estudiantes.uv.mx', 2),
+(13097, 'zs22016120@estudiantes.uv.mx', 2),
+(13098, 'zs22016126@estudiantes.uv.mx', 2),
+(13099, 'zs22016127@estudiantes.uv.mx', 2),
+(13100, 'zs22016128@estudiantes.uv.mx', 2),
+(13101, 'zs22016130@estudiantes.uv.mx', 2),
+(13102, 'zs22016131@estudiantes.uv.mx', 2),
+(13103, 'zs22016132@estudiantes.uv.mx', 2),
+(13104, 'zs22016134@estudiantes.uv.mx', 2),
+(13105, 'zs22016137@estudiantes.uv.mx', 2),
+(13106, 'zs22016138@estudiantes.uv.mx', 2),
+(13107, 'zs22020936@estudiantes.uv.mx', 2),
+(13109, 'zs22020939@estudiantes.uv.mx', 2),
+(13110, 'zs22020940@estudiantes.uv.mx', 2),
+(13111, 'zs22020943@estudiantes.uv.mx', 2),
+(13112, 'zs22020945@estudiantes.uv.mx', 2),
+(13113, 'zs22021217@estudiantes.uv.mx', 2),
+(13115, 'zs22022955@estudiantes.uv.mx', 2),
+(13116, 'zs22022958@estudiantes.uv.mx', 2),
+(13117, 'zs22022966@estudiantes.uv.mx', 2),
+(13118, 'zs22022967@estudiantes.uv.mx', 2),
+(13119, 'zs22022968@estudiantes.uv.mx', 2),
+(13120, 'zs22022986@estudiantes.uv.mx', 2),
+(13121, 'zs22022989@estudiantes.uv.mx', 2),
+(13122, 'zs22022996@estudiantes.uv.mx', 2),
+(13123, 'zs22023000@estudiantes.uv.mx', 2),
+(13124, 'zs22023008@estudiantes.uv.mx', 2),
+(13125, 'zs22023010@estudiantes.uv.mx', 2),
+(13126, 'zs22023012@estudiantes.uv.mx', 2),
+(13127, 'zs22023013@estudiantes.uv.mx', 2),
+(13128, 'zs22023015@estudiantes.uv.mx', 2),
+(13129, 'zs22023017@estudiantes.uv.mx', 2),
+(13131, 'zs22023021@estudiantes.uv.mx', 2),
+(13132, 'zs22023023@estudiantes.uv.mx', 2),
+(13133, 'zs22023143@estudiantes.uv.mx', 2),
+(13134, 'zs22023144@estudiantes.uv.mx', 2),
+(13135, 'zs22023145@estudiantes.uv.mx', 2),
+(13136, 'zs22023149@estudiantes.uv.mx', 2),
+(13137, 'zs22023150@estudiantes.uv.mx', 2),
+(13139, 'zs22023154@estudiantes.uv.mx', 2),
+(13140, 'zs22023155@estudiantes.uv.mx', 2),
+(13141, 'zs22023156@estudiantes.uv.mx', 2),
+(13142, 'zs22023159@estudiantes.uv.mx', 2),
+(13143, 'zs22024133@estudiantes.uv.mx', 2),
+(13144, 'zs22024135@estudiantes.uv.mx', 2),
+(13145, 'zs22024136@estudiantes.uv.mx', 2),
+(13146, 'zs22024137@estudiantes.uv.mx', 2),
+(13147, 'zs22028185@estudiantes.uv.mx', 2),
+(13149, 'zs22028192@estudiantes.uv.mx', 2),
+(13150, 'zs22028194@estudiantes.uv.mx', 2),
+(13152, 'zs23013385@estudiantes.uv.mx', 2),
+(13153, 'zs23013389@estudiantes.uv.mx', 2),
+(13154, 'zs23013391@estudiantes.uv.mx', 2),
+(13155, 'zs23013396@estudiantes.uv.mx', 2),
+(13156, 'zs23013398@estudiantes.uv.mx', 2),
+(13157, 'zs23013399@estudiantes.uv.mx', 2),
+(13158, 'zs23013400@estudiantes.uv.mx', 2),
+(13159, 'zs23013401@estudiantes.uv.mx', 2),
+(13160, 'zs23013405@estudiantes.uv.mx', 2),
+(13161, 'zs23013407@estudiantes.uv.mx', 2),
+(13162, 'zs23013408@estudiantes.uv.mx', 2),
+(13163, 'zs23013409@estudiantes.uv.mx', 2),
+(13164, 'zs23013410@estudiantes.uv.mx', 2),
+(13165, 'zs23013411@estudiantes.uv.mx', 2),
+(13166, 'zs23013413@estudiantes.uv.mx', 2),
+(13167, 'zs23013417@estudiantes.uv.mx', 2),
+(13168, 'zs23013419@estudiantes.uv.mx', 2),
+(13169, 'zs23013421@estudiantes.uv.mx', 2),
+(13170, 'zs23013422@estudiantes.uv.mx', 2),
+(13171, 'zs23013423@estudiantes.uv.mx', 2),
+(13172, 'zs23013426@estudiantes.uv.mx', 2),
+(13173, 'zs23013428@estudiantes.uv.mx', 2),
+(13174, 'zs23013433@estudiantes.uv.mx', 2),
+(13175, 'zs23013434@estudiantes.uv.mx', 2),
+(13176, 'zs23013826@estudiantes.uv.mx', 2),
+(13177, 'zs23013827@estudiantes.uv.mx', 2),
+(13178, 'zs23013828@estudiantes.uv.mx', 2),
+(13179, 'zs23013829@estudiantes.uv.mx', 2),
+(13180, 'zs23013831@estudiantes.uv.mx', 2),
+(13181, 'zs23013832@estudiantes.uv.mx', 2),
+(13182, 'zs23013833@estudiantes.uv.mx', 2),
+(13184, 'zs23013835@estudiantes.uv.mx', 2),
+(13185, 'zs23013836@estudiantes.uv.mx', 2),
+(13186, 'zs23013838@estudiantes.uv.mx', 2),
+(13187, 'zs23013839@estudiantes.uv.mx', 2),
+(13188, 'zs23013840@estudiantes.uv.mx', 2),
+(13189, 'zs23013841@estudiantes.uv.mx', 2),
+(13190, 'zs23013842@estudiantes.uv.mx', 2),
+(13191, 'zs23013844@estudiantes.uv.mx', 2),
+(13192, 'zs23013845@estudiantes.uv.mx', 2),
+(13193, 'zs23013846@estudiantes.uv.mx', 2),
+(13194, 'zs23013847@estudiantes.uv.mx', 2),
+(13195, 'zs23013848@estudiantes.uv.mx', 2),
+(13196, 'zs23013849@estudiantes.uv.mx', 2),
+(13197, 'zs23013850@estudiantes.uv.mx', 2),
+(13198, 'zs23013851@estudiantes.uv.mx', 2),
+(13199, 'zs23013852@estudiantes.uv.mx', 2),
+(13200, 'zs23013853@estudiantes.uv.mx', 2),
+(13202, 'zs23013855@estudiantes.uv.mx', 2),
+(13203, 'zs23013856@estudiantes.uv.mx', 2),
+(13204, 'zs23013857@estudiantes.uv.mx', 2),
+(13205, 'zs23013858@estudiantes.uv.mx', 2),
+(13206, 'zs23013860@estudiantes.uv.mx', 2),
+(13207, 'zs23013861@estudiantes.uv.mx', 2),
+(13208, 'zs23013863@estudiantes.uv.mx', 2),
+(13209, 'zs23013864@estudiantes.uv.mx', 2),
+(13210, 'zs23013865@estudiantes.uv.mx', 2),
+(13212, 'zs23013868@estudiantes.uv.mx', 2),
+(13214, 'zs23013870@estudiantes.uv.mx', 2),
+(13215, 'zs23013871@estudiantes.uv.mx', 2),
+(13217, 'zs23013873@estudiantes.uv.mx', 2),
+(13218, 'zs23013874@estudiantes.uv.mx', 2),
+(13219, 'zs23013875@estudiantes.uv.mx', 2),
+(13220, 'zs23013876@estudiantes.uv.mx', 2),
+(13222, 'zs23013878@estudiantes.uv.mx', 2),
+(13223, 'zs23013880@estudiantes.uv.mx', 2),
+(13224, 'zs23013881@estudiantes.uv.mx', 2),
+(13225, 'zs23013883@estudiantes.uv.mx', 2),
+(13226, 'zs23013885@estudiantes.uv.mx', 2),
+(13227, 'zs23013886@estudiantes.uv.mx', 2),
+(13229, 'zs23013888@estudiantes.uv.mx', 2),
+(13230, 'zs23013889@estudiantes.uv.mx', 2),
+(13231, 'zs23013890@estudiantes.uv.mx', 2),
+(13232, 'zs23013891@estudiantes.uv.mx', 2),
+(13233, 'zs23013892@estudiantes.uv.mx', 2),
+(13234, 'zs23013893@estudiantes.uv.mx', 2),
+(13235, 'zs23013894@estudiantes.uv.mx', 2),
+(13236, 'zs23013895@estudiantes.uv.mx', 2),
+(13237, 'zs23013897@estudiantes.uv.mx', 2),
+(13238, 'zs23014037@estudiantes.uv.mx', 2),
+(13239, 'zs23014038@estudiantes.uv.mx', 2),
+(13240, 'zs23014039@estudiantes.uv.mx', 2),
+(13241, 'zs23014040@estudiantes.uv.mx', 2),
+(13242, 'zs23014042@estudiantes.uv.mx', 2),
+(13243, 'zs23014043@estudiantes.uv.mx', 2),
+(13246, 'zs23014046@estudiantes.uv.mx', 2),
+(13247, 'zs23014047@estudiantes.uv.mx', 2),
+(13248, 'zs23014048@estudiantes.uv.mx', 2),
+(13249, 'zs23014049@estudiantes.uv.mx', 2),
+(13250, 'zs23014050@estudiantes.uv.mx', 2),
+(13251, 'zs23014051@estudiantes.uv.mx', 2),
+(13252, 'zs23014052@estudiantes.uv.mx', 2),
+(13253, 'zs23014054@estudiantes.uv.mx', 2),
+(13254, 'zs23014056@estudiantes.uv.mx', 2),
+(13255, 'zs23014057@estudiantes.uv.mx', 2),
+(13256, 'zs23014058@estudiantes.uv.mx', 2),
+(13257, 'zs23014060@estudiantes.uv.mx', 2),
+(13258, 'zs23014061@estudiantes.uv.mx', 2),
+(13259, 'zs23014063@estudiantes.uv.mx', 2),
+(13260, 'zs23014065@estudiantes.uv.mx', 2),
+(13261, 'zs23014068@estudiantes.uv.mx', 2),
+(13262, 'zs23014069@estudiantes.uv.mx', 2),
+(13263, 'zs23014071@estudiantes.uv.mx', 2),
+(13264, 'zs23014072@estudiantes.uv.mx', 2),
+(13265, 'zs23014073@estudiantes.uv.mx', 2),
+(13266, 'zs23014074@estudiantes.uv.mx', 2),
+(13267, 'zs23014076@estudiantes.uv.mx', 2),
+(13268, 'zs23014077@estudiantes.uv.mx', 2),
+(13269, 'zs23014078@estudiantes.uv.mx', 2),
+(13270, 'zs23014080@estudiantes.uv.mx', 2),
+(13271, 'zs23014083@estudiantes.uv.mx', 2),
+(13272, 'zs23014084@estudiantes.uv.mx', 2),
+(13273, 'zs23014085@estudiantes.uv.mx', 2),
+(13274, 'zs23014087@estudiantes.uv.mx', 2),
+(13275, 'zs23014088@estudiantes.uv.mx', 2),
+(13276, 'zs23014089@estudiantes.uv.mx', 2),
+(13277, 'zs23014090@estudiantes.uv.mx', 2),
+(13278, 'zs23014092@estudiantes.uv.mx', 2),
+(13279, 'zs23014093@estudiantes.uv.mx', 2),
+(13280, 'zs23014094@estudiantes.uv.mx', 2),
+(13281, 'zs23014095@estudiantes.uv.mx', 2),
+(13282, 'zs23014096@estudiantes.uv.mx', 2),
+(13283, 'zs23014097@estudiantes.uv.mx', 2),
+(13284, 'zs23014100@estudiantes.uv.mx', 2),
+(13285, 'zs23014102@estudiantes.uv.mx', 2),
+(13286, 'zs23014103@estudiantes.uv.mx', 2),
+(13287, 'zs23014104@estudiantes.uv.mx', 2),
+(13288, 'zs23014106@estudiantes.uv.mx', 2),
+(13289, 'zs23014107@estudiantes.uv.mx', 2),
+(13290, 'zs23014109@estudiantes.uv.mx', 2),
+(13291, 'zs23014110@estudiantes.uv.mx', 2),
+(13292, 'zs23014111@estudiantes.uv.mx', 2),
+(13293, 'zs23014112@estudiantes.uv.mx', 2),
+(13294, 'zs23014113@estudiantes.uv.mx', 2),
+(13295, 'zs23014115@estudiantes.uv.mx', 2),
+(13296, 'zs23014116@estudiantes.uv.mx', 2),
+(13297, 'zs23014118@estudiantes.uv.mx', 2),
+(13298, 'zs23014119@estudiantes.uv.mx', 2),
+(13299, 'zs23014120@estudiantes.uv.mx', 2),
+(13300, 'zs23014122@estudiantes.uv.mx', 2),
+(13301, 'zs23014123@estudiantes.uv.mx', 2),
+(13302, 'zs23014124@estudiantes.uv.mx', 2),
+(13303, 'zs23014127@estudiantes.uv.mx', 2),
+(13304, 'zs23014129@estudiantes.uv.mx', 2),
+(13305, 'zs23014130@estudiantes.uv.mx', 2),
+(13306, 'zs23014132@estudiantes.uv.mx', 2),
+(13307, 'zs23014133@estudiantes.uv.mx', 2),
+(13308, 'zs23014134@estudiantes.uv.mx', 2),
+(13309, 'zs23014136@estudiantes.uv.mx', 2),
+(13310, 'zs23014137@estudiantes.uv.mx', 2),
+(13311, 'zs23014138@estudiantes.uv.mx', 2),
+(13312, 'zs23014139@estudiantes.uv.mx', 2),
+(13313, 'zs23014140@estudiantes.uv.mx', 2),
+(13314, 'zs23014142@estudiantes.uv.mx', 2),
+(13315, 'zs23014143@estudiantes.uv.mx', 2),
+(13316, 'zs23014144@estudiantes.uv.mx', 2),
+(13318, 'zs23014147@estudiantes.uv.mx', 2),
+(13319, 'zs23014148@estudiantes.uv.mx', 2),
+(13320, 'zs23014149@estudiantes.uv.mx', 2),
+(13321, 'zs23014150@estudiantes.uv.mx', 2),
+(13322, 'zs23014151@estudiantes.uv.mx', 2),
+(13323, 'zs23014152@estudiantes.uv.mx', 2),
+(13324, 'zs23014153@estudiantes.uv.mx', 2),
+(13325, 'zs23014154@estudiantes.uv.mx', 2),
+(13326, 'zs23014155@estudiantes.uv.mx', 2),
+(13327, 'zs23014157@estudiantes.uv.mx', 2),
+(13328, 'zs23014158@estudiantes.uv.mx', 2),
+(13329, 'zs23014159@estudiantes.uv.mx', 2),
+(13330, 'zs23014160@estudiantes.uv.mx', 2),
+(13331, 'zs23014161@estudiantes.uv.mx', 2),
+(13332, 'zs23014164@estudiantes.uv.mx', 2),
+(13333, 'zs23014165@estudiantes.uv.mx', 2),
+(13334, 'zs23014166@estudiantes.uv.mx', 2),
+(13336, 'zs23014169@estudiantes.uv.mx', 2),
+(13337, 'zs23014170@estudiantes.uv.mx', 2),
+(13338, 'zs23014172@estudiantes.uv.mx', 2),
+(13339, 'zs23014173@estudiantes.uv.mx', 2),
+(13340, 'zs23014174@estudiantes.uv.mx', 2),
+(13341, 'zs23014175@estudiantes.uv.mx', 2),
+(13342, 'zs23014176@estudiantes.uv.mx', 2),
+(13343, 'zs23014177@estudiantes.uv.mx', 2),
+(13344, 'zs23014179@estudiantes.uv.mx', 2),
+(13345, 'zs23014180@estudiantes.uv.mx', 2),
+(13346, 'zs23014182@estudiantes.uv.mx', 2),
+(13347, 'zs23014183@estudiantes.uv.mx', 2),
+(13348, 'zs23014184@estudiantes.uv.mx', 2),
+(13349, 'zs23014185@estudiantes.uv.mx', 2),
+(13350, 'zs23014187@estudiantes.uv.mx', 2),
+(13351, 'zs23014188@estudiantes.uv.mx', 2),
+(13352, 'zs23014189@estudiantes.uv.mx', 2),
+(13353, 'zs23014190@estudiantes.uv.mx', 2),
+(13354, 'zs23014191@estudiantes.uv.mx', 2),
+(13355, 'zs23014192@estudiantes.uv.mx', 2),
+(13356, 'zs23014193@estudiantes.uv.mx', 2),
+(13357, 'zs23014194@estudiantes.uv.mx', 2),
+(13358, 'zs23014196@estudiantes.uv.mx', 2),
+(13359, 'zs23014197@estudiantes.uv.mx', 2),
+(13360, 'zs23021453@estudiantes.uv.mx', 2),
+(13361, 'zs23021454@estudiantes.uv.mx', 2),
+(13362, 'zs23021468@estudiantes.uv.mx', 2),
+(13363, 'zs23021469@estudiantes.uv.mx', 2),
+(13364, 'zs23021470@estudiantes.uv.mx', 2),
+(13365, 'zs23021471@estudiantes.uv.mx', 2),
+(13366, 'zs23021472@estudiantes.uv.mx', 2),
+(13367, 'zs23021473@estudiantes.uv.mx', 2),
+(13368, 'zs23021475@estudiantes.uv.mx', 2),
+(13369, 'zs23021476@estudiantes.uv.mx', 2),
+(13370, 'zs23021477@estudiantes.uv.mx', 2),
+(13371, 'zs23021478@estudiantes.uv.mx', 2),
+(13372, 'zs23021480@estudiantes.uv.mx', 2),
+(13373, 'zs23021482@estudiantes.uv.mx', 2),
+(13374, 'zs23021483@estudiantes.uv.mx', 2),
+(13375, 'zs23021484@estudiantes.uv.mx', 2),
+(13376, 'zs23021485@estudiantes.uv.mx', 2),
+(13377, 'zs23023265@estudiantes.uv.mx', 2),
+(13378, 'zs23023267@estudiantes.uv.mx', 2),
+(13379, 'zs23023270@estudiantes.uv.mx', 2),
+(13380, 'zs23023285@estudiantes.uv.mx', 2),
+(13382, 'zs23023289@estudiantes.uv.mx', 2),
+(13383, 'zs23023291@estudiantes.uv.mx', 2),
+(13384, 'zs23023292@estudiantes.uv.mx', 2),
+(13385, 'zs23023295@estudiantes.uv.mx', 2),
+(13386, 'zs23023301@estudiantes.uv.mx', 2),
+(13387, 'zs23023303@estudiantes.uv.mx', 2),
+(13388, 'zs23023308@estudiantes.uv.mx', 2),
+(13389, 'zs23023312@estudiantes.uv.mx', 2),
+(13390, 'zs23023318@estudiantes.uv.mx', 2),
+(13391, 'zs23023323@estudiantes.uv.mx', 2),
+(13392, 'zs23023324@estudiantes.uv.mx', 2),
+(13393, 'zs23023325@estudiantes.uv.mx', 2),
+(13394, 'zs23023327@estudiantes.uv.mx', 2),
+(13395, 'zs23023335@estudiantes.uv.mx', 2),
+(13396, 'zs23023336@estudiantes.uv.mx', 2),
+(13397, 'zs23023425@estudiantes.uv.mx', 2),
+(13398, 'zs23023426@estudiantes.uv.mx', 2),
+(13399, 'zs23024133@estudiantes.uv.mx', 2),
+(13400, 'zs23024135@estudiantes.uv.mx', 2),
+(13401, 'zs23024137@estudiantes.uv.mx', 2),
+(13402, 'zs23024138@estudiantes.uv.mx', 2),
+(13403, 'zs24013021@estudiantes.uv.mx', 2),
+(13404, 'zs24013022@estudiantes.uv.mx', 2),
+(13405, 'zs24013023@estudiantes.uv.mx', 2),
+(13406, 'zs24013024@estudiantes.uv.mx', 2),
+(13407, 'zs24013025@estudiantes.uv.mx', 2),
+(13408, 'zs24013026@estudiantes.uv.mx', 2),
+(13409, 'zs24013027@estudiantes.uv.mx', 2),
+(13410, 'zs24013028@estudiantes.uv.mx', 2),
+(13411, 'zs24013029@estudiantes.uv.mx', 2),
+(13412, 'zs24013031@estudiantes.uv.mx', 2),
+(13413, 'zs24013032@estudiantes.uv.mx', 2),
+(13414, 'zs24013033@estudiantes.uv.mx', 2),
+(13415, 'zs24013034@estudiantes.uv.mx', 2),
+(13416, 'zs24013035@estudiantes.uv.mx', 2),
+(13417, 'zs24013036@estudiantes.uv.mx', 2),
+(13422, 'zs24013041@estudiantes.uv.mx', 2),
+(13423, 'zs24013042@estudiantes.uv.mx', 2),
+(13424, 'zs24013043@estudiantes.uv.mx', 2),
+(13425, 'zs24013044@estudiantes.uv.mx', 2),
+(13426, 'zs24013045@estudiantes.uv.mx', 2),
+(13427, 'zs24013046@estudiantes.uv.mx', 2),
+(13428, 'zs24013047@estudiantes.uv.mx', 2),
+(13432, 'zs24013051@estudiantes.uv.mx', 2),
+(13433, 'zs24013052@estudiantes.uv.mx', 2),
+(13434, 'zs24013053@estudiantes.uv.mx', 2),
+(13435, 'zs24013054@estudiantes.uv.mx', 2),
+(13436, 'zs24013055@estudiantes.uv.mx', 2),
+(13437, 'zs24013056@estudiantes.uv.mx', 2),
+(13438, 'zs24013057@estudiantes.uv.mx', 2),
+(13439, 'zs24013058@estudiantes.uv.mx', 2),
+(13440, 'zs24013059@estudiantes.uv.mx', 2),
+(13441, 'zs24013060@estudiantes.uv.mx', 2),
+(13442, 'zs24013061@estudiantes.uv.mx', 2),
+(13443, 'zs24013062@estudiantes.uv.mx', 2),
+(13444, 'zs24013063@estudiantes.uv.mx', 2),
+(13445, 'zs24013064@estudiantes.uv.mx', 2),
+(13446, 'zs24013065@estudiantes.uv.mx', 2),
+(13447, 'zs24013066@estudiantes.uv.mx', 2),
+(13448, 'zs24013067@estudiantes.uv.mx', 2),
+(13449, 'zs24013068@estudiantes.uv.mx', 2),
+(13450, 'zs24013069@estudiantes.uv.mx', 2),
+(13451, 'zs24013070@estudiantes.uv.mx', 2),
+(13452, 'zs24013071@estudiantes.uv.mx', 2),
+(13453, 'zs24013072@estudiantes.uv.mx', 2),
+(13454, 'zs24013073@estudiantes.uv.mx', 2),
+(13455, 'zs24013074@estudiantes.uv.mx', 2),
+(13456, 'zs24013075@estudiantes.uv.mx', 2),
+(13457, 'zs24013076@estudiantes.uv.mx', 2),
+(13458, 'zs24013077@estudiantes.uv.mx', 2),
+(13459, 'zs24013078@estudiantes.uv.mx', 2),
+(13460, 'zs24013079@estudiantes.uv.mx', 2),
+(13461, 'zs24013080@estudiantes.uv.mx', 2),
+(13462, 'zs24013081@estudiantes.uv.mx', 2),
+(13463, 'zs24013082@estudiantes.uv.mx', 2),
+(13464, 'zs24013083@estudiantes.uv.mx', 2),
+(13465, 'zs24013084@estudiantes.uv.mx', 2),
+(13466, 'zs24013085@estudiantes.uv.mx', 2),
+(13467, 'zs24013086@estudiantes.uv.mx', 2),
+(13468, 'zs24013087@estudiantes.uv.mx', 2),
+(13469, 'zs24013088@estudiantes.uv.mx', 2),
+(13473, 'zs24013094@estudiantes.uv.mx', 2),
+(13474, 'zs24013095@estudiantes.uv.mx', 2),
+(13475, 'zs24013247@estudiantes.uv.mx', 2),
+(13476, 'zs24013248@estudiantes.uv.mx', 2),
+(13477, 'zs24013249@estudiantes.uv.mx', 2),
+(13478, 'zs24013250@estudiantes.uv.mx', 2),
+(13479, 'zs24013253@estudiantes.uv.mx', 2),
+(13480, 'zs24013254@estudiantes.uv.mx', 2),
+(13481, 'zs24013255@estudiantes.uv.mx', 2),
+(13482, 'zs24013256@estudiantes.uv.mx', 2),
+(13483, 'zs24013257@estudiantes.uv.mx', 2),
+(13484, 'zs24013258@estudiantes.uv.mx', 2),
+(13485, 'zs24013259@estudiantes.uv.mx', 2),
+(13486, 'zs24013260@estudiantes.uv.mx', 2),
+(13487, 'zs24013261@estudiantes.uv.mx', 2),
+(13488, 'zs24013262@estudiantes.uv.mx', 2),
+(13489, 'zs24013263@estudiantes.uv.mx', 2),
+(13490, 'zs24013264@estudiantes.uv.mx', 2),
+(13491, 'zs24013265@estudiantes.uv.mx', 2),
+(13492, 'zs24013267@estudiantes.uv.mx', 2),
+(13493, 'zs24013269@estudiantes.uv.mx', 2),
+(13494, 'zs24013270@estudiantes.uv.mx', 2),
+(13495, 'zs24013271@estudiantes.uv.mx', 2),
+(13496, 'zs24013272@estudiantes.uv.mx', 2),
+(13497, 'zs24013273@estudiantes.uv.mx', 2),
+(13498, 'zs24013274@estudiantes.uv.mx', 2),
+(13499, 'zs24013275@estudiantes.uv.mx', 2),
+(13500, 'zs24013276@estudiantes.uv.mx', 2),
+(13501, 'zs24013278@estudiantes.uv.mx', 2),
+(13502, 'zs24013279@estudiantes.uv.mx', 2),
+(13503, 'zs24013280@estudiantes.uv.mx', 2),
+(13504, 'zs24013281@estudiantes.uv.mx', 2),
+(13505, 'zs24013282@estudiantes.uv.mx', 2),
+(13506, 'zs24013283@estudiantes.uv.mx', 2),
+(13507, 'zs24013284@estudiantes.uv.mx', 2),
+(13508, 'zs24013285@estudiantes.uv.mx', 2),
+(13509, 'zs24013286@estudiantes.uv.mx', 2),
+(13510, 'zs24013287@estudiantes.uv.mx', 2),
+(13511, 'zs24013288@estudiantes.uv.mx', 2),
+(13512, 'zs24013289@estudiantes.uv.mx', 2),
+(13513, 'zs24013290@estudiantes.uv.mx', 2),
+(13514, 'zs24013291@estudiantes.uv.mx', 2),
+(13515, 'zs24013292@estudiantes.uv.mx', 2),
+(13516, 'zs24013293@estudiantes.uv.mx', 2),
+(13517, 'zs24013294@estudiantes.uv.mx', 2),
+(13518, 'zs24013295@estudiantes.uv.mx', 2),
+(13519, 'zs24013296@estudiantes.uv.mx', 2),
+(13520, 'zs24013297@estudiantes.uv.mx', 2),
+(13521, 'zs24013298@estudiantes.uv.mx', 2),
+(13522, 'zs24013299@estudiantes.uv.mx', 2),
+(13523, 'zs24013300@estudiantes.uv.mx', 2),
+(13524, 'zs24013301@estudiantes.uv.mx', 2),
+(13525, 'zs24013302@estudiantes.uv.mx', 2),
+(13526, 'zs24013303@estudiantes.uv.mx', 2),
+(13527, 'zs24013304@estudiantes.uv.mx', 2),
+(13528, 'zs24013305@estudiantes.uv.mx', 2),
+(13529, 'zs24013306@estudiantes.uv.mx', 2),
+(13530, 'zs24013307@estudiantes.uv.mx', 2),
+(13531, 'zs24013308@estudiantes.uv.mx', 2),
+(13532, 'zs24013309@estudiantes.uv.mx', 2),
+(13533, 'zs24013310@estudiantes.uv.mx', 2),
+(13534, 'zs24013311@estudiantes.uv.mx', 2),
+(13535, 'zs24013312@estudiantes.uv.mx', 2),
+(13536, 'zs24013314@estudiantes.uv.mx', 2),
+(13537, 'zs24013315@estudiantes.uv.mx', 2),
+(13538, 'zs24013316@estudiantes.uv.mx', 2),
+(13539, 'zs24013317@estudiantes.uv.mx', 2),
+(13540, 'zs24013318@estudiantes.uv.mx', 2),
+(13541, 'zs24013319@estudiantes.uv.mx', 2),
+(13542, 'zs24013320@estudiantes.uv.mx', 2),
+(13543, 'zs24013321@estudiantes.uv.mx', 2),
+(13544, 'zs24013322@estudiantes.uv.mx', 2),
+(13545, 'zs24013323@estudiantes.uv.mx', 2),
+(13546, 'zs24013324@estudiantes.uv.mx', 2),
+(13547, 'zs24013327@estudiantes.uv.mx', 2),
+(13548, 'zs24013329@estudiantes.uv.mx', 2),
+(13549, 'zs24013331@estudiantes.uv.mx', 2),
+(13550, 'zs24013332@estudiantes.uv.mx', 2),
+(13551, 'zs24013333@estudiantes.uv.mx', 2),
+(13552, 'zs24013334@estudiantes.uv.mx', 2),
+(13553, 'zs24013335@estudiantes.uv.mx', 2),
+(13554, 'zs24013337@estudiantes.uv.mx', 2),
+(13555, 'zs24013338@estudiantes.uv.mx', 2),
+(13556, 'zs24013339@estudiantes.uv.mx', 2),
+(13557, 'zs24013340@estudiantes.uv.mx', 2),
+(13558, 'zs24013341@estudiantes.uv.mx', 2),
+(13559, 'zs24013342@estudiantes.uv.mx', 2),
+(13560, 'zs24013343@estudiantes.uv.mx', 2),
+(13561, 'zs24013344@estudiantes.uv.mx', 2),
+(13562, 'zs24013345@estudiantes.uv.mx', 2),
+(13563, 'zs24013346@estudiantes.uv.mx', 2),
+(13564, 'zs24013348@estudiantes.uv.mx', 2),
+(13565, 'zs24013349@estudiantes.uv.mx', 2),
+(13566, 'zs24013350@estudiantes.uv.mx', 2),
+(13567, 'zs24013351@estudiantes.uv.mx', 2),
+(13568, 'zs24013352@estudiantes.uv.mx', 2),
+(13569, 'zs24013353@estudiantes.uv.mx', 2),
+(13570, 'zs24013354@estudiantes.uv.mx', 2),
+(13571, 'zs24013356@estudiantes.uv.mx', 2),
+(13572, 'zs24013357@estudiantes.uv.mx', 2),
+(13573, 'zs24013359@estudiantes.uv.mx', 2),
+(13574, 'zs24013360@estudiantes.uv.mx', 2),
+(13575, 'zs24013362@estudiantes.uv.mx', 2),
+(13576, 'zs24013363@estudiantes.uv.mx', 2),
+(13577, 'zs24013364@estudiantes.uv.mx', 2),
+(13578, 'zs24013365@estudiantes.uv.mx', 2),
+(13579, 'zs24013366@estudiantes.uv.mx', 2),
+(13580, 'zs24013367@estudiantes.uv.mx', 2),
+(13581, 'zs24013368@estudiantes.uv.mx', 2),
+(13582, 'zs24013369@estudiantes.uv.mx', 2),
+(13583, 'zs24013370@estudiantes.uv.mx', 2),
+(13584, 'zs24013371@estudiantes.uv.mx', 2),
+(13585, 'zs24013373@estudiantes.uv.mx', 2),
+(13586, 'zs24013374@estudiantes.uv.mx', 2),
+(13588, 'zs24013376@estudiantes.uv.mx', 2),
+(13589, 'zs24013377@estudiantes.uv.mx', 2),
+(13590, 'zs24013378@estudiantes.uv.mx', 2),
+(13591, 'zs24013379@estudiantes.uv.mx', 2),
+(13592, 'zs24013380@estudiantes.uv.mx', 2),
+(13593, 'zs24013381@estudiantes.uv.mx', 2),
+(13594, 'zs24013382@estudiantes.uv.mx', 2),
+(13595, 'zs24013383@estudiantes.uv.mx', 2),
+(13596, 'zs24013384@estudiantes.uv.mx', 2),
+(13597, 'zs24013385@estudiantes.uv.mx', 2),
+(13598, 'zs24013386@estudiantes.uv.mx', 2),
+(13599, 'zs24013387@estudiantes.uv.mx', 2),
+(13600, 'zs24013388@estudiantes.uv.mx', 2),
+(13601, 'zs24013389@estudiantes.uv.mx', 2),
+(13603, 'zs24013392@estudiantes.uv.mx', 2),
+(13604, 'zs24013394@estudiantes.uv.mx', 2),
+(13605, 'zs24013395@estudiantes.uv.mx', 2),
+(13607, 'zs24013397@estudiantes.uv.mx', 2),
+(13609, 'zs24013399@estudiantes.uv.mx', 2),
+(13610, 'zs24013400@estudiantes.uv.mx', 2),
+(13611, 'zs24013401@estudiantes.uv.mx', 2),
+(13612, 'zs24013402@estudiantes.uv.mx', 2),
+(13613, 'zs24013403@estudiantes.uv.mx', 2),
+(13614, 'zs24013404@estudiantes.uv.mx', 2),
+(13615, 'zs24013405@estudiantes.uv.mx', 2),
+(13616, 'zs24013451@estudiantes.uv.mx', 2),
+(13617, 'zs24013452@estudiantes.uv.mx', 2),
+(13618, 'zs24013453@estudiantes.uv.mx', 2),
+(13619, 'zs24013454@estudiantes.uv.mx', 2),
+(13620, 'zs24013455@estudiantes.uv.mx', 2),
+(13621, 'zs24013456@estudiantes.uv.mx', 2),
+(13622, 'zs24013457@estudiantes.uv.mx', 2),
+(13623, 'zs24013458@estudiantes.uv.mx', 2),
+(13624, 'zs24013459@estudiantes.uv.mx', 2),
+(13625, 'zs24013460@estudiantes.uv.mx', 2),
+(13626, 'zs24013461@estudiantes.uv.mx', 2),
+(13627, 'zs24013462@estudiantes.uv.mx', 2),
+(13628, 'zs24013464@estudiantes.uv.mx', 2),
+(13629, 'zs24013465@estudiantes.uv.mx', 2),
+(13630, 'zs24013466@estudiantes.uv.mx', 2),
+(13631, 'zs24013467@estudiantes.uv.mx', 2),
+(13632, 'zs24013468@estudiantes.uv.mx', 2),
+(13633, 'zs24013469@estudiantes.uv.mx', 2),
+(13634, 'zs24013470@estudiantes.uv.mx', 2),
+(13635, 'zs24013471@estudiantes.uv.mx', 2),
+(13636, 'zs24013472@estudiantes.uv.mx', 2),
+(13637, 'zs24013474@estudiantes.uv.mx', 2),
+(13638, 'zs24013475@estudiantes.uv.mx', 2),
+(13639, 'zs24013476@estudiantes.uv.mx', 2),
+(13640, 'zs24013477@estudiantes.uv.mx', 2),
+(13641, 'zs24013478@estudiantes.uv.mx', 2),
+(13642, 'zs24013480@estudiantes.uv.mx', 2),
+(13643, 'zs24013481@estudiantes.uv.mx', 2),
+(13644, 'zs24013482@estudiantes.uv.mx', 2),
+(13645, 'zs24013483@estudiantes.uv.mx', 2),
+(13646, 'zs24013484@estudiantes.uv.mx', 2),
+(13647, 'zs24013486@estudiantes.uv.mx', 2),
+(13648, 'zs24013487@estudiantes.uv.mx', 2),
+(13649, 'zs24013488@estudiantes.uv.mx', 2),
+(13650, 'zs24013489@estudiantes.uv.mx', 2),
+(13651, 'zs24013490@estudiantes.uv.mx', 2),
+(13652, 'zs24013491@estudiantes.uv.mx', 2),
+(13653, 'zs24013492@estudiantes.uv.mx', 2),
+(13654, 'zs24013493@estudiantes.uv.mx', 2),
+(13655, 'zs24013494@estudiantes.uv.mx', 2),
+(13656, 'zs24013495@estudiantes.uv.mx', 2),
+(13657, 'zs24013496@estudiantes.uv.mx', 2),
+(13658, 'zs24013498@estudiantes.uv.mx', 2),
+(13659, 'zs24013500@estudiantes.uv.mx', 2),
+(13660, 'zs24013501@estudiantes.uv.mx', 2),
+(13661, 'zs24013503@estudiantes.uv.mx', 2),
+(13662, 'zs24013504@estudiantes.uv.mx', 2),
+(13663, 'zs24013505@estudiantes.uv.mx', 2),
+(13664, 'zs24013506@estudiantes.uv.mx', 2),
+(13665, 'zs24013507@estudiantes.uv.mx', 2),
+(13666, 'zs24013508@estudiantes.uv.mx', 2),
+(13667, 'zs24013509@estudiantes.uv.mx', 2),
+(13668, 'zs24013510@estudiantes.uv.mx', 2),
+(13669, 'zs24013511@estudiantes.uv.mx', 2),
+(13670, 'zs24013512@estudiantes.uv.mx', 2),
+(13671, 'zs24013513@estudiantes.uv.mx', 2),
+(13672, 'zs24013514@estudiantes.uv.mx', 2),
+(13673, 'zs24013516@estudiantes.uv.mx', 2),
+(13674, 'zs24013517@estudiantes.uv.mx', 2),
+(13675, 'zs24013518@estudiantes.uv.mx', 2),
+(13676, 'zs24013519@estudiantes.uv.mx', 2),
+(13677, 'zs24013520@estudiantes.uv.mx', 2),
+(13678, 'zs24013523@estudiantes.uv.mx', 2),
+(13681, 'zs24021885@estudiantes.uv.mx', 2),
+(13682, 'zs24021886@estudiantes.uv.mx', 2),
+(13683, 'zs24021887@estudiantes.uv.mx', 2),
+(13684, 'zs24021888@estudiantes.uv.mx', 2),
+(13685, 'zs24021889@estudiantes.uv.mx', 2),
+(13686, 'zs24021891@estudiantes.uv.mx', 2),
+(13687, 'zs24021892@estudiantes.uv.mx', 2),
+(13688, 'zs24021893@estudiantes.uv.mx', 2),
+(13689, 'zs24021895@estudiantes.uv.mx', 2),
+(13690, 'zs24021896@estudiantes.uv.mx', 2),
+(13691, 'zs24021899@estudiantes.uv.mx', 2),
+(13692, 'zs24021900@estudiantes.uv.mx', 2),
+(13693, 'zs24021901@estudiantes.uv.mx', 2),
+(13694, 'zs24024420@estudiantes.uv.mx', 2),
+(13695, 'zs24024421@estudiantes.uv.mx', 2),
+(13696, 'zs24024422@estudiantes.uv.mx', 2),
+(13697, 'zs24024423@estudiantes.uv.mx', 2),
+(13698, 'zs24024424@estudiantes.uv.mx', 2),
+(13699, 'zs24024425@estudiantes.uv.mx', 2),
+(13700, 'zs24024426@estudiantes.uv.mx', 2),
+(13701, 'zs24024427@estudiantes.uv.mx', 2),
+(13702, 'zs24024429@estudiantes.uv.mx', 2),
+(13703, 'zs24024430@estudiantes.uv.mx', 2),
+(13704, 'zs24024431@estudiantes.uv.mx', 2),
+(13705, 'zs24024432@estudiantes.uv.mx', 2),
+(13706, 'zs24024433@estudiantes.uv.mx', 2),
+(13707, 'zs24024435@estudiantes.uv.mx', 2),
+(13708, 'zs24024436@estudiantes.uv.mx', 2),
+(13710, 'zs24024439@estudiantes.uv.mx', 2),
+(13711, 'zs24024440@estudiantes.uv.mx', 2),
+(13712, 'zs24024441@estudiantes.uv.mx', 2),
+(13713, 'zs24024442@estudiantes.uv.mx', 2),
+(13714, 'zs24024443@estudiantes.uv.mx', 2),
+(13715, 'zs24024444@estudiantes.uv.mx', 2),
+(13716, 'zs24024445@estudiantes.uv.mx', 2),
+(13717, 'zs24024446@estudiantes.uv.mx', 2),
+(13718, 'zs24024447@estudiantes.uv.mx', 2),
+(13720, 'zs24024450@estudiantes.uv.mx', 2),
+(13721, 'zs24024451@estudiantes.uv.mx', 2),
+(13722, 'zs24024452@estudiantes.uv.mx', 2),
+(13724, 'zs24024454@estudiantes.uv.mx', 2),
+(13725, 'zs24024455@estudiantes.uv.mx', 2),
+(13726, 'zs24024456@estudiantes.uv.mx', 2),
+(13727, 'zs24024457@estudiantes.uv.mx', 2),
+(13728, 'zs24024458@estudiantes.uv.mx', 2),
+(13729, 'zs24024459@estudiantes.uv.mx', 2),
+(13730, 'zs24024460@estudiantes.uv.mx', 2),
+(13731, 'zs24024461@estudiantes.uv.mx', 2),
+(13732, 'zs24024463@estudiantes.uv.mx', 2),
+(13734, 'zs24024465@estudiantes.uv.mx', 2),
+(13735, 'zs24024466@estudiantes.uv.mx', 2),
+(13736, 'zs24024467@estudiantes.uv.mx', 2),
+(13737, 'zs24024468@estudiantes.uv.mx', 2),
+(13738, 'zs24024469@estudiantes.uv.mx', 2),
+(13739, 'zs24024470@estudiantes.uv.mx', 2),
+(13740, 'zs24024472@estudiantes.uv.mx', 2),
+(13741, 'zs24024473@estudiantes.uv.mx', 2),
+(13750, 'admin@admin.com', 3),
+(13751, 'admin2@admin.com', 3);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `tipo_problematica`
+-- Estructura de tabla para la tabla `tipo_problematica`
 --
 
-DROP TABLE IF EXISTS `tipo_problematica`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tipo_problematica` (
-  `idTipoProblematica` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) NOT NULL,
-  PRIMARY KEY (`idTipoProblematica`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `idTipoProblematica` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `tipo_problematica`
+-- Volcado de datos para la tabla `tipo_problematica`
 --
 
-LOCK TABLES `tipo_problematica` WRITE;
-/*!40000 ALTER TABLE `tipo_problematica` DISABLE KEYS */;
-INSERT INTO `tipo_problematica` VALUES (1,'Relacionados al encuadre de la EE'),(2,'Relacionados a las evaluaciones'),(3,'Relacionados al apoyo del aprendizaje'),(4,'Relacionados con el desarrollo de la experiencia educativa'),(6,'yen');
-/*!40000 ALTER TABLE `tipo_problematica` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `tipo_problematica` (`idTipoProblematica`, `nombre`) VALUES
+(1, 'Relacionados al encuadre de la EE'),
+(2, 'Relacionados a las evaluaciones'),
+(3, 'Relacionados al apoyo del aprendizaje'),
+(4, 'Relacionados con el desarrollo de la experiencia educativa'),
+(6, 'yen');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `tutor`
+-- Estructura de tabla para la tabla `tutor`
 --
 
-DROP TABLE IF EXISTS `tutor`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tutor` (
-  `idTutor` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(70) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `apellidoPaterno` varchar(70) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `apellidoMaterno` varchar(70) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `idTutor` int(11) NOT NULL,
+  `nombre` varchar(70) NOT NULL,
+  `apellidoPaterno` varchar(70) DEFAULT NULL,
+  `apellidoMaterno` varchar(70) DEFAULT NULL,
   `noPersonal` varchar(15) DEFAULT NULL,
-  `correoInstitucional` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `sesion` int NOT NULL,
-  PRIMARY KEY (`idTutor`),
-  KEY `fk_tutor_Sesion1_idx` (`sesion`),
-  CONSTRAINT `fk_tutor_Sesion1` FOREIGN KEY (`sesion`) REFERENCES `sesion` (`idSesion`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `correoInstitucional` varchar(50) NOT NULL,
+  `sesion` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `tutor`
+-- Volcado de datos para la tabla `tutor`
 --
 
-LOCK TABLES `tutor` WRITE;
-/*!40000 ALTER TABLE `tutor` DISABLE KEYS */;
-INSERT INTO `tutor` VALUES (1,'MARÍA DE LOS ANGELES','ARENAS','VALDÉS','18946','aarenas@uv.mx',3),(2,'ÁNGEL FERNANDO','ARGÜELLO','ORTÍZ','24436','aarguello@uv.mx',4),(3,'MARÍA ANGÉLICA','CERDÁN',NULL,'13155','acerdan@uv.mx',5),(4,'ALBERTO JAIR','CRUZ','LANDA','34331','albecruz@uv.mx',6),(5,'ALFONSO','DURAN','HERNÁNDEZ','46884','alfduran@uv.mx',7),(6,'ALFONSO','SÁNCHEZ','OREA','26605','alsanchez@uv.mx',8),(7,'ÁNGEL','MIÑÓN','PÉREZ','7504','aminon@uv.mx',9),(8,'ANABELL YENELLY','RAMÍREZ','JIMÉNEZ','33092','anabramirez@uv.mx',10),(9,'ANA YAZMÍN','VIVEROS','GARCÍA','40609','anaviveros@uv.mx',11),(10,'VIRGINIA ANGÉLICA','GARCÍA','VEGA','2993','angegarcia@uv.mx',12),(11,'ANGÉLICA PÉREZ','PÉREZ','HERNÁNDEZ','20246','angelperez@uv.mx',13),(12,'ÁNGEL JUAN','SÁNCHEZ','GARCÍA','41306','angesanchez@uv.mx',14),(13,'AURELIANO','AGUILAR','BONILLA','15879','auraguilar@uv.mx',15),(14,'AQUILES','ORDUÑA','GONZÁLEZ','6448','aorduna@uv.mx',16),(15,'ANA LUZ','POLO','ESTRELLA','36539','apolo@uv.mx',17),(16,'ARMINDA','BARRADAS','SÁNCHEZ','43831','armbarradas@uv.mx',18),(17,'AURELIANO','AGUILAR','BONILLA','15870','auraguilar@uv.mx',19),(18,'CARLOS','GARCÍA','TRUJILLO','25130','carlogarcia@uv.mx',20),(19,'CLAUDIO RAFAEL','CASTRO','LÓPEZ','3563','ccastro@uv.mx',21),(20,'CECILIA','CRUZ','LÓPEZ','27145','ceccruz@uv.mx',22),(21,'CHRISTIAN','PÉREZ','SALAZAR','30197','chperez@uv.mx',23),(22,'MARÍA DEL CARMEN','MEZURA','GODOY','15073','cmezura@uv.mx',24),(23,'CARLOS ALBERTO','OCHOA','RIVERA','24054','cochoa@uv.mx',25),(24,'CRISTINA','TRIANA','CORTINA','9671','ctriana@uv.mx',26),(25,'DONAJÍ','CALLEJAS','DEL CALLEJO','42325','dcallejas@uv.mx',27),(26,'DOLORES','CARRILLO','COTO','29959','dcarillo@uv.mx',28),(27,'DIANA ELIZABETH','VALDERRÁBANO','PEDRAZA','32428','dvalderrabano@uv.mx',29),(28,'MARÍA DOLORES','VARGAS','CERDÁN','14980','dvargas@uv.mx',30),(29,'EDGARD IVAN','BENÍTEZ','GUERRERO','32409','edbenitez@uv.mx',31),(30,'EDUARDO','DÍAZ','CAMACHO','24330','eddiaz@uv.mx',32),(31,'EDNA LILLIAM','MENDOZA','SOLIS','29969','edmendoza@uv.mx',33),(32,'ELISEO','GABRIEL','ARGÜELLES','35226','egabriel@uv.mx',34),(33,'MARTHA ELIZABET','DOMINGUEZ','BARCENAS','27752','eldominguez@uv.mx',35),(34,'ERIKA','MENESES','RICO','26487','ermeneses@uv.mx',36),(35,'EVERARDO FRANCISCO','GARCÍA','MENIER','6454','evgarcia@uv.mx',37),(36,'EZZIO OTHONIEL','ACOSTA','CANSECO','28803','ezacosta@uv.mx',38),(37,'FREDY','CASTAÑEDA','SÁNCHEZ','26781','fcastaneda@uv.mx',39),(38,'JOSÉ FABIÁN','MUÑOZ','PORTILLA','24322','fmunoz@uv.mx',40),(39,'GUSTAVO MANUEL','BALDERAS','ROSAS','3985','gbalderas@uv.mx',41),(40,'GERARDO','CONTRERAS','VEGA','15672','gcontreras@uv.mx',42),(41,'JOSÉ GUILLERMO','HERNÁNDEZ','CALDERÓN','38557','guillermohernandez02@uv.mx',43),(42,'HÉCTOR XAVIER','LIMÓN','RIAÑO','41719','hlimon@uv.mx',44),(43,'ITZEL ALESSANDRA','REYES','FLORES','48653','itreyes@uv.mx',45),(44,'LUIS JACOBO','PÉREZ','GUERRERO','49449','jacoperez@uv.mx',46),(45,'JAVIER','SÁNCHEZ','ACOSTA','43001','javsanchez@uv.mx',47),(46,'JESÚS ADOLFO','MEJIA','DE DIOS','57029','jemejia@uv.mx',48),(47,'JUANA ELISA','ESCALANTE','VEGA','18705','jescalante@uv.mx',49),(48,'JESÚS','HERNÁNDEZ','SUÁREZ','13734','jeshernandez@uv.mx',50),(49,'JESUS ROBERTO','MÉNDEZ','ORTÍZ','21068','jmendez@uv.mx',51),(50,'JUDITH GUADALUPE','MONTERO','MORA','28650','jmontero@uv.mx',52),(51,'JORGE OCTAVIO','OCHARÁN','HERNÁNDEZ','28650','jocharan@uv.mx',53),(52,'JUAN','RUIZ','RAMÍREZ','14794','jruiz@uv.mx',54),(53,'JUAN CARLOS','GARCIA','RODRÍGUEZ','46607','juangarcia06@uv.mx',55),(54,'JUAN MANUEL','GUTIERREZ','MÉNDEZ','48178','juangutierrez02@uv.mx',56),(55,'JOSÉ JUAN','MUÑOZ','LEÓN','32617','juanmunoz@uv.mx',57),(56,'JUAN CARLOS','PÉREZ','ARRIAGA','27160','juaperez@uv.mx',58),(57,'JULIÁN FELIPE','DÍAZ','CAMACHO','13734','judiaz@uv.mx',59),(58,'JUDITH','RODRÍGUEZ','CUEVAS','22436','judrodriguez@uv.mx',60),(59,'JULIA AURORA','MONTANO','RIVAS','14858','julmontano@uv.mx',61),(60,'JUAN LUIS','LÓPEZ','HERRERA','18349','julopez@uv.mx',62),(61,'MARÍA KAREN','CORTÉS','VERDÍN','14113','kcortes@uv.mx',63),(62,'LORENA','ALONSO','RAMÍREZ','25205','lalonso@uv.mx',64),(63,'JOSE LUIS','COLORADO','HERNÁNDEZ','10378','lcolorado@uv.mx',65),(64,'LESTER','REYES','LÓPEZ','34288','lereyes@uv.mx',66),(65,'LIZBETH ALEJANDRA','HERNÁNDEZ','GONZÁLEZ','28793','lizhernandez@uv.mx',67),(66,'LUIS GERARDO','MONTANÉ','JIMÉNEZ','39604','lmontane@uv.mx',68),(67,'MARIA DE LOS ANGELES','NAVARRO','GUERRERO','20446','lonavarro@uv.mx',69),(68,'LORENA','LÓPEZ','LOZADA','15278','lorlopez@uv.mx',70),(69,'MARIA DE LOURDES','HERNÁNDEZ','RODRÍGUEZ','28056','lourhernandez@uv.mx',71),(70,'MARÍA DE LOURDES','VELASCO','VÁZQUEZ','15277','lovelasco@uv.mx',72),(71,'JOSE LUIS','SOTO','ORTÍZ','30640','luisoto@uv.mx',73),(72,'MARÍA DE LOURDES','WATTY','URQUIDI','3996','lwatty@uv.mx',74),(73,'MIGUEL','ALONSO','LÓPEZ','3646','malonso@uv.mx',75),(74,'MARIBEL','CARMONA','GARCÍA','34079','maribelcarmona@uv.mx',76),(75,'MARTHA PATRICIA','RODRÍGUEZ','GUZMAN','26217','marthrodriguez@uv.mx',77),(76,'MARGARITA EDITH','CANAL','MARTÍNEZ','18787','mcanal@uv.mx',78),(77,'MIGUEL ALEXANDER','ALARCON','BAILLERES','20461','mialarcon@uv.mx',79),(78,'MINERVA','REYES','FÉLIX','28886','minreyes@uv.mx',80),(79,'MITL','MELGAREJO','GONZÁLEZ','27878','mmelgarejo@uv.mx',81),(80,'MARIO MIGUEL','OJEDA','RAMÍREZ','3986','mojeda@uv.mx',82),(81,'NIELS','MARTÍNEZ','GUEVARA','44666','niemartinez@uv.mx',83),(82,'OLGA REGINA','ROSAS','TOLENTINO','44845','olrosas@uv.mx',84),(83,'PABLO ISRAEL','GUZMÁN','MARTÍNEZ','46918','paguzman@uv.mx',85),(84,'PAOLA FABIOLA','CUÉLLAR','GUTIÉRREZ','39675','pcuellar@uv.mx',86),(85,'RAÚL','DE LA FUENTE','IZAGUIRRE','36384','radelafuente@uv.mx',87),(86,'RAMÓN','GÓMEZ','ROMERO','44901','ramongomez@uv.mx',88),(87,'ROBERTO','LARA','DOMÍNGUEZ','54276','roberlara@uv.mx',89),(88,'ROSELIA','OSORIO','ARMENTA','24156','rosorio@uv.mx',90),(89,'JOSÉ RAFAEL','ROJANO','CÁCERES','25944','rrojano@uv.mx',91),(90,'RAMÓN DAVID','SARMIENTO','CERVANTES','31364','rsarmiento@uv.mx',92),(91,'RUTH ELIZABETH','ALDAMA','ROSAS','48603','rualdama@uv.mx',93),(92,'SAÚL','DOMÍNGUEZ','ISIDRO','48674','sauldominguez@uv.mx',94),(93,'MARÍA SILVIA','GARCÍA','RAMÍREZ','9827','sgarcia@uv.mx',95),(94,'VIRGINIA','LAGUNES','BARRADAS','15023','vlagunes@uv.mx',96),(95,'VÍCTOR MANUEL','MÉNDEZ','SÁNCHEZ','6774','vmendez@uv.mx',97),(96,'VERÓNICA ELIZABETH','OROZCO','RÍOS','13759','vorozco@uv.mx',98),(97,'VÍCTO MANUEL','TLAPA','CARRERA','56086','vtlapa@uv.mx',99),(98,'WILLIAN','ZARATE','NAVARRO','27581','wzarate@uv.mx',100),(99,'MARIA YESENIA','ZAVALETA','SÁNCHEZ','37665','yzavaleta@uv.mx',101),(100,'ZOYLO','MORALES','ROMERO','24326','zmorales@uv.mx',102),(101,'Jose Angel','Gutierrez','Rodriguez',NULL,'zs19016362@estudiantes.uv.mx',103),(102,'OCTAVIO ENRIQUE','OCHOA','MARTINEZ',NULL,'eochoa@uv.mx',104),(103,'OMAR ALEXANDRO','TEXON','OLGUÍN',NULL,'omtexon@uv.mx',105),(104,'PATRICIA','DÍAZ','GASPAR',NULL,'patdiaz@uv.mx',106),(105,'GUILLERMO HUMBERTO','VERA','AMARO','27071','gvera@uv.mx',107),(106,'EDSEL','ORTIZ','MORENO',NULL,'edsortiz@uv.mx',108),(107,'URBANO FRANCISCO','ORTEGA','RIVERA',NULL,'uortega@uv.mx',109),(108,'YOSELYN NOHEMÍ','ORTEGA','GIJÓN',NULL,'yoortega@uv.mx',110),(109,'MIGUEL ÁNGEL','ORTIGOZA','CLEMENTE',NULL,'mortigoza@uv.mx',111),(110,'ALICIA YAZMÍN','ROJAS','LUNA',NULL,'alirojas@uv.mx',112),(111,'MAX WILLLIAM','MILLÁN','MARTÍNEZ',NULL,'mmillan@uv.mx',113),(112,'MARÍA LUISA','CÓRDOBA','TLAXCALTECO',NULL,'marcordoba@uv.mx',114),(113,'KARLA PAOLA','MARTÍNEZ','RÁMILA',NULL,'kamartinez@uv.mx',115),(114,'IRMA ELIZABETH','ROMERO','ARRIOJA',NULL,'iromero@uv.mx',116),(115,'RUTH','RODRÍGUEZ','RAMÍREZ',NULL,'ruthrodriguez@uv.mx',117),(116,'NORA GUADALUPE','SÁNCHEZ','MONTERO',NULL,'norasanchez@uv.mx',118),(117,'YANETH','REYES','ESTUDILLO',NULL,'yanreyes@uv.mx',119),(118,'ELIZABETH','MURRIETA','SANGABRIEL',NULL,'elmurrieta@uv.mx',120),(119,'MARIO ALBERTO','HERNÁNDEZ','PÉREZ',NULL,'mariohernandez02@uv.mx',121),(120,'MARIA KARIN','ROSENKRANZ','SAENZ',NULL,'mrosenkranz@uv.mx',122),(121,'JENNY BETSABÉ','VÁZQUEZ','AGUIRRE',NULL,'jenvazquez@uv.mx',123),(122,'JAIME','FERNÁNDEZ','HADDAD',NULL,'jafernandez@uv.mx',124),(123,'ÁNGEL EDUARDO','DOMÍNGUEZ','DELGADO',NULL,'zs15011624@estudiantes.uv.mx',125),(124,'ALMA ROSA','CÓRDOVA','AGUILAR',NULL,'almcordova@uv.mx',126),(125,'Oscar','Alonso','Ramírez',NULL,'oalonso@uv.mx',127),(126,'BRISEIDA','JIMÉNEZ','VELÁZQUEZ',NULL,'brjimenez@uv.mx',128),(127,'Candy Obdulia','Sosa','Jimenez','38716','cansosa@uv.mx',129),(128,'Jazmín Josefina','García','Méndez',NULL,'jazgarcia@uv.mx',130),(129,'Jose Luis','Soto','Ortiz',NULL,'luisoto@uv.mx',131),(130,'Zoylo','Morales','Romero',NULL,'zmorales@uv.mx',132),(131,'María Eugenia','Barradas','García',NULL,'maribarradas@uv.mx',133);
-/*!40000 ALTER TABLE `tutor` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `tutor` (`idTutor`, `nombre`, `apellidoPaterno`, `apellidoMaterno`, `noPersonal`, `correoInstitucional`, `sesion`) VALUES
+(1, 'MARÍA DE LOS ANGELES', 'ARENAS', 'VALDÉS', '18946', 'aarenas@uv.mx', 3),
+(2, 'ÁNGEL FERNANDO', 'ARGÜELLO', 'ORTÍZ', '24436', 'aarguello@uv.mx', 4),
+(3, 'MARÍA ANGÉLICA', 'CERDÁN', NULL, '13155', 'acerdan@uv.mx', 5),
+(4, 'ALBERTO JAIR', 'CRUZ', 'LANDA', '34331', 'albecruz@uv.mx', 6),
+(5, 'ALFONSO', 'DURAN', 'HERNÁNDEZ', '46884', 'alfduran@uv.mx', 7),
+(6, 'ALFONSO', 'SÁNCHEZ', 'OREA', '26605', 'alsanchez@uv.mx', 8),
+(7, 'ÁNGEL', 'MIÑÓN', 'PÉREZ', '7504', 'aminon@uv.mx', 9),
+(8, 'ANABELL YENELLY', 'RAMÍREZ', 'JIMÉNEZ', '33092', 'anabramirez@uv.mx', 10),
+(9, 'ANA YAZMÍN', 'VIVEROS', 'GARCÍA', '40609', 'anaviveros@uv.mx', 11),
+(10, 'VIRGINIA ANGÉLICA', 'GARCÍA', 'VEGA', '2993', 'angegarcia@uv.mx', 12),
+(11, 'ANGÉLICA PÉREZ', 'PÉREZ', 'HERNÁNDEZ', '20246', 'angelperez@uv.mx', 13),
+(12, 'ÁNGEL JUAN', 'SÁNCHEZ', 'GARCÍA', '41306', 'angesanchez@uv.mx', 14),
+(13, 'AURELIANO', 'AGUILAR', 'BONILLA', '15879', 'auraguilar@uv.mx', 15),
+(14, 'AQUILES', 'ORDUÑA', 'GONZÁLEZ', '6448', 'aorduna@uv.mx', 16),
+(15, 'ANA LUZ', 'POLO', 'ESTRELLA', '36539', 'apolo@uv.mx', 17),
+(16, 'ARMINDA', 'BARRADAS', 'SÁNCHEZ', '43831', 'armbarradas@uv.mx', 18),
+(17, 'AURELIANO', 'AGUILAR', 'BONILLA', '15870', 'auraguilar@uv.mx', 19),
+(18, 'CARLOS', 'GARCÍA', 'TRUJILLO', '25130', 'carlogarcia@uv.mx', 20),
+(19, 'CLAUDIO RAFAEL', 'CASTRO', 'LÓPEZ', '3563', 'ccastro@uv.mx', 21),
+(20, 'CECILIA', 'CRUZ', 'LÓPEZ', '27145', 'ceccruz@uv.mx', 22),
+(21, 'CHRISTIAN', 'PÉREZ', 'SALAZAR', '30197', 'chperez@uv.mx', 23),
+(22, 'MARÍA DEL CARMEN', 'MEZURA', 'GODOY', '15073', 'cmezura@uv.mx', 24),
+(23, 'CARLOS ALBERTO', 'OCHOA', 'RIVERA', '24054', 'cochoa@uv.mx', 25),
+(24, 'CRISTINA', 'TRIANA', 'CORTINA', '9671', 'ctriana@uv.mx', 26),
+(25, 'DONAJÍ', 'CALLEJAS', 'DEL CALLEJO', '42325', 'dcallejas@uv.mx', 27),
+(26, 'DOLORES', 'CARRILLO', 'COTO', '29959', 'dcarillo@uv.mx', 28),
+(27, 'DIANA ELIZABETH', 'VALDERRÁBANO', 'PEDRAZA', '32428', 'dvalderrabano@uv.mx', 29),
+(28, 'MARÍA DOLORES', 'VARGAS', 'CERDÁN', '14980', 'dvargas@uv.mx', 30),
+(29, 'EDGARD IVAN', 'BENÍTEZ', 'GUERRERO', '32409', 'edbenitez@uv.mx', 31),
+(30, 'EDUARDO', 'DÍAZ', 'CAMACHO', '24330', 'eddiaz@uv.mx', 32),
+(31, 'EDNA LILLIAM', 'MENDOZA', 'SOLIS', '29969', 'edmendoza@uv.mx', 33),
+(32, 'ELISEO', 'GABRIEL', 'ARGÜELLES', '35226', 'egabriel@uv.mx', 34),
+(33, 'MARTHA ELIZABET', 'DOMINGUEZ', 'BARCENAS', '27752', 'eldominguez@uv.mx', 35),
+(34, 'ERIKA', 'MENESES', 'RICO', '26487', 'ermeneses@uv.mx', 36),
+(35, 'EVERARDO FRANCISCO', 'GARCÍA', 'MENIER', '6454', 'evgarcia@uv.mx', 37),
+(36, 'EZZIO OTHONIEL', 'ACOSTA', 'CANSECO', '28803', 'ezacosta@uv.mx', 38),
+(37, 'FREDY', 'CASTAÑEDA', 'SÁNCHEZ', '26781', 'fcastaneda@uv.mx', 39),
+(38, 'JOSÉ FABIÁN', 'MUÑOZ', 'PORTILLA', '24322', 'fmunoz@uv.mx', 40),
+(39, 'GUSTAVO MANUEL', 'BALDERAS', 'ROSAS', '3985', 'gbalderas@uv.mx', 41),
+(40, 'GERARDO', 'CONTRERAS', 'VEGA', '15672', 'gcontreras@uv.mx', 42),
+(41, 'JOSÉ GUILLERMO', 'HERNÁNDEZ', 'CALDERÓN', '38557', 'guillermohernandez02@uv.mx', 43),
+(42, 'HÉCTOR XAVIER', 'LIMÓN', 'RIAÑO', '41719', 'hlimon@uv.mx', 44),
+(43, 'ITZEL ALESSANDRA', 'REYES', 'FLORES', '48653', 'itreyes@uv.mx', 45),
+(44, 'LUIS JACOBO', 'PÉREZ', 'GUERRERO', '49449', 'jacoperez@uv.mx', 46),
+(45, 'JAVIER', 'SÁNCHEZ', 'ACOSTA', '43001', 'javsanchez@uv.mx', 47),
+(46, 'JESÚS ADOLFO', 'MEJIA', 'DE DIOS', '57029', 'jemejia@uv.mx', 48),
+(47, 'JUANA ELISA', 'ESCALANTE', 'VEGA', '18705', 'jescalante@uv.mx', 49),
+(48, 'JESÚS', 'HERNÁNDEZ', 'SUÁREZ', '13734', 'jeshernandez@uv.mx', 50),
+(49, 'JESUS ROBERTO', 'MÉNDEZ', 'ORTÍZ', '21068', 'jmendez@uv.mx', 51),
+(50, 'JUDITH GUADALUPE', 'MONTERO', 'MORA', '28650', 'jmontero@uv.mx', 52),
+(51, 'JORGE OCTAVIO', 'OCHARÁN', 'HERNÁNDEZ', '28650', 'jocharan@uv.mx', 53),
+(52, 'JUAN', 'RUIZ', 'RAMÍREZ', '14794', 'jruiz@uv.mx', 54),
+(53, 'JUAN CARLOS', 'GARCIA', 'RODRÍGUEZ', '46607', 'juangarcia06@uv.mx', 55),
+(54, 'JUAN MANUEL', 'GUTIERREZ', 'MÉNDEZ', '48178', 'juangutierrez02@uv.mx', 56),
+(55, 'JOSÉ JUAN', 'MUÑOZ', 'LEÓN', '32617', 'juanmunoz@uv.mx', 57),
+(56, 'JUAN CARLOS', 'PÉREZ', 'ARRIAGA', '27160', 'juaperez@uv.mx', 58),
+(57, 'JULIÁN FELIPE', 'DÍAZ', 'CAMACHO', '13734', 'judiaz@uv.mx', 59),
+(58, 'JUDITH', 'RODRÍGUEZ', 'CUEVAS', '22436', 'judrodriguez@uv.mx', 60),
+(59, 'JULIA AURORA', 'MONTANO', 'RIVAS', '14858', 'julmontano@uv.mx', 61),
+(60, 'JUAN LUIS', 'LÓPEZ', 'HERRERA', '18349', 'julopez@uv.mx', 62),
+(61, 'MARÍA KAREN', 'CORTÉS', 'VERDÍN', '14113', 'kcortes@uv.mx', 63),
+(62, 'LORENA', 'ALONSO', 'RAMÍREZ', '25205', 'lalonso@uv.mx', 64),
+(63, 'JOSE LUIS', 'COLORADO', 'HERNÁNDEZ', '10378', 'lcolorado@uv.mx', 65),
+(64, 'LESTER', 'REYES', 'LÓPEZ', '34288', 'lereyes@uv.mx', 66),
+(65, 'LIZBETH ALEJANDRA', 'HERNÁNDEZ', 'GONZÁLEZ', '28793', 'lizhernandez@uv.mx', 67),
+(66, 'LUIS GERARDO', 'MONTANÉ', 'JIMÉNEZ', '39604', 'lmontane@uv.mx', 68),
+(67, 'MARIA DE LOS ANGELES', 'NAVARRO', 'GUERRERO', '20446', 'lonavarro@uv.mx', 69),
+(68, 'LORENA', 'LÓPEZ', 'LOZADA', '15278', 'lorlopez@uv.mx', 70),
+(69, 'MARIA DE LOURDES', 'HERNÁNDEZ', 'RODRÍGUEZ', '28056', 'lourhernandez@uv.mx', 71),
+(70, 'MARÍA DE LOURDES', 'VELASCO', 'VÁZQUEZ', '15277', 'lovelasco@uv.mx', 72),
+(71, 'JOSE LUIS', 'SOTO', 'ORTÍZ', '30640', 'luisoto@uv.mx', 73),
+(72, 'MARÍA DE LOURDES', 'WATTY', 'URQUIDI', '3996', 'lwatty@uv.mx', 74),
+(73, 'MIGUEL', 'ALONSO', 'LÓPEZ', '3646', 'malonso@uv.mx', 75),
+(74, 'MARIBEL', 'CARMONA', 'GARCÍA', '34079', 'maribelcarmona@uv.mx', 76),
+(75, 'MARTHA PATRICIA', 'RODRÍGUEZ', 'GUZMAN', '26217', 'marthrodriguez@uv.mx', 77),
+(76, 'MARGARITA EDITH', 'CANAL', 'MARTÍNEZ', '18787', 'mcanal@uv.mx', 78),
+(77, 'MIGUEL ALEXANDER', 'ALARCON', 'BAILLERES', '20461', 'mialarcon@uv.mx', 79),
+(78, 'MINERVA', 'REYES', 'FÉLIX', '28886', 'minreyes@uv.mx', 80),
+(79, 'MITL', 'MELGAREJO', 'GONZÁLEZ', '27878', 'mmelgarejo@uv.mx', 81),
+(80, 'MARIO MIGUEL', 'OJEDA', 'RAMÍREZ', '3986', 'mojeda@uv.mx', 82),
+(81, 'NIELS', 'MARTÍNEZ', 'GUEVARA', '44666', 'niemartinez@uv.mx', 83),
+(82, 'OLGA REGINA', 'ROSAS', 'TOLENTINO', '44845', 'olrosas@uv.mx', 84),
+(83, 'PABLO ISRAEL', 'GUZMÁN', 'MARTÍNEZ', '46918', 'paguzman@uv.mx', 85),
+(84, 'PAOLA FABIOLA', 'CUÉLLAR', 'GUTIÉRREZ', '39675', 'pcuellar@uv.mx', 86),
+(85, 'RAÚL', 'DE LA FUENTE', 'IZAGUIRRE', '36384', 'radelafuente@uv.mx', 87),
+(86, 'RAMÓN', 'GÓMEZ', 'ROMERO', '44901', 'ramongomez@uv.mx', 88),
+(87, 'ROBERTO', 'LARA', 'DOMÍNGUEZ', '54276', 'roberlara@uv.mx', 89),
+(88, 'ROSELIA', 'OSORIO', 'ARMENTA', '24156', 'rosorio@uv.mx', 90),
+(89, 'JOSÉ RAFAEL', 'ROJANO', 'CÁCERES', '25944', 'rrojano@uv.mx', 91),
+(90, 'RAMÓN DAVID', 'SARMIENTO', 'CERVANTES', '31364', 'rsarmiento@uv.mx', 92),
+(91, 'RUTH ELIZABETH', 'ALDAMA', 'ROSAS', '48603', 'rualdama@uv.mx', 93),
+(92, 'SAÚL', 'DOMÍNGUEZ', 'ISIDRO', '48674', 'sauldominguez@uv.mx', 94),
+(93, 'MARÍA SILVIA', 'GARCÍA', 'RAMÍREZ', '9827', 'sgarcia@uv.mx', 95),
+(94, 'VIRGINIA', 'LAGUNES', 'BARRADAS', '15023', 'vlagunes@uv.mx', 96),
+(95, 'VÍCTOR MANUEL', 'MÉNDEZ', 'SÁNCHEZ', '6774', 'vmendez@uv.mx', 97),
+(96, 'VERÓNICA ELIZABETH', 'OROZCO', 'RÍOS', '13759', 'vorozco@uv.mx', 98),
+(97, 'VÍCTO MANUEL', 'TLAPA', 'CARRERA', '56086', 'vtlapa@uv.mx', 99),
+(98, 'WILLIAN', 'ZARATE', 'NAVARRO', '27581', 'wzarate@uv.mx', 100),
+(99, 'MARIA YESENIA', 'ZAVALETA', 'SÁNCHEZ', '37665', 'yzavaleta@uv.mx', 101),
+(100, 'ZOYLO', 'MORALES', 'ROMERO', '24326', 'zmorales@uv.mx', 102),
+(101, 'Jose Angel', 'Gutierrez', 'Rodriguez', NULL, 'zs19016362@estudiantes.uv.mx', 103),
+(102, 'OCTAVIO ENRIQUE', 'OCHOA', 'MARTINEZ', NULL, 'eochoa@uv.mx', 104),
+(103, 'OMAR ALEXANDRO', 'TEXON', 'OLGUÍN', NULL, 'omtexon@uv.mx', 105),
+(104, 'PATRICIA', 'DÍAZ', 'GASPAR', NULL, 'patdiaz@uv.mx', 106),
+(105, 'GUILLERMO HUMBERTO', 'VERA', 'AMARO', '27071', 'gvera@uv.mx', 107),
+(106, 'EDSEL', 'ORTIZ', 'MORENO', NULL, 'edsortiz@uv.mx', 108),
+(107, 'URBANO FRANCISCO', 'ORTEGA', 'RIVERA', NULL, 'uortega@uv.mx', 109),
+(108, 'YOSELYN NOHEMÍ', 'ORTEGA', 'GIJÓN', NULL, 'yoortega@uv.mx', 110),
+(109, 'MIGUEL ÁNGEL', 'ORTIGOZA', 'CLEMENTE', NULL, 'mortigoza@uv.mx', 111),
+(110, 'ALICIA YAZMÍN', 'ROJAS', 'LUNA', NULL, 'alirojas@uv.mx', 112),
+(111, 'MAX WILLLIAM', 'MILLÁN', 'MARTÍNEZ', NULL, 'mmillan@uv.mx', 113),
+(112, 'MARÍA LUISA', 'CÓRDOBA', 'TLAXCALTECO', NULL, 'marcordoba@uv.mx', 114),
+(113, 'KARLA PAOLA', 'MARTÍNEZ', 'RÁMILA', NULL, 'kamartinez@uv.mx', 115),
+(114, 'IRMA ELIZABETH', 'ROMERO', 'ARRIOJA', NULL, 'iromero@uv.mx', 116),
+(115, 'RUTH', 'RODRÍGUEZ', 'RAMÍREZ', NULL, 'ruthrodriguez@uv.mx', 117),
+(116, 'NORA GUADALUPE', 'SÁNCHEZ', 'MONTERO', NULL, 'norasanchez@uv.mx', 118),
+(117, 'YANETH', 'REYES', 'ESTUDILLO', NULL, 'yanreyes@uv.mx', 119),
+(118, 'ELIZABETH', 'MURRIETA', 'SANGABRIEL', NULL, 'elmurrieta@uv.mx', 120),
+(119, 'MARIO ALBERTO', 'HERNÁNDEZ', 'PÉREZ', NULL, 'mariohernandez02@uv.mx', 121),
+(120, 'MARIA KARIN', 'ROSENKRANZ', 'SAENZ', NULL, 'mrosenkranz@uv.mx', 122),
+(121, 'JENNY BETSABÉ', 'VÁZQUEZ', 'AGUIRRE', NULL, 'jenvazquez@uv.mx', 123),
+(122, 'JAIME', 'FERNÁNDEZ', 'HADDAD', NULL, 'jafernandez@uv.mx', 124),
+(123, 'ÁNGEL EDUARDO', 'DOMÍNGUEZ', 'DELGADO', NULL, 'zs15011624@estudiantes.uv.mx', 125),
+(124, 'ALMA ROSA', 'CÓRDOVA', 'AGUILAR', NULL, 'almcordova@uv.mx', 126),
+(125, 'Oscar', 'Alonso', 'Ramírez', NULL, 'oalonso@uv.mx', 127),
+(126, 'BRISEIDA', 'JIMÉNEZ', 'VELÁZQUEZ', NULL, 'brjimenez@uv.mx', 128),
+(127, 'Candy Obdulia', 'Sosa', 'Jimenez', '38716', 'cansosa@uv.mx', 129),
+(128, 'Jazmín Josefina', 'García', 'Méndez', NULL, 'jazgarcia@uv.mx', 130),
+(129, 'Jose Luis', 'Soto', 'Ortiz', NULL, 'luisoto@uv.mx', 131),
+(130, 'Zoylo', 'Morales', 'Romero', NULL, 'zmorales@uv.mx', 132),
+(131, 'María Eugenia', 'Barradas', 'García', NULL, 'maribarradas@uv.mx', 133);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `tutorado`
+-- Estructura de tabla para la tabla `tutorado`
 --
 
-DROP TABLE IF EXISTS `tutorado`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tutorado` (
-  `idTutorado` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(70) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `apellidoPaterno` varchar(70) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `apellidoMaterno` varchar(70) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `idTutorado` int(11) NOT NULL,
+  `nombre` varchar(70) NOT NULL,
+  `apellidoPaterno` varchar(70) DEFAULT NULL,
+  `apellidoMaterno` varchar(70) DEFAULT NULL,
   `matricula` varchar(10) NOT NULL,
   `correoInstitucional` varchar(45) NOT NULL,
-  `carrera` int NOT NULL,
-  `sesion` int NOT NULL,
-  `tutor` int DEFAULT NULL,
-  PRIMARY KEY (`idTutorado`),
-  KEY `fk_tutorado_carrera1_idx` (`carrera`),
-  KEY `fk_tutorado_tutor1_idx` (`tutor`),
-  KEY `fk_tutorado_Sesion1_idx` (`sesion`),
-  CONSTRAINT `fk_tutorado_carrera1` FOREIGN KEY (`carrera`) REFERENCES `carrera` (`idCarrera`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_tutorado_Sesion1` FOREIGN KEY (`sesion`) REFERENCES `sesion` (`idSesion`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_tutorado_tutor1` FOREIGN KEY (`tutor`) REFERENCES `tutor` (`idTutor`)
-) ENGINE=InnoDB AUTO_INCREMENT=10160 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `carrera` int(11) NOT NULL,
+  `sesion` int(11) NOT NULL,
+  `tutor` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `tutorado`
+-- Volcado de datos para la tabla `tutorado`
 --
 
-LOCK TABLES `tutorado` WRITE;
-/*!40000 ALTER TABLE `tutorado` DISABLE KEYS */;
-INSERT INTO `tutorado` VALUES (9033,'SAMUEL ELIAS','GAONA','HERNANDEZ','S16011696','zs16011696@estudiantes.uv.mx',3,12615,51),(9034,'ANDRES','FLORES','SANTAMARIA','S17022144','zs17022144@estudiantes.uv.mx',8,12616,98),(9035,'DANIEL','PALE','PARRA','S18012146','zs18012146@estudiantes.uv.mx',3,12617,127),(9036,'MIDGUET ARTURO','GARCIA','TORRES','S18012193','zs18012193@estudiantes.uv.mx',3,12618,51),(9037,'ERIKA ARIANNE','CASTAÑON','MONTANO','S18014080','zs18014080@estudiantes.uv.mx',7,12619,4),(9038,'DIEGO ALI','BELLO','IBARRA','S18014082','zs18014082@estudiantes.uv.mx',7,12620,4),(9039,'VICTOR MARCIAL','GARFIAS','AVALOS','S18014098','zs18014098@estudiantes.uv.mx',7,12621,49),(9040,'JORGE ARTURO','ARENAS','TRINIDAD','S18014102','zs18014102@estudiantes.uv.mx',7,12622,4),(9041,'MARIO AXEL','HERNANDEZ','BURGOS','S18014105','zs18014105@estudiantes.uv.mx',7,12623,56),(9042,'ALDO YAEL ARMANDO','COLORADO','HOYOS','S18014119','zs18014119@estudiantes.uv.mx',7,12624,33),(9043,'CARLOS ENRIQUE','GONZALEZ','ARCOCHA','S18014503','zs18014503@estudiantes.uv.mx',8,12625,28),(9044,'DIANA LAURA','CRISTINO','MORALES','S18019961','zs18019961@estudiantes.uv.mx',8,12626,127),(9045,'EDGAR ANTONIO','JIMENEZ','LOPEZ','S18019963','zs18019963@estudiantes.uv.mx',8,12627,74),(9046,'CARLOS DANIEL','LICONA','ALFONSO','S18026719','zs18026719@estudiantes.uv.mx',7,12628,42),(9047,'TAURINO','RODRIGUEZ','SALDAÑA','S19013197','zs19013197@estudiantes.uv.mx',1,12629,80),(9048,'CLARA IMELDA','NAVARRETE','CASIANO','S19013229','zs19013229@estudiantes.uv.mx',1,12630,25),(9049,'CARLOS EDUARDO','DE JESUS','CORTES','S19013244','zs19013244@estudiantes.uv.mx',1,12631,20),(9050,'DIANA','VIVEROS','FERNANDEZ','S19013252','zs19013252@estudiantes.uv.mx',1,12632,55),(9051,'MARIA FERNANDA','CAMPOS','CARMONA','S19013294','zs19013294@estudiantes.uv.mx',1,12633,70),(9052,'SAMUEL','SUAREZ','COLIN','S19013988','zs19013988@estudiantes.uv.mx',3,12634,61),(9053,'ELIAN ERNESTO','SORCIA','PATIÑO','S19013990','zs19013990@estudiantes.uv.mx',3,12635,12),(9054,'SILVIA KRISTEL','SANCHEZ','PIÑA','S19013993','zs19013993@estudiantes.uv.mx',3,12636,86),(9055,'BENJAMIN DEL ANGEL','GARCIA','HERNANDEZ','S19013994','zs19013994@estudiantes.uv.mx',3,12637,51),(9056,'MARLON','MONTIEL','PEREZ','S19013995','zs19013995@estudiantes.uv.mx',3,12638,12),(9057,'RUBEN ISAI','ALEJO','BARRIENTOS','S19014003','zs19014003@estudiantes.uv.mx',3,12639,15),(9058,'MARIA JOSE','TORRES','IGARTUA','S19014012','zs19014012@estudiantes.uv.mx',3,12640,1),(9059,'DANIEL','DIAZ','ROSSELL','S19014015','zs19014015@estudiantes.uv.mx',3,12641,15),(9060,'ESTEBAN','MARTINEZ','GONZALEZ','S19014016','zs19014016@estudiantes.uv.mx',3,12642,34),(9061,'YASSER YAID','GAPI','PEREZ','S19014018','zs19014018@estudiantes.uv.mx',3,12643,67),(9062,'JOHANN ALEXIS','OLIVARES','GALINDO','S19014020','zs19014020@estudiantes.uv.mx',3,12644,34),(9063,'BRYAN JOSUE','HERNANDEZ','MARCIAL','S19014021','zs19014021@estudiantes.uv.mx',3,12645,12),(9064,'MIRIAM LILLY','MARTINEZ','GUZMAN','S19014025','zs19014025@estudiantes.uv.mx',3,12646,67),(9065,'KATIA SARAI','MOLINA','LOPEZ','S19014027','zs19014027@estudiantes.uv.mx',3,12647,21),(9066,'JESUS ENRIQUE','FERNANDEZ','GONZALEZ','S19014030','zs19014030@estudiantes.uv.mx',3,12648,21),(9067,'ALEJANDRO','MONTERO','DORANTES','S19014034','zs19014034@estudiantes.uv.mx',3,12649,21),(9068,'DIANA PILAR','MIRANDA','ESTRELLA','S19014038','zs19014038@estudiantes.uv.mx',3,12650,127),(9069,'AXEL','PANAMA','VELASQUEZ','S19014041','zs19014041@estudiantes.uv.mx',3,12651,56),(9070,'KEVIN ALFONSO','MONCAYO','GUTIERREZ','S19014047','zs19014047@estudiantes.uv.mx',3,12652,15),(9071,'ANTONIO DE JESUS','DOMINGUEZ','GARCIA','S19014049','zs19014049@estudiantes.uv.mx',3,12653,15),(9072,'RAUL ARTURO','PEREDO','ESTUDILLO','S19014050','zs19014050@estudiantes.uv.mx',3,12654,15),(9073,'BRYANT','GONZALEZ','DELGADO','S19015963','zs19015963@estudiantes.uv.mx',7,12655,23),(9074,'CINDY','LANDA','HERNANDEZ','S19015973','zs19015973@estudiantes.uv.mx',7,12656,56),(9075,'HECTOR','PORTILLA','ZAMORA','S19015993','zs19015993@estudiantes.uv.mx',7,12657,43),(9076,'ROLANDO','REYES','ESPINOZA','S19016000','zs19016000@estudiantes.uv.mx',7,12658,43),(9077,'DAVID RAFAEL','ROMERO','MORALES','S19016004','zs19016004@estudiantes.uv.mx',7,12659,127),(9078,'PEDRO ALFONSO','BRAVO','CIBRIAN','S19016005','zs19016005@estudiantes.uv.mx',7,12660,11),(9079,'BENJAMIN','RIVERA','ROJAS','S19016009','zs19016009@estudiantes.uv.mx',7,12661,11),(9080,'ANDREA','FUENTES','MENDOZA','S19016010','zs19016010@estudiantes.uv.mx',7,12662,42),(9081,'MARTIN','SANCHEZ','MATA','S19016011','zs19016011@estudiantes.uv.mx',7,12663,28),(9082,'ARISBETH','BELLO','CONTRERAS','S19016013','zs19016013@estudiantes.uv.mx',7,12664,11),(9083,'RODRIGO ADRIAN','HERNANDEZ','REYES','S19016016','zs19016016@estudiantes.uv.mx',7,12665,56),(9084,'DAYHAN','VAZQUEZ','TORRES','S19016019','zs19016019@estudiantes.uv.mx',7,12666,98),(9085,'VICTOR OCTAVIO','HERRERA','ACOSTA','S19016022','zs19016022@estudiantes.uv.mx',7,12667,56),(9086,'CHRISTOPHER RAFAEL','RODRIGUEZ','BOLAÑOS','S19016023','zs19016023@estudiantes.uv.mx',7,12668,45),(9087,'GUSTAVO','GONZALEZ','','S19016024','zs19016024@estudiantes.uv.mx',7,12669,23),(9088,'KEVIN OSVALDO','PANES','LANDA','S19016349','zs19016349@estudiantes.uv.mx',8,12670,15),(9089,'OSCAR ROSARIO','PEREA','GUERRERO','S19016350','zs19016350@estudiantes.uv.mx',8,12671,15),(9090,'BRIAN ALEJANDRO','VELASCO','HERNANDEZ','S19016375','zs19016375@estudiantes.uv.mx',8,12672,47),(9091,'ANA PAULA','ALVAN','ARGUELLES','S19016388','zs19016388@estudiantes.uv.mx',8,12673,21),(9092,'LUIS AARON','GRANILLO','HERNANDEZ','S19016391','zs19016391@estudiantes.uv.mx',8,12674,NULL),(9093,'ROBERTO','PARTIDA','GONZALEZ','S19016407','zs19016407@estudiantes.uv.mx',8,12675,89),(9094,'JOSE MANUEL','BONILLA','MARTINEZ','S19016416','zs19016416@estudiantes.uv.mx',8,12676,25),(9095,'CRISTOPHER','RODRIGUEZ','SALAMANCA','S19023584','zs19023584@estudiantes.uv.mx',3,12677,127),(9096,'EDUARDO ANTONIO','CASTILLO','GARRIDO','S19023587','zs19023587@estudiantes.uv.mx',3,12678,21),(9097,'JONATHAN','HERNANDEZ','MARTINEZ','S19023589','zs19023589@estudiantes.uv.mx',3,12679,127),(9098,'CESAR','GONZALEZ','LOPEZ','S19023590','zs19023590@estudiantes.uv.mx',3,12680,86),(9099,'JOSE DAVID','CASTILLO','LOPEZ','S19024979','zs19024979@estudiantes.uv.mx',1,12681,99),(9100,'JAIME ALEJANDRO','MORENO','MUÑOZ','S19024992','zs19024992@estudiantes.uv.mx',1,12682,80),(9101,'JOANNA ANNETE','REYES','HERNANDEZ','S19025092','zs19025092@estudiantes.uv.mx',7,12683,56),(9102,'EVELYN','GARCIA','HIDALGO','S19030167','zs19030167@estudiantes.uv.mx',1,12684,2),(9103,'JORGE OCTAVIO','USCANGA','LARA','S19030168','zs19030168@estudiantes.uv.mx',7,12685,45),(9104,'RICARDO','MARTINEZ','OLIVO','S19030171','zs19030171@estudiantes.uv.mx',8,12686,114),(9105,'EDUART USSIEL','DIRCIO','CAYON','S19030173','zs19030173@estudiantes.uv.mx',3,12687,51),(9106,'MANUEL','LADRON DE GUEVARA','TELLO','S19030174','zs19030174@estudiantes.uv.mx',3,12688,61),(9107,'LINO OSWALDO','SANCHEZ','JUAREZ','S20015034','zs20015034@estudiantes.uv.mx',1,12689,74),(9108,'ADOLFO ANGEL','CERVANTES','HERNANDEZ','S20015035','zs20015035@estudiantes.uv.mx',1,12690,25),(9109,'SAMAEL ALEJANDRO','LOPEZ','HERNANDEZ','S20015037','zs20015037@estudiantes.uv.mx',1,12691,99),(9110,'ROSSEVEDITH ESTRELLA','CALDERON','ORTEGA','S20015039','zs20015039@estudiantes.uv.mx',1,12692,25),(9111,'LUIS FRANCISCO','NAVARRO','ACEITUNO','S20015047','zs20015047@estudiantes.uv.mx',1,12693,73),(9112,'PERLA VIRIDIANA','JIMENEZ','CASTELLANO','S20015050','zs20015050@estudiantes.uv.mx',1,12694,25),(9113,'JOSE DE JESUS','VELASCO','SANCHEZ','S20015052','zs20015052@estudiantes.uv.mx',1,12695,50),(9114,'DAMARIS MABEL','MELCHOR','VASQUEZ','S20015053','zs20015053@estudiantes.uv.mx',1,12696,48),(9115,'YOSELYN DE JESUS','CHIMAL','TECZON','S20015060','zs20015060@estudiantes.uv.mx',1,12697,25),(9116,'RUBEN YAHIR','VIDAL','MORALES','S20015062','zs20015062@estudiantes.uv.mx',1,12698,32),(9117,'PAOLA MONTSERRAT','CRUZ','DOLORES','S20015063','zs20015063@estudiantes.uv.mx',1,12699,2),(9118,'BRAYAN YAHIR','RODRIGUEZ','HERNANDEZ','S20015064','zs20015064@estudiantes.uv.mx',1,12700,48),(9119,'KAREN YAMILETH','PEREZ','RODRIGUEZ','S20015068','zs20015068@estudiantes.uv.mx',1,12701,38),(9120,'SONIA','ARCOS','ROCHA','S20015073','zs20015073@estudiantes.uv.mx',1,12702,124),(9121,'GEMA ARANZA','MUÑOZ','HERNANDEZ','S20015075','zs20015075@estudiantes.uv.mx',1,12703,80),(9122,'IRMA EUNICE','MARTÍNEZ','DE LA CRUZ','S20015077','zs20015077@estudiantes.uv.mx',1,12704,99),(9123,'BARTOLO ALBERTO','FLORES','GUZMAN','S20015078','zs20015078@estudiantes.uv.mx',1,12705,20),(9124,'HORACIO ALBERTO','MIRANDA','LOPEZ','S20015080','zs20015080@estudiantes.uv.mx',1,12706,80),(9125,'ANGEL ARIEL','SOLIS','MATA','S20015082','zs20015082@estudiantes.uv.mx',1,12707,78),(9126,'OSCAR ELI','BONILLA','MORALES','S20015083','zs20015083@estudiantes.uv.mx',1,12708,100),(9127,'MARIA FELIX FERNANDA','FELIPE','PABLO','S20015092','zs20015092@estudiantes.uv.mx',1,12709,20),(9128,'HAROL ANTONIO','GARCIA','MORA','S20015094','zs20015094@estudiantes.uv.mx',1,12710,20),(9129,'LUIS ANTONIO','DE DIOS','HERNANDEZ','S20015097','zs20015097@estudiantes.uv.mx',1,12711,2),(9130,'DANIEL','SOL','PIEDRA','S20015099','zs20015099@estudiantes.uv.mx',1,12712,32),(9131,'MAXIMILIANO','CARO','CALDERON','S20015103','zs20015103@estudiantes.uv.mx',1,12713,2),(9132,'YOLOTZIN','PAJONAREZ','VAZQUEZ','S20015105','zs20015105@estudiantes.uv.mx',1,12714,55),(9133,'EDUARDO','MAVIL','TRUJILLO','S20015110','zs20015110@estudiantes.uv.mx',1,12715,70),(9134,'FRANCISCO XAVIER','AGUILAR','MARTINEZ','S20015681','zs20015681@estudiantes.uv.mx',3,12716,127),(9135,'MIGUEL ZINEDINNE','GUZMAN','SAINZ','S20015683','zs20015683@estudiantes.uv.mx',3,12717,111),(9136,'AGNI ZAHIR','YAÑEZ','VENCES','S20015687','zs20015687@estudiantes.uv.mx',3,12718,111),(9137,'SARAI','CASTILLO','HERNANDEZ','S20015690','zs20015690@estudiantes.uv.mx',3,12719,12),(9138,'AXEL SATURNINO','MENDOZA','DOMINGO','S20015691','zs20015691@estudiantes.uv.mx',3,12720,56),(9139,'VALERIA','ABDALA','GARCIA','S20015692','zs20015692@estudiantes.uv.mx',3,12721,111),(9140,'ALVARO','LOPEZ','MARTINEZ','S20015693','zs20015693@estudiantes.uv.mx',3,12722,67),(9141,'AARON ISAAC','MELCHOR','RAMIREZ','S20015694','zs20015694@estudiantes.uv.mx',3,12723,125),(9142,'VICTORIA PRISCILLA','MOYANO','ARGUELLES','S20015696','zs20015696@estudiantes.uv.mx',3,12724,86),(9143,'JOSE JAVIER','DOMINGUEZ','CARMONA','S20015697','zs20015697@estudiantes.uv.mx',3,12725,118),(9144,'ARMANDO OMAR','OBANDO','MUÑOZ','S20015699','zs20015699@estudiantes.uv.mx',3,12726,NULL),(9145,'JONATAN','ALARCON','ALARCON','S20015700','zs20015700@estudiantes.uv.mx',3,12727,1),(9146,'JOHAN DAVID','SOLIS','HERNANDEZ','S20015702','zs20015702@estudiantes.uv.mx',3,12728,125),(9147,'KATHERINE','BAUTISTA','MARQUEZ','S20015704','zs20015704@estudiantes.uv.mx',3,12729,21),(9148,'ANDREA ALEJANDRA','VARGAS','PUCHETA','S20015708','zs20015708@estudiantes.uv.mx',3,12730,56),(9149,'RENE ULISES','GARCIA','VELAZQUEZ','S20015709','zs20015709@estudiantes.uv.mx',3,12731,94),(9150,'FROYLAN DE JESUS','ALVAREZ','RODRIGUEZ','S20015714','zs20015714@estudiantes.uv.mx',3,12732,21),(9151,'OSCAR IVAN','OLIVARES','CARSI','S20015715','zs20015715@estudiantes.uv.mx',3,12733,12),(9152,'FAUSTO','MENDEZ','PERALTA','S20015719','zs20015719@estudiantes.uv.mx',3,12734,15),(9153,'EDUARDO','LOPEZ','CHACON','S20015721','zs20015721@estudiantes.uv.mx',3,12735,56),(9154,'JUAN PABLO','PEREDO','MARTINEZ','S20015724','zs20015724@estudiantes.uv.mx',3,12736,127),(9155,'MYRIAM','SANCHEZ','PEREYRA','S20015725','zs20015725@estudiantes.uv.mx',3,12737,56),(9156,'JOSE ARMANDO','REYES','RODRIGUEZ','S20015727','zs20015727@estudiantes.uv.mx',3,12738,94),(9157,'JOSHUA ELIUD','HERNANDEZ','SUAREZ','S20015728','zs20015728@estudiantes.uv.mx',3,12739,111),(9158,'JAVIER','DURAN','TORRES','S20015729','zs20015729@estudiantes.uv.mx',3,12740,119),(9159,'SEBASTIAN','BELLO','TREJO','S20015730','zs20015730@estudiantes.uv.mx',3,12741,12),(9160,'DANIELA','MORALES','SIXTO','S20015736','zs20015736@estudiantes.uv.mx',3,12742,34),(9161,'EDUARDO RAUDEL','MARIN','MORALES','S20015738','zs20015738@estudiantes.uv.mx',3,12743,86),(9162,'MARIO ALBERTO','JIMENEZ','JIMENEZ','S20015742','zs20015742@estudiantes.uv.mx',3,12744,1),(9163,'FRANZ JESUS','RIVERA','ALCANTARA','S20015744','zs20015744@estudiantes.uv.mx',3,12745,1),(9164,'ALEJANDRO','CHACON','FERNANDEZ','S20015745','zs20015745@estudiantes.uv.mx',3,12746,15),(9165,'DAYRHA ITZEL','ORTEGA','HERNANDEZ','S20015749','zs20015749@estudiantes.uv.mx',3,12747,61),(9166,'MARCO ANTONIO','MELCHOR','CABEZA DE VACA','S20015751','zs20015751@estudiantes.uv.mx',3,12748,61),(9167,'ULISES','RAMOS','MEXICANO','S20015752','zs20015752@estudiantes.uv.mx',3,12749,34),(9168,'LEONARDO','CRIOLLO','RAMIREZ','S20015753','zs20015753@estudiantes.uv.mx',3,12750,12),(9169,'PABLO HERNAN','DE LA CRUZ','MORENO','S20015755','zs20015755@estudiantes.uv.mx',3,12751,12),(9170,'ALVARO','BARRADAS','FERNANDEZ','S20015760','zs20015760@estudiantes.uv.mx',3,12752,61),(9171,'JUAN DANIEL','CEBADA','COLULA','S20017752','zs20017752@estudiantes.uv.mx',7,12753,4),(9172,'MIGUEL ALFONSO','ALBA','RAMIREZ','S20017754','zs20017754@estudiantes.uv.mx',7,12754,40),(9173,'EDUARDO','TORIBIO','RODRIGUEZ','S20017759','zs20017759@estudiantes.uv.mx',7,12755,98),(9174,'LESLIE AMERICA','AGUILAR','CALLEJAS','S20017763','zs20017763@estudiantes.uv.mx',7,12756,74),(9176,'JOSAFAT','CRUZ','LOPEZ','S20017767','zs20017767@estudiantes.uv.mx',7,12758,4),(9177,'LUIS DANIEL','BAEZ','CASTILLO','S20017769','zs20017769@estudiantes.uv.mx',7,12759,40),(9178,'JAVIER','PATIÑO','GONZALEZ','S20017773','zs20017773@estudiantes.uv.mx',7,12760,8),(9179,'JESSICA WENDOLEN','GAONA','VILLA','S20017774','zs20017774@estudiantes.uv.mx',7,12761,74),(9180,'KEVIN MISAEL','HERNANDEZ','JUAREZ','S20017777','zs20017777@estudiantes.uv.mx',7,12762,42),(9181,'OSCAR ARTURO','RAMIREZ','MARTINEZ','S20017778','zs20017778@estudiantes.uv.mx',7,12763,43),(9182,'LUIS CARLOS','LUNA','DELGADO','S20017782','zs20017782@estudiantes.uv.mx',7,12764,23),(9183,'DAVID','JIMENEZ','BAUTISTA','S20017788','zs20017788@estudiantes.uv.mx',7,12765,23),(9184,'JONATHAN','PEÑA','PEREZ','S20017790','zs20017790@estudiantes.uv.mx',7,12766,8),(9186,'DANIEL','POZOS','HERNANDEZ','S20017796','zs20017796@estudiantes.uv.mx',7,12768,8),(9187,'JOSE ALEJANDRO','RAMIREZ','ZAVALETA','S20017800','zs20017800@estudiantes.uv.mx',7,12769,45),(9188,'MARIO','RIVERA','PERALTA','S20017801','zs20017801@estudiantes.uv.mx',7,12770,98),(9189,'FELIPE NERI','CIRIACO','SANCHEZ','S20017809','zs20017809@estudiantes.uv.mx',7,12771,4),(9190,'CRISTIAN DE JESUS','ARCOS','FERNANDEZ','S20017812','zs20017812@estudiantes.uv.mx',7,12772,40),(9191,'EMILIO','SUAREZ','LANDA','S20017815','zs20017815@estudiantes.uv.mx',7,12773,28),(9192,'ANA LAURA','MARTINEZ','ISABEL','S20017818','zs20017818@estudiantes.uv.mx',7,12774,49),(9193,'MARCOS YAHIR','DE LA CAÑA','PEREZ','S20018147','zs20018147@estudiantes.uv.mx',8,12775,114),(9194,'DIEGO','ARELLANO','MORENO','S20018149','zs20018149@estudiantes.uv.mx',8,12776,14),(9195,'MATTAI','MARTINEZ','MONTERO','S20018150','zs20018150@estudiantes.uv.mx',8,12777,14),(9196,'MAILENE GABRIELA','ALPUCHE','VELAZQUEZ','S20018152','zs20018152@estudiantes.uv.mx',8,12778,14),(9197,'LIAM IBRAHIM','PEREZ','SULVARAN','S20018158','zs20018158@estudiantes.uv.mx',8,12779,62),(9198,'EDUARDO','RODRIGUEZ','SOLIS','S20018160','zs20018160@estudiantes.uv.mx',8,12780,41),(9199,'JOSE URIEL','VELASCO','HERNANDEZ','S20018164','zs20018164@estudiantes.uv.mx',8,12781,41),(9200,'SAMUEL','OLMEDO','ORTIZ','S20018166','zs20018166@estudiantes.uv.mx',8,12782,67),(9201,'LIZETH ADRIANA','ZURUTUZA','DEL SOLAR','S20018167','zs20018167@estudiantes.uv.mx',8,12783,67),(9202,'DARIEN','ALBERTO','BALTAZAR','S20018168','zs20018168@estudiantes.uv.mx',8,12784,67),(9203,'BRANDON','AGUILERA','HERNANDEZ','S20018172','zs20018172@estudiantes.uv.mx',8,12785,41),(9204,'FRANCISCO DANIEL','SANCHEZ','NAVARRO','S20018173','zs20018173@estudiantes.uv.mx',8,12786,62),(9205,'CARLA GUADALUPE','RIVERA','VIVEROS','S20018175','zs20018175@estudiantes.uv.mx',8,12787,49),(9208,'BERNARDO JULIAN','MARIN','SANCHEZ','S20018182','zs20018182@estudiantes.uv.mx',8,12790,96),(9209,'ALVARO YAIR','GARCIA','MURRIETA','S20018183','zs20018183@estudiantes.uv.mx',8,12791,96),(9210,'JOSE ANTONIO','ESPINOZA','RODRIGUEZ','S20018184','zs20018184@estudiantes.uv.mx',8,12792,15),(9211,'ALEX ANTONIO','TERRONES','PACHECO','S20018188','zs20018188@estudiantes.uv.mx',8,12793,15),(9212,'ERIC JAIR','LOPEZ','MEJIA','S20018191','zs20018191@estudiantes.uv.mx',8,12794,NULL),(9213,'ERICK ADRIAN','HERNANDEZ','ABURTO','S20018198','zs20018198@estudiantes.uv.mx',8,12795,23),(9214,'CHRISTIAN','FILETE','LOPEZ','S20018199','zs20018199@estudiantes.uv.mx',8,12796,23),(9215,'LEHABIM ALEXIS','CRUZ','CAMARENA','S20018201','zs20018201@estudiantes.uv.mx',8,12797,21),(9216,'SANTIAGO ULISES','MARTINEZ','GARCIA','S20018203','zs20018203@estudiantes.uv.mx',8,12798,93),(9217,'MARICARMEN','VAZQUEZ','VIDAL','S20018205','zs20018205@estudiantes.uv.mx',8,12799,49),(9218,'SANTIAGO EMMANUEL','CHAVEZ','MURRIETA','S20018222','zs20018222@estudiantes.uv.mx',8,12800,76),(9219,'ANGEL FABRIZIO','FRANYUTTI','PULIDO','S20018223','zs20018223@estudiantes.uv.mx',8,12801,98),(9220,'DAVID','VEGA','TEPETLA','S20018226','zs20018226@estudiantes.uv.mx',8,12802,114),(9221,'FERNANDO','ELOTLAN','MORALES','S20020852','zs20020852@estudiantes.uv.mx',3,12803,34),(9222,'VICTOR AUGUSTO','CUEVAS','BARRADAS','S20020853','zs20020853@estudiantes.uv.mx',3,12804,67),(9223,'PAULO CESAR','HERNANDEZ','ROSADO','S20020854','zs20020854@estudiantes.uv.mx',3,12805,125),(9224,'OMAR GABRIEL','CISNEROS','SALAS','S20020855','zs20020855@estudiantes.uv.mx',3,12806,109),(9225,'CARLOS','RODRIGUEZ','HERRERA','S20021059','zs20021059@estudiantes.uv.mx',3,12807,92),(9226,'EVELYN ELISA','LOZADA','HERNANDEZ','S20021997','zs20021997@estudiantes.uv.mx',1,12808,100),(9227,'KARHIM','ARENAS','CAICEROS','S20022002','zs20022002@estudiantes.uv.mx',1,12809,116),(9228,'JHAIR','LIBREROS','ROMERO','S20022005','zs20022005@estudiantes.uv.mx',1,12810,116),(9229,'YARET','DURAN','RODRIGUEZ','S20022009','zs20022009@estudiantes.uv.mx',1,12811,116),(9230,'MAYRA AZUCENA','ALARCON','RUIZ','S20022010','zs20022010@estudiantes.uv.mx',1,12812,124),(9231,'RAMSEL EULISES','AGUILAR','CUEVAS','S20022018','zs20022018@estudiantes.uv.mx',1,12813,124),(9232,'RUTH ABIGAIL','NICOLAS','MERINO','S20022022','zs20022022@estudiantes.uv.mx',1,12814,50),(9233,'MIGUEL ANGEL','MENDOZA','LOPEZ','S20022086','zs20022086@estudiantes.uv.mx',7,12815,40),(9234,'JORGE LUIS','MORTERA','CASAS','S20022112','zs20022112@estudiantes.uv.mx',8,12816,22),(9235,'BRANDON','VASQUEZ','LOZANO','S20022115','zs20022115@estudiantes.uv.mx',8,12817,22),(9236,'JESUS SALVADOR','MOCTEZUMA','BONILLA','S20022479','zs20022479@estudiantes.uv.mx',1,12818,50),(9237,'GILBERTO NAHIR','VAZQUEZ','VELASQUEZ','S21013235','zs21013235@estudiantes.uv.mx',1,12819,78),(9238,'DAVID','ROMAN','MORALES','S21013236','zs21013236@estudiantes.uv.mx',1,12820,25),(9239,'LIZETTE','LANDA','PEREA','S21013238','zs21013238@estudiantes.uv.mx',1,12821,100),(9240,'ISAAC ENRIQUE','VASQUEZ','HERNANDEZ','S21013242','zs21013242@estudiantes.uv.mx',1,12822,68),(9241,'PABLO RICARDO','HERNANDEZ','PIÑA','S21013243','zs21013243@estudiantes.uv.mx',1,12823,55),(9242,'VICTOR EDUARDO','SOLIS','PEREZ','S21013247','zs21013247@estudiantes.uv.mx',1,12824,25),(9243,'JESUS JAVIER','CASTILLO','MORALES','S21013248','zs21013248@estudiantes.uv.mx',1,12825,80),(9244,'ESCOBAR DIEGO','PEREZ','DIAZ','S21013253','zs21013253@estudiantes.uv.mx',1,12826,38),(9245,'ALEJANDRA','VIVEROS','MONTERO','S21013257','zs21013257@estudiantes.uv.mx',1,12827,74),(9246,'LESLIE GIOVANA','PEREZ','MARTINEZ','S21013258','zs21013258@estudiantes.uv.mx',1,12828,59),(9247,'JULISSA','JIMENEZ','HERNANDEZ','S21013259','zs21013259@estudiantes.uv.mx',1,12829,48),(9248,'MIGUEL ANGEL','ANGUIANO','PEREZ','S21013260','zs21013260@estudiantes.uv.mx',1,12830,116),(9249,'ROBERTO CARLOS','RIVERA','FLORES','S21013261','zs21013261@estudiantes.uv.mx',1,12831,38),(9250,'PAULO ARTURO','CERVANTES','CRUZ','S21013263','zs21013263@estudiantes.uv.mx',1,12832,50),(9251,'LANDY SUGEILY','PEREZ','ORTIZ','S21013264','zs21013264@estudiantes.uv.mx',1,12833,59),(9252,'NAYANI ESTELA','MARTINEZ','MORALES','S21013265','zs21013265@estudiantes.uv.mx',1,12834,55),(9253,'ARELY','CARRERA','SANCHEZ','S21013266','zs21013266@estudiantes.uv.mx',1,12835,116),(9254,'JOSE JAIR','LOPEZ','DURAN','S21013268','zs21013268@estudiantes.uv.mx',1,12836,50),(9255,'BEATRIZ','GARDUÑO','MERCADO','S21013271','zs21013271@estudiantes.uv.mx',1,12837,95),(9256,'MITZI YADIRA','ORTEGA','MARTINEZ','S21013273','zs21013273@estudiantes.uv.mx',1,12838,73),(9257,'FRANCISCO JAVIER','HERNANDEZ','SOMOHANO','S21013274','zs21013274@estudiantes.uv.mx',1,12839,55),(9258,'CITLALY GUADALUPE','LOZADA','HERNANDEZ','S21013278','zs21013278@estudiantes.uv.mx',1,12840,50),(9259,'ALMA ROSA','MENDOZA','PORTILLA','S21013282','zs21013282@estudiantes.uv.mx',1,12841,50),(9260,'CESAR DAVID','BONILLA','OSORIO','S21013284','zs21013284@estudiantes.uv.mx',1,12842,95),(9261,'ARACELI','RODRIGUEZ','MARCOS','S21013288','zs21013288@estudiantes.uv.mx',1,12843,38),(9262,'DANIEL','MONGEOTE','TLACHY','S21013830','zs21013830@estudiantes.uv.mx',3,12844,51),(9263,'DONAJI PAOLA','NAVARRO','ARRIETA','S21013834','zs21013834@estudiantes.uv.mx',3,12845,69),(9264,'LUIS DANIEL','TORAL','RAMIREZ','S21013835','zs21013835@estudiantes.uv.mx',3,12846,15),(9265,'MAURICIO','LOPEZ','HERNANDEZ','S21013836','zs21013836@estudiantes.uv.mx',3,12847,12),(9266,'ERICK','UTRERA','CORNEJO','S21013841','zs21013841@estudiantes.uv.mx',3,12848,111),(9267,'ANGEL DE JESUS','DE LA CRUZ','GARCIA','S21013846','zs21013846@estudiantes.uv.mx',3,12849,21),(9268,'TRISTAN EDUARDO','SUAREZ','SANTIAGO','S21013848','zs21013848@estudiantes.uv.mx',3,12850,125),(9269,'MIGUEL ANGEL','MARTINEZ','CAIXBA','S21013850','zs21013850@estudiantes.uv.mx',3,12851,86),(9270,'ARES JUDDA','RIVERA','SOTO','S21013852','zs21013852@estudiantes.uv.mx',3,12852,1),(9271,'EDUARDO','GARCIA','DIAZ','S21013853','zs21013853@estudiantes.uv.mx',3,12853,34),(9272,'RODRIGO','AGUILAR','LOPEZ','S21013854','zs21013854@estudiantes.uv.mx',3,12854,69),(9273,'CESAR EMILIANO','LEZAMA','LOPEZ','S21013857','zs21013857@estudiantes.uv.mx',3,12855,56),(9274,'FERNANDO','GAMBOA','HERNANDEZ','S21013858','zs21013858@estudiantes.uv.mx',3,12856,61),(9275,'ANETH MICHELLE','TAMARIZ','MORENO','S21013859','zs21013859@estudiantes.uv.mx',3,12857,12),(9276,'LUIS ANGEL','ELIZALDE','ARROYO','S21013860','zs21013860@estudiantes.uv.mx',3,12858,111),(9277,'CAMILO','ESPEJO','SANCHEZ','S21013861','zs21013861@estudiantes.uv.mx',3,12859,94),(9278,'EDUARDO','CARRERA','COLORADO','S21013862','zs21013862@estudiantes.uv.mx',3,12860,125),(9279,'MORAL EDMUNDO','RAMOS','DEL','S21013863','zs21013863@estudiantes.uv.mx',3,12861,12),(9280,'MIRIAM','RAMIREZ','ZARATE','S21013864','zs21013864@estudiantes.uv.mx',3,12862,111),(9281,'BRYAM DANAE','MORALES','GARCIA','S21013865','zs21013865@estudiantes.uv.mx',3,12863,34),(9282,'CRISTOPHER','VAZQUEZ','VILLA','S21013866','zs21013866@estudiantes.uv.mx',3,12864,127),(9283,'FABIOLA NARAYANI','GUZMAN','FIGUEROA','S21013868','zs21013868@estudiantes.uv.mx',3,12865,127),(9284,'ALEJANDRO','SANCHEZ','MARIN','S21013870','zs21013870@estudiantes.uv.mx',3,12866,12),(9285,'PALOMA OSIRIS','BAEZ','LARA','S21013871','zs21013871@estudiantes.uv.mx',3,12867,118),(9286,'JESUS MANUEL','MUJICA','CONDE','S21013873','zs21013873@estudiantes.uv.mx',3,12868,21),(9287,'LUIS MANUEL','CASAS','VAZQUEZ','S21013875','zs21013875@estudiantes.uv.mx',3,12869,34),(9288,'ALBHIERI CRISTOFF','VILLA','CONTRERAS','S21013876','zs21013876@estudiantes.uv.mx',3,12870,3),(9289,'MIGUEL ANGEL','CAMO','RINCON','S21013878','zs21013878@estudiantes.uv.mx',3,12871,127),(9290,'DANIEL','GARCIA','ARCOS','S21013881','zs21013881@estudiantes.uv.mx',3,12872,3),(9291,'SUJEY','ALARCON','HERNANDEZ','S21013882','zs21013882@estudiantes.uv.mx',3,12873,61),(9292,'OMAR DYLAN','SEGURA','PLATAS','S21013884','zs21013884@estudiantes.uv.mx',3,12874,1),(9293,'ABRAHAM DAVID','VAZQUEZ','QUINTO','S21013885','zs21013885@estudiantes.uv.mx',3,12875,125),(9294,'RODRIGO IVAN','AHUMADA','RODRIGUEZ','S21013886','zs21013886@estudiantes.uv.mx',3,12876,111),(9295,'KIRBITH ALBERTO','CUBILLAS','HERNANDEZ','S21013887','zs21013887@estudiantes.uv.mx',3,12877,51),(9296,'ALESIS DE JESUS','TORRES','OSORIO','S21013888','zs21013888@estudiantes.uv.mx',3,12878,94),(9297,'MARIO','MORALES','PORTILLA','S21013891','zs21013891@estudiantes.uv.mx',3,12879,34),(9298,'SULEM','MARTINEZ','AGUILAR','S21013893','zs21013893@estudiantes.uv.mx',3,12880,61),(9299,'CESAR','BASILIO','GOMEZ','S21013897','zs21013897@estudiantes.uv.mx',3,12881,34),(9300,'MARTIN EMMANUEL','CRUZ','CARMONA','S21013898','zs21013898@estudiantes.uv.mx',3,12882,1),(9301,'JESUS JACOB','MONTIEL','SALAS','S21013900','zs21013900@estudiantes.uv.mx',3,12883,119),(9302,'ALVARO','VAZQUEZ','AGUIRRE','S21013903','zs21013903@estudiantes.uv.mx',3,12884,12),(9303,'JASIEL EMIR','ZAVALETA','GARCIA','S21013907','zs21013907@estudiantes.uv.mx',3,12885,119),(9304,'RODOLFO','FERNANDEZ','RODRIGUEZ','S21013908','zs21013908@estudiantes.uv.mx',3,12886,61),(9305,'LUIS ALONSO','ANDRADE','LOPEZ','S21013909','zs21013909@estudiantes.uv.mx',3,12887,94),(9307,'DANIEL SEBASTIAN','SANCHEZ','MEDINA','S21015916','zs21015916@estudiantes.uv.mx',7,12889,74),(9308,'RUBEN HANIEL','RUIZ','SANCHEZ','S21015917','zs21015917@estudiantes.uv.mx',7,12890,74),(9309,'SAMUEL','RUIZ','CASTILLO','S21015921','zs21015921@estudiantes.uv.mx',7,12891,4),(9311,'JESUS HERON','GALVEZ','VAZQUEZ','S21015929','zs21015929@estudiantes.uv.mx',7,12893,4),(9312,'VICTOR EMMANUEL','LOPEZ','ESPEJO','S21015931','zs21015931@estudiantes.uv.mx',7,12894,40),(9313,'ISAIAS','LANDA','CERVANTES','S21015940','zs21015940@estudiantes.uv.mx',7,12895,74),(9314,'MARIA TERESA','JUAN','REYES','S21015946','zs21015946@estudiantes.uv.mx',7,12896,23),(9315,'VANESSA MICHELLE','GRAPAIN','ALDANA','S21015948','zs21015948@estudiantes.uv.mx',7,12897,33),(9316,'YOSELIN','HERNANDEZ','AVILA','S21015956','zs21015956@estudiantes.uv.mx',7,12898,56),(9317,'JESSICA','PEÑA','MONTERO','S21015959','zs21015959@estudiantes.uv.mx',7,12899,43),(9318,'DANIEL','MARTINEZ','RAMIREZ','S21015960','zs21015960@estudiantes.uv.mx',7,12900,56),(9319,'MARLENE','MENDEZ','LANDA','S21015961','zs21015961@estudiantes.uv.mx',7,12901,21),(9320,'JESUS ALEXANDRO','CASTILLO','ALONSO','S21015964','zs21015964@estudiantes.uv.mx',7,12902,98),(9321,'RENE','HERNANDEZ','CASTILLO','S21015965','zs21015965@estudiantes.uv.mx',7,12903,8),(9322,'ALDAHIR ABISAI','LEAL','CARDEÑA','S21015974','zs21015974@estudiantes.uv.mx',7,12904,44),(9323,'JOSUE','HERNANDEZ','GARCIA','S21015975','zs21015975@estudiantes.uv.mx',7,12905,42),(9324,'RODRIGO','DOMINGUEZ','JIMENEZ','S21015978','zs21015978@estudiantes.uv.mx',7,12906,94),(9325,'CARLOS ALBERTO','TAMARIZ','MORALES','S21015980','zs21015980@estudiantes.uv.mx',7,12907,94),(9326,'CHRISTOPHER ALESSANDRO','RODRIGUEZ','SALAZAR','S21016323','zs21016323@estudiantes.uv.mx',8,12908,66),(9327,'CESAR DAVID','GOMEZ','NUÑEZ','S21016325','zs21016325@estudiantes.uv.mx',8,12909,66),(9328,'IAN ESAU','OLVERA','VILLEDA','S21016328','zs21016328@estudiantes.uv.mx',8,12910,49),(9329,'ROBERTO CARLOS','ORTIZ','ALVAREZ','S21016329','zs21016329@estudiantes.uv.mx',8,12911,29),(9330,'MARLENE','NUÑEZ','SUAREZ','S21016332','zs21016332@estudiantes.uv.mx',8,12912,29),(9331,'NATALIA','CANCINO','VEGA','S21016333','zs21016333@estudiantes.uv.mx',8,12913,74),(9332,'ROBERTO','VIVEROS','GONZALEZ','S21016335','zs21016335@estudiantes.uv.mx',8,12914,89),(9333,'MIGUEL EDUARDO','VASQUEZ','ROSAS','S21016338','zs21016338@estudiantes.uv.mx',8,12915,28),(9334,'SEBASTIAN','CORDOBA','CASTIZO','S21016339','zs21016339@estudiantes.uv.mx',8,12916,89),(9335,'LUIS ALBERTO','REYES','MENDOZA','S21016340','zs21016340@estudiantes.uv.mx',8,12917,89),(9336,'JOSUE DAVID','MARTINEZ','GUTIERREZ','S21016346','zs21016346@estudiantes.uv.mx',8,12918,76),(9337,'MARIO ANTONIO','MORENO','LOPEZ','S21016348','zs21016348@estudiantes.uv.mx',8,12919,93),(9339,'EDUARDO','LOZADA','ANASTACIO','S21016350','zs21016350@estudiantes.uv.mx',8,12921,25),(9340,'FRANCISCO ANGEL','REYES','JACOME','S21016351','zs21016351@estudiantes.uv.mx',8,12922,93),(9341,'JUAN PABLO','LAZARO','RUIZ','S21016355','zs21016355@estudiantes.uv.mx',8,12923,29),(9342,'JOSE MIGUEL','GASPAR','GARCIA','S21016357','zs21016357@estudiantes.uv.mx',8,12924,47),(9344,'RAFAEL','VAZQUEZ','PEREZ','S21016364','zs21016364@estudiantes.uv.mx',8,12926,22),(9345,'JOSSELLIN','HERRERA','RODRIGUEZ','S21016367','zs21016367@estudiantes.uv.mx',8,12927,22),(9346,'MAXIMILIANO','CAMPOS','HERNANDEZ','S21016371','zs21016371@estudiantes.uv.mx',8,12928,22),(9347,'CITLALLI','DAVILA','HERNANDEZ','S21016376','zs21016376@estudiantes.uv.mx',8,12929,15),(9348,'YHOCSAN UZZI','GUEVARA','GARCIA','S21016377','zs21016377@estudiantes.uv.mx',8,12930,76),(9349,'JOSE ANGEL','ESPINOSA','LAGUNES','S21016382','zs21016382@estudiantes.uv.mx',8,12931,41),(9350,'DANIEL','GARCIA','JACOME','S21016383','zs21016383@estudiantes.uv.mx',8,12932,41),(9351,'ANGEL','MUÑOZ','CORTES','S21016392','zs21016392@estudiantes.uv.mx',8,12933,66),(9352,'GERLY DANIEL','ARTEAGA','BERNAL','S21017270','zs21017270@estudiantes.uv.mx',3,12934,NULL),(9353,'FERDY ALEXIS','REYES','VIVEROS','S21021432','zs21021432@estudiantes.uv.mx',3,12935,1),(9354,'JOSE FERNANDO','GOMEZ','ORTEGA','S21021434','zs21021434@estudiantes.uv.mx',3,12936,111),(9355,'ETHAN ROBERTO','BENITEZ','AGUILAR','S21021435','zs21021435@estudiantes.uv.mx',3,12937,119),(9356,'DIEGO ADRIAN','CARDONE','ZAPATA','S21021436','zs21021436@estudiantes.uv.mx',3,12938,86),(9357,'GUSTAVO YUSSIF','MENDOZA','SEVERO','S21021441','zs21021441@estudiantes.uv.mx',3,12939,118),(9358,'MAURICIO','HERNANDEZ','SANCHEZ','S21021652','zs21021652@estudiantes.uv.mx',7,12940,8),(9359,'CARLOS MANUEL','RAMIREZ','SOSA','S21021654','zs21021654@estudiantes.uv.mx',7,12941,21),(9360,'JOSE ANGEL','GARCIA','CALDERON','S21021681','zs21021681@estudiantes.uv.mx',8,12942,74),(9361,'ALDO','VELASCO','HERNANDEZ','S21021683','zs21021683@estudiantes.uv.mx',8,12943,96),(9362,'ALICIA YOSELIN','HERNANDEZ','GONZALEZ','S21023157','zs21023157@estudiantes.uv.mx',1,12944,95),(9363,'KARLA ARELY','MIRANDA','GABRIEL','S21023158','zs21023158@estudiantes.uv.mx',1,12945,100),(9364,'NORELY GUADALUPE','GUTIERREZ','SERENA','S21023159','zs21023159@estudiantes.uv.mx',1,12946,48),(9365,'BRAYAN FRANCISCO','RODRIGUEZ','MARTEL','S21023160','zs21023160@estudiantes.uv.mx',1,12947,80),(9366,'DIEGO FELIPE','HERNANDEZ','JUSTO','S21023161','zs21023161@estudiantes.uv.mx',1,12948,95),(9367,'DANNA PAOLA','HERNANDEZ','ORTEGA','S21023168','zs21023168@estudiantes.uv.mx',1,12949,59),(9368,'ZULEMA YAMILETH','CERVANTES','HERNANDEZ','S21023196','zs21023196@estudiantes.uv.mx',1,12950,25),(9369,'MARIA FERNANDA','ALATRISTE','LEAL','S21023197','zs21023197@estudiantes.uv.mx',1,12951,68),(9370,'JEOVANNI','VALLEJO','ACALCO','S21023205','zs21023205@estudiantes.uv.mx',1,12952,20),(9371,'PAOLA ALEJANDRA','GARCIA','MORALES','S21023210','zs21023210@estudiantes.uv.mx',1,12953,48),(9372,'ANA DENEB','ESPINOSA','CASTILLO','S21023215','zs21023215@estudiantes.uv.mx',1,12954,104),(9373,'USBALDO','HERNANDEZ','LANDA','S21023220','zs21023220@estudiantes.uv.mx',1,12955,59),(9374,'OSCAR','MARTINEZ','CANDELARIO','S21023221','zs21023221@estudiantes.uv.mx',1,12956,100),(9375,'DAVID ALBERTO','RAMIREZ','CASTILLO','S21026430','zs21026430@estudiantes.uv.mx',8,12957,89),(9376,'EDUARDO','MEJIA','PERALTA','S21026431','zs21026431@estudiantes.uv.mx',8,12958,23),(9377,'RAUL','HERNANDEZ','OLIVARES','S21026432','zs21026432@estudiantes.uv.mx',3,12959,12),(9378,'MIGUEL ANGEL','MORALES','CRUZ','S21026433','zs21026433@estudiantes.uv.mx',3,12960,61),(9379,'DIEGO ALEXIS','MORALES','MARTINEZ','S22013011','zs22013011@estudiantes.uv.mx',1,12961,80),(9380,'ERNESTO','CASTAÑON','CARRAL','S22013015','zs22013015@estudiantes.uv.mx',1,12962,20),(9381,'ARANTZA SINAI','BOUCHEZ','ABURTO','S22013016','zs22013016@estudiantes.uv.mx',1,12963,68),(9382,'PERLA SARAHI','MACIN','FUENTES','S22013017','zs22013017@estudiantes.uv.mx',1,12964,50),(9384,'ERIKA','AVILA','GARCIA','S22013021','zs22013021@estudiantes.uv.mx',1,12966,74),(9385,'LOURDES VIRIDIANA','GALINDO','LUCAS','S22013024','zs22013024@estudiantes.uv.mx',1,12967,50),(9386,'ARMANDO','VAZQUEZ','BAUTISTA','S22013028','zs22013028@estudiantes.uv.mx',1,12968,NULL),(9387,'CARLOS ANTONIO','MARTINEZ','SAN MARTIN','S22013029','zs22013029@estudiantes.uv.mx',1,12969,100),(9388,'JUANA ITZEL','BALLESTEROS','HERNANDEZ','S22013030','zs22013030@estudiantes.uv.mx',1,12970,50),(9389,'ROXANA IVETTE','REYES','ALARCON','S22013031','zs22013031@estudiantes.uv.mx',1,12971,115),(9390,'CASANDRA AILICEC','ROBLES','CRUZ','S22013035','zs22013035@estudiantes.uv.mx',1,12972,59),(9391,'ALONSO','SALAS','MARTINEZ','S22013039','zs22013039@estudiantes.uv.mx',1,12973,25),(9392,'DIANA LAURA','MENDEZ','MORALES','S22013040','zs22013040@estudiantes.uv.mx',1,12974,99),(9393,'OSCAR OCTAVIO','MIRAFUENTES','MERINO','S22013042','zs22013042@estudiantes.uv.mx',1,12975,50),(9394,'ABRAHAM','HERNANDEZ','LARA','S22013044','zs22013044@estudiantes.uv.mx',1,12976,50),(9395,'DIEGO ALBERTO','CARDENAS','JUAN','S22013045','zs22013045@estudiantes.uv.mx',1,12977,2),(9396,'ALBERTO','HERNANDEZ','DE LA CRUZ','S22013049','zs22013049@estudiantes.uv.mx',1,12978,20),(9397,'LUIS ENRIQUE','MOTA','SALAZAR','S22013051','zs22013051@estudiantes.uv.mx',1,12979,48),(9398,'RAFAEL','MOLINA','GUERRA','S22013053','zs22013053@estudiantes.uv.mx',1,12980,2),(9399,'ALONDRA ITZEL','BERNAL','VICENTE','S22013054','zs22013054@estudiantes.uv.mx',1,12981,68),(9400,'CESAR ALEXIS','ORTIZ','SANDOVAL','S22013056','zs22013056@estudiantes.uv.mx',1,12982,59),(9401,'TONY','VILLEGAS','HURTADO','S22013620','zs22013620@estudiantes.uv.mx',3,12983,74),(9402,'JOSUE','MELGAREJO','GARCIA','S22013624','zs22013624@estudiantes.uv.mx',3,12984,15),(9403,'LUIS ANGEL','LOPEZ','GARCIA','S22013626','zs22013626@estudiantes.uv.mx',3,12985,12),(9404,'AXEL OMAR','VALDES','CONTRERAS','S22013627','zs22013627@estudiantes.uv.mx',3,12986,98),(9405,'MARCO ANTONIO','VARILLAS','OLGUIN','S22013628','zs22013628@estudiantes.uv.mx',3,12987,119),(9406,'IVAN JAFETH','CARBALLO','DELGADO','S22013630','zs22013630@estudiantes.uv.mx',3,12988,109),(9407,'JUAN DAVID','CARMONA','AVILA','S22013631','zs22013631@estudiantes.uv.mx',3,12989,92),(9408,'CHRISTIAN ALBERTO','VAZQUEZ','CRUZ','S22013636','zs22013636@estudiantes.uv.mx',3,12990,33),(9409,'CESAR EDUARDO','CERON','MARTINEZ','S22013637','zs22013637@estudiantes.uv.mx',3,12991,111),(9410,'LUIS PABLO','LAGUNES','NORIEGA','S22013638','zs22013638@estudiantes.uv.mx',3,12992,94),(9411,'MAURICIO','SALAS','GARCIA','S22013639','zs22013639@estudiantes.uv.mx',3,12993,67),(9412,'JUAN PABLO','TORRES','ORTIZ','S22013640','zs22013640@estudiantes.uv.mx',3,12994,12),(9413,'MARLA JASEL','AGUILAR','AGUILAR','S22013641','zs22013641@estudiantes.uv.mx',3,12995,74),(9414,'ANGEL GUSTAVO','MARTELL','FERRA','S22013642','zs22013642@estudiantes.uv.mx',3,12996,127),(9415,'MADELINE IVY','ZUÑIGA','MEZA','S22013643','zs22013643@estudiantes.uv.mx',3,12997,119),(9416,'EDUARDO ANTONIO','MORAS','CONTRERAS','S22013645','zs22013645@estudiantes.uv.mx',3,12998,67),(9417,'MAXIMILIANO','SOTO','JIMENEZ','S22013646','zs22013646@estudiantes.uv.mx',3,12999,92),(9418,'JARLY','HERNANDEZ','ROMERO','S22013647','zs22013647@estudiantes.uv.mx',3,13000,118),(9419,'JOSE U NAAY','MEX','LOEZA','S22013648','zs22013648@estudiantes.uv.mx',3,13001,33),(9420,'LEONARDO','MARTINEZ','RINCON','S22013650','zs22013650@estudiantes.uv.mx',3,13002,119),(9421,'NOEL DE JESUS','LARA','FALFAN','S22013651','zs22013651@estudiantes.uv.mx',3,13003,56),(9422,'DAVID','CARRION','ROMERO','S22013653','zs22013653@estudiantes.uv.mx',3,13004,21),(9423,'MARIO MIGUEL','LIMON','CABRERA','S22013656','zs22013656@estudiantes.uv.mx',3,13005,21),(9424,'CUAUHTEMOC','CALDERON','PEREZ','S22013658','zs22013658@estudiantes.uv.mx',3,13006,127),(9425,'JESUS LORENZO','TLAPA','HERNANDEZ','S22013659','zs22013659@estudiantes.uv.mx',3,13007,12),(9426,'IVAN','RODRIGUEZ','FRANCO','S22013660','zs22013660@estudiantes.uv.mx',3,13008,54),(9427,'KAROL','QUINTO','GUADALUPE','S22013661','zs22013661@estudiantes.uv.mx',3,13009,12),(9428,'VANESSA','MORALES','LUNA','S22013662','zs22013662@estudiantes.uv.mx',3,13010,125),(9429,'IAN KALEB','MOCTEZUMA','ROJAS','S22013663','zs22013663@estudiantes.uv.mx',3,13011,94),(9430,'RAUL ALBERTO','CASTILLO','ESPINO','S22013664','zs22013664@estudiantes.uv.mx',3,13012,28),(9431,'EDUARDO ANTONIO','GUTIERREZ','VICTORIA','S22013665','zs22013665@estudiantes.uv.mx',3,13013,3),(9432,'VERONICA','MOTA','CORNEJO','S22013666','zs22013666@estudiantes.uv.mx',3,13014,15),(9434,'DANIEL URIEL','ALEJANDRE','ALVARADO','S22013668','zs22013668@estudiantes.uv.mx',3,13016,119),(9435,'EDGAR DIDIER','MONTIEL','ACOSTA','S22013669','zs22013669@estudiantes.uv.mx',3,13017,92),(9436,'MIGUEL ANGEL','GOMEZ','CANUAS','S22013670','zs22013670@estudiantes.uv.mx',3,13018,69),(9437,'YAEL ALFREDO','SALAZAR','AGUILAR','S22013671','zs22013671@estudiantes.uv.mx',3,13019,94),(9438,'RUBEN','VAZQUEZ','MORALES','S22013672','zs22013672@estudiantes.uv.mx',3,13020,56),(9439,'JOSUE ISAI','RAMIREZ','FERNANDEZ','S22013674','zs22013674@estudiantes.uv.mx',3,13021,127),(9440,'ISABELLA','HERNANDEZ','MENDEZ','S22013675','zs22013675@estudiantes.uv.mx',3,13022,98),(9441,'SAUL','BARRAGAN','TORRES','S22013676','zs22013676@estudiantes.uv.mx',3,13023,3),(9442,'NICOLE','MORENO','HERNANDEZ','S22013678','zs22013678@estudiantes.uv.mx',3,13024,12),(9443,'ANDREA','DIAZ','REGULES','S22013679','zs22013679@estudiantes.uv.mx',3,13025,74),(9444,'CARIM','VELAZQUEZ','CHICUELLAR','S22013681','zs22013681@estudiantes.uv.mx',3,13026,92),(9445,'JONATHAN ZABDIEL','VELASCO','GALAN','S22013683','zs22013683@estudiantes.uv.mx',3,13027,118),(9446,'GIOVANNI','MORALES','NESTICAPAN','S22013686','zs22013686@estudiantes.uv.mx',3,13028,111),(9447,'EMMANUEL','PALE','MOLINA','S22013688','zs22013688@estudiantes.uv.mx',3,13029,69),(9448,'FERNANDO','MARTINEZ','RAMIREZ','S22013690','zs22013690@estudiantes.uv.mx',3,13030,67),(9449,'FIDEL','MONTEMIRA','OROZCO','S22013691','zs22013691@estudiantes.uv.mx',3,13031,12),(9450,'ZAID ALEXIS','RODRIGUEZ','HUESCAS','S22013692','zs22013692@estudiantes.uv.mx',3,13032,97),(9451,'ZAID ALEXIS','VAZQUEZ','RAMIREZ','S22013693','zs22013693@estudiantes.uv.mx',3,13033,15),(9452,'TOMAS MARCOS','GUTIERREZ','HERNANDEZ','S22013694','zs22013694@estudiantes.uv.mx',3,13034,92),(9453,'ERICK ABDIEL','ATZIN','OLARTE','S22013695','zs22013695@estudiantes.uv.mx',3,13035,67),(9454,'AXEL DE JESUS','LUNA','HERNANDEZ','S22013696','zs22013696@estudiantes.uv.mx',3,13036,74),(9455,'IVAN ALI','CERECEDO','PADILLA','S22013698','zs22013698@estudiantes.uv.mx',3,13037,86),(9456,'PAOLA LIZETH','CORDOBA','BRAVO','S22015683','zs22015683@estudiantes.uv.mx',7,13038,74),(9457,'GABRIEL GAMALIEL','RAMOS','HERNANDEZ','S22015684','zs22015684@estudiantes.uv.mx',7,13039,40),(9458,'DANIELA','RODRIGUEZ','AGUIRRE','S22015686','zs22015686@estudiantes.uv.mx',7,13040,4),(9459,'CARLOS EMILIANO','BAÑOS','RAMIREZ','S22015688','zs22015688@estudiantes.uv.mx',7,13041,33),(9460,'ALAN JESUS','LLANOS','BLANCO','S22015689','zs22015689@estudiantes.uv.mx',7,13042,33),(9461,'ADRIAN DAVID','GARCIA','MENDOZA','S22015700','zs22015700@estudiantes.uv.mx',7,13043,42),(9464,'GERARDO','RODRIGUEZ','TEPETLA','S22015705','zs22015705@estudiantes.uv.mx',7,13046,49),(9465,'JULIAN ALEJANDRO','MORENO','HERNANDEZ','S22015706','zs22015706@estudiantes.uv.mx',7,13047,49),(9466,'EDUARDO','LOPEZ','RAYON','S22015707','zs22015707@estudiantes.uv.mx',7,13048,23),(9467,'MANUEL','HERNANDEZ','SALAZAR','S22015708','zs22015708@estudiantes.uv.mx',7,13049,23),(9468,'ANGEL GABRIEL','PIÑERO','MONTERO','S22015710','zs22015710@estudiantes.uv.mx',7,13050,23),(9469,'GERARDO','CABRERA','VAZQUEZ','S22015711','zs22015711@estudiantes.uv.mx',7,13051,56),(9470,'GILBERTO','MARCIAL','DOMINGUEZ','S22015714','zs22015714@estudiantes.uv.mx',7,13052,44),(9471,'SAMMIR EDUARDO','SANCHEZ','SANCHEZ','S22015715','zs22015715@estudiantes.uv.mx',7,13053,44),(9472,'DIEGO','RIVERA','ROJAS','S22015719','zs22015719@estudiantes.uv.mx',7,13054,21),(9473,'CHRISTIAN IVAN','DORANTES','AGUILAR','S22015721','zs22015721@estudiantes.uv.mx',7,13055,8),(9474,'CALEB JAFET','ROJAS','SANCHEZ','S22015722','zs22015722@estudiantes.uv.mx',7,13056,8),(9475,'JUAN DIEGO','RAMIREZ','GOMEZ','S22015723','zs22015723@estudiantes.uv.mx',7,13057,45),(9476,'ANGEL GABRIEL','GARCIA','VALDEZ','S22015727','zs22015727@estudiantes.uv.mx',7,13058,45),(9477,'JOSMAR DAVID','ORTEGA','DURAN','S22015729','zs22015729@estudiantes.uv.mx',7,13059,45),(9478,'JOSE DANIEL','RAMIREZ','AHUMADA','S22015732','zs22015732@estudiantes.uv.mx',7,13060,45),(9479,'VICTOR URIEL','ZAMORA','GONZALEZ','S22015734','zs22015734@estudiantes.uv.mx',7,13061,98),(9480,'ARTURO','ROMERO','MORALES','S22015735','zs22015735@estudiantes.uv.mx',7,13062,98),(9481,'BRUNO','MARTINEZ','LUNA','S22016061','zs22016061@estudiantes.uv.mx',8,13063,16),(9482,'MIGUEL ANGEL','VELAZQUEZ','RODRIGUEZ','S22016063','zs22016063@estudiantes.uv.mx',8,13064,89),(9483,'ALEXIS DANIEL','PINO','ZAVALETA','S22016064','zs22016064@estudiantes.uv.mx',8,13065,110),(9484,'AMIR ISAID','OCHOA','TADEO','S22016065','zs22016065@estudiantes.uv.mx',8,13066,49),(9485,'ENRIQUE','SANTOS','GONZALEZ','S22016068','zs22016068@estudiantes.uv.mx',8,13067,93),(9486,'BENITO GAEL','RODRIGUEZ','MARTINEZ','S22016070','zs22016070@estudiantes.uv.mx',8,13068,110),(9487,'SOMMER SALMAI','SANCHEZ','FLORES','S22016072','zs22016072@estudiantes.uv.mx',8,13069,110),(9488,'ALMA BRENDA','GONZALEZ','GONZALEZ','S22016075','zs22016075@estudiantes.uv.mx',8,13070,67),(9489,'MICHELL ALEXANDER','NAVARRETE','ALTAMIRANO','S22016078','zs22016078@estudiantes.uv.mx',8,13071,14),(9490,'CHRISTIAN','JULIAN','JIMENEZ','S22016079','zs22016079@estudiantes.uv.mx',8,13072,67),(9492,'FATIMA QUETZALLI','NAVARRO','GARCIA','S22016082','zs22016082@estudiantes.uv.mx',8,13074,27),(9493,'JOSE MANUEL','IÑIGUEZ','LOPEZ','S22016084','zs22016084@estudiantes.uv.mx',8,13075,62),(9494,'JULIO ALDAIR','MORALES','ROMERO','S22016085','zs22016085@estudiantes.uv.mx',8,13076,49),(9495,'FELIPE DE JESUS','LUCIDO','LOZANO','S22016087','zs22016087@estudiantes.uv.mx',8,13077,114),(9496,'CARLOS RAUL','BONILLA','PALOMINO','S22016089','zs22016089@estudiantes.uv.mx',8,13078,29),(9497,'MARLON GARETT','GONZALEZ','ORTIZ','S22016090','zs22016090@estudiantes.uv.mx',8,13079,96),(9498,'ITHAEL ABISAI','VELASCO','ROMERO','S22016091','zs22016091@estudiantes.uv.mx',8,13080,125),(9499,'LAURA MELISSA','PORTILLA','CRUZ','S22016094','zs22016094@estudiantes.uv.mx',8,13081,22),(9500,'AXEL ALAIN','VASQUEZ','RAMIREZ','S22016095','zs22016095@estudiantes.uv.mx',8,13082,41),(9501,'JOSELINE','VAZQUEZ','FERNANDEZ','S22016096','zs22016096@estudiantes.uv.mx',8,13083,47),(9502,'JOSE DE JESUS','CALLEJAS','RIVERA','S22016100','zs22016100@estudiantes.uv.mx',8,13084,66),(9503,'EDGAR YAEL','CORTES','CARRILLO','S22016101','zs22016101@estudiantes.uv.mx',8,13085,125),(9504,'JUAN CARLOS','GARCIA','LADRON DE GUEVARA','S22016102','zs22016102@estudiantes.uv.mx',8,13086,28),(9505,'HECTOR','GONZALEZ','HERRERA','S22016103','zs22016103@estudiantes.uv.mx',8,13087,22),(9506,'JOSE ENRIQUE','GONZALEZ','ROBLES','S22016108','zs22016108@estudiantes.uv.mx',8,13088,110),(9507,'DANIEL JOSHUA','ALVARADO','AGUIRRE','S22016109','zs22016109@estudiantes.uv.mx',8,13089,89),(9508,'KEVIN ANDRES','MOJICA','BUSTO','S22016112','zs22016112@estudiantes.uv.mx',8,13090,22),(9509,'LUIS EDER','AGUILAR','MARTINEZ','S22016113','zs22016113@estudiantes.uv.mx',8,13091,62),(9510,'WILLIAMS ESAU','MONTERO','BELLO','S22016114','zs22016114@estudiantes.uv.mx',8,13092,66),(9511,'MARIA LUISA','GARCIA','SANCHEZ','S22016115','zs22016115@estudiantes.uv.mx',8,13093,66),(9512,'FERNANDO','ESCOBAR','ROBLES','S22016116','zs22016116@estudiantes.uv.mx',8,13094,27),(9513,'NORMA ISABEL','TORALES','QUINTANA','S22016117','zs22016117@estudiantes.uv.mx',8,13095,49),(9514,'ANGEL ALEXIS','EUSEBIO','PEREZ','S22016119','zs22016119@estudiantes.uv.mx',8,13096,89),(9515,'VICTOR MANUEL','MONGE','MORALES','S22016120','zs22016120@estudiantes.uv.mx',8,13097,127),(9516,'KAREN ESPERANZA','LOPEZ','YOVAL','S22016126','zs22016126@estudiantes.uv.mx',8,13098,66),(9517,'JORGE LUIS','ORTEGA','ZENTENO','S22016127','zs22016127@estudiantes.uv.mx',8,13099,89),(9518,'MARIA JOSE','RUIZ','RAMON','S22016128','zs22016128@estudiantes.uv.mx',8,13100,47),(9519,'ANGEL DANIEL','ROMERO','MARTINEZ','S22016130','zs22016130@estudiantes.uv.mx',8,13101,16),(9520,'ALEXIS AARON','PALESTINA','VILLA','S22016131','zs22016131@estudiantes.uv.mx',8,13102,89),(9521,'ANGEL ALEXANDER','ALDUCIN','DIAZ','S22016132','zs22016132@estudiantes.uv.mx',8,13103,22),(9522,'LUIS IGNACIO','TELLO','ROBLES','S22016134','zs22016134@estudiantes.uv.mx',8,13104,114),(9523,'ERICK ORLANDO','SERRANO','HERNANDEZ','S22016137','zs22016137@estudiantes.uv.mx',8,13105,127),(9524,'FELIPE','MURGUIA','LEAL','S22016138','zs22016138@estudiantes.uv.mx',8,13106,41),(9525,'JUAN EDUARDO','CUMPLIDO','NEGRETE','S22020936','zs22020936@estudiantes.uv.mx',3,13107,97),(9527,'OSCAR HIZAY','APODACA','GARCIA','S22020939','zs22020939@estudiantes.uv.mx',3,13109,69),(9528,'PEDRO JOSE','LARA','MONTIEL','S22020940','zs22020940@estudiantes.uv.mx',3,13110,54),(9529,'CHRISTOPHER','VASQUEZ','ZAPATA','S22020943','zs22020943@estudiantes.uv.mx',3,13111,111),(9530,'ANDRES OSWALDO','COBOS','PEREZ','S22020945','zs22020945@estudiantes.uv.mx',3,13112,94),(9531,'ERIC YAIR','VILLEGAS','GOMEZ','S22021217','zs22021217@estudiantes.uv.mx',8,13113,29),(9533,'RAUL YAEL','SANCHEZ','RAMON','S22022955','zs22022955@estudiantes.uv.mx',1,13115,55),(9534,'JONATHAN URIEL','HERNANDEZ','FERRAL','S22022958','zs22022958@estudiantes.uv.mx',1,13116,38),(9535,'LUIS MANUEL','OJEDA','COLORADO','S22022966','zs22022966@estudiantes.uv.mx',1,13117,100),(9536,'MYRIAM','ORTIZ','GONZALEZ','S22022967','zs22022967@estudiantes.uv.mx',1,13118,48),(9537,'ERICK DE JESUS','HERRERA','LOPEZ','S22022968','zs22022968@estudiantes.uv.mx',1,13119,38),(9538,'BRANDON JESUS','DEL ANGEL','TORALES','S22022986','zs22022986@estudiantes.uv.mx',1,13120,20),(9539,'BRIAN','SOLIS','DE LA FUENTE','S22022989','zs22022989@estudiantes.uv.mx',1,13121,100),(9540,'ANARELY','MORALES','SANGABRIEL','S22022996','zs22022996@estudiantes.uv.mx',1,13122,48),(9541,'GAEL','CORTES','OLIVARES','S22023000','zs22023000@estudiantes.uv.mx',1,13123,48),(9542,'SEANNY PAOLA','MORENO','SANTIAGO','S22023008','zs22023008@estudiantes.uv.mx',1,13124,55),(9543,'ANUHAR','GUARNEROS','FRANCO','S22023010','zs22023010@estudiantes.uv.mx',1,13125,104),(9544,'MIGUEL ANGEL','LADRÓN DE GUEVARA','MARTINEZ','S22023012','zs22023012@estudiantes.uv.mx',1,13126,70),(9545,'YENNI ARISBETH','ORTEGA','RUEDA','S22023013','zs22023013@estudiantes.uv.mx',1,13127,100),(9546,'LUIS EDUARDO','BERNAL','GARCIA','S22023015','zs22023015@estudiantes.uv.mx',1,13128,74),(9547,'BENJAMIN PAULINO','MENDOZA','CONTRERAS','S22023017','zs22023017@estudiantes.uv.mx',1,13129,78),(9549,'MARIANA','RAMIREZ','HERNANDEZ','S22023021','zs22023021@estudiantes.uv.mx',1,13131,25),(9550,'VANESSA','TORRES','GALAN','S22023023','zs22023023@estudiantes.uv.mx',1,13132,25),(9551,'SERGIO EDUARDO','MIRANDA','TORRES','S22023143','zs22023143@estudiantes.uv.mx',7,13133,34),(9552,'GILBERTO DE JESUS','ROMAY','MARTINEZ','S22023144','zs22023144@estudiantes.uv.mx',7,13134,34),(9553,'PAOLA NICOLE','HUERTA','SANTAMARIA','S22023145','zs22023145@estudiantes.uv.mx',7,13135,34),(9554,'JOSE MANUEL','OLIVO','TORRES','S22023149','zs22023149@estudiantes.uv.mx',7,13136,74),(9555,'YAEL OSMAR','JIMENEZ','MONGE','S22023150','zs22023150@estudiantes.uv.mx',7,13137,74),(9557,'BRIAN','TEXON','ALEMAN','S22023154','zs22023154@estudiantes.uv.mx',7,13139,44),(9558,'IMANOL','PERALTA','LEON','S22023155','zs22023155@estudiantes.uv.mx',7,13140,11),(9559,'JORGE ANTONIO','RAMIREZ','ORTIZ','S22023156','zs22023156@estudiantes.uv.mx',7,13141,127),(9560,'KALEB DANIEL','ARREDONDO','REYES','S22023159','zs22023159@estudiantes.uv.mx',7,13142,28),(9561,'ARMANDO','BAUTISTA','ROMERO','S22024133','zs22024133@estudiantes.uv.mx',1,13143,63),(9562,'ARACELI','CASTILLO','MORALES','S22024135','zs22024135@estudiantes.uv.mx',1,13144,115),(9563,'MOISES','REYES','LAGUNES','S22024136','zs22024136@estudiantes.uv.mx',7,13145,33),(9564,'VICTOR MANUEL','MARTINEZ','FRANZONI','S22024137','zs22024137@estudiantes.uv.mx',8,13146,28),(9565,'GABRIEL','ARMAS','VIVEROS','S22028185','zs22028185@estudiantes.uv.mx',3,13147,NULL),(9567,'VICTORIA','LOPEZ','ZAMBRANO','S22028192','zs22028192@estudiantes.uv.mx',1,13149,115),(9568,'CHRISTIAN GUILLERMO','ROSAS','HERNANDEZ','S22028194','zs22028194@estudiantes.uv.mx',3,13150,51),(9570,'CAROL ZULAID','CONTRERAS','RAMIREZ','S23013385','zs23013385@estudiantes.uv.mx',1,13152,48),(9571,'OSWALDO','CASTELLANOS','MIRANDA','S23013389','zs23013389@estudiantes.uv.mx',1,13153,115),(9572,'MARIANA','LOPEZ','SANGABRIEL','S23013391','zs23013391@estudiantes.uv.mx',1,13154,95),(9573,'JUAN DIEGO','HERNANDEZ','LUJAN','S23013396','zs23013396@estudiantes.uv.mx',1,13155,38),(9574,'GEZURI YAMILETH','MARTINEZ','SESEÑA','S23013398','zs23013398@estudiantes.uv.mx',1,13156,63),(9575,'JANICE EZMILZEN','PADRON','GONZALEZ','S23013399','zs23013399@estudiantes.uv.mx',1,13157,73),(9576,'IDALID','VARGAS','SALAS','S23013400','zs23013400@estudiantes.uv.mx',1,13158,68),(9577,'ANAIS','MARQUEZ','MENDOZA','S23013401','zs23013401@estudiantes.uv.mx',1,13159,100),(9578,'ENDRICH RICHIE','DEL ANGEL','PALMEROS','S23013405','zs23013405@estudiantes.uv.mx',1,13160,2),(9579,'MIGUEL EDUARDO','CRUZ','CAMBRANY','S23013407','zs23013407@estudiantes.uv.mx',1,13161,115),(9580,'JESUS ROSARIO','MENDOZA','HERNANDEZ','S23013408','zs23013408@estudiantes.uv.mx',1,13162,99),(9581,'GEMA','CHAGALA','BARRERA','S23013409','zs23013409@estudiantes.uv.mx',1,13163,100),(9582,'DARIKSON','DURAN','TAPIA','S23013410','zs23013410@estudiantes.uv.mx',1,13164,116),(9583,'MARCO YOTAM','VENTURA','GARCIA','S23013411','zs23013411@estudiantes.uv.mx',1,13165,124),(9584,'LEONARDO','HERNANDEZ','AVILA','S23013413','zs23013413@estudiantes.uv.mx',1,13166,70),(9585,'ALEJANDRO','PEREZ','SANTIAGO','S23013417','zs23013417@estudiantes.uv.mx',1,13167,99),(9586,'ABIMAEL','CORTES','HERNANDEZ','S23013419','zs23013419@estudiantes.uv.mx',1,13168,38),(9587,'JASMIN','AGUILAR','MOLINA','S23013421','zs23013421@estudiantes.uv.mx',1,13169,80),(9588,'MARISA','PACHECO','HERNANDEZ','S23013422','zs23013422@estudiantes.uv.mx',1,13170,80),(9589,'MARIHANNY BETSABE','HERNANDEZ','RIVERA','S23013423','zs23013423@estudiantes.uv.mx',1,13171,50),(9590,'JOSE URIEL','MARTINEZ','OLIVAREZ','S23013426','zs23013426@estudiantes.uv.mx',1,13172,59),(9591,'ALFREDO','MORENO','AGUIRRE','S23013428','zs23013428@estudiantes.uv.mx',1,13173,100),(9592,'JOSE MANUEL','RIVAS','MORENO','S23013433','zs23013433@estudiantes.uv.mx',1,13174,99),(9593,'ZURIEL EDREI','BELLO','PIMENTEL','S23013434','zs23013434@estudiantes.uv.mx',1,13175,78),(9594,'OSCAR ARTURO','AYALA','MORALES','S23013826','zs23013826@estudiantes.uv.mx',2,13176,40),(9595,'DANIEL','VARGAS','LOPEZ','S23013827','zs23013827@estudiantes.uv.mx',2,13177,45),(9596,'ROBERTO','PEREZ','DE LA GARZA','S23013828','zs23013828@estudiantes.uv.mx',2,13178,56),(9597,'PEDRO ALEXIS','RODRIGUEZ','MAY','S23013829','zs23013829@estudiantes.uv.mx',2,13179,11),(9598,'MARIO ERIK','FLANDES','HERNANDEZ','S23013831','zs23013831@estudiantes.uv.mx',2,13180,33),(9599,'GISELLE','ZENDEJAS','BALTAZAR','S23013832','zs23013832@estudiantes.uv.mx',2,13181,98),(9600,'FRANCISCO','RIOS','LEYVA','S23013833','zs23013833@estudiantes.uv.mx',2,13182,11),(9602,'JOSUE','JUAREZ','GONZALEZ','S23013835','zs23013835@estudiantes.uv.mx',2,13184,42),(9603,'DANNA PAOLA','DOMINGUEZ','SANCHEZ','S23013836','zs23013836@estudiantes.uv.mx',2,13185,33),(9604,'HEBERTO ROMAN','MORALES','GARCIA','S23013838','zs23013838@estudiantes.uv.mx',2,13186,34),(9605,'TURAN','OZBEK','','S23013839','zs23013839@estudiantes.uv.mx',2,13187,23),(9606,'MARTIN DAVID','ALVAREZ','SANCHEZ','S23013840','zs23013840@estudiantes.uv.mx',2,13188,40),(9607,'HECTOR ISAI','ALARCON','RODRIGUEZ','S23013841','zs23013841@estudiantes.uv.mx',2,13189,127),(9608,'ABRAHAM','NUÑEZ','SANCHEZ','S23013842','zs23013842@estudiantes.uv.mx',2,13190,23),(9609,'JUAN JOSE','RAMIREZ','HERNANDEZ','S23013844','zs23013844@estudiantes.uv.mx',2,13191,11),(9610,'KATYA CECILIA','CRUZ','ZAMORA','S23013845','zs23013845@estudiantes.uv.mx',2,13192,4),(9611,'YAEL FERNANDO','SALDAÑA','LOPEZ','S23013846','zs23013846@estudiantes.uv.mx',2,13193,21),(9612,'AMACALLI NAILUJ','PEREZ','SANCHEZ','S23013847','zs23013847@estudiantes.uv.mx',2,13194,56),(9613,'EDUARDO','RUIZ','RAMIREZ','S23013848','zs23013848@estudiantes.uv.mx',2,13195,11),(9614,'ANDER SAUL','PEGUEROS','IZQUIERDO','S23013849','zs23013849@estudiantes.uv.mx',2,13196,23),(9615,'GAEL','ABAD','CARRILLO','S23013850','zs23013850@estudiantes.uv.mx',2,13197,74),(9616,'DIANA ESTHER','HUESCA','PRADO','S23013851','zs23013851@estudiantes.uv.mx',2,13198,94),(9617,'JOSABED','TLAXCALTECO','SOTO','S23013852','zs23013852@estudiantes.uv.mx',2,13199,8),(9618,'ANGEL DAVID','ROMERO','REA','S23013853','zs23013853@estudiantes.uv.mx',2,13200,11),(9620,'LUIS ANDRES','REBOLLAR','MORALES','S23013855','zs23013855@estudiantes.uv.mx',2,13202,11),(9621,'KATIA ITZEL','SUAREZ','ANDRADE','S23013856','zs23013856@estudiantes.uv.mx',2,13203,8),(9622,'RAFAEL ALEJANDRO','DIAZ','RANGEL','S23013857','zs23013857@estudiantes.uv.mx',2,13204,33),(9623,'JESUS VALENTIN','MORA','CORDOBA','S23013858','zs23013858@estudiantes.uv.mx',2,13205,34),(9624,'EMIR ENRIQUE','IZQUIERDO','MARTINEZ','S23013860','zs23013860@estudiantes.uv.mx',2,13206,42),(9625,'IAN ALI','VILLARAUZ','RIVERA','S23013861','zs23013861@estudiantes.uv.mx',2,13207,28),(9626,'ALAN','PENAGOS','GONZALEZ','S23013863','zs23013863@estudiantes.uv.mx',2,13208,23),(9627,'MARYEL','ALARCON','MELCHOR','S23013864','zs23013864@estudiantes.uv.mx',2,13209,127),(9628,'MAXIMO DIEGO','FLORENCIA','ZETINA','S23013865','zs23013865@estudiantes.uv.mx',2,13210,33),(9630,'MAYA ALEJANDRA','BARRIOS','SUAREZ','S23013868','zs23013868@estudiantes.uv.mx',2,13212,40),(9632,'ALEX SAUL','SOLANO','REYES','S23013870','zs23013870@estudiantes.uv.mx',2,13214,21),(9633,'LUIS GERARDO','JUAREZ','CORDOBA','S23013871','zs23013871@estudiantes.uv.mx',1,13215,116),(9635,'CRISTOPHER JESUS','BELLO','VELAZQUEZ','S23013873','zs23013873@estudiantes.uv.mx',2,13217,40),(9636,'MARIA GRISSEL','PEREZ','CORTES','S23013874','zs23013874@estudiantes.uv.mx',2,13218,56),(9637,'ISRAEL ZAJITH','MARTINEZ','ALARCON','S23013875','zs23013875@estudiantes.uv.mx',2,13219,42),(9638,'CRISTOBAL','PEREZ','SANCHEZ','S23013876','zs23013876@estudiantes.uv.mx',2,13220,44),(9640,'RODRIGO FERNANDO','PEREZ','SANCHEZ','S23013878','zs23013878@estudiantes.uv.mx',2,13222,44),(9641,'GERGELY','TORRES','MUÑOZ','S23013880','zs23013880@estudiantes.uv.mx',2,13223,45),(9642,'SEBASTIAN','PEÑA','ARCHUNDIA','S23013881','zs23013881@estudiantes.uv.mx',2,13224,23),(9643,'IAN ADAIR','CRUZ','SOSA','S23013883','zs23013883@estudiantes.uv.mx',2,13225,4),(9644,'DIEGO URIEL','VALERIO','MORA','S23013885','zs23013885@estudiantes.uv.mx',2,13226,49),(9645,'MARIO','GABRIEL','OCAÑA','S23013886','zs23013886@estudiantes.uv.mx',2,13227,33),(9647,'RUTH AMAIRANI','AVENDAÑO','JIMENEZ','S23013888','zs23013888@estudiantes.uv.mx',2,13229,40),(9648,'BRENDA','PEREZ','ABAT','S23013889','zs23013889@estudiantes.uv.mx',2,13230,56),(9649,'MAURICIO','ABURTO','CORDOVA','S23013890','zs23013890@estudiantes.uv.mx',2,13231,74),(9650,'EDWIN EMMANUEL','VELAZQUEZ','CASIQUE','S23013891','zs23013891@estudiantes.uv.mx',2,13232,28),(9651,'BRANDON','HERNANDEZ','PEREZ','S23013892','zs23013892@estudiantes.uv.mx',2,13233,94),(9652,'LUIS DANIEL','CORTES','HERNANDEZ','S23013893','zs23013893@estudiantes.uv.mx',2,13234,4),(9653,'WILLIAM DE JESUS','CARMONA','CHI','S23013894','zs23013894@estudiantes.uv.mx',2,13235,4),(9654,'HUGO','PERALTA','GALVAN','S23013895','zs23013895@estudiantes.uv.mx',2,13236,56),(9655,'JULIO CESAR','LEYVA','BOTELLO','S23013897','zs23013897@estudiantes.uv.mx',2,13237,42),(9656,'MARIANA','SORIA','VAZQUEZ','S23014037','zs23014037@estudiantes.uv.mx',4,13238,125),(9657,'GABRIEL ANTONIO','GONZALEZ','LOPEZ','S23014038','zs23014038@estudiantes.uv.mx',4,13239,125),(9658,'OMAR','MORALES','GARCIA','S23014039','zs23014039@estudiantes.uv.mx',4,13240,125),(9659,'ANGEL JONATHAN','PUCH','HERNANDEZ','S23014040','zs23014040@estudiantes.uv.mx',4,13241,74),(9660,'SETH','MARQUEZ','RODRIGUEZ','S23014042','zs23014042@estudiantes.uv.mx',4,13242,74),(9661,'JUAN PABLO','SILVA','MIRANDA','S23014043','zs23014043@estudiantes.uv.mx',4,13243,3),(9664,'MAURICIO','NORIEGA','DELGADO','S23014046','zs23014046@estudiantes.uv.mx',4,13246,33),(9665,'ENRIQUE','RODRIGUEZ','ALVAREZ','S23014047','zs23014047@estudiantes.uv.mx',4,13247,33),(9666,'ALEXANDER','MONTES','RODRIGUEZ','S23014048','zs23014048@estudiantes.uv.mx',4,13248,92),(9667,'DIEGO IVAN','ENRIQUEZ','MORALES','S23014049','zs23014049@estudiantes.uv.mx',4,13249,92),(9668,'JOSE LUIS','SILVA','GOMEZ','S23014050','zs23014050@estudiantes.uv.mx',4,13250,92),(9669,'DARLINGTON DIEGO','DELGADO','SANTIAGO','S23014051','zs23014051@estudiantes.uv.mx',4,13251,92),(9670,'EMMANUEL DE JESUS','REYES','MARIN','S23014052','zs23014052@estudiantes.uv.mx',4,13252,92),(9671,'MANUEL ALESSANDRO','VALDIVIA','GARCIA','S23014054','zs23014054@estudiantes.uv.mx',4,13253,92),(9672,'FIDEL','CRUZ','REYES','S23014056','zs23014056@estudiantes.uv.mx',4,13254,92),(9673,'OMAR ALEXANDRO','ESPINOSA','FERNANDEZ','S23014057','zs23014057@estudiantes.uv.mx',4,13255,92),(9674,'ALEJANDRO','MARTINEZ','RAMIREZ','S23014058','zs23014058@estudiantes.uv.mx',4,13256,92),(9675,'RODRIGO','LUNA','VAZQUEZ','S23014060','zs23014060@estudiantes.uv.mx',4,13257,3),(9676,'EUGENIO SALVADOR','GONZALEZ','SANCHEZ','S23014061','zs23014061@estudiantes.uv.mx',4,13258,86),(9677,'ABRAHAM','CANO','RAMIREZ','S23014063','zs23014063@estudiantes.uv.mx',4,13259,54),(9678,'ADRIAN ENRIQUE','LAGUNES','MONTERRUBIO','S23014065','zs23014065@estudiantes.uv.mx',4,13260,54),(9679,'JORGE','GUZMAN','CESSA','S23014068','zs23014068@estudiantes.uv.mx',4,13261,65),(9680,'ANGEL DE JESUS','ABURTO','RUIZ','S23014069','zs23014069@estudiantes.uv.mx',4,13262,65),(9681,'BRAYAN GABRIEL','FERNANDEZ','TLAPA','S23014071','zs23014071@estudiantes.uv.mx',4,13263,65),(9682,'ALAN RAZIEL','FILOBELLO','AGUILAR','S23014072','zs23014072@estudiantes.uv.mx',4,13264,65),(9683,'URIEL','CENDON','DIAZ','S23014073','zs23014073@estudiantes.uv.mx',4,13265,65),(9684,'LIZETH GUADALUPE','BELLO','PERALTA','S23014074','zs23014074@estudiantes.uv.mx',4,13266,65),(9685,'SEBASTIAN','CENTURION','AUBAD','S23014076','zs23014076@estudiantes.uv.mx',4,13267,65),(9686,'LUIS DONALDO','ORTIZ','GARCIA','S23014077','zs23014077@estudiantes.uv.mx',4,13268,65),(9687,'JORGE MIGUEL','CERON','DOMINGUEZ','S23014078','zs23014078@estudiantes.uv.mx',4,13269,65),(9688,'LEONARDO','HERNANDEZ','HERNANDEZ','S23014080','zs23014080@estudiantes.uv.mx',4,13270,65),(9689,'GENARO ALEJANDRO','BARRADAS','SANCHEZ','S23014083','zs23014083@estudiantes.uv.mx',4,13271,65),(9690,'ALDO ANTONIO','CAMPOS','GOMEZ','S23014084','zs23014084@estudiantes.uv.mx',4,13272,65),(9691,'PABLO SEBASTIAN','RUIZ','LOPEZ','S23014085','zs23014085@estudiantes.uv.mx',4,13273,65),(9692,'YAEL ANTONIO','CASTILLO','MENDOZA','S23014087','zs23014087@estudiantes.uv.mx',4,13274,65),(9693,'CARLOS','CASTILLO','BARRADAS','S23014088','zs23014088@estudiantes.uv.mx',4,13275,65),(9694,'ABEL','HERNANDEZ','YONG','S23014089','zs23014089@estudiantes.uv.mx',4,13276,65),(9695,'JHONATAN YERAY','HERNANDEZ','RIVERA','S23014090','zs23014090@estudiantes.uv.mx',4,13277,119),(9696,'ASTRID AZUCENA','TORRES','LAGUNES','S23014092','zs23014092@estudiantes.uv.mx',4,13278,69),(9697,'MARCOS ZENON','SANCHEZ','MENDIZABAL','S23014093','zs23014093@estudiantes.uv.mx',4,13279,69),(9698,'MIGUEL ANGEL','MENDEZ','RONZON','S23014094','zs23014094@estudiantes.uv.mx',4,13280,94),(9699,'IRENE','PAZ','GONZALEZ','S23014095','zs23014095@estudiantes.uv.mx',4,13281,94),(9700,'MIGUEL EDUARDO','ESCOBAR','LADRON DE GUEVARA','S23014096','zs23014096@estudiantes.uv.mx',4,13282,42),(9701,'LEONARDO DANIEL','ORTEGA','TEOBA','S23014097','zs23014097@estudiantes.uv.mx',4,13283,42),(9702,'AXEL GABRIEL','RAMIREZ','GONZALEZ','S23014100','zs23014100@estudiantes.uv.mx',4,13284,34),(9703,'CLAUDIO JOSUE','TRUJILLO','ZEPEDA','S23014102','zs23014102@estudiantes.uv.mx',4,13285,67),(9704,'GERARDO ABRAHAM','BARRON','GOMEZ','S23014103','zs23014103@estudiantes.uv.mx',4,13286,67),(9705,'MURRIETA RODRIGO','SANTA','BARBARA','S23014104','zs23014104@estudiantes.uv.mx',4,13287,51),(9706,'MARTIN','VELAZQUEZ','GONZALEZ','S23014106','zs23014106@estudiantes.uv.mx',4,13288,51),(9707,'JOSE MARIA','CONTRERAS','MOTA','S23014107','zs23014107@estudiantes.uv.mx',4,13289,51),(9708,'JOSE FERNANDO','ORTIZ','PEREZ','S23014109','zs23014109@estudiantes.uv.mx',4,13290,107),(9709,'IRVING ALEJANDRO','SEGUIN','LUNA','S23014110','zs23014110@estudiantes.uv.mx',4,13291,107),(9710,'JORGE ALEJANDRO','MESTIZO','VELA','S23014111','zs23014111@estudiantes.uv.mx',4,13292,56),(9711,'ERICKMEL','VAZQUEZ','LOPEZ','S23014112','zs23014112@estudiantes.uv.mx',4,13293,56),(9712,'JOANA XCARET','GARCIA','CANSECO','S23014113','zs23014113@estudiantes.uv.mx',4,13294,15),(9713,'EDGAR','VAZQUEZ','GARCIA','S23014115','zs23014115@estudiantes.uv.mx',4,13295,15),(9714,'GUILLERMO','VELAZQUEZ','ROSILES','S23014116','zs23014116@estudiantes.uv.mx',4,13296,65),(9715,'RODRIGO ANTONIO','HERNANDEZ','VALENCIA','S23014118','zs23014118@estudiantes.uv.mx',5,13297,114),(9716,'GUSTAVO ALEJANDRO','LOPEZ','GONZALEZ','S23014119','zs23014119@estudiantes.uv.mx',5,13298,66),(9717,'HUMBERTO HIRAM','GOMEZ','MALDONADO','S23014120','zs23014120@estudiantes.uv.mx',5,13299,23),(9718,'LEONARDO','RUIZ','PEDRAZA','S23014122','zs23014122@estudiantes.uv.mx',5,13300,66),(9719,'MICHELL','CID','RODRIGUEZ','S23014123','zs23014123@estudiantes.uv.mx',5,13301,66),(9720,'DANIEL','PALACIOS','SALINAS','S23014124','zs23014124@estudiantes.uv.mx',5,13302,28),(9721,'EPXON','SUANEZ','LANDA','S23014127','zs23014127@estudiantes.uv.mx',5,13303,54),(9722,'KAROL YUNUEN','CUERVO','MIRANDA','S23014129','zs23014129@estudiantes.uv.mx',5,13304,104),(9723,'ADOLFO ARIEL','HERNANDEZ','BARRIOS','S23014130','zs23014130@estudiantes.uv.mx',5,13305,62),(9724,'ANGEL ABDIEL','LOPEZ','FILOBELLO','S23014132','zs23014132@estudiantes.uv.mx',5,13306,93),(9725,'DYLAN','FLORES','NUÑEZ','S23014133','zs23014133@estudiantes.uv.mx',5,13307,62),(9726,'ERASMO RENZO FERNANDO','ORTIZ','LARA','S23014134','zs23014134@estudiantes.uv.mx',5,13308,47),(9727,'SARAH JOCELYN','BAEZ','RAMOS','S23014136','zs23014136@estudiantes.uv.mx',5,13309,62),(9728,'EDWIN DANIEL','MOCTEZUMA','LOPEZ','S23014137','zs23014137@estudiantes.uv.mx',5,13310,127),(9729,'CHRISTIAN GAEL','MURRIETA','LUNA','S23014138','zs23014138@estudiantes.uv.mx',5,13311,23),(9730,'CAROLINA','HERRERA','GONZALEZ','S23014139','zs23014139@estudiantes.uv.mx',5,13312,29),(9731,'ADOLFO','BELLIDO','MORA','S23014140','zs23014140@estudiantes.uv.mx',5,13313,29),(9732,'SERGGI RAFAEL','GARCIA','ARMAS','S23014142','zs23014142@estudiantes.uv.mx',5,13314,47),(9733,'VANESSA ITSEL','ACOSTA','VERA','S23014143','zs23014143@estudiantes.uv.mx',5,13315,62),(9734,'JUAN JOSE','MORALES','CARRION','S23014144','zs23014144@estudiantes.uv.mx',5,13316,127),(9736,'LUZ MICHELLE','MUÑOZ','JIMENEZ','S23014147','zs23014147@estudiantes.uv.mx',5,13318,49),(9737,'ERNESTO RAFAEL','DIAZ','CARAZA','S23014148','zs23014148@estudiantes.uv.mx',5,13319,93),(9738,'ARI NEFTALI','CASTRO','MONTALVO','S23014149','zs23014149@estudiantes.uv.mx',5,13320,47),(9739,'ROBERTO ALFREDO','BRUNO','OLMOS','S23014150','zs23014150@estudiantes.uv.mx',5,13321,14),(9740,'MIGUEL','CANSECO','JACOME','S23014151','zs23014151@estudiantes.uv.mx',5,13322,62),(9741,'ANGEL RICARDO','MARTINEZ','GARCIA','S23014152','zs23014152@estudiantes.uv.mx',5,13323,127),(9742,'JESHUA SEBASTIAN','MAY','MARTINEZ','S23014153','zs23014153@estudiantes.uv.mx',5,13324,89),(9743,'LUIS ANGEL','MORALES','OCHOA','S23014154','zs23014154@estudiantes.uv.mx',5,13325,66),(9744,'JOSE MANUEL','CARRETO','BARRIENTOS','S23014155','zs23014155@estudiantes.uv.mx',5,13326,41),(9745,'SERGIO DE JESUSMARLON','HERNANDEZ','PEREZ','S23014157','zs23014157@estudiantes.uv.mx',5,13327,66),(9746,'ISAI AZAEL','VASQUEZ','GALVAN','S23014158','zs23014158@estudiantes.uv.mx',5,13328,23),(9747,'JAZMIN','VIVEROS','SARMIENTO','S23014159','zs23014159@estudiantes.uv.mx',5,13329,110),(9748,'ANDRIK DARIEL','GUTIERREZ','RODRIGUEZ','S23014160','zs23014160@estudiantes.uv.mx',5,13330,23),(9749,'JOHAN','ANDRADE','MERINO','S23014161','zs23014161@estudiantes.uv.mx',5,13331,76),(9750,'GUILLERMO','GONGORA','MENDOZA','S23014164','zs23014164@estudiantes.uv.mx',5,13332,96),(9751,'YAEL','LEZAMA','LOPEZ','S23014165','zs23014165@estudiantes.uv.mx',5,13333,89),(9752,'GERALDINE DE FATIMA','CIRIACO','GONZALEZ','S23014166','zs23014166@estudiantes.uv.mx',5,13334,89),(9754,'EMIR','TIRSO','BADILLO','S23014169','zs23014169@estudiantes.uv.mx',5,13336,125),(9755,'OMAR ZAHIR','DIAZ','MUÑOZ','S23014170','zs23014170@estudiantes.uv.mx',5,13337,23),(9756,'JORGE JESUS','TORRES','SARMIENTO','S23014172','zs23014172@estudiantes.uv.mx',5,13338,67),(9757,'JOSE CARLOS','AMADOR','SUAREZ','S23014173','zs23014173@estudiantes.uv.mx',5,13339,47),(9758,'JONATHAN','SUAREZ','SALAMANCA','S23014174','zs23014174@estudiantes.uv.mx',5,13340,54),(9759,'ALAN','FABELA','AGUILAR','S23014175','zs23014175@estudiantes.uv.mx',5,13341,96),(9760,'OSCAR ALEJANDRO','ZAVALETA','ARROYO','S23014176','zs23014176@estudiantes.uv.mx',5,13342,41),(9761,'JOSUE','HERNANDEZ','CAYETANO','S23014177','zs23014177@estudiantes.uv.mx',5,13343,114),(9762,'PABLO','ARNAUD','CRUZ','S23014179','zs23014179@estudiantes.uv.mx',5,13344,104),(9763,'EROS SAMUEL','RAMALES','MORALES','S23014180','zs23014180@estudiantes.uv.mx',5,13345,125),(9764,'CINTHIA NATALIA','LARA','VALENCIA','S23014182','zs23014182@estudiantes.uv.mx',5,13346,66),(9765,'RODRIGO','HERNANDEZ','HOLGUIN','S23014183','zs23014183@estudiantes.uv.mx',5,13347,89),(9766,'NOEL ANTONIO','MARTINEZ','HERNANDEZ','S23014184','zs23014184@estudiantes.uv.mx',5,13348,28),(9767,'BEATRIZ ALEXIA','CORDERO','ARRAZOLA','S23014185','zs23014185@estudiantes.uv.mx',5,13349,54),(9768,'ISAAC','SANTAMARIA','MENDIETA','S23014187','zs23014187@estudiantes.uv.mx',5,13350,16),(9769,'ALEXIS','SALAS','PERALTA','S23014188','zs23014188@estudiantes.uv.mx',5,13351,16),(9770,'IVAN','PALE','ARENAS','S23014189','zs23014189@estudiantes.uv.mx',5,13352,49),(9771,'JARED','HUERTA','MUÑOZ','S23014190','zs23014190@estudiantes.uv.mx',5,13353,49),(9772,'CARLO EMILIANO','TOLEDO','SANCHEZ','S23014191','zs23014191@estudiantes.uv.mx',5,13354,110),(9773,'SEBASTIAN LAYU','LERMA','BAUTISTA','S23014192','zs23014192@estudiantes.uv.mx',5,13355,76),(9774,'MARLENE','SALDAÑA','MARLENE','S23014193','zs23014193@estudiantes.uv.mx',5,13356,125),(9775,'ISAMAR','CONTRERAS','RAMIREZ','S23014194','zs23014194@estudiantes.uv.mx',5,13357,22),(9776,'HECTOR MANUEL','TORAL','HUERTA','S23014196','zs23014196@estudiantes.uv.mx',5,13358,16),(9777,'CARLOS ALBERTO','AHUET','GARCIA','S23014197','zs23014197@estudiantes.uv.mx',5,13359,29),(9778,'IRVIN JOSAFAT','DOMINGUEZ','MORALES','S23021453','zs23021453@estudiantes.uv.mx',2,13360,98),(9779,'CHRISTOPHER','GOMEZ','MENDOZA','S23021454','zs23021454@estudiantes.uv.mx',2,13361,98),(9780,'IGNACIO','CALIXTO','LEON','S23021468','zs23021468@estudiantes.uv.mx',4,13362,127),(9781,'ALBERTO','VILLALBA','FIGUEROA','S23021469','zs23021469@estudiantes.uv.mx',4,13363,127),(9782,'MANUEL','LOPEZ','ZAPOTH','S23021470','zs23021470@estudiantes.uv.mx',4,13364,97),(9783,'MARTIN','MURRIETA','QUIROZ','S23021471','zs23021471@estudiantes.uv.mx',4,13365,97),(9784,'JORGE IRAN','PEREZ','SEGOVIA','S23021472','zs23021472@estudiantes.uv.mx',4,13366,28),(9785,'VICTOR HUGO','VASQUEZ','MARTINEZ','S23021473','zs23021473@estudiantes.uv.mx',4,13367,28),(9786,'ANA GEORGINA','REJON','OSORIO','S23021475','zs23021475@estudiantes.uv.mx',4,13368,98),(9787,'LUIS ALFREDO','ATANASIO','BARRIENTOS','S23021476','zs23021476@estudiantes.uv.mx',5,13369,93),(9788,'OSCAR ERNESTO','CARBAJAL','HERNANDEZ','S23021477','zs23021477@estudiantes.uv.mx',5,13370,96),(9789,'JOSE ANGEL','GUZMAN','ZAVALETA','S23021478','zs23021478@estudiantes.uv.mx',5,13371,98),(9790,'LUCAS BERNARDO','CHIVIS','CID','S23021480','zs23021480@estudiantes.uv.mx',5,13372,29),(9791,'EMILIO RAFAEL','CRUZ','CARREÑO','S23021482','zs23021482@estudiantes.uv.mx',5,13373,74),(9792,'EDUARDO ANTONIO','TRIANA','AMADOR','S23021483','zs23021483@estudiantes.uv.mx',5,13374,16),(9793,'GAEL','GARCIA','LOPEZ','S23021484','zs23021484@estudiantes.uv.mx',5,13375,22),(9794,'VICTOR MANUEL','RODRIGUEZ','GONZALEZ','S23021485','zs23021485@estudiantes.uv.mx',5,13376,41),(9795,'RAYMUNDO','HERNANDEZ','HERNANDEZ','S23023265','zs23023265@estudiantes.uv.mx',1,13377,32),(9796,'THESSA MONTSERRAT','GUTIERREZ','GONZALEZ','S23023267','zs23023267@estudiantes.uv.mx',1,13378,70),(9797,'JESUS','HERNANDEZ','VAZQUEZ','S23023270','zs23023270@estudiantes.uv.mx',1,13379,70),(9798,'PAOLA ALEXANDRA','CAPETILLO','RANGEL','S23023285','zs23023285@estudiantes.uv.mx',1,13380,55),(9800,'SHARENI CELIN','DOMINGUEZ','ORTEGA','S23023289','zs23023289@estudiantes.uv.mx',1,13382,59),(9801,'CESAR ADOLFO','BAUTISTA','DORANTES','S23023291','zs23023291@estudiantes.uv.mx',1,13383,73),(9802,'JOANA PALOMA','LAVOIGNET','TRUJILLO','S23023292','zs23023292@estudiantes.uv.mx',1,13384,104),(9803,'PABLO','MONTIEL','VENTURA','S23023295','zs23023295@estudiantes.uv.mx',1,13385,48),(9804,'DIEGO FRANCISCO','CARMONA','HERNANDEZ','S23023301','zs23023301@estudiantes.uv.mx',1,13386,20),(9805,'ASTRID YARUVI','SAYAGO','LOEZA','S23023303','zs23023303@estudiantes.uv.mx',1,13387,25),(9806,'LUZ EVELYN','DEL ANGEL','HERNANDEZ','S23023308','zs23023308@estudiantes.uv.mx',1,13388,115),(9807,'NADIA JUDITH','MARTINEZ','GARCIA','S23023312','zs23023312@estudiantes.uv.mx',1,13389,2),(9808,'AVRYL FABIOLA','ABASCAL','HERNANDEZ','S23023318','zs23023318@estudiantes.uv.mx',1,13390,20),(9809,'MARIA FERNANDA','MORALES','CONTRERAS','S23023323','zs23023323@estudiantes.uv.mx',1,13391,74),(9810,'OSIRIS SIOMARA','CORTES','SANTAMARIA','S23023324','zs23023324@estudiantes.uv.mx',1,13392,73),(9811,'BRITANY MICHELLE','RAMIREZ','HERNANDEZ','S23023325','zs23023325@estudiantes.uv.mx',1,13393,59),(9812,'MICHEL','BAEZ','GUEVARA','S23023327','zs23023327@estudiantes.uv.mx',1,13394,59),(9813,'NELLY VALERIA','TORRES','RAMIREZ','S23023335','zs23023335@estudiantes.uv.mx',1,13395,20),(9814,'JESUS ADRIAN','SANCHEZ','ZUÑIGA','S23023336','zs23023336@estudiantes.uv.mx',1,13396,74),(9815,'MARIAN','COLORADO','HERNANDEZ','S23023425','zs23023425@estudiantes.uv.mx',5,13397,16),(9816,'GAEL BLADIMIR','LOBATO','MORALES','S23023426','zs23023426@estudiantes.uv.mx',5,13398,49),(9817,'ALMA FERNANDA','GRACIDA','RICARDEZ','S23024133','zs23024133@estudiantes.uv.mx',1,13399,116),(9818,'LUIS','ADAN','MEDINA','S23024135','zs23024135@estudiantes.uv.mx',8,13400,15),(9819,'JAZMIN MONSERRAT','GOMEZ','BAEZ','S23024137','zs23024137@estudiantes.uv.mx',7,13401,11),(9820,'JOSE DE JESUS','SANCHEZ','HERNANDEZ','S23024138','zs23024138@estudiantes.uv.mx',8,13402,15),(9821,'JUAN CARLOS','ROMERO','DURAN','S24013021','zs24013021@estudiantes.uv.mx',2,13403,74),(9822,'MARCO ANTONIO','ROANO','FERNANDEZ','S24013022','zs24013022@estudiantes.uv.mx',2,13404,74),(9823,'RAUL','NAVA','SOLER','S24013023','zs24013023@estudiantes.uv.mx',2,13405,74),(9824,'JESUS FERNANDO','DE LA ROSA','RUIZ','S24013024','zs24013024@estudiantes.uv.mx',2,13406,127),(9825,'NEYZER JEZAHEL','CERVANTES','FLORES','S24013025','zs24013025@estudiantes.uv.mx',2,13407,NULL),(9826,'BRANDON','OROZCO','MORALES','S24013026','zs24013026@estudiantes.uv.mx',2,13408,40),(9827,'KEVIN ISAAC','HUESCA','DE LOS SANTOS','S24013027','zs24013027@estudiantes.uv.mx',2,13409,40),(9828,'FERNANDO','HERNANDEZ','LAGUNES','S24013028','zs24013028@estudiantes.uv.mx',2,13410,40),(9829,'DANIEL','FERNANDEZ','MEJIA','S24013029','zs24013029@estudiantes.uv.mx',2,13411,40),(9830,'EMMANUEL ALEXIS','ESPERILLA','CASTRO','S24013031','zs24013031@estudiantes.uv.mx',2,13412,4),(9831,'ABIGAIL','SANCHEZ','VAZQUEZ','S24013032','zs24013032@estudiantes.uv.mx',2,13413,4),(9832,'ROSA HELENA','VAZQUEZ','CAMACHO','S24013033','zs24013033@estudiantes.uv.mx',2,13414,33),(9833,'LUZ DIANELY','LOZANO','GARCIA','S24013034','zs24013034@estudiantes.uv.mx',2,13415,33),(9834,'LUIS RAUL','RODRIGUEZ','HERNANDEZ','S24013035','zs24013035@estudiantes.uv.mx',2,13416,33),(9835,'NAVID ELYAZID','RAMIREZ','RIOS','S24013036','zs24013036@estudiantes.uv.mx',2,13417,33),(9840,'JOSE ANTONIO','JIMENEZ','CONDE','S24013041','zs24013041@estudiantes.uv.mx',2,13422,94),(9841,'ADAN ESTEBAN','GARCIA','MUÑOZ','S24013042','zs24013042@estudiantes.uv.mx',2,13423,94),(9842,'OSCAR ALBERTO','CASTILLO','DORANTES','S24013043','zs24013043@estudiantes.uv.mx',2,13424,42),(9843,'JOSHUA','CABALLERO','SORDO','S24013044','zs24013044@estudiantes.uv.mx',2,13425,42),(9844,'DIEGO ARMANDO','MORALES','LANDA','S24013045','zs24013045@estudiantes.uv.mx',6,13426,55),(9845,'CARLOS RODRIGO','GARCIA','AVILA','S24013046','zs24013046@estudiantes.uv.mx',2,13427,42),(9846,'YATZEL ALEXIS','HERNANDEZ','CARMONA','S24013047','zs24013047@estudiantes.uv.mx',2,13428,42),(9850,'GABRIEL SINHUE','TREJO','SALDAÑA','S24013051','zs24013051@estudiantes.uv.mx',2,13432,49),(9851,'XIADANI MONSERRAT','MESTIZO','LOPEZ','S24013052','zs24013052@estudiantes.uv.mx',2,13433,49),(9852,'JESUS ONOFRE','RODRIGUEZ','CORTES','S24013053','zs24013053@estudiantes.uv.mx',2,13434,34),(9853,'MARIA FERNANDA','DURAN','SILICEO','S24013054','zs24013054@estudiantes.uv.mx',2,13435,34),(9854,'JESUS ABDEL','MENDEZ','JIMENEZ','S24013055','zs24013055@estudiantes.uv.mx',2,13436,34),(9855,'ERICK JAIR','MORALES','ROMERO','S24013056','zs24013056@estudiantes.uv.mx',2,13437,23),(9856,'KEVIN MARZUL','JERONIMO','ROJANO','S24013057','zs24013057@estudiantes.uv.mx',2,13438,23),(9857,'JOSE ADRIEL','RIVERA','PLATAS','S24013058','zs24013058@estudiantes.uv.mx',2,13439,23),(9858,'JAFET ALEJANDRO','GONZALEZ','MAIN','S24013059','zs24013059@estudiantes.uv.mx',2,13440,56),(9859,'BRAYAN USCIEL','SESEÑA','HIDALGO','S24013060','zs24013060@estudiantes.uv.mx',2,13441,56),(9860,'MARTIN GABRIEL','LEON','ALANIS','S24013061','zs24013061@estudiantes.uv.mx',2,13442,56),(9861,'LUIS DANIEL','GUERRERO','ESCALANTE','S24013062','zs24013062@estudiantes.uv.mx',2,13443,44),(9862,'ANGEL','ROANO','NAVARRO','S24013063','zs24013063@estudiantes.uv.mx',2,13444,44),(9863,'LUIS FERNANDO','CABRERA','ARRIAGA','S24013064','zs24013064@estudiantes.uv.mx',2,13445,44),(9864,'EDDI MICHAEL','HERNANDEZ','RODRIGUEZ','S24013065','zs24013065@estudiantes.uv.mx',2,13446,11),(9865,'JORGE GAEL','HERNANDEZ','MARCIAL','S24013066','zs24013066@estudiantes.uv.mx',2,13447,11),(9866,'SERGIO DAVID','MONTIEL','JUAREZ','S24013067','zs24013067@estudiantes.uv.mx',2,13448,11),(9867,'ALAN KALE','OLIVA','HERRERA','S24013068','zs24013068@estudiantes.uv.mx',2,13449,11),(9868,'CHRISTOPHER EINAR','LEPE','CARCAMO','S24013069','zs24013069@estudiantes.uv.mx',2,13450,21),(9869,'DYLLAN ALEXIS','MELGAREJO','GAONA','S24013070','zs24013070@estudiantes.uv.mx',2,13451,21),(9870,'YARETZI YANAY','GARCIA','CARRETO','S24013071','zs24013071@estudiantes.uv.mx',2,13452,21),(9871,'OMAR','SANCHEZ','MALDONADO','S24013072','zs24013072@estudiantes.uv.mx',2,13453,43),(9872,'RONALDO','DE LA CRUZ','HERNANDEZ','S24013073','zs24013073@estudiantes.uv.mx',2,13454,43),(9873,'CHRISTIAN ALEJANDRO','RODRIGUEZ','HERNANDEZ','S24013074','zs24013074@estudiantes.uv.mx',2,13455,43),(9874,'MILTON DAVID','MELCHOR','CARMONA','S24013075','zs24013075@estudiantes.uv.mx',2,13456,43),(9875,'CAMILA','BARRERA','VENTURA','S24013076','zs24013076@estudiantes.uv.mx',2,13457,43),(9876,'SAUL','AGUILAR','LOPEZ','S24013077','zs24013077@estudiantes.uv.mx',2,13458,45),(9877,'HORUS SHAIEL','HERNANDEZ','IRIARTE','S24013078','zs24013078@estudiantes.uv.mx',2,13459,28),(9878,'YAZMIN','RODRIGUEZ','SALAZAR','S24013079','zs24013079@estudiantes.uv.mx',2,13460,28),(9879,'MARISOL','ALVARADO','CABRERA','S24013080','zs24013080@estudiantes.uv.mx',2,13461,28),(9880,'PABLO DANIEL','HERNANDEZ','SANTIAGO','S24013081','zs24013081@estudiantes.uv.mx',2,13462,8),(9881,'PAMELA','RUIZ','GUZMAN','S24013082','zs24013082@estudiantes.uv.mx',2,13463,8),(9882,'SEBASTIAN','ASTORGA','GARCIA','S24013083','zs24013083@estudiantes.uv.mx',2,13464,8),(9883,'ILSE ALIBETH','MARTINEZ','CHIMAL','S24013084','zs24013084@estudiantes.uv.mx',2,13465,98),(9884,'JACOB','PALMA','ABURTO','S24013085','zs24013085@estudiantes.uv.mx',2,13466,98),(9885,'KHRISTIAN','POMMIER','GOMEZ','S24013086','zs24013086@estudiantes.uv.mx',2,13467,98),(9886,'JOHANN OSVALDO','MARTINEZ','CONTRERAS','S24013087','zs24013087@estudiantes.uv.mx',2,13468,45),(9887,'RAFAEL','GARCIA','AGUILAR','S24013088','zs24013088@estudiantes.uv.mx',2,13469,45),(9891,'RAFAEL IGNACIO','ANGELES','ALPUCHE','S24013094','zs24013094@estudiantes.uv.mx',2,13473,4),(9892,'DIEGO','DOMINGUEZ','VARELA','S24013095','zs24013095@estudiantes.uv.mx',2,13474,21),(9893,'OSWALDO','GOMEZ','BARROS','S24013247','zs24013247@estudiantes.uv.mx',4,13475,125),(9894,'LAURENCIO','LOPEZ','MARTINEZ','S24013248','zs24013248@estudiantes.uv.mx',4,13476,125),(9895,'IVONNE AMERICA','CASTELLANOS','GOMEZ','S24013249','zs24013249@estudiantes.uv.mx',4,13477,125),(9896,'ERICK IVAN','ESCOBAR','MORALES','S24013250','zs24013250@estudiantes.uv.mx',4,13478,3),(9897,'YARAZARETH ZACNITE','ORTIZ','OLMOS','S24013253','zs24013253@estudiantes.uv.mx',4,13479,42),(9898,'ALEJANDRO','GONZALEZ','LARA','S24013254','zs24013254@estudiantes.uv.mx',4,13480,127),(9899,'JORGE','ARAUJO','HERNANDEZ','S24013255','zs24013255@estudiantes.uv.mx',4,13481,107),(9900,'VICTOR ALEJANDRO','GOMEZ','CARBALLO','S24013256','zs24013256@estudiantes.uv.mx',4,13482,3),(9901,'ULISES','SANCHEZ','LARA','S24013257','zs24013257@estudiantes.uv.mx',4,13483,33),(9902,'ISAAC ADRIANO','VAZQUEZ','TORRES','S24013258','zs24013258@estudiantes.uv.mx',4,13484,92),(9903,'GABRIEL','HERNANDEZ','MARTINEZ','S24013259','zs24013259@estudiantes.uv.mx',4,13485,92),(9904,'LUIS JESUS','GUZMAN','RINCON','S24013260','zs24013260@estudiantes.uv.mx',4,13486,92),(9905,'LUZ FERNANDA','HERRERA','JUAREZ','S24013261','zs24013261@estudiantes.uv.mx',4,13487,92),(9906,'ADRIAN ALONSO','ESPARZA','HERNANDEZ','S24013262','zs24013262@estudiantes.uv.mx',4,13488,92),(9907,'ISA GABRIELA','TORRES','GARCIA','S24013263','zs24013263@estudiantes.uv.mx',4,13489,92),(9908,'LENIN JESUS','HERNANDEZ','RAMIREZ','S24013264','zs24013264@estudiantes.uv.mx',4,13490,92),(9909,'LEANDRO','BARRA','CORDOBA','S24013265','zs24013265@estudiantes.uv.mx',4,13491,92),(9910,'EMILIO','ALVAREZ','VILLALOBOS','S24013267','zs24013267@estudiantes.uv.mx',4,13492,86),(9911,'GAEL SAMEI','AMORES','RIVAS','S24013269','zs24013269@estudiantes.uv.mx',4,13493,86),(9912,'LUIS ANGEL','ORTIZ','LOPEZ','S24013270','zs24013270@estudiantes.uv.mx',4,13494,54),(9913,'CESAR DANIEL','ORTEGA','CASTILLEJOS','S24013271','zs24013271@estudiantes.uv.mx',4,13495,54),(9914,'ANGEL DE JESUS','RODRIGUEZ','ESPINOSA','S24013272','zs24013272@estudiantes.uv.mx',4,13496,54),(9915,'ANDRE FERNANDO','BENITEZ','AGUILAR','S24013273','zs24013273@estudiantes.uv.mx',4,13497,65),(9916,'JUAN JOSE','LOPEZ','PEREZ','S24013274','zs24013274@estudiantes.uv.mx',4,13498,12),(9917,'MANUEL','GONZALEZ','GARCIA','S24013275','zs24013275@estudiantes.uv.mx',4,13499,65),(9918,'PEDRO ENRIQUE','SANCHEZ','RODRIGUEZ','S24013276','zs24013276@estudiantes.uv.mx',4,13500,65),(9919,'LUIS DARIO','PADILLA','LOPEZ','S24013278','zs24013278@estudiantes.uv.mx',4,13501,65),(9920,'ANGEL DAVID','NAVARRO','DE LA CRUZ','S24013279','zs24013279@estudiantes.uv.mx',4,13502,42),(9921,'ABIGAIL','PONCE','PEREZ','S24013280','zs24013280@estudiantes.uv.mx',4,13503,65),(9922,'LESLIE VERONICA','ORTEGA','MENDEZ','S24013281','zs24013281@estudiantes.uv.mx',4,13504,42),(9923,'ANGEL AMETH','BONILLA','RAMIREZ','S24013282','zs24013282@estudiantes.uv.mx',4,13505,42),(9924,'VALENTIN','BENAVIDES','MARTINEZ','S24013283','zs24013283@estudiantes.uv.mx',4,13506,34),(9925,'ULISES EDUARDO','BAEZ','ROSAS','S24013284','zs24013284@estudiantes.uv.mx',4,13507,34),(9926,'CINTHYA','REYES','MALDONADO','S24013285','zs24013285@estudiantes.uv.mx',4,13508,34),(9927,'ADAIR ALEJANDRO','MARTINEZ','ALEJO','S24013286','zs24013286@estudiantes.uv.mx',4,13509,34),(9928,'DAVID','ESPINOZA','MORALES','S24013287','zs24013287@estudiantes.uv.mx',4,13510,67),(9929,'HELI YOSSELINE','ARROYO','BONILLA','S24013288','zs24013288@estudiantes.uv.mx',4,13511,67),(9930,'GAMALIEL','CABRERA','PLACIDO','S24013289','zs24013289@estudiantes.uv.mx',4,13512,67),(9931,'OSCAR','TURRENT','PEÑA','S24013290','zs24013290@estudiantes.uv.mx',4,13513,67),(9932,'CESAR ALEJANDRO','MARTINEZ','GABINO','S24013291','zs24013291@estudiantes.uv.mx',4,13514,67),(9933,'ENDRIC','VERA','TOLEDO','S24013292','zs24013292@estudiantes.uv.mx',4,13515,51),(9934,'NICOLAS YAZID','CRUZ','HERNANDEZ','S24013293','zs24013293@estudiantes.uv.mx',4,13516,51),(9935,'DIEGO ALEXIS','LEON','GARCIA','S24013294','zs24013294@estudiantes.uv.mx',4,13517,51),(9936,'ABDIEL GAGNOLI','MARTINEZ','LIMON','S24013295','zs24013295@estudiantes.uv.mx',4,13518,51),(9937,'MARIA JOSE','LANDA','FERNANDEZ','S24013296','zs24013296@estudiantes.uv.mx',4,13519,51),(9938,'MIGUEL ANGEL','AGUILAR','CARRILLO','S24013297','zs24013297@estudiantes.uv.mx',4,13520,51),(9939,'EMILIANO','MORALES','BAIZABAL','S24013298','zs24013298@estudiantes.uv.mx',4,13521,51),(9940,'EMMANUEL ERNESTO','USCANGA','HERNANDEZ','S24013299','zs24013299@estudiantes.uv.mx',4,13522,51),(9941,'GERMAN VICENTE','GONZALEZ','HERRERA','S24013300','zs24013300@estudiantes.uv.mx',4,13523,51),(9942,'CRISTIAN YAEL','GONZALEZ','SANCHEZ','S24013301','zs24013301@estudiantes.uv.mx',4,13524,51),(9943,'ANDRE','SOLORIO','ROJAS','S24013302','zs24013302@estudiantes.uv.mx',4,13525,51),(9944,'JOSE EDUARDO','PRIOR','HERNANDEZ','S24013303','zs24013303@estudiantes.uv.mx',4,13526,51),(9945,'SEBASTIAN','BARRERA','MORA','S24013304','zs24013304@estudiantes.uv.mx',4,13527,107),(9946,'SAMUEL','CARRETO','BARRIENTOS','S24013305','zs24013305@estudiantes.uv.mx',4,13528,107),(9947,'DAVID RICARDO','OROZCO','PEÑA','S24013306','zs24013306@estudiantes.uv.mx',4,13529,109),(9948,'ALAN','MARTINEZ','LOPEZ','S24013307','zs24013307@estudiantes.uv.mx',4,13530,109),(9949,'ANGEL EMANUEL','QUINO','CINTA','S24013308','zs24013308@estudiantes.uv.mx',4,13531,56),(9950,'JOSE DAVID','LOPEZ','FRANCISCO','S24013309','zs24013309@estudiantes.uv.mx',4,13532,21),(9951,'ANGEL ARTURO','ARIAS','BERNABE','S24013310','zs24013310@estudiantes.uv.mx',4,13533,21),(9952,'JAVIER YAJSEEL','LILY','REYES','S24013311','zs24013311@estudiantes.uv.mx',4,13534,21),(9953,'ADRIANA MICHELLE','HERNANDEZ','ORTEGA','S24013312','zs24013312@estudiantes.uv.mx',4,13535,21),(9954,'URI ABDIEL','MASIN','CAMPECHANO','S24013314','zs24013314@estudiantes.uv.mx',4,13536,21),(9955,'NICOLE STELLA','ARMAS','MENDOZA','S24013315','zs24013315@estudiantes.uv.mx',4,13537,15),(9956,'JUAN DANIEL','PEREZ','SANTIAGO','S24013316','zs24013316@estudiantes.uv.mx',4,13538,15),(9957,'ELLIN ALEJANDRA','JIMENEZ','VILLANUEVA','S24013317','zs24013317@estudiantes.uv.mx',4,13539,15),(9958,'JONATHAN FARID','HERNANDEZ','CORONA','S24013318','zs24013318@estudiantes.uv.mx',4,13540,15),(9959,'ARTURO','BAEZ','SANCHEZ','S24013319','zs24013319@estudiantes.uv.mx',4,13541,15),(9960,'RODRIGO','TORRES','HERNANDEZ','S24013320','zs24013320@estudiantes.uv.mx',4,13542,12),(9961,'HECTOR ABDIEL','PEREZ','MAR','S24013321','zs24013321@estudiantes.uv.mx',4,13543,12),(9962,'DENISSE YAMILETH','JUAREZ','REYES','S24013322','zs24013322@estudiantes.uv.mx',4,13544,97),(9963,'IAN UZIEL','DIAZ','DIAZ','S24013323','zs24013323@estudiantes.uv.mx',4,13545,97),(9964,'ANGEL GABRIEL','AGUILAR','HERNANDEZ','S24013324','zs24013324@estudiantes.uv.mx',4,13546,28),(9965,'STEPHANIE ELIZDETH','HERNANDEZ','PRIETO','S24013327','zs24013327@estudiantes.uv.mx',5,13547,125),(9966,'CESAR','SOLANO','CALLEJAS','S24013329','zs24013329@estudiantes.uv.mx',5,13548,47),(9967,'CARLOS ALESSANDRO','ROA','VAZQUEZ','S24013331','zs24013331@estudiantes.uv.mx',5,13549,28),(9968,'GONZALO','MENDOZA','HERRERA','S24013332','zs24013332@estudiantes.uv.mx',5,13550,114),(9969,'ALVARO ADAIR','HERNANDEZ','SANCHEZ','S24013333','zs24013333@estudiantes.uv.mx',5,13551,105),(9970,'MARIO JAVIER','BONAVIDES','ALCALA','S24013334','zs24013334@estudiantes.uv.mx',5,13552,76),(9971,'JOSE FERNANDO','MARTINEZ','ENRIQUEZ','S24013335','zs24013335@estudiantes.uv.mx',5,13553,104),(9972,'CITLALY','MORALES','VIVEROS','S24013337','zs24013337@estudiantes.uv.mx',5,13554,22),(9973,'MIGUEL ANGEL','MARCELO','TARACENA','S24013338','zs24013338@estudiantes.uv.mx',5,13555,14),(9974,'REBECA','BAUTISTA','GARCIA','S24013339','zs24013339@estudiantes.uv.mx',5,13556,89),(9975,'CAMILA MARINE','CRESPO','ZURITA','S24013340','zs24013340@estudiantes.uv.mx',5,13557,125),(9976,'MIGUEL ANGEL','SIGALES','FUENTES','S24013341','zs24013341@estudiantes.uv.mx',5,13558,110),(9977,'GABRIEL','MALDONADO','LOPEZ','S24013342','zs24013342@estudiantes.uv.mx',5,13559,66),(9978,'IAN PAUL','SEPULVEDA','ANGUIANO','S24013343','zs24013343@estudiantes.uv.mx',5,13560,37),(9979,'ERICK IRAY','GUTIERREZ','DEL ANGEL','S24013344','zs24013344@estudiantes.uv.mx',5,13561,15),(9980,'JOSE MANUEL','HERNANDEZ','PIEDRA','S24013345','zs24013345@estudiantes.uv.mx',5,13562,93),(9981,'TANIA KETZEL','GOMEZ','VELASQUEZ','S24013346','zs24013346@estudiantes.uv.mx',5,13563,28),(9982,'ANGEL DE JESUS','NIETO','HERNANDEZ','S24013348','zs24013348@estudiantes.uv.mx',5,13564,104),(9983,'CARLOS VICENTE','LOPEZ','ROSALES','S24013349','zs24013349@estudiantes.uv.mx',5,13565,62),(9984,'FRANCISCO','BAEZ','RODRIGUEZ','S24013350','zs24013350@estudiantes.uv.mx',5,13566,22),(9985,'DIEGO','ABURTO','LARA','S24013351','zs24013351@estudiantes.uv.mx',5,13567,62),(9986,'HIRAM AXEL','LOPEZ','GARCIA','S24013352','zs24013352@estudiantes.uv.mx',5,13568,41),(9987,'LUIS DAVID','SOSA','FERNANDEZ','S24013353','zs24013353@estudiantes.uv.mx',5,13569,98),(9988,'RUBI YARELI','MENDOZA','ALARCON','S24013354','zs24013354@estudiantes.uv.mx',5,13570,37),(9989,'GUSTAVO ADOLFO','MARTINEZ','MARTINEZ','S24013356','zs24013356@estudiantes.uv.mx',5,13571,93),(9990,'JESUS','MELCHOR','SUAREZ','S24013357','zs24013357@estudiantes.uv.mx',5,13572,114),(9991,'ANTHONY DANIEL','LANDA','ROMERO','S24013359','zs24013359@estudiantes.uv.mx',5,13573,125),(9992,'IRVING ANTONIO','LOPEZ','HERNANDEZ','S24013360','zs24013360@estudiantes.uv.mx',5,13574,117),(9993,'EMANUEL','HERNANDEZ','OCHOA','S24013362','zs24013362@estudiantes.uv.mx',5,13575,37),(9994,'ISAAC','MOLINA','FLORES','S24013363','zs24013363@estudiantes.uv.mx',5,13576,47),(9995,'NINO ALESSANDRO','NAVARRO','LAM','S24013364','zs24013364@estudiantes.uv.mx',5,13577,105),(9996,'ANGEL YARIB','MORALES','MARTINEZ','S24013365','zs24013365@estudiantes.uv.mx',5,13578,23),(9997,'EDGAR ALEJANDRO','CORTES','MARTINEZ','S24013366','zs24013366@estudiantes.uv.mx',5,13579,93),(9998,'ARADAN','SCHWARTZ','ROCHA','S24013367','zs24013367@estudiantes.uv.mx',5,13580,43),(9999,'JUAN ALEJANDRO','GARCIA','GARCIA','S24013368','zs24013368@estudiantes.uv.mx',5,13581,37),(10000,'ALEJANDRA','AVILA','TLAXCALTECO','S24013369','zs24013369@estudiantes.uv.mx',5,13582,125),(10001,'ANTONIO DE JESUS','TEJEDA','LOPEZ','S24013370','zs24013370@estudiantes.uv.mx',5,13583,117),(10002,'JOSE LUIS','LUCAS','LANDA','S24013371','zs24013371@estudiantes.uv.mx',5,13584,114),(10003,'JUAN LUIS','GAONA','AGUIRRE','S24013373','zs24013373@estudiantes.uv.mx',5,13585,110),(10004,'LUIS CARLOS','CLAVEL','CASAS','S24013374','zs24013374@estudiantes.uv.mx',5,13586,62),(10006,'ANGEL MISAEL','JACOME','SANCHEZ','S24013376','zs24013376@estudiantes.uv.mx',5,13588,37),(10007,'CESAR RODRIGO','DIAZ','HERNANDEZ','S24013377','zs24013377@estudiantes.uv.mx',5,13589,96),(10008,'MARIA DE LOURDES','MENDEZ','PRIGADAA','S24013378','zs24013378@estudiantes.uv.mx',5,13590,54),(10009,'JOSUA NAHUM','ORTIZ','GALAN','S24013379','zs24013379@estudiantes.uv.mx',5,13591,54),(10010,'AXEL DE LA CRUZ','YEBRA','DEL MORAL','S24013380','zs24013380@estudiantes.uv.mx',5,13592,29),(10011,'DIEGO RAFAEL','JIMENEZ','TRUJANO','S24013381','zs24013381@estudiantes.uv.mx',5,13593,67),(10012,'KENDAR EMMANUEL','STROP','GARCIA','S24013382','zs24013382@estudiantes.uv.mx',5,13594,49),(10013,'ALFONSO','MENDOZA','VASQUEZ','S24013383','zs24013383@estudiantes.uv.mx',5,13595,125),(10014,'EMILIANO','HERNANDEZ','GARCIA','S24013384','zs24013384@estudiantes.uv.mx',5,13596,93),(10015,'SINUHE RAFAEL','CARRILLO','ESTRADA','S24013385','zs24013385@estudiantes.uv.mx',5,13597,89),(10016,'ALFONSO','DIAZ','MERINO','S24013386','zs24013386@estudiantes.uv.mx',5,13598,41),(10017,'HANS ARTURO','MARTINEZ','ROMERO','S24013387','zs24013387@estudiantes.uv.mx',5,13599,105),(10018,'SARA','ORTEGA','HERNANDEZ','S24013388','zs24013388@estudiantes.uv.mx',5,13600,23),(10019,'KEVIN','PEREZ','HERNANDEZ','S24013389','zs24013389@estudiantes.uv.mx',5,13601,37),(10021,'JOSE EMMANUEL','MARTINEZ','GALICIA','S24013392','zs24013392@estudiantes.uv.mx',5,13603,28),(10022,'XAVIER','CARRERAS','MENDOZA','S24013394','zs24013394@estudiantes.uv.mx',5,13604,67),(10023,'ERIK MICHELL','SORCIA','CRUZ','S24013395','zs24013395@estudiantes.uv.mx',5,13605,37),(10025,'IAN CARLO','RUMAYOR','ROMERO','S24013397','zs24013397@estudiantes.uv.mx',5,13607,37),(10027,'JETZALY JOSMERY','TELLO','CAMPOS','S24013399','zs24013399@estudiantes.uv.mx',5,13609,37),(10028,'ANGEL UZIEL','GARCIA','SALDAÑA','S24013400','zs24013400@estudiantes.uv.mx',5,13610,96),(10029,'JESUS ALFREDO','COBOS','VALENCIA','S24013401','zs24013401@estudiantes.uv.mx',5,13611,43),(10030,'CARLOS GABRIEL','PENSADO','VALDEZ','S24013402','zs24013402@estudiantes.uv.mx',5,13612,54),(10031,'OSMAR ANTONIO','HERNANDEZ','HERRERA','S24013403','zs24013403@estudiantes.uv.mx',5,13613,66),(10032,'DANIEL','PEÑA','ZOTO','S24013404','zs24013404@estudiantes.uv.mx',5,13614,47),(10033,'KEVIN MIGUEL','GARCIA','MONTANE','S24013405','zs24013405@estudiantes.uv.mx',5,13615,29),(10034,'IARA IDALIA','ZAPOT','JUAREZ','S24013451','zs24013451@estudiantes.uv.mx',6,13616,50),(10035,'JUAN PABLO','ROMERO','BONILLA','S24013452','zs24013452@estudiantes.uv.mx',6,13617,55),(10036,'LUIS ANGEL','CUEVAS','CASADOS','S24013453','zs24013453@estudiantes.uv.mx',6,13618,48),(10037,'VANESSA GUADALUPE','MENDEZ','LARA','S24013454','zs24013454@estudiantes.uv.mx',6,13619,80),(10038,'FERNANDO','ANDRADE','MARTINEZ','S24013455','zs24013455@estudiantes.uv.mx',6,13620,25),(10039,'VICTORIA','SALDAÑA','HERNANDEZ','S24013456','zs24013456@estudiantes.uv.mx',6,13621,50),(10040,'ALEJANDRO','LOPEZ','BECERRA','S24013457','zs24013457@estudiantes.uv.mx',6,13622,38),(10041,'DANTE','GONZALEZ','PEREZ','S24013458','zs24013458@estudiantes.uv.mx',6,13623,95),(10042,'MARLENE','MOLINA','CHAGOYA','S24013459','zs24013459@estudiantes.uv.mx',6,13624,80),(10043,'ABIGAIL','LECHUGA','SALDAÑA','S24013460','zs24013460@estudiantes.uv.mx',6,13625,95),(10044,'YUMARI','BELTRAN','SOSA','S24013461','zs24013461@estudiantes.uv.mx',6,13626,25),(10045,'MARIA SAYURI','BALTAZAR','PEDRAZA','S24013462','zs24013462@estudiantes.uv.mx',6,13627,100),(10046,'CRISTIAN EDUARDO','MONTESINO','FERNANDEZ','S24013464','zs24013464@estudiantes.uv.mx',6,13628,50),(10047,'JAFET','GARCIA','OLIVARES','S24013465','zs24013465@estudiantes.uv.mx',6,13629,48),(10048,'CALEB ALESSANDRO','GUTIERREZ','ZAMORA GUTIERREZ','S24013466','zs24013466@estudiantes.uv.mx',6,13630,48),(10049,'EMMANUEL DE JESUS','MUÑOZ','TAPIA','S24013467','zs24013467@estudiantes.uv.mx',6,13631,59),(10050,'VALENTIN DE JESUS','HERNANDEZ','MARTINEZ','S24013468','zs24013468@estudiantes.uv.mx',6,13632,38),(10051,'CRISTIAN AXEL','IZQUIERDO','LOPEZ','S24013469','zs24013469@estudiantes.uv.mx',6,13633,50),(10052,'JESUS EDUARDO','AMBRIZ','ROMANO','S24013470','zs24013470@estudiantes.uv.mx',6,13634,2),(10053,'HIRAM RODOLFO','RUDECINO','ROMERO','S24013471','zs24013471@estudiantes.uv.mx',6,13635,55),(10054,'JOSE','VIDAL','HERNANDEZ','S24013472','zs24013472@estudiantes.uv.mx',6,13636,25),(10055,'EIDAN ENRIQUE','JUAREZ','GARCIA','S24013474','zs24013474@estudiantes.uv.mx',6,13637,95),(10056,'JOSE ANTONIO','HERNANDEZ','CARMONA','S24013475','zs24013475@estudiantes.uv.mx',6,13638,38),(10057,'JORGE LUIS','ORTIZ','LIBREROS','S24013476','zs24013476@estudiantes.uv.mx',6,13639,59),(10058,'HECTOR RENE','MENDOZA','CECEÑA','S24013477','zs24013477@estudiantes.uv.mx',6,13640,80),(10059,'LEONARDO','HERNANDEZ','AVILA','S24013478','zs24013478@estudiantes.uv.mx',6,13641,100),(10060,'JARED','HERNANDEZ','LARA','S24013480','zs24013480@estudiantes.uv.mx',6,13642,25),(10061,'OSCAR ALBERTO','DOMINGUEZ','ORTEGA','S24013481','zs24013481@estudiantes.uv.mx',6,13643,2),(10062,'ANGEL','MARTINEZ','MENDEZ','S24013482','zs24013482@estudiantes.uv.mx',6,13644,70),(10063,'FERNANDO RAFAEL','RUIZ','DOMINGUEZ','S24013483','zs24013483@estudiantes.uv.mx',6,13645,55),(10064,'LAURA YOSELIN','TONIL','DE LA LUZ','S24013484','zs24013484@estudiantes.uv.mx',6,13646,55),(10065,'DALIA ABIGAIL','USCANGA','GUTIERREZ','S24013486','zs24013486@estudiantes.uv.mx',6,13647,20),(10066,'AXEL GABRIEL','REDUCINDO','SANTOS','S24013487','zs24013487@estudiantes.uv.mx',6,13648,59),(10067,'KARLA VALERIA','FERNANDEZ','MENDOZA','S24013488','zs24013488@estudiantes.uv.mx',6,13649,25),(10068,'GIOVANA ARLETTE','GOMEZ','DIAZ','S24013489','zs24013489@estudiantes.uv.mx',6,13650,2),(10069,'DIEGO IVAN','GONZALEZ','COLORADO','S24013490','zs24013490@estudiantes.uv.mx',6,13651,100),(10070,'DAIRA LISSET','LANDA','APOLINAR','S24013491','zs24013491@estudiantes.uv.mx',6,13652,48),(10071,'YAHYR','MORALES','GARRIDO','S24013492','zs24013492@estudiantes.uv.mx',6,13653,50),(10072,'NEREYDA NALLELY','MOTA','DOMINGUEZ','S24013493','zs24013493@estudiantes.uv.mx',6,13654,55),(10073,'MARIELA DENISSE','GARCIA','JIMENEZ','S24013494','zs24013494@estudiantes.uv.mx',6,13655,25),(10074,'ADRIAN','CASAS','CORTES','S24013495','zs24013495@estudiantes.uv.mx',6,13656,2),(10075,'IVAN','AQUINO','PALOMINO','S24013496','zs24013496@estudiantes.uv.mx',6,13657,100),(10076,'JULIO CESAR','SANTOS','QUINTERO','S24013498','zs24013498@estudiantes.uv.mx',6,13658,20),(10077,'ALMA ANAHI','MOLINA','SERRANO','S24013500','zs24013500@estudiantes.uv.mx',6,13659,80),(10078,'CHRISTIANE','SANCHEZ','HERNANDEZ','S24013501','zs24013501@estudiantes.uv.mx',6,13660,20),(10079,'ALEJANDRO','JIMENEZ','HERNANDEZ','S24013503','zs24013503@estudiantes.uv.mx',6,13661,48),(10080,'GEZURI YAMILETH','MARTINEZ','SESEÑA','S24013504','zs24013504@estudiantes.uv.mx',6,13662,78),(10081,'ZURIZADAY','ALONSO','LIMON','S24013505','zs24013505@estudiantes.uv.mx',6,13663,25),(10082,'MARIANO DE JESUS','RUIZ','MADRID','S24013506','zs24013506@estudiantes.uv.mx',6,13664,59),(10083,'LUIS GERARDO','JUAREZ','CORDOBA','S24013507','zs24013507@estudiantes.uv.mx',6,13665,25),(10084,'JUAN PABLO','AGUILAR','MORALES','S24013508','zs24013508@estudiantes.uv.mx',6,13666,2),(10085,'VIANNEY ZENITH','SALAMANCA','HERNANDEZ','S24013509','zs24013509@estudiantes.uv.mx',6,13667,59),(10086,'RODRIGO','CID','MOLINA','S24013510','zs24013510@estudiantes.uv.mx',6,13668,95),(10087,'AXEL JOHANAN','MIRANDA','LAGUNES','S24013511','zs24013511@estudiantes.uv.mx',6,13669,80),(10088,'CARLOS DANIEL','LOPEZ','VAZQUEZ','S24013512','zs24013512@estudiantes.uv.mx',6,13670,38),(10089,'RODRIGO','SALAMANCA','SALAS','S24013513','zs24013513@estudiantes.uv.mx',6,13671,59),(10090,'MARIA FERNANDA','ARELLANO','PEREZ','S24013514','zs24013514@estudiantes.uv.mx',6,13672,2),(10091,'DIEGO','RAMIREZ','PEREZ','S24013516','zs24013516@estudiantes.uv.mx',6,13673,55),(10092,'ELIAS RASHID','MORALES','MENDOZA','S24013517','zs24013517@estudiantes.uv.mx',6,13674,55),(10093,'EDUARDO','GALLEGOS','LOPEZ','S24013518','zs24013518@estudiantes.uv.mx',6,13675,2),(10094,'OSWALDO','VILLEGAS','CARLOS','S24013519','zs24013519@estudiantes.uv.mx',6,13676,20),(10095,'LAUREANO','COLORADO','SUAREZ','S24013520','zs24013520@estudiantes.uv.mx',6,13677,2),(10096,'FABIOLA','LOPEZ','VELAZQUEZ','S24013523','zs24013523@estudiantes.uv.mx',6,13678,78),(10099,'JADE AMAIRANY','MOTA','NAVA','S24021885','zs24021885@estudiantes.uv.mx',4,13681,28),(10100,'MARLENE','AROSTEGUI','PEREZ','S24021886','zs24021886@estudiantes.uv.mx',4,13682,105),(10101,'LUIS EDUARDO','REYES','MACIAS','S24021887','zs24021887@estudiantes.uv.mx',4,13683,105),(10102,'JESUS JARED','MORALES','TIRADO','S24021888','zs24021888@estudiantes.uv.mx',4,13684,105),(10103,'JESUS RODRIGO','HERNANDEZ','VERDEJO','S24021889','zs24021889@estudiantes.uv.mx',4,13685,105),(10104,'OLIVER','GUTIERREZ','COLORADO','S24021891','zs24021891@estudiantes.uv.mx',5,13686,96),(10105,'WILLIAM LUCIEL','HERNANDEZ','SANTIAGO','S24021892','zs24021892@estudiantes.uv.mx',5,13687,29),(10106,'ALEXIS','SANCHEZ','PORTILLA','S24021893','zs24021893@estudiantes.uv.mx',5,13688,22),(10107,'DANNA GABRIELA','GARCIA','CASTILLO','S24021895','zs24021895@estudiantes.uv.mx',5,13689,67),(10108,'EDGAR','REYES','LANDA','S24021896','zs24021896@estudiantes.uv.mx',5,13690,49),(10109,'KEVIN','CRAVIOTO','DOMINGUEZ','S24021899','zs24021899@estudiantes.uv.mx',5,13691,37),(10110,'MARVIN','MOTA','VALERO','S24021900','zs24021900@estudiantes.uv.mx',5,13692,37),(10111,'MONTSERRAT','ROJAS','MARTINEZ','S24021901','zs24021901@estudiantes.uv.mx',5,13693,29),(10112,'BRIAN ARTURO','MORALES','JUAREZ','S24024420','zs24024420@estudiantes.uv.mx',4,13694,105),(10113,'ANDRES','PEREZ','GARCIA','S24024421','zs24024421@estudiantes.uv.mx',4,13695,127),(10114,'DIANA XOCHITL','CORTES','GUTIERREZ','S24024422','zs24024422@estudiantes.uv.mx',5,13696,117),(10115,'RAFAEL ISAIAS','MORA','SANTIAGO','S24024423','zs24024423@estudiantes.uv.mx',5,13697,37),(10116,'DYLAN ANTONIO','HERNANDEZ','GREGORIO','S24024424','zs24024424@estudiantes.uv.mx',5,13698,96),(10117,'OSWALDO','RUIZ','TABLA','S24024425','zs24024425@estudiantes.uv.mx',6,13699,78),(10118,'ANGEL DE JESUS','MENDEZ','MENDEZ','S24024426','zs24024426@estudiantes.uv.mx',6,13700,99),(10119,'ALEJANDRO','LASES','ARCEGA','S24024427','zs24024427@estudiantes.uv.mx',6,13701,70),(10120,'HUGO LEONARDO','GUTIERREZ','SALDIVAR','S24024429','zs24024429@estudiantes.uv.mx',6,13702,124),(10121,'ANGEL JESUS','ROJAS','SANCHEZ','S24024430','zs24024430@estudiantes.uv.mx',6,13703,116),(10122,'LUIS FERNANDO','VIVEROS','AGUILAR','S24024431','zs24024431@estudiantes.uv.mx',6,13704,70),(10123,'ISIS NABIL','COLORADO','CONDE','S24024432','zs24024432@estudiantes.uv.mx',6,13705,63),(10124,'DANIEL EDUARDO','XOTLA','MELO','S24024433','zs24024433@estudiantes.uv.mx',6,13706,99),(10125,'RAUL ALEXANDER','SANTIAGO','ORTEGA','S24024435','zs24024435@estudiantes.uv.mx',6,13707,116),(10126,'DEMIAN ADOLFO','VALLEJO','RIVERA','S24024436','zs24024436@estudiantes.uv.mx',6,13708,99),(10128,'FATIMA','LANDA','RODRIGUEZ','S24024439','zs24024439@estudiantes.uv.mx',6,13710,115),(10129,'JOSE CARLOS','HERRERA','CABALLERO','S24024440','zs24024440@estudiantes.uv.mx',6,13711,68),(10130,'SUSANA ELIZABETH','ISIDORO','CAPORAL','S24024441','zs24024441@estudiantes.uv.mx',6,13712,124),(10131,'VANESSA LIZETH','RIVERA','BAEZ','S24024442','zs24024442@estudiantes.uv.mx',6,13713,78),(10132,'ALET JAMIL','ALTAMIRANO','TORRES','S24024443','zs24024443@estudiantes.uv.mx',6,13714,63),(10133,'HECTOR','SALDAÑA','CONDE','S24024444','zs24024444@estudiantes.uv.mx',6,13715,116),(10134,'VICTOR JOEL','SANTOS','PARRA','S24024445','zs24024445@estudiantes.uv.mx',6,13716,99),(10135,'DIEGO','CONTRERAS','ALEJANDRO','S24024446','zs24024446@estudiantes.uv.mx',6,13717,68),(10136,'PAULO MARTIN','SOSA','GARCIA','S24024447','zs24024447@estudiantes.uv.mx',6,13718,70),(10138,'CARLOS EDUARDO','ZAVALA','JIMENEZ','S24024450','zs24024450@estudiantes.uv.mx',6,13720,116),(10139,'HECTOR','HERNANDEZ','RAMIREZ','S24024451','zs24024451@estudiantes.uv.mx',6,13721,104),(10140,'JOSHUA IVAN','OLIVARES','BLANCO','S24024452','zs24024452@estudiantes.uv.mx',6,13722,70),(10142,'VICTOR SANTIAGO','LINARES','SOSA','S24024454','zs24024454@estudiantes.uv.mx',6,13724,115),(10143,'OLIVER VINNI','HOYOS','LARA','S24024455','zs24024455@estudiantes.uv.mx',6,13725,68),(10144,'JUAN CARLOS','CRUZ','BRAVO','S24024456','zs24024456@estudiantes.uv.mx',6,13726,104),(10145,'JOSE ARMANDO','PEREZ','SANCHEZ','S24024457','zs24024457@estudiantes.uv.mx',6,13727,78),(10146,'YESENIA MICHELLE','SOLIS','ARMAS','S24024458','zs24024458@estudiantes.uv.mx',6,13728,70),(10147,'ISAAC','OROZCO','ORTEGA','S24024459','zs24024459@estudiantes.uv.mx',6,13729,70),(10148,'ARTURO ISMAEL','FACUNDO','SANCHEZ','S24024460','zs24024460@estudiantes.uv.mx',6,13730,104),(10149,'MIGUEL ANGEL','HERNANDEZ','PEREZ','S24024461','zs24024461@estudiantes.uv.mx',6,13731,32),(10150,'ELIANI','MADRID','GANDARA','S24024463','zs24024463@estudiantes.uv.mx',6,13732,32),(10152,'RUBEN','LLANOS','RAMON','S24024465','zs24024465@estudiantes.uv.mx',6,13734,116),(10153,'ARANTZA','GARCIA','AGUILAR','S24024466','zs24024466@estudiantes.uv.mx',6,13735,116),(10154,'ERICK ALI','REYES','LIBRADO','S24024467','zs24024467@estudiantes.uv.mx',6,13736,32),(10155,'JEANE ANADY','OSORIO','MORALES','S24024468','zs24024468@estudiantes.uv.mx',6,13737,99),(10156,'JUAN PABLO','VARGAS','CARVAJAL','S24024469','zs24024469@estudiantes.uv.mx',6,13738,116),(10157,'DIEGO','MORALES','RIPALDA','S24024470','zs24024470@estudiantes.uv.mx',6,13739,78),(10158,'JAIRO ALFREDO','NAVA','BAEZ','S24024472','zs24024472@estudiantes.uv.mx',6,13740,78),(10159,'JOSE ANGEL','CRUZ','LOPEZ','S24024473','zs24024473@estudiantes.uv.mx',6,13741,103);
-/*!40000 ALTER TABLE `tutorado` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `tutorado` (`idTutorado`, `nombre`, `apellidoPaterno`, `apellidoMaterno`, `matricula`, `correoInstitucional`, `carrera`, `sesion`, `tutor`) VALUES
+(9033, 'SAMUEL ELIAS', 'GAONA', 'HERNANDEZ', 'S16011696', 'zs16011696@estudiantes.uv.mx', 3, 12615, 51),
+(9034, 'ANDRES', 'FLORES', 'SANTAMARIA', 'S17022144', 'zs17022144@estudiantes.uv.mx', 8, 12616, 98),
+(9035, 'DANIEL', 'PALE', 'PARRA', 'S18012146', 'zs18012146@estudiantes.uv.mx', 3, 12617, 127),
+(9036, 'MIDGUET ARTURO', 'GARCIA', 'TORRES', 'S18012193', 'zs18012193@estudiantes.uv.mx', 3, 12618, 51),
+(9037, 'ERIKA ARIANNE', 'CASTAÑON', 'MONTANO', 'S18014080', 'zs18014080@estudiantes.uv.mx', 7, 12619, 4),
+(9038, 'DIEGO ALI', 'BELLO', 'IBARRA', 'S18014082', 'zs18014082@estudiantes.uv.mx', 7, 12620, 4),
+(9039, 'VICTOR MARCIAL', 'GARFIAS', 'AVALOS', 'S18014098', 'zs18014098@estudiantes.uv.mx', 7, 12621, 49),
+(9040, 'JORGE ARTURO', 'ARENAS', 'TRINIDAD', 'S18014102', 'zs18014102@estudiantes.uv.mx', 7, 12622, 4),
+(9041, 'MARIO AXEL', 'HERNANDEZ', 'BURGOS', 'S18014105', 'zs18014105@estudiantes.uv.mx', 7, 12623, 56),
+(9042, 'ALDO YAEL ARMANDO', 'COLORADO', 'HOYOS', 'S18014119', 'zs18014119@estudiantes.uv.mx', 7, 12624, 33),
+(9043, 'CARLOS ENRIQUE', 'GONZALEZ', 'ARCOCHA', 'S18014503', 'zs18014503@estudiantes.uv.mx', 8, 12625, 28),
+(9044, 'DIANA LAURA', 'CRISTINO', 'MORALES', 'S18019961', 'zs18019961@estudiantes.uv.mx', 8, 12626, 127),
+(9045, 'EDGAR ANTONIO', 'JIMENEZ', 'LOPEZ', 'S18019963', 'zs18019963@estudiantes.uv.mx', 8, 12627, 74),
+(9046, 'CARLOS DANIEL', 'LICONA', 'ALFONSO', 'S18026719', 'zs18026719@estudiantes.uv.mx', 7, 12628, 42),
+(9047, 'TAURINO', 'RODRIGUEZ', 'SALDAÑA', 'S19013197', 'zs19013197@estudiantes.uv.mx', 1, 12629, 80),
+(9048, 'CLARA IMELDA', 'NAVARRETE', 'CASIANO', 'S19013229', 'zs19013229@estudiantes.uv.mx', 1, 12630, 25),
+(9049, 'CARLOS EDUARDO', 'DE JESUS', 'CORTES', 'S19013244', 'zs19013244@estudiantes.uv.mx', 1, 12631, 20),
+(9050, 'DIANA', 'VIVEROS', 'FERNANDEZ', 'S19013252', 'zs19013252@estudiantes.uv.mx', 1, 12632, 55),
+(9051, 'MARIA FERNANDA', 'CAMPOS', 'CARMONA', 'S19013294', 'zs19013294@estudiantes.uv.mx', 1, 12633, 70),
+(9052, 'SAMUEL', 'SUAREZ', 'COLIN', 'S19013988', 'zs19013988@estudiantes.uv.mx', 3, 12634, 61),
+(9053, 'ELIAN ERNESTO', 'SORCIA', 'PATIÑO', 'S19013990', 'zs19013990@estudiantes.uv.mx', 3, 12635, 12),
+(9054, 'SILVIA KRISTEL', 'SANCHEZ', 'PIÑA', 'S19013993', 'zs19013993@estudiantes.uv.mx', 3, 12636, 86),
+(9055, 'BENJAMIN DEL ANGEL', 'GARCIA', 'HERNANDEZ', 'S19013994', 'zs19013994@estudiantes.uv.mx', 3, 12637, 51),
+(9056, 'MARLON', 'MONTIEL', 'PEREZ', 'S19013995', 'zs19013995@estudiantes.uv.mx', 3, 12638, 12),
+(9057, 'RUBEN ISAI', 'ALEJO', 'BARRIENTOS', 'S19014003', 'zs19014003@estudiantes.uv.mx', 3, 12639, 15),
+(9058, 'MARIA JOSE', 'TORRES', 'IGARTUA', 'S19014012', 'zs19014012@estudiantes.uv.mx', 3, 12640, 1),
+(9059, 'DANIEL', 'DIAZ', 'ROSSELL', 'S19014015', 'zs19014015@estudiantes.uv.mx', 3, 12641, 15),
+(9060, 'ESTEBAN', 'MARTINEZ', 'GONZALEZ', 'S19014016', 'zs19014016@estudiantes.uv.mx', 3, 12642, 34),
+(9061, 'YASSER YAID', 'GAPI', 'PEREZ', 'S19014018', 'zs19014018@estudiantes.uv.mx', 3, 12643, 67),
+(9062, 'JOHANN ALEXIS', 'OLIVARES', 'GALINDO', 'S19014020', 'zs19014020@estudiantes.uv.mx', 3, 12644, 34),
+(9063, 'BRYAN JOSUE', 'HERNANDEZ', 'MARCIAL', 'S19014021', 'zs19014021@estudiantes.uv.mx', 3, 12645, 12),
+(9064, 'MIRIAM LILLY', 'MARTINEZ', 'GUZMAN', 'S19014025', 'zs19014025@estudiantes.uv.mx', 3, 12646, 67),
+(9065, 'KATIA SARAI', 'MOLINA', 'LOPEZ', 'S19014027', 'zs19014027@estudiantes.uv.mx', 3, 12647, 21),
+(9066, 'JESUS ENRIQUE', 'FERNANDEZ', 'GONZALEZ', 'S19014030', 'zs19014030@estudiantes.uv.mx', 3, 12648, 21),
+(9067, 'ALEJANDRO', 'MONTERO', 'DORANTES', 'S19014034', 'zs19014034@estudiantes.uv.mx', 3, 12649, 21),
+(9068, 'DIANA PILAR', 'MIRANDA', 'ESTRELLA', 'S19014038', 'zs19014038@estudiantes.uv.mx', 3, 12650, 127),
+(9069, 'AXEL', 'PANAMA', 'VELASQUEZ', 'S19014041', 'zs19014041@estudiantes.uv.mx', 3, 12651, 56),
+(9070, 'KEVIN ALFONSO', 'MONCAYO', 'GUTIERREZ', 'S19014047', 'zs19014047@estudiantes.uv.mx', 3, 12652, 15),
+(9071, 'ANTONIO DE JESUS', 'DOMINGUEZ', 'GARCIA', 'S19014049', 'zs19014049@estudiantes.uv.mx', 3, 12653, 15),
+(9072, 'RAUL ARTURO', 'PEREDO', 'ESTUDILLO', 'S19014050', 'zs19014050@estudiantes.uv.mx', 3, 12654, 15),
+(9073, 'BRYANT', 'GONZALEZ', 'DELGADO', 'S19015963', 'zs19015963@estudiantes.uv.mx', 7, 12655, 23),
+(9074, 'CINDY', 'LANDA', 'HERNANDEZ', 'S19015973', 'zs19015973@estudiantes.uv.mx', 7, 12656, 56),
+(9075, 'HECTOR', 'PORTILLA', 'ZAMORA', 'S19015993', 'zs19015993@estudiantes.uv.mx', 7, 12657, 43),
+(9076, 'ROLANDO', 'REYES', 'ESPINOZA', 'S19016000', 'zs19016000@estudiantes.uv.mx', 7, 12658, 43),
+(9077, 'DAVID RAFAEL', 'ROMERO', 'MORALES', 'S19016004', 'zs19016004@estudiantes.uv.mx', 7, 12659, 127),
+(9078, 'PEDRO ALFONSO', 'BRAVO', 'CIBRIAN', 'S19016005', 'zs19016005@estudiantes.uv.mx', 7, 12660, 11),
+(9079, 'BENJAMIN', 'RIVERA', 'ROJAS', 'S19016009', 'zs19016009@estudiantes.uv.mx', 7, 12661, 11),
+(9080, 'ANDREA', 'FUENTES', 'MENDOZA', 'S19016010', 'zs19016010@estudiantes.uv.mx', 7, 12662, 42),
+(9081, 'MARTIN', 'SANCHEZ', 'MATA', 'S19016011', 'zs19016011@estudiantes.uv.mx', 7, 12663, 28),
+(9082, 'ARISBETH', 'BELLO', 'CONTRERAS', 'S19016013', 'zs19016013@estudiantes.uv.mx', 7, 12664, 11),
+(9083, 'RODRIGO ADRIAN', 'HERNANDEZ', 'REYES', 'S19016016', 'zs19016016@estudiantes.uv.mx', 7, 12665, 56),
+(9084, 'DAYHAN', 'VAZQUEZ', 'TORRES', 'S19016019', 'zs19016019@estudiantes.uv.mx', 7, 12666, 98),
+(9085, 'VICTOR OCTAVIO', 'HERRERA', 'ACOSTA', 'S19016022', 'zs19016022@estudiantes.uv.mx', 7, 12667, 56),
+(9086, 'CHRISTOPHER RAFAEL', 'RODRIGUEZ', 'BOLAÑOS', 'S19016023', 'zs19016023@estudiantes.uv.mx', 7, 12668, 45),
+(9087, 'GUSTAVO', 'GONZALEZ', '', 'S19016024', 'zs19016024@estudiantes.uv.mx', 7, 12669, 23),
+(9088, 'KEVIN OSVALDO', 'PANES', 'LANDA', 'S19016349', 'zs19016349@estudiantes.uv.mx', 8, 12670, 15),
+(9089, 'OSCAR ROSARIO', 'PEREA', 'GUERRERO', 'S19016350', 'zs19016350@estudiantes.uv.mx', 8, 12671, 15),
+(9090, 'BRIAN ALEJANDRO', 'VELASCO', 'HERNANDEZ', 'S19016375', 'zs19016375@estudiantes.uv.mx', 8, 12672, 47),
+(9091, 'ANA PAULA', 'ALVAN', 'ARGUELLES', 'S19016388', 'zs19016388@estudiantes.uv.mx', 8, 12673, 21),
+(9092, 'LUIS AARON', 'GRANILLO', 'HERNANDEZ', 'S19016391', 'zs19016391@estudiantes.uv.mx', 8, 12674, NULL),
+(9093, 'ROBERTO', 'PARTIDA', 'GONZALEZ', 'S19016407', 'zs19016407@estudiantes.uv.mx', 8, 12675, 89),
+(9094, 'JOSE MANUEL', 'BONILLA', 'MARTINEZ', 'S19016416', 'zs19016416@estudiantes.uv.mx', 8, 12676, 25),
+(9095, 'CRISTOPHER', 'RODRIGUEZ', 'SALAMANCA', 'S19023584', 'zs19023584@estudiantes.uv.mx', 3, 12677, 127),
+(9096, 'EDUARDO ANTONIO', 'CASTILLO', 'GARRIDO', 'S19023587', 'zs19023587@estudiantes.uv.mx', 3, 12678, 21),
+(9097, 'JONATHAN', 'HERNANDEZ', 'MARTINEZ', 'S19023589', 'zs19023589@estudiantes.uv.mx', 3, 12679, 127),
+(9098, 'CESAR', 'GONZALEZ', 'LOPEZ', 'S19023590', 'zs19023590@estudiantes.uv.mx', 3, 12680, 86),
+(9099, 'JOSE DAVID', 'CASTILLO', 'LOPEZ', 'S19024979', 'zs19024979@estudiantes.uv.mx', 1, 12681, 99),
+(9100, 'JAIME ALEJANDRO', 'MORENO', 'MUÑOZ', 'S19024992', 'zs19024992@estudiantes.uv.mx', 1, 12682, 80),
+(9101, 'JOANNA ANNETE', 'REYES', 'HERNANDEZ', 'S19025092', 'zs19025092@estudiantes.uv.mx', 7, 12683, 56),
+(9102, 'EVELYN', 'GARCIA', 'HIDALGO', 'S19030167', 'zs19030167@estudiantes.uv.mx', 1, 12684, 2),
+(9103, 'JORGE OCTAVIO', 'USCANGA', 'LARA', 'S19030168', 'zs19030168@estudiantes.uv.mx', 7, 12685, 45),
+(9104, 'RICARDO', 'MARTINEZ', 'OLIVO', 'S19030171', 'zs19030171@estudiantes.uv.mx', 8, 12686, 114),
+(9105, 'EDUART USSIEL', 'DIRCIO', 'CAYON', 'S19030173', 'zs19030173@estudiantes.uv.mx', 3, 12687, 51),
+(9106, 'MANUEL', 'LADRON DE GUEVARA', 'TELLO', 'S19030174', 'zs19030174@estudiantes.uv.mx', 3, 12688, 61),
+(9107, 'LINO OSWALDO', 'SANCHEZ', 'JUAREZ', 'S20015034', 'zs20015034@estudiantes.uv.mx', 1, 12689, 74),
+(9108, 'ADOLFO ANGEL', 'CERVANTES', 'HERNANDEZ', 'S20015035', 'zs20015035@estudiantes.uv.mx', 1, 12690, 25),
+(9109, 'SAMAEL ALEJANDRO', 'LOPEZ', 'HERNANDEZ', 'S20015037', 'zs20015037@estudiantes.uv.mx', 1, 12691, 99),
+(9110, 'ROSSEVEDITH ESTRELLA', 'CALDERON', 'ORTEGA', 'S20015039', 'zs20015039@estudiantes.uv.mx', 1, 12692, 25),
+(9111, 'LUIS FRANCISCO', 'NAVARRO', 'ACEITUNO', 'S20015047', 'zs20015047@estudiantes.uv.mx', 1, 12693, 73),
+(9112, 'PERLA VIRIDIANA', 'JIMENEZ', 'CASTELLANO', 'S20015050', 'zs20015050@estudiantes.uv.mx', 1, 12694, 25),
+(9113, 'JOSE DE JESUS', 'VELASCO', 'SANCHEZ', 'S20015052', 'zs20015052@estudiantes.uv.mx', 1, 12695, 50),
+(9114, 'DAMARIS MABEL', 'MELCHOR', 'VASQUEZ', 'S20015053', 'zs20015053@estudiantes.uv.mx', 1, 12696, 48),
+(9115, 'YOSELYN DE JESUS', 'CHIMAL', 'TECZON', 'S20015060', 'zs20015060@estudiantes.uv.mx', 1, 12697, 25),
+(9116, 'RUBEN YAHIR', 'VIDAL', 'MORALES', 'S20015062', 'zs20015062@estudiantes.uv.mx', 1, 12698, 32),
+(9117, 'PAOLA MONTSERRAT', 'CRUZ', 'DOLORES', 'S20015063', 'zs20015063@estudiantes.uv.mx', 1, 12699, 2),
+(9118, 'BRAYAN YAHIR', 'RODRIGUEZ', 'HERNANDEZ', 'S20015064', 'zs20015064@estudiantes.uv.mx', 1, 12700, 48),
+(9119, 'KAREN YAMILETH', 'PEREZ', 'RODRIGUEZ', 'S20015068', 'zs20015068@estudiantes.uv.mx', 1, 12701, 38),
+(9120, 'SONIA', 'ARCOS', 'ROCHA', 'S20015073', 'zs20015073@estudiantes.uv.mx', 1, 12702, 124),
+(9121, 'GEMA ARANZA', 'MUÑOZ', 'HERNANDEZ', 'S20015075', 'zs20015075@estudiantes.uv.mx', 1, 12703, 80),
+(9122, 'IRMA EUNICE', 'MARTÍNEZ', 'DE LA CRUZ', 'S20015077', 'zs20015077@estudiantes.uv.mx', 1, 12704, 99),
+(9123, 'BARTOLO ALBERTO', 'FLORES', 'GUZMAN', 'S20015078', 'zs20015078@estudiantes.uv.mx', 1, 12705, 20),
+(9124, 'HORACIO ALBERTO', 'MIRANDA', 'LOPEZ', 'S20015080', 'zs20015080@estudiantes.uv.mx', 1, 12706, 80),
+(9125, 'ANGEL ARIEL', 'SOLIS', 'MATA', 'S20015082', 'zs20015082@estudiantes.uv.mx', 1, 12707, 78),
+(9126, 'OSCAR ELI', 'BONILLA', 'MORALES', 'S20015083', 'zs20015083@estudiantes.uv.mx', 1, 12708, 100),
+(9127, 'MARIA FELIX FERNANDA', 'FELIPE', 'PABLO', 'S20015092', 'zs20015092@estudiantes.uv.mx', 1, 12709, 20),
+(9128, 'HAROL ANTONIO', 'GARCIA', 'MORA', 'S20015094', 'zs20015094@estudiantes.uv.mx', 1, 12710, 20),
+(9129, 'LUIS ANTONIO', 'DE DIOS', 'HERNANDEZ', 'S20015097', 'zs20015097@estudiantes.uv.mx', 1, 12711, 2),
+(9130, 'DANIEL', 'SOL', 'PIEDRA', 'S20015099', 'zs20015099@estudiantes.uv.mx', 1, 12712, 32),
+(9131, 'MAXIMILIANO', 'CARO', 'CALDERON', 'S20015103', 'zs20015103@estudiantes.uv.mx', 1, 12713, 2),
+(9132, 'YOLOTZIN', 'PAJONAREZ', 'VAZQUEZ', 'S20015105', 'zs20015105@estudiantes.uv.mx', 1, 12714, 55),
+(9133, 'EDUARDO', 'MAVIL', 'TRUJILLO', 'S20015110', 'zs20015110@estudiantes.uv.mx', 1, 12715, 70),
+(9134, 'FRANCISCO XAVIER', 'AGUILAR', 'MARTINEZ', 'S20015681', 'zs20015681@estudiantes.uv.mx', 3, 12716, 127),
+(9135, 'MIGUEL ZINEDINNE', 'GUZMAN', 'SAINZ', 'S20015683', 'zs20015683@estudiantes.uv.mx', 3, 12717, 111),
+(9136, 'AGNI ZAHIR', 'YAÑEZ', 'VENCES', 'S20015687', 'zs20015687@estudiantes.uv.mx', 3, 12718, 111),
+(9137, 'SARAI', 'CASTILLO', 'HERNANDEZ', 'S20015690', 'zs20015690@estudiantes.uv.mx', 3, 12719, 12),
+(9138, 'AXEL SATURNINO', 'MENDOZA', 'DOMINGO', 'S20015691', 'zs20015691@estudiantes.uv.mx', 3, 12720, 56),
+(9139, 'VALERIA', 'ABDALA', 'GARCIA', 'S20015692', 'zs20015692@estudiantes.uv.mx', 3, 12721, 111),
+(9140, 'ALVARO', 'LOPEZ', 'MARTINEZ', 'S20015693', 'zs20015693@estudiantes.uv.mx', 3, 12722, 67),
+(9141, 'AARON ISAAC', 'MELCHOR', 'RAMIREZ', 'S20015694', 'zs20015694@estudiantes.uv.mx', 3, 12723, 125),
+(9142, 'VICTORIA PRISCILLA', 'MOYANO', 'ARGUELLES', 'S20015696', 'zs20015696@estudiantes.uv.mx', 3, 12724, 86),
+(9143, 'JOSE JAVIER', 'DOMINGUEZ', 'CARMONA', 'S20015697', 'zs20015697@estudiantes.uv.mx', 3, 12725, 118),
+(9144, 'ARMANDO OMAR', 'OBANDO', 'MUÑOZ', 'S20015699', 'zs20015699@estudiantes.uv.mx', 3, 12726, NULL),
+(9145, 'JONATAN', 'ALARCON', 'ALARCON', 'S20015700', 'zs20015700@estudiantes.uv.mx', 3, 12727, 1),
+(9146, 'JOHAN DAVID', 'SOLIS', 'HERNANDEZ', 'S20015702', 'zs20015702@estudiantes.uv.mx', 3, 12728, 125),
+(9147, 'KATHERINE', 'BAUTISTA', 'MARQUEZ', 'S20015704', 'zs20015704@estudiantes.uv.mx', 3, 12729, 21),
+(9148, 'ANDREA ALEJANDRA', 'VARGAS', 'PUCHETA', 'S20015708', 'zs20015708@estudiantes.uv.mx', 3, 12730, 56),
+(9149, 'RENE ULISES', 'GARCIA', 'VELAZQUEZ', 'S20015709', 'zs20015709@estudiantes.uv.mx', 3, 12731, 94),
+(9150, 'FROYLAN DE JESUS', 'ALVAREZ', 'RODRIGUEZ', 'S20015714', 'zs20015714@estudiantes.uv.mx', 3, 12732, 21),
+(9151, 'OSCAR IVAN', 'OLIVARES', 'CARSI', 'S20015715', 'zs20015715@estudiantes.uv.mx', 3, 12733, 12),
+(9152, 'FAUSTO', 'MENDEZ', 'PERALTA', 'S20015719', 'zs20015719@estudiantes.uv.mx', 3, 12734, 15),
+(9153, 'EDUARDO', 'LOPEZ', 'CHACON', 'S20015721', 'zs20015721@estudiantes.uv.mx', 3, 12735, 56),
+(9154, 'JUAN PABLO', 'PEREDO', 'MARTINEZ', 'S20015724', 'zs20015724@estudiantes.uv.mx', 3, 12736, 127),
+(9155, 'MYRIAM', 'SANCHEZ', 'PEREYRA', 'S20015725', 'zs20015725@estudiantes.uv.mx', 3, 12737, 56),
+(9156, 'JOSE ARMANDO', 'REYES', 'RODRIGUEZ', 'S20015727', 'zs20015727@estudiantes.uv.mx', 3, 12738, 94),
+(9157, 'JOSHUA ELIUD', 'HERNANDEZ', 'SUAREZ', 'S20015728', 'zs20015728@estudiantes.uv.mx', 3, 12739, 111),
+(9158, 'JAVIER', 'DURAN', 'TORRES', 'S20015729', 'zs20015729@estudiantes.uv.mx', 3, 12740, 119),
+(9159, 'SEBASTIAN', 'BELLO', 'TREJO', 'S20015730', 'zs20015730@estudiantes.uv.mx', 3, 12741, 12),
+(9160, 'DANIELA', 'MORALES', 'SIXTO', 'S20015736', 'zs20015736@estudiantes.uv.mx', 3, 12742, 34),
+(9161, 'EDUARDO RAUDEL', 'MARIN', 'MORALES', 'S20015738', 'zs20015738@estudiantes.uv.mx', 3, 12743, 86),
+(9162, 'MARIO ALBERTO', 'JIMENEZ', 'JIMENEZ', 'S20015742', 'zs20015742@estudiantes.uv.mx', 3, 12744, 1),
+(9163, 'FRANZ JESUS', 'RIVERA', 'ALCANTARA', 'S20015744', 'zs20015744@estudiantes.uv.mx', 3, 12745, 1),
+(9164, 'ALEJANDRO', 'CHACON', 'FERNANDEZ', 'S20015745', 'zs20015745@estudiantes.uv.mx', 3, 12746, 15),
+(9165, 'DAYRHA ITZEL', 'ORTEGA', 'HERNANDEZ', 'S20015749', 'zs20015749@estudiantes.uv.mx', 3, 12747, 61),
+(9166, 'MARCO ANTONIO', 'MELCHOR', 'CABEZA DE VACA', 'S20015751', 'zs20015751@estudiantes.uv.mx', 3, 12748, 61),
+(9167, 'ULISES', 'RAMOS', 'MEXICANO', 'S20015752', 'zs20015752@estudiantes.uv.mx', 3, 12749, 34),
+(9168, 'LEONARDO', 'CRIOLLO', 'RAMIREZ', 'S20015753', 'zs20015753@estudiantes.uv.mx', 3, 12750, 12),
+(9169, 'PABLO HERNAN', 'DE LA CRUZ', 'MORENO', 'S20015755', 'zs20015755@estudiantes.uv.mx', 3, 12751, 12),
+(9170, 'ALVARO', 'BARRADAS', 'FERNANDEZ', 'S20015760', 'zs20015760@estudiantes.uv.mx', 3, 12752, 61),
+(9171, 'JUAN DANIEL', 'CEBADA', 'COLULA', 'S20017752', 'zs20017752@estudiantes.uv.mx', 7, 12753, 4),
+(9172, 'MIGUEL ALFONSO', 'ALBA', 'RAMIREZ', 'S20017754', 'zs20017754@estudiantes.uv.mx', 7, 12754, 40),
+(9173, 'EDUARDO', 'TORIBIO', 'RODRIGUEZ', 'S20017759', 'zs20017759@estudiantes.uv.mx', 7, 12755, 98),
+(9174, 'LESLIE AMERICA', 'AGUILAR', 'CALLEJAS', 'S20017763', 'zs20017763@estudiantes.uv.mx', 7, 12756, 74),
+(9176, 'JOSAFAT', 'CRUZ', 'LOPEZ', 'S20017767', 'zs20017767@estudiantes.uv.mx', 7, 12758, 4),
+(9177, 'LUIS DANIEL', 'BAEZ', 'CASTILLO', 'S20017769', 'zs20017769@estudiantes.uv.mx', 7, 12759, 40),
+(9178, 'JAVIER', 'PATIÑO', 'GONZALEZ', 'S20017773', 'zs20017773@estudiantes.uv.mx', 7, 12760, 8),
+(9179, 'JESSICA WENDOLEN', 'GAONA', 'VILLA', 'S20017774', 'zs20017774@estudiantes.uv.mx', 7, 12761, 74),
+(9180, 'KEVIN MISAEL', 'HERNANDEZ', 'JUAREZ', 'S20017777', 'zs20017777@estudiantes.uv.mx', 7, 12762, 42),
+(9181, 'OSCAR ARTURO', 'RAMIREZ', 'MARTINEZ', 'S20017778', 'zs20017778@estudiantes.uv.mx', 7, 12763, 43),
+(9182, 'LUIS CARLOS', 'LUNA', 'DELGADO', 'S20017782', 'zs20017782@estudiantes.uv.mx', 7, 12764, 23),
+(9183, 'DAVID', 'JIMENEZ', 'BAUTISTA', 'S20017788', 'zs20017788@estudiantes.uv.mx', 7, 12765, 23),
+(9184, 'JONATHAN', 'PEÑA', 'PEREZ', 'S20017790', 'zs20017790@estudiantes.uv.mx', 7, 12766, 8),
+(9186, 'DANIEL', 'POZOS', 'HERNANDEZ', 'S20017796', 'zs20017796@estudiantes.uv.mx', 7, 12768, 8),
+(9187, 'JOSE ALEJANDRO', 'RAMIREZ', 'ZAVALETA', 'S20017800', 'zs20017800@estudiantes.uv.mx', 7, 12769, 45),
+(9188, 'MARIO', 'RIVERA', 'PERALTA', 'S20017801', 'zs20017801@estudiantes.uv.mx', 7, 12770, 98),
+(9189, 'FELIPE NERI', 'CIRIACO', 'SANCHEZ', 'S20017809', 'zs20017809@estudiantes.uv.mx', 7, 12771, 4),
+(9190, 'CRISTIAN DE JESUS', 'ARCOS', 'FERNANDEZ', 'S20017812', 'zs20017812@estudiantes.uv.mx', 7, 12772, 40),
+(9191, 'EMILIO', 'SUAREZ', 'LANDA', 'S20017815', 'zs20017815@estudiantes.uv.mx', 7, 12773, 28),
+(9192, 'ANA LAURA', 'MARTINEZ', 'ISABEL', 'S20017818', 'zs20017818@estudiantes.uv.mx', 7, 12774, 49),
+(9193, 'MARCOS YAHIR', 'DE LA CAÑA', 'PEREZ', 'S20018147', 'zs20018147@estudiantes.uv.mx', 8, 12775, 114),
+(9194, 'DIEGO', 'ARELLANO', 'MORENO', 'S20018149', 'zs20018149@estudiantes.uv.mx', 8, 12776, 14),
+(9195, 'MATTAI', 'MARTINEZ', 'MONTERO', 'S20018150', 'zs20018150@estudiantes.uv.mx', 8, 12777, 14),
+(9196, 'MAILENE GABRIELA', 'ALPUCHE', 'VELAZQUEZ', 'S20018152', 'zs20018152@estudiantes.uv.mx', 8, 12778, 14),
+(9197, 'LIAM IBRAHIM', 'PEREZ', 'SULVARAN', 'S20018158', 'zs20018158@estudiantes.uv.mx', 8, 12779, 62),
+(9198, 'EDUARDO', 'RODRIGUEZ', 'SOLIS', 'S20018160', 'zs20018160@estudiantes.uv.mx', 8, 12780, 41),
+(9199, 'JOSE URIEL', 'VELASCO', 'HERNANDEZ', 'S20018164', 'zs20018164@estudiantes.uv.mx', 8, 12781, 41),
+(9200, 'SAMUEL', 'OLMEDO', 'ORTIZ', 'S20018166', 'zs20018166@estudiantes.uv.mx', 8, 12782, 67),
+(9201, 'LIZETH ADRIANA', 'ZURUTUZA', 'DEL SOLAR', 'S20018167', 'zs20018167@estudiantes.uv.mx', 8, 12783, 67),
+(9202, 'DARIEN', 'ALBERTO', 'BALTAZAR', 'S20018168', 'zs20018168@estudiantes.uv.mx', 8, 12784, 67),
+(9203, 'BRANDON', 'AGUILERA', 'HERNANDEZ', 'S20018172', 'zs20018172@estudiantes.uv.mx', 8, 12785, 41),
+(9204, 'FRANCISCO DANIEL', 'SANCHEZ', 'NAVARRO', 'S20018173', 'zs20018173@estudiantes.uv.mx', 8, 12786, 62),
+(9205, 'CARLA GUADALUPE', 'RIVERA', 'VIVEROS', 'S20018175', 'zs20018175@estudiantes.uv.mx', 8, 12787, 49),
+(9208, 'BERNARDO JULIAN', 'MARIN', 'SANCHEZ', 'S20018182', 'zs20018182@estudiantes.uv.mx', 8, 12790, 96),
+(9209, 'ALVARO YAIR', 'GARCIA', 'MURRIETA', 'S20018183', 'zs20018183@estudiantes.uv.mx', 8, 12791, 96),
+(9210, 'JOSE ANTONIO', 'ESPINOZA', 'RODRIGUEZ', 'S20018184', 'zs20018184@estudiantes.uv.mx', 8, 12792, 15),
+(9211, 'ALEX ANTONIO', 'TERRONES', 'PACHECO', 'S20018188', 'zs20018188@estudiantes.uv.mx', 8, 12793, 15),
+(9212, 'ERIC JAIR', 'LOPEZ', 'MEJIA', 'S20018191', 'zs20018191@estudiantes.uv.mx', 8, 12794, NULL),
+(9213, 'ERICK ADRIAN', 'HERNANDEZ', 'ABURTO', 'S20018198', 'zs20018198@estudiantes.uv.mx', 8, 12795, 23),
+(9214, 'CHRISTIAN', 'FILETE', 'LOPEZ', 'S20018199', 'zs20018199@estudiantes.uv.mx', 8, 12796, 23),
+(9215, 'LEHABIM ALEXIS', 'CRUZ', 'CAMARENA', 'S20018201', 'zs20018201@estudiantes.uv.mx', 8, 12797, 21),
+(9216, 'SANTIAGO ULISES', 'MARTINEZ', 'GARCIA', 'S20018203', 'zs20018203@estudiantes.uv.mx', 8, 12798, 93),
+(9217, 'MARICARMEN', 'VAZQUEZ', 'VIDAL', 'S20018205', 'zs20018205@estudiantes.uv.mx', 8, 12799, 49),
+(9218, 'SANTIAGO EMMANUEL', 'CHAVEZ', 'MURRIETA', 'S20018222', 'zs20018222@estudiantes.uv.mx', 8, 12800, 76),
+(9219, 'ANGEL FABRIZIO', 'FRANYUTTI', 'PULIDO', 'S20018223', 'zs20018223@estudiantes.uv.mx', 8, 12801, 98),
+(9220, 'DAVID', 'VEGA', 'TEPETLA', 'S20018226', 'zs20018226@estudiantes.uv.mx', 8, 12802, 114),
+(9221, 'FERNANDO', 'ELOTLAN', 'MORALES', 'S20020852', 'zs20020852@estudiantes.uv.mx', 3, 12803, 34),
+(9222, 'VICTOR AUGUSTO', 'CUEVAS', 'BARRADAS', 'S20020853', 'zs20020853@estudiantes.uv.mx', 3, 12804, 67),
+(9223, 'PAULO CESAR', 'HERNANDEZ', 'ROSADO', 'S20020854', 'zs20020854@estudiantes.uv.mx', 3, 12805, 125),
+(9224, 'OMAR GABRIEL', 'CISNEROS', 'SALAS', 'S20020855', 'zs20020855@estudiantes.uv.mx', 3, 12806, 109),
+(9225, 'CARLOS', 'RODRIGUEZ', 'HERRERA', 'S20021059', 'zs20021059@estudiantes.uv.mx', 3, 12807, 92),
+(9226, 'EVELYN ELISA', 'LOZADA', 'HERNANDEZ', 'S20021997', 'zs20021997@estudiantes.uv.mx', 1, 12808, 100),
+(9227, 'KARHIM', 'ARENAS', 'CAICEROS', 'S20022002', 'zs20022002@estudiantes.uv.mx', 1, 12809, 116),
+(9228, 'JHAIR', 'LIBREROS', 'ROMERO', 'S20022005', 'zs20022005@estudiantes.uv.mx', 1, 12810, 116),
+(9229, 'YARET', 'DURAN', 'RODRIGUEZ', 'S20022009', 'zs20022009@estudiantes.uv.mx', 1, 12811, 116),
+(9230, 'MAYRA AZUCENA', 'ALARCON', 'RUIZ', 'S20022010', 'zs20022010@estudiantes.uv.mx', 1, 12812, 124),
+(9231, 'RAMSEL EULISES', 'AGUILAR', 'CUEVAS', 'S20022018', 'zs20022018@estudiantes.uv.mx', 1, 12813, 124),
+(9232, 'RUTH ABIGAIL', 'NICOLAS', 'MERINO', 'S20022022', 'zs20022022@estudiantes.uv.mx', 1, 12814, 50),
+(9233, 'MIGUEL ANGEL', 'MENDOZA', 'LOPEZ', 'S20022086', 'zs20022086@estudiantes.uv.mx', 7, 12815, 40),
+(9234, 'JORGE LUIS', 'MORTERA', 'CASAS', 'S20022112', 'zs20022112@estudiantes.uv.mx', 8, 12816, 22),
+(9235, 'BRANDON', 'VASQUEZ', 'LOZANO', 'S20022115', 'zs20022115@estudiantes.uv.mx', 8, 12817, 22),
+(9236, 'JESUS SALVADOR', 'MOCTEZUMA', 'BONILLA', 'S20022479', 'zs20022479@estudiantes.uv.mx', 1, 12818, 50),
+(9237, 'GILBERTO NAHIR', 'VAZQUEZ', 'VELASQUEZ', 'S21013235', 'zs21013235@estudiantes.uv.mx', 1, 12819, 78),
+(9238, 'DAVID', 'ROMAN', 'MORALES', 'S21013236', 'zs21013236@estudiantes.uv.mx', 1, 12820, 25),
+(9239, 'LIZETTE', 'LANDA', 'PEREA', 'S21013238', 'zs21013238@estudiantes.uv.mx', 1, 12821, 100),
+(9240, 'ISAAC ENRIQUE', 'VASQUEZ', 'HERNANDEZ', 'S21013242', 'zs21013242@estudiantes.uv.mx', 1, 12822, 68),
+(9241, 'PABLO RICARDO', 'HERNANDEZ', 'PIÑA', 'S21013243', 'zs21013243@estudiantes.uv.mx', 1, 12823, 55),
+(9242, 'VICTOR EDUARDO', 'SOLIS', 'PEREZ', 'S21013247', 'zs21013247@estudiantes.uv.mx', 1, 12824, 25),
+(9243, 'JESUS JAVIER', 'CASTILLO', 'MORALES', 'S21013248', 'zs21013248@estudiantes.uv.mx', 1, 12825, 80),
+(9244, 'ESCOBAR DIEGO', 'PEREZ', 'DIAZ', 'S21013253', 'zs21013253@estudiantes.uv.mx', 1, 12826, 38),
+(9245, 'ALEJANDRA', 'VIVEROS', 'MONTERO', 'S21013257', 'zs21013257@estudiantes.uv.mx', 1, 12827, 74),
+(9246, 'LESLIE GIOVANA', 'PEREZ', 'MARTINEZ', 'S21013258', 'zs21013258@estudiantes.uv.mx', 1, 12828, 59),
+(9247, 'JULISSA', 'JIMENEZ', 'HERNANDEZ', 'S21013259', 'zs21013259@estudiantes.uv.mx', 1, 12829, 48),
+(9248, 'MIGUEL ANGEL', 'ANGUIANO', 'PEREZ', 'S21013260', 'zs21013260@estudiantes.uv.mx', 1, 12830, 116),
+(9249, 'ROBERTO CARLOS', 'RIVERA', 'FLORES', 'S21013261', 'zs21013261@estudiantes.uv.mx', 1, 12831, 38),
+(9250, 'PAULO ARTURO', 'CERVANTES', 'CRUZ', 'S21013263', 'zs21013263@estudiantes.uv.mx', 1, 12832, 50),
+(9251, 'LANDY SUGEILY', 'PEREZ', 'ORTIZ', 'S21013264', 'zs21013264@estudiantes.uv.mx', 1, 12833, 59),
+(9252, 'NAYANI ESTELA', 'MARTINEZ', 'MORALES', 'S21013265', 'zs21013265@estudiantes.uv.mx', 1, 12834, 55),
+(9253, 'ARELY', 'CARRERA', 'SANCHEZ', 'S21013266', 'zs21013266@estudiantes.uv.mx', 1, 12835, 116),
+(9254, 'JOSE JAIR', 'LOPEZ', 'DURAN', 'S21013268', 'zs21013268@estudiantes.uv.mx', 1, 12836, 50),
+(9255, 'BEATRIZ', 'GARDUÑO', 'MERCADO', 'S21013271', 'zs21013271@estudiantes.uv.mx', 1, 12837, 95),
+(9256, 'MITZI YADIRA', 'ORTEGA', 'MARTINEZ', 'S21013273', 'zs21013273@estudiantes.uv.mx', 1, 12838, 73),
+(9257, 'FRANCISCO JAVIER', 'HERNANDEZ', 'SOMOHANO', 'S21013274', 'zs21013274@estudiantes.uv.mx', 1, 12839, 55),
+(9258, 'CITLALY GUADALUPE', 'LOZADA', 'HERNANDEZ', 'S21013278', 'zs21013278@estudiantes.uv.mx', 1, 12840, 50),
+(9259, 'ALMA ROSA', 'MENDOZA', 'PORTILLA', 'S21013282', 'zs21013282@estudiantes.uv.mx', 1, 12841, 50),
+(9260, 'CESAR DAVID', 'BONILLA', 'OSORIO', 'S21013284', 'zs21013284@estudiantes.uv.mx', 1, 12842, 95),
+(9261, 'ARACELI', 'RODRIGUEZ', 'MARCOS', 'S21013288', 'zs21013288@estudiantes.uv.mx', 1, 12843, 38),
+(9262, 'DANIEL', 'MONGEOTE', 'TLACHY', 'S21013830', 'zs21013830@estudiantes.uv.mx', 3, 12844, 51),
+(9263, 'DONAJI PAOLA', 'NAVARRO', 'ARRIETA', 'S21013834', 'zs21013834@estudiantes.uv.mx', 3, 12845, 69),
+(9264, 'LUIS DANIEL', 'TORAL', 'RAMIREZ', 'S21013835', 'zs21013835@estudiantes.uv.mx', 3, 12846, 15),
+(9265, 'MAURICIO', 'LOPEZ', 'HERNANDEZ', 'S21013836', 'zs21013836@estudiantes.uv.mx', 3, 12847, 12),
+(9266, 'ERICK', 'UTRERA', 'CORNEJO', 'S21013841', 'zs21013841@estudiantes.uv.mx', 3, 12848, 111),
+(9267, 'ANGEL DE JESUS', 'DE LA CRUZ', 'GARCIA', 'S21013846', 'zs21013846@estudiantes.uv.mx', 3, 12849, 21),
+(9268, 'TRISTAN EDUARDO', 'SUAREZ', 'SANTIAGO', 'S21013848', 'zs21013848@estudiantes.uv.mx', 3, 12850, 125),
+(9269, 'MIGUEL ANGEL', 'MARTINEZ', 'CAIXBA', 'S21013850', 'zs21013850@estudiantes.uv.mx', 3, 12851, 86),
+(9270, 'ARES JUDDA', 'RIVERA', 'SOTO', 'S21013852', 'zs21013852@estudiantes.uv.mx', 3, 12852, 1),
+(9271, 'EDUARDO', 'GARCIA', 'DIAZ', 'S21013853', 'zs21013853@estudiantes.uv.mx', 3, 12853, 34),
+(9272, 'RODRIGO', 'AGUILAR', 'LOPEZ', 'S21013854', 'zs21013854@estudiantes.uv.mx', 3, 12854, 69),
+(9273, 'CESAR EMILIANO', 'LEZAMA', 'LOPEZ', 'S21013857', 'zs21013857@estudiantes.uv.mx', 3, 12855, 56),
+(9274, 'FERNANDO', 'GAMBOA', 'HERNANDEZ', 'S21013858', 'zs21013858@estudiantes.uv.mx', 3, 12856, 61),
+(9275, 'ANETH MICHELLE', 'TAMARIZ', 'MORENO', 'S21013859', 'zs21013859@estudiantes.uv.mx', 3, 12857, 12),
+(9276, 'LUIS ANGEL', 'ELIZALDE', 'ARROYO', 'S21013860', 'zs21013860@estudiantes.uv.mx', 3, 12858, 111),
+(9277, 'CAMILO', 'ESPEJO', 'SANCHEZ', 'S21013861', 'zs21013861@estudiantes.uv.mx', 3, 12859, 94),
+(9278, 'EDUARDO', 'CARRERA', 'COLORADO', 'S21013862', 'zs21013862@estudiantes.uv.mx', 3, 12860, 125),
+(9279, 'MORAL EDMUNDO', 'RAMOS', 'DEL', 'S21013863', 'zs21013863@estudiantes.uv.mx', 3, 12861, 12),
+(9280, 'MIRIAM', 'RAMIREZ', 'ZARATE', 'S21013864', 'zs21013864@estudiantes.uv.mx', 3, 12862, 111),
+(9281, 'BRYAM DANAE', 'MORALES', 'GARCIA', 'S21013865', 'zs21013865@estudiantes.uv.mx', 3, 12863, 34),
+(9282, 'CRISTOPHER', 'VAZQUEZ', 'VILLA', 'S21013866', 'zs21013866@estudiantes.uv.mx', 3, 12864, 127),
+(9283, 'FABIOLA NARAYANI', 'GUZMAN', 'FIGUEROA', 'S21013868', 'zs21013868@estudiantes.uv.mx', 3, 12865, 127),
+(9284, 'ALEJANDRO', 'SANCHEZ', 'MARIN', 'S21013870', 'zs21013870@estudiantes.uv.mx', 3, 12866, 12),
+(9285, 'PALOMA OSIRIS', 'BAEZ', 'LARA', 'S21013871', 'zs21013871@estudiantes.uv.mx', 3, 12867, 118),
+(9286, 'JESUS MANUEL', 'MUJICA', 'CONDE', 'S21013873', 'zs21013873@estudiantes.uv.mx', 3, 12868, 21),
+(9287, 'LUIS MANUEL', 'CASAS', 'VAZQUEZ', 'S21013875', 'zs21013875@estudiantes.uv.mx', 3, 12869, 34),
+(9288, 'ALBHIERI CRISTOFF', 'VILLA', 'CONTRERAS', 'S21013876', 'zs21013876@estudiantes.uv.mx', 3, 12870, 3),
+(9289, 'MIGUEL ANGEL', 'CAMO', 'RINCON', 'S21013878', 'zs21013878@estudiantes.uv.mx', 3, 12871, 127),
+(9290, 'DANIEL', 'GARCIA', 'ARCOS', 'S21013881', 'zs21013881@estudiantes.uv.mx', 3, 12872, 3),
+(9291, 'SUJEY', 'ALARCON', 'HERNANDEZ', 'S21013882', 'zs21013882@estudiantes.uv.mx', 3, 12873, 61),
+(9292, 'OMAR DYLAN', 'SEGURA', 'PLATAS', 'S21013884', 'zs21013884@estudiantes.uv.mx', 3, 12874, 1),
+(9293, 'ABRAHAM DAVID', 'VAZQUEZ', 'QUINTO', 'S21013885', 'zs21013885@estudiantes.uv.mx', 3, 12875, 125),
+(9294, 'RODRIGO IVAN', 'AHUMADA', 'RODRIGUEZ', 'S21013886', 'zs21013886@estudiantes.uv.mx', 3, 12876, 111),
+(9295, 'KIRBITH ALBERTO', 'CUBILLAS', 'HERNANDEZ', 'S21013887', 'zs21013887@estudiantes.uv.mx', 3, 12877, 51),
+(9296, 'ALESIS DE JESUS', 'TORRES', 'OSORIO', 'S21013888', 'zs21013888@estudiantes.uv.mx', 3, 12878, 94),
+(9297, 'MARIO', 'MORALES', 'PORTILLA', 'S21013891', 'zs21013891@estudiantes.uv.mx', 3, 12879, 34),
+(9298, 'SULEM', 'MARTINEZ', 'AGUILAR', 'S21013893', 'zs21013893@estudiantes.uv.mx', 3, 12880, 61),
+(9299, 'CESAR', 'BASILIO', 'GOMEZ', 'S21013897', 'zs21013897@estudiantes.uv.mx', 3, 12881, 34),
+(9300, 'MARTIN EMMANUEL', 'CRUZ', 'CARMONA', 'S21013898', 'zs21013898@estudiantes.uv.mx', 3, 12882, 1),
+(9301, 'JESUS JACOB', 'MONTIEL', 'SALAS', 'S21013900', 'zs21013900@estudiantes.uv.mx', 3, 12883, 119),
+(9302, 'ALVARO', 'VAZQUEZ', 'AGUIRRE', 'S21013903', 'zs21013903@estudiantes.uv.mx', 3, 12884, 12),
+(9303, 'JASIEL EMIR', 'ZAVALETA', 'GARCIA', 'S21013907', 'zs21013907@estudiantes.uv.mx', 3, 12885, 119),
+(9304, 'RODOLFO', 'FERNANDEZ', 'RODRIGUEZ', 'S21013908', 'zs21013908@estudiantes.uv.mx', 3, 12886, 61),
+(9305, 'LUIS ALONSO', 'ANDRADE', 'LOPEZ', 'S21013909', 'zs21013909@estudiantes.uv.mx', 3, 12887, 94),
+(9307, 'DANIEL SEBASTIAN', 'SANCHEZ', 'MEDINA', 'S21015916', 'zs21015916@estudiantes.uv.mx', 7, 12889, 74),
+(9308, 'RUBEN HANIEL', 'RUIZ', 'SANCHEZ', 'S21015917', 'zs21015917@estudiantes.uv.mx', 7, 12890, 74),
+(9309, 'SAMUEL', 'RUIZ', 'CASTILLO', 'S21015921', 'zs21015921@estudiantes.uv.mx', 7, 12891, 4),
+(9311, 'JESUS HERON', 'GALVEZ', 'VAZQUEZ', 'S21015929', 'zs21015929@estudiantes.uv.mx', 7, 12893, 4),
+(9312, 'VICTOR EMMANUEL', 'LOPEZ', 'ESPEJO', 'S21015931', 'zs21015931@estudiantes.uv.mx', 7, 12894, 40),
+(9313, 'ISAIAS', 'LANDA', 'CERVANTES', 'S21015940', 'zs21015940@estudiantes.uv.mx', 7, 12895, 74),
+(9314, 'MARIA TERESA', 'JUAN', 'REYES', 'S21015946', 'zs21015946@estudiantes.uv.mx', 7, 12896, 23),
+(9315, 'VANESSA MICHELLE', 'GRAPAIN', 'ALDANA', 'S21015948', 'zs21015948@estudiantes.uv.mx', 7, 12897, 33),
+(9316, 'YOSELIN', 'HERNANDEZ', 'AVILA', 'S21015956', 'zs21015956@estudiantes.uv.mx', 7, 12898, 56),
+(9317, 'JESSICA', 'PEÑA', 'MONTERO', 'S21015959', 'zs21015959@estudiantes.uv.mx', 7, 12899, 43),
+(9318, 'DANIEL', 'MARTINEZ', 'RAMIREZ', 'S21015960', 'zs21015960@estudiantes.uv.mx', 7, 12900, 56),
+(9319, 'MARLENE', 'MENDEZ', 'LANDA', 'S21015961', 'zs21015961@estudiantes.uv.mx', 7, 12901, 21),
+(9320, 'JESUS ALEXANDRO', 'CASTILLO', 'ALONSO', 'S21015964', 'zs21015964@estudiantes.uv.mx', 7, 12902, 98),
+(9321, 'RENE', 'HERNANDEZ', 'CASTILLO', 'S21015965', 'zs21015965@estudiantes.uv.mx', 7, 12903, 8),
+(9322, 'ALDAHIR ABISAI', 'LEAL', 'CARDEÑA', 'S21015974', 'zs21015974@estudiantes.uv.mx', 7, 12904, 44),
+(9323, 'JOSUE', 'HERNANDEZ', 'GARCIA', 'S21015975', 'zs21015975@estudiantes.uv.mx', 7, 12905, 42),
+(9324, 'RODRIGO', 'DOMINGUEZ', 'JIMENEZ', 'S21015978', 'zs21015978@estudiantes.uv.mx', 7, 12906, 94),
+(9325, 'CARLOS ALBERTO', 'TAMARIZ', 'MORALES', 'S21015980', 'zs21015980@estudiantes.uv.mx', 7, 12907, 94),
+(9326, 'CHRISTOPHER ALESSANDRO', 'RODRIGUEZ', 'SALAZAR', 'S21016323', 'zs21016323@estudiantes.uv.mx', 8, 12908, 66),
+(9327, 'CESAR DAVID', 'GOMEZ', 'NUÑEZ', 'S21016325', 'zs21016325@estudiantes.uv.mx', 8, 12909, 66),
+(9328, 'IAN ESAU', 'OLVERA', 'VILLEDA', 'S21016328', 'zs21016328@estudiantes.uv.mx', 8, 12910, 49),
+(9329, 'ROBERTO CARLOS', 'ORTIZ', 'ALVAREZ', 'S21016329', 'zs21016329@estudiantes.uv.mx', 8, 12911, 29),
+(9330, 'MARLENE', 'NUÑEZ', 'SUAREZ', 'S21016332', 'zs21016332@estudiantes.uv.mx', 8, 12912, 29),
+(9331, 'NATALIA', 'CANCINO', 'VEGA', 'S21016333', 'zs21016333@estudiantes.uv.mx', 8, 12913, 74),
+(9332, 'ROBERTO', 'VIVEROS', 'GONZALEZ', 'S21016335', 'zs21016335@estudiantes.uv.mx', 8, 12914, 89),
+(9333, 'MIGUEL EDUARDO', 'VASQUEZ', 'ROSAS', 'S21016338', 'zs21016338@estudiantes.uv.mx', 8, 12915, 28),
+(9334, 'SEBASTIAN', 'CORDOBA', 'CASTIZO', 'S21016339', 'zs21016339@estudiantes.uv.mx', 8, 12916, 89),
+(9335, 'LUIS ALBERTO', 'REYES', 'MENDOZA', 'S21016340', 'zs21016340@estudiantes.uv.mx', 8, 12917, 89),
+(9336, 'JOSUE DAVID', 'MARTINEZ', 'GUTIERREZ', 'S21016346', 'zs21016346@estudiantes.uv.mx', 8, 12918, 76),
+(9337, 'MARIO ANTONIO', 'MORENO', 'LOPEZ', 'S21016348', 'zs21016348@estudiantes.uv.mx', 8, 12919, 93),
+(9339, 'EDUARDO', 'LOZADA', 'ANASTACIO', 'S21016350', 'zs21016350@estudiantes.uv.mx', 8, 12921, 25),
+(9340, 'FRANCISCO ANGEL', 'REYES', 'JACOME', 'S21016351', 'zs21016351@estudiantes.uv.mx', 8, 12922, 93),
+(9341, 'JUAN PABLO', 'LAZARO', 'RUIZ', 'S21016355', 'zs21016355@estudiantes.uv.mx', 8, 12923, 29),
+(9342, 'JOSE MIGUEL', 'GASPAR', 'GARCIA', 'S21016357', 'zs21016357@estudiantes.uv.mx', 8, 12924, 47),
+(9344, 'RAFAEL', 'VAZQUEZ', 'PEREZ', 'S21016364', 'zs21016364@estudiantes.uv.mx', 8, 12926, 22),
+(9345, 'JOSSELLIN', 'HERRERA', 'RODRIGUEZ', 'S21016367', 'zs21016367@estudiantes.uv.mx', 8, 12927, 22),
+(9346, 'MAXIMILIANO', 'CAMPOS', 'HERNANDEZ', 'S21016371', 'zs21016371@estudiantes.uv.mx', 8, 12928, 22),
+(9347, 'CITLALLI', 'DAVILA', 'HERNANDEZ', 'S21016376', 'zs21016376@estudiantes.uv.mx', 8, 12929, 15),
+(9348, 'YHOCSAN UZZI', 'GUEVARA', 'GARCIA', 'S21016377', 'zs21016377@estudiantes.uv.mx', 8, 12930, 76),
+(9349, 'JOSE ANGEL', 'ESPINOSA', 'LAGUNES', 'S21016382', 'zs21016382@estudiantes.uv.mx', 8, 12931, 41),
+(9350, 'DANIEL', 'GARCIA', 'JACOME', 'S21016383', 'zs21016383@estudiantes.uv.mx', 8, 12932, 41),
+(9351, 'ANGEL', 'MUÑOZ', 'CORTES', 'S21016392', 'zs21016392@estudiantes.uv.mx', 8, 12933, 66),
+(9352, 'GERLY DANIEL', 'ARTEAGA', 'BERNAL', 'S21017270', 'zs21017270@estudiantes.uv.mx', 3, 12934, NULL),
+(9353, 'FERDY ALEXIS', 'REYES', 'VIVEROS', 'S21021432', 'zs21021432@estudiantes.uv.mx', 3, 12935, 1),
+(9354, 'JOSE FERNANDO', 'GOMEZ', 'ORTEGA', 'S21021434', 'zs21021434@estudiantes.uv.mx', 3, 12936, 111),
+(9355, 'ETHAN ROBERTO', 'BENITEZ', 'AGUILAR', 'S21021435', 'zs21021435@estudiantes.uv.mx', 3, 12937, 119),
+(9356, 'DIEGO ADRIAN', 'CARDONE', 'ZAPATA', 'S21021436', 'zs21021436@estudiantes.uv.mx', 3, 12938, 86),
+(9357, 'GUSTAVO YUSSIF', 'MENDOZA', 'SEVERO', 'S21021441', 'zs21021441@estudiantes.uv.mx', 3, 12939, 118),
+(9358, 'MAURICIO', 'HERNANDEZ', 'SANCHEZ', 'S21021652', 'zs21021652@estudiantes.uv.mx', 7, 12940, 8),
+(9359, 'CARLOS MANUEL', 'RAMIREZ', 'SOSA', 'S21021654', 'zs21021654@estudiantes.uv.mx', 7, 12941, 21),
+(9360, 'JOSE ANGEL', 'GARCIA', 'CALDERON', 'S21021681', 'zs21021681@estudiantes.uv.mx', 8, 12942, 74),
+(9361, 'ALDO', 'VELASCO', 'HERNANDEZ', 'S21021683', 'zs21021683@estudiantes.uv.mx', 8, 12943, 96),
+(9362, 'ALICIA YOSELIN', 'HERNANDEZ', 'GONZALEZ', 'S21023157', 'zs21023157@estudiantes.uv.mx', 1, 12944, 95),
+(9363, 'KARLA ARELY', 'MIRANDA', 'GABRIEL', 'S21023158', 'zs21023158@estudiantes.uv.mx', 1, 12945, 100),
+(9364, 'NORELY GUADALUPE', 'GUTIERREZ', 'SERENA', 'S21023159', 'zs21023159@estudiantes.uv.mx', 1, 12946, 48),
+(9365, 'BRAYAN FRANCISCO', 'RODRIGUEZ', 'MARTEL', 'S21023160', 'zs21023160@estudiantes.uv.mx', 1, 12947, 80),
+(9366, 'DIEGO FELIPE', 'HERNANDEZ', 'JUSTO', 'S21023161', 'zs21023161@estudiantes.uv.mx', 1, 12948, 95),
+(9367, 'DANNA PAOLA', 'HERNANDEZ', 'ORTEGA', 'S21023168', 'zs21023168@estudiantes.uv.mx', 1, 12949, 59),
+(9368, 'ZULEMA YAMILETH', 'CERVANTES', 'HERNANDEZ', 'S21023196', 'zs21023196@estudiantes.uv.mx', 1, 12950, 25),
+(9369, 'MARIA FERNANDA', 'ALATRISTE', 'LEAL', 'S21023197', 'zs21023197@estudiantes.uv.mx', 1, 12951, 68),
+(9370, 'JEOVANNI', 'VALLEJO', 'ACALCO', 'S21023205', 'zs21023205@estudiantes.uv.mx', 1, 12952, 20),
+(9371, 'PAOLA ALEJANDRA', 'GARCIA', 'MORALES', 'S21023210', 'zs21023210@estudiantes.uv.mx', 1, 12953, 48),
+(9372, 'ANA DENEB', 'ESPINOSA', 'CASTILLO', 'S21023215', 'zs21023215@estudiantes.uv.mx', 1, 12954, 104),
+(9373, 'USBALDO', 'HERNANDEZ', 'LANDA', 'S21023220', 'zs21023220@estudiantes.uv.mx', 1, 12955, 59),
+(9374, 'OSCAR', 'MARTINEZ', 'CANDELARIO', 'S21023221', 'zs21023221@estudiantes.uv.mx', 1, 12956, 100),
+(9375, 'DAVID ALBERTO', 'RAMIREZ', 'CASTILLO', 'S21026430', 'zs21026430@estudiantes.uv.mx', 8, 12957, 89),
+(9376, 'EDUARDO', 'MEJIA', 'PERALTA', 'S21026431', 'zs21026431@estudiantes.uv.mx', 8, 12958, 23),
+(9377, 'RAUL', 'HERNANDEZ', 'OLIVARES', 'S21026432', 'zs21026432@estudiantes.uv.mx', 3, 12959, 12),
+(9378, 'MIGUEL ANGEL', 'MORALES', 'CRUZ', 'S21026433', 'zs21026433@estudiantes.uv.mx', 3, 12960, 61),
+(9379, 'DIEGO ALEXIS', 'MORALES', 'MARTINEZ', 'S22013011', 'zs22013011@estudiantes.uv.mx', 1, 12961, 80),
+(9380, 'ERNESTO', 'CASTAÑON', 'CARRAL', 'S22013015', 'zs22013015@estudiantes.uv.mx', 1, 12962, 20),
+(9381, 'ARANTZA SINAI', 'BOUCHEZ', 'ABURTO', 'S22013016', 'zs22013016@estudiantes.uv.mx', 1, 12963, 68),
+(9382, 'PERLA SARAHI', 'MACIN', 'FUENTES', 'S22013017', 'zs22013017@estudiantes.uv.mx', 1, 12964, 50),
+(9384, 'ERIKA', 'AVILA', 'GARCIA', 'S22013021', 'zs22013021@estudiantes.uv.mx', 1, 12966, 74),
+(9385, 'LOURDES VIRIDIANA', 'GALINDO', 'LUCAS', 'S22013024', 'zs22013024@estudiantes.uv.mx', 1, 12967, 50),
+(9386, 'ARMANDO', 'VAZQUEZ', 'BAUTISTA', 'S22013028', 'zs22013028@estudiantes.uv.mx', 1, 12968, NULL),
+(9387, 'CARLOS ANTONIO', 'MARTINEZ', 'SAN MARTIN', 'S22013029', 'zs22013029@estudiantes.uv.mx', 1, 12969, 100),
+(9388, 'JUANA ITZEL', 'BALLESTEROS', 'HERNANDEZ', 'S22013030', 'zs22013030@estudiantes.uv.mx', 1, 12970, 50),
+(9389, 'ROXANA IVETTE', 'REYES', 'ALARCON', 'S22013031', 'zs22013031@estudiantes.uv.mx', 1, 12971, 115),
+(9390, 'CASANDRA AILICEC', 'ROBLES', 'CRUZ', 'S22013035', 'zs22013035@estudiantes.uv.mx', 1, 12972, 59),
+(9391, 'ALONSO', 'SALAS', 'MARTINEZ', 'S22013039', 'zs22013039@estudiantes.uv.mx', 1, 12973, 25),
+(9392, 'DIANA LAURA', 'MENDEZ', 'MORALES', 'S22013040', 'zs22013040@estudiantes.uv.mx', 1, 12974, 99),
+(9393, 'OSCAR OCTAVIO', 'MIRAFUENTES', 'MERINO', 'S22013042', 'zs22013042@estudiantes.uv.mx', 1, 12975, 50),
+(9394, 'ABRAHAM', 'HERNANDEZ', 'LARA', 'S22013044', 'zs22013044@estudiantes.uv.mx', 1, 12976, 50),
+(9395, 'DIEGO ALBERTO', 'CARDENAS', 'JUAN', 'S22013045', 'zs22013045@estudiantes.uv.mx', 1, 12977, 2),
+(9396, 'ALBERTO', 'HERNANDEZ', 'DE LA CRUZ', 'S22013049', 'zs22013049@estudiantes.uv.mx', 1, 12978, 20),
+(9397, 'LUIS ENRIQUE', 'MOTA', 'SALAZAR', 'S22013051', 'zs22013051@estudiantes.uv.mx', 1, 12979, 48),
+(9398, 'RAFAEL', 'MOLINA', 'GUERRA', 'S22013053', 'zs22013053@estudiantes.uv.mx', 1, 12980, 2),
+(9399, 'ALONDRA ITZEL', 'BERNAL', 'VICENTE', 'S22013054', 'zs22013054@estudiantes.uv.mx', 1, 12981, 68),
+(9400, 'CESAR ALEXIS', 'ORTIZ', 'SANDOVAL', 'S22013056', 'zs22013056@estudiantes.uv.mx', 1, 12982, 59),
+(9401, 'TONY', 'VILLEGAS', 'HURTADO', 'S22013620', 'zs22013620@estudiantes.uv.mx', 3, 12983, 74),
+(9402, 'JOSUE', 'MELGAREJO', 'GARCIA', 'S22013624', 'zs22013624@estudiantes.uv.mx', 3, 12984, 15),
+(9403, 'LUIS ANGEL', 'LOPEZ', 'GARCIA', 'S22013626', 'zs22013626@estudiantes.uv.mx', 3, 12985, 12),
+(9404, 'AXEL OMAR', 'VALDES', 'CONTRERAS', 'S22013627', 'zs22013627@estudiantes.uv.mx', 3, 12986, 98),
+(9405, 'MARCO ANTONIO', 'VARILLAS', 'OLGUIN', 'S22013628', 'zs22013628@estudiantes.uv.mx', 3, 12987, 119),
+(9406, 'IVAN JAFETH', 'CARBALLO', 'DELGADO', 'S22013630', 'zs22013630@estudiantes.uv.mx', 3, 12988, 109),
+(9407, 'JUAN DAVID', 'CARMONA', 'AVILA', 'S22013631', 'zs22013631@estudiantes.uv.mx', 3, 12989, 92),
+(9408, 'CHRISTIAN ALBERTO', 'VAZQUEZ', 'CRUZ', 'S22013636', 'zs22013636@estudiantes.uv.mx', 3, 12990, 33),
+(9409, 'CESAR EDUARDO', 'CERON', 'MARTINEZ', 'S22013637', 'zs22013637@estudiantes.uv.mx', 3, 12991, 111),
+(9410, 'LUIS PABLO', 'LAGUNES', 'NORIEGA', 'S22013638', 'zs22013638@estudiantes.uv.mx', 3, 12992, 94),
+(9411, 'MAURICIO', 'SALAS', 'GARCIA', 'S22013639', 'zs22013639@estudiantes.uv.mx', 3, 12993, 67),
+(9412, 'JUAN PABLO', 'TORRES', 'ORTIZ', 'S22013640', 'zs22013640@estudiantes.uv.mx', 3, 12994, 12),
+(9413, 'MARLA JASEL', 'AGUILAR', 'AGUILAR', 'S22013641', 'zs22013641@estudiantes.uv.mx', 3, 12995, 74),
+(9414, 'ANGEL GUSTAVO', 'MARTELL', 'FERRA', 'S22013642', 'zs22013642@estudiantes.uv.mx', 3, 12996, 127),
+(9415, 'MADELINE IVY', 'ZUÑIGA', 'MEZA', 'S22013643', 'zs22013643@estudiantes.uv.mx', 3, 12997, 119),
+(9416, 'EDUARDO ANTONIO', 'MORAS', 'CONTRERAS', 'S22013645', 'zs22013645@estudiantes.uv.mx', 3, 12998, 67),
+(9417, 'MAXIMILIANO', 'SOTO', 'JIMENEZ', 'S22013646', 'zs22013646@estudiantes.uv.mx', 3, 12999, 92),
+(9418, 'JARLY', 'HERNANDEZ', 'ROMERO', 'S22013647', 'zs22013647@estudiantes.uv.mx', 3, 13000, 118),
+(9419, 'JOSE U NAAY', 'MEX', 'LOEZA', 'S22013648', 'zs22013648@estudiantes.uv.mx', 3, 13001, 33),
+(9420, 'LEONARDO', 'MARTINEZ', 'RINCON', 'S22013650', 'zs22013650@estudiantes.uv.mx', 3, 13002, 119),
+(9421, 'NOEL DE JESUS', 'LARA', 'FALFAN', 'S22013651', 'zs22013651@estudiantes.uv.mx', 3, 13003, 56),
+(9422, 'DAVID', 'CARRION', 'ROMERO', 'S22013653', 'zs22013653@estudiantes.uv.mx', 3, 13004, 21),
+(9423, 'MARIO MIGUEL', 'LIMON', 'CABRERA', 'S22013656', 'zs22013656@estudiantes.uv.mx', 3, 13005, 21),
+(9424, 'CUAUHTEMOC', 'CALDERON', 'PEREZ', 'S22013658', 'zs22013658@estudiantes.uv.mx', 3, 13006, 127),
+(9425, 'JESUS LORENZO', 'TLAPA', 'HERNANDEZ', 'S22013659', 'zs22013659@estudiantes.uv.mx', 3, 13007, 12),
+(9426, 'IVAN', 'RODRIGUEZ', 'FRANCO', 'S22013660', 'zs22013660@estudiantes.uv.mx', 3, 13008, 54),
+(9427, 'KAROL', 'QUINTO', 'GUADALUPE', 'S22013661', 'zs22013661@estudiantes.uv.mx', 3, 13009, 12),
+(9428, 'VANESSA', 'MORALES', 'LUNA', 'S22013662', 'zs22013662@estudiantes.uv.mx', 3, 13010, 125),
+(9429, 'IAN KALEB', 'MOCTEZUMA', 'ROJAS', 'S22013663', 'zs22013663@estudiantes.uv.mx', 3, 13011, 94),
+(9430, 'RAUL ALBERTO', 'CASTILLO', 'ESPINO', 'S22013664', 'zs22013664@estudiantes.uv.mx', 3, 13012, 28),
+(9431, 'EDUARDO ANTONIO', 'GUTIERREZ', 'VICTORIA', 'S22013665', 'zs22013665@estudiantes.uv.mx', 3, 13013, 3),
+(9432, 'VERONICA', 'MOTA', 'CORNEJO', 'S22013666', 'zs22013666@estudiantes.uv.mx', 3, 13014, 15),
+(9434, 'DANIEL URIEL', 'ALEJANDRE', 'ALVARADO', 'S22013668', 'zs22013668@estudiantes.uv.mx', 3, 13016, 119),
+(9435, 'EDGAR DIDIER', 'MONTIEL', 'ACOSTA', 'S22013669', 'zs22013669@estudiantes.uv.mx', 3, 13017, 92),
+(9436, 'MIGUEL ANGEL', 'GOMEZ', 'CANUAS', 'S22013670', 'zs22013670@estudiantes.uv.mx', 3, 13018, 69),
+(9437, 'YAEL ALFREDO', 'SALAZAR', 'AGUILAR', 'S22013671', 'zs22013671@estudiantes.uv.mx', 3, 13019, 94),
+(9438, 'RUBEN', 'VAZQUEZ', 'MORALES', 'S22013672', 'zs22013672@estudiantes.uv.mx', 3, 13020, 56),
+(9439, 'JOSUE ISAI', 'RAMIREZ', 'FERNANDEZ', 'S22013674', 'zs22013674@estudiantes.uv.mx', 3, 13021, 127),
+(9440, 'ISABELLA', 'HERNANDEZ', 'MENDEZ', 'S22013675', 'zs22013675@estudiantes.uv.mx', 3, 13022, 98),
+(9441, 'SAUL', 'BARRAGAN', 'TORRES', 'S22013676', 'zs22013676@estudiantes.uv.mx', 3, 13023, 3),
+(9442, 'NICOLE', 'MORENO', 'HERNANDEZ', 'S22013678', 'zs22013678@estudiantes.uv.mx', 3, 13024, 12),
+(9443, 'ANDREA', 'DIAZ', 'REGULES', 'S22013679', 'zs22013679@estudiantes.uv.mx', 3, 13025, 74),
+(9444, 'CARIM', 'VELAZQUEZ', 'CHICUELLAR', 'S22013681', 'zs22013681@estudiantes.uv.mx', 3, 13026, 92),
+(9445, 'JONATHAN ZABDIEL', 'VELASCO', 'GALAN', 'S22013683', 'zs22013683@estudiantes.uv.mx', 3, 13027, 118),
+(9446, 'GIOVANNI', 'MORALES', 'NESTICAPAN', 'S22013686', 'zs22013686@estudiantes.uv.mx', 3, 13028, 111),
+(9447, 'EMMANUEL', 'PALE', 'MOLINA', 'S22013688', 'zs22013688@estudiantes.uv.mx', 3, 13029, 69),
+(9448, 'FERNANDO', 'MARTINEZ', 'RAMIREZ', 'S22013690', 'zs22013690@estudiantes.uv.mx', 3, 13030, 67),
+(9449, 'FIDEL', 'MONTEMIRA', 'OROZCO', 'S22013691', 'zs22013691@estudiantes.uv.mx', 3, 13031, 12),
+(9450, 'ZAID ALEXIS', 'RODRIGUEZ', 'HUESCAS', 'S22013692', 'zs22013692@estudiantes.uv.mx', 3, 13032, 97),
+(9451, 'ZAID ALEXIS', 'VAZQUEZ', 'RAMIREZ', 'S22013693', 'zs22013693@estudiantes.uv.mx', 3, 13033, 15),
+(9452, 'TOMAS MARCOS', 'GUTIERREZ', 'HERNANDEZ', 'S22013694', 'zs22013694@estudiantes.uv.mx', 3, 13034, 92),
+(9453, 'ERICK ABDIEL', 'ATZIN', 'OLARTE', 'S22013695', 'zs22013695@estudiantes.uv.mx', 3, 13035, 67),
+(9454, 'AXEL DE JESUS', 'LUNA', 'HERNANDEZ', 'S22013696', 'zs22013696@estudiantes.uv.mx', 3, 13036, 74),
+(9455, 'IVAN ALI', 'CERECEDO', 'PADILLA', 'S22013698', 'zs22013698@estudiantes.uv.mx', 3, 13037, 86),
+(9456, 'PAOLA LIZETH', 'CORDOBA', 'BRAVO', 'S22015683', 'zs22015683@estudiantes.uv.mx', 7, 13038, 74),
+(9457, 'GABRIEL GAMALIEL', 'RAMOS', 'HERNANDEZ', 'S22015684', 'zs22015684@estudiantes.uv.mx', 7, 13039, 40),
+(9458, 'DANIELA', 'RODRIGUEZ', 'AGUIRRE', 'S22015686', 'zs22015686@estudiantes.uv.mx', 7, 13040, 4),
+(9459, 'CARLOS EMILIANO', 'BAÑOS', 'RAMIREZ', 'S22015688', 'zs22015688@estudiantes.uv.mx', 7, 13041, 33),
+(9460, 'ALAN JESUS', 'LLANOS', 'BLANCO', 'S22015689', 'zs22015689@estudiantes.uv.mx', 7, 13042, 33),
+(9461, 'ADRIAN DAVID', 'GARCIA', 'MENDOZA', 'S22015700', 'zs22015700@estudiantes.uv.mx', 7, 13043, 42),
+(9464, 'GERARDO', 'RODRIGUEZ', 'TEPETLA', 'S22015705', 'zs22015705@estudiantes.uv.mx', 7, 13046, 49),
+(9465, 'JULIAN ALEJANDRO', 'MORENO', 'HERNANDEZ', 'S22015706', 'zs22015706@estudiantes.uv.mx', 7, 13047, 49),
+(9466, 'EDUARDO', 'LOPEZ', 'RAYON', 'S22015707', 'zs22015707@estudiantes.uv.mx', 7, 13048, 23),
+(9467, 'MANUEL', 'HERNANDEZ', 'SALAZAR', 'S22015708', 'zs22015708@estudiantes.uv.mx', 7, 13049, 23),
+(9468, 'ANGEL GABRIEL', 'PIÑERO', 'MONTERO', 'S22015710', 'zs22015710@estudiantes.uv.mx', 7, 13050, 23),
+(9469, 'GERARDO', 'CABRERA', 'VAZQUEZ', 'S22015711', 'zs22015711@estudiantes.uv.mx', 7, 13051, 56),
+(9470, 'GILBERTO', 'MARCIAL', 'DOMINGUEZ', 'S22015714', 'zs22015714@estudiantes.uv.mx', 7, 13052, 44),
+(9471, 'SAMMIR EDUARDO', 'SANCHEZ', 'SANCHEZ', 'S22015715', 'zs22015715@estudiantes.uv.mx', 7, 13053, 44),
+(9472, 'DIEGO', 'RIVERA', 'ROJAS', 'S22015719', 'zs22015719@estudiantes.uv.mx', 7, 13054, 21),
+(9473, 'CHRISTIAN IVAN', 'DORANTES', 'AGUILAR', 'S22015721', 'zs22015721@estudiantes.uv.mx', 7, 13055, 8),
+(9474, 'CALEB JAFET', 'ROJAS', 'SANCHEZ', 'S22015722', 'zs22015722@estudiantes.uv.mx', 7, 13056, 8),
+(9475, 'JUAN DIEGO', 'RAMIREZ', 'GOMEZ', 'S22015723', 'zs22015723@estudiantes.uv.mx', 7, 13057, 45),
+(9476, 'ANGEL GABRIEL', 'GARCIA', 'VALDEZ', 'S22015727', 'zs22015727@estudiantes.uv.mx', 7, 13058, 45),
+(9477, 'JOSMAR DAVID', 'ORTEGA', 'DURAN', 'S22015729', 'zs22015729@estudiantes.uv.mx', 7, 13059, 45),
+(9478, 'JOSE DANIEL', 'RAMIREZ', 'AHUMADA', 'S22015732', 'zs22015732@estudiantes.uv.mx', 7, 13060, 45),
+(9479, 'VICTOR URIEL', 'ZAMORA', 'GONZALEZ', 'S22015734', 'zs22015734@estudiantes.uv.mx', 7, 13061, 98),
+(9480, 'ARTURO', 'ROMERO', 'MORALES', 'S22015735', 'zs22015735@estudiantes.uv.mx', 7, 13062, 98),
+(9481, 'BRUNO', 'MARTINEZ', 'LUNA', 'S22016061', 'zs22016061@estudiantes.uv.mx', 8, 13063, 16),
+(9482, 'MIGUEL ANGEL', 'VELAZQUEZ', 'RODRIGUEZ', 'S22016063', 'zs22016063@estudiantes.uv.mx', 8, 13064, 89),
+(9483, 'ALEXIS DANIEL', 'PINO', 'ZAVALETA', 'S22016064', 'zs22016064@estudiantes.uv.mx', 8, 13065, 110),
+(9484, 'AMIR ISAID', 'OCHOA', 'TADEO', 'S22016065', 'zs22016065@estudiantes.uv.mx', 8, 13066, 49),
+(9485, 'ENRIQUE', 'SANTOS', 'GONZALEZ', 'S22016068', 'zs22016068@estudiantes.uv.mx', 8, 13067, 93),
+(9486, 'BENITO GAEL', 'RODRIGUEZ', 'MARTINEZ', 'S22016070', 'zs22016070@estudiantes.uv.mx', 8, 13068, 110),
+(9487, 'SOMMER SALMAI', 'SANCHEZ', 'FLORES', 'S22016072', 'zs22016072@estudiantes.uv.mx', 8, 13069, 110),
+(9488, 'ALMA BRENDA', 'GONZALEZ', 'GONZALEZ', 'S22016075', 'zs22016075@estudiantes.uv.mx', 8, 13070, 67),
+(9489, 'MICHELL ALEXANDER', 'NAVARRETE', 'ALTAMIRANO', 'S22016078', 'zs22016078@estudiantes.uv.mx', 8, 13071, 14),
+(9490, 'CHRISTIAN', 'JULIAN', 'JIMENEZ', 'S22016079', 'zs22016079@estudiantes.uv.mx', 8, 13072, 67),
+(9492, 'FATIMA QUETZALLI', 'NAVARRO', 'GARCIA', 'S22016082', 'zs22016082@estudiantes.uv.mx', 8, 13074, 27),
+(9493, 'JOSE MANUEL', 'IÑIGUEZ', 'LOPEZ', 'S22016084', 'zs22016084@estudiantes.uv.mx', 8, 13075, 62),
+(9494, 'JULIO ALDAIR', 'MORALES', 'ROMERO', 'S22016085', 'zs22016085@estudiantes.uv.mx', 8, 13076, 49),
+(9495, 'FELIPE DE JESUS', 'LUCIDO', 'LOZANO', 'S22016087', 'zs22016087@estudiantes.uv.mx', 8, 13077, 114),
+(9496, 'CARLOS RAUL', 'BONILLA', 'PALOMINO', 'S22016089', 'zs22016089@estudiantes.uv.mx', 8, 13078, 29),
+(9497, 'MARLON GARETT', 'GONZALEZ', 'ORTIZ', 'S22016090', 'zs22016090@estudiantes.uv.mx', 8, 13079, 96),
+(9498, 'ITHAEL ABISAI', 'VELASCO', 'ROMERO', 'S22016091', 'zs22016091@estudiantes.uv.mx', 8, 13080, 125),
+(9499, 'LAURA MELISSA', 'PORTILLA', 'CRUZ', 'S22016094', 'zs22016094@estudiantes.uv.mx', 8, 13081, 22),
+(9500, 'AXEL ALAIN', 'VASQUEZ', 'RAMIREZ', 'S22016095', 'zs22016095@estudiantes.uv.mx', 8, 13082, 41),
+(9501, 'JOSELINE', 'VAZQUEZ', 'FERNANDEZ', 'S22016096', 'zs22016096@estudiantes.uv.mx', 8, 13083, 47),
+(9502, 'JOSE DE JESUS', 'CALLEJAS', 'RIVERA', 'S22016100', 'zs22016100@estudiantes.uv.mx', 8, 13084, 66),
+(9503, 'EDGAR YAEL', 'CORTES', 'CARRILLO', 'S22016101', 'zs22016101@estudiantes.uv.mx', 8, 13085, 125),
+(9504, 'JUAN CARLOS', 'GARCIA', 'LADRON DE GUEVARA', 'S22016102', 'zs22016102@estudiantes.uv.mx', 8, 13086, 28),
+(9505, 'HECTOR', 'GONZALEZ', 'HERRERA', 'S22016103', 'zs22016103@estudiantes.uv.mx', 8, 13087, 22),
+(9506, 'JOSE ENRIQUE', 'GONZALEZ', 'ROBLES', 'S22016108', 'zs22016108@estudiantes.uv.mx', 8, 13088, 110),
+(9507, 'DANIEL JOSHUA', 'ALVARADO', 'AGUIRRE', 'S22016109', 'zs22016109@estudiantes.uv.mx', 8, 13089, 89),
+(9508, 'KEVIN ANDRES', 'MOJICA', 'BUSTO', 'S22016112', 'zs22016112@estudiantes.uv.mx', 8, 13090, 22),
+(9509, 'LUIS EDER', 'AGUILAR', 'MARTINEZ', 'S22016113', 'zs22016113@estudiantes.uv.mx', 8, 13091, 62),
+(9510, 'WILLIAMS ESAU', 'MONTERO', 'BELLO', 'S22016114', 'zs22016114@estudiantes.uv.mx', 8, 13092, 66),
+(9511, 'MARIA LUISA', 'GARCIA', 'SANCHEZ', 'S22016115', 'zs22016115@estudiantes.uv.mx', 8, 13093, 66),
+(9512, 'FERNANDO', 'ESCOBAR', 'ROBLES', 'S22016116', 'zs22016116@estudiantes.uv.mx', 8, 13094, 27),
+(9513, 'NORMA ISABEL', 'TORALES', 'QUINTANA', 'S22016117', 'zs22016117@estudiantes.uv.mx', 8, 13095, 49),
+(9514, 'ANGEL ALEXIS', 'EUSEBIO', 'PEREZ', 'S22016119', 'zs22016119@estudiantes.uv.mx', 8, 13096, 89),
+(9515, 'VICTOR MANUEL', 'MONGE', 'MORALES', 'S22016120', 'zs22016120@estudiantes.uv.mx', 8, 13097, 127),
+(9516, 'KAREN ESPERANZA', 'LOPEZ', 'YOVAL', 'S22016126', 'zs22016126@estudiantes.uv.mx', 8, 13098, 66),
+(9517, 'JORGE LUIS', 'ORTEGA', 'ZENTENO', 'S22016127', 'zs22016127@estudiantes.uv.mx', 8, 13099, 89),
+(9518, 'MARIA JOSE', 'RUIZ', 'RAMON', 'S22016128', 'zs22016128@estudiantes.uv.mx', 8, 13100, 47),
+(9519, 'ANGEL DANIEL', 'ROMERO', 'MARTINEZ', 'S22016130', 'zs22016130@estudiantes.uv.mx', 8, 13101, 16),
+(9520, 'ALEXIS AARON', 'PALESTINA', 'VILLA', 'S22016131', 'zs22016131@estudiantes.uv.mx', 8, 13102, 89),
+(9521, 'ANGEL ALEXANDER', 'ALDUCIN', 'DIAZ', 'S22016132', 'zs22016132@estudiantes.uv.mx', 8, 13103, 22),
+(9522, 'LUIS IGNACIO', 'TELLO', 'ROBLES', 'S22016134', 'zs22016134@estudiantes.uv.mx', 8, 13104, 114),
+(9523, 'ERICK ORLANDO', 'SERRANO', 'HERNANDEZ', 'S22016137', 'zs22016137@estudiantes.uv.mx', 8, 13105, 127),
+(9524, 'FELIPE', 'MURGUIA', 'LEAL', 'S22016138', 'zs22016138@estudiantes.uv.mx', 8, 13106, 41),
+(9525, 'JUAN EDUARDO', 'CUMPLIDO', 'NEGRETE', 'S22020936', 'zs22020936@estudiantes.uv.mx', 3, 13107, 97),
+(9527, 'OSCAR HIZAY', 'APODACA', 'GARCIA', 'S22020939', 'zs22020939@estudiantes.uv.mx', 3, 13109, 69),
+(9528, 'PEDRO JOSE', 'LARA', 'MONTIEL', 'S22020940', 'zs22020940@estudiantes.uv.mx', 3, 13110, 54),
+(9529, 'CHRISTOPHER', 'VASQUEZ', 'ZAPATA', 'S22020943', 'zs22020943@estudiantes.uv.mx', 3, 13111, 111),
+(9530, 'ANDRES OSWALDO', 'COBOS', 'PEREZ', 'S22020945', 'zs22020945@estudiantes.uv.mx', 3, 13112, 94),
+(9531, 'ERIC YAIR', 'VILLEGAS', 'GOMEZ', 'S22021217', 'zs22021217@estudiantes.uv.mx', 8, 13113, 29),
+(9533, 'RAUL YAEL', 'SANCHEZ', 'RAMON', 'S22022955', 'zs22022955@estudiantes.uv.mx', 1, 13115, 55),
+(9534, 'JONATHAN URIEL', 'HERNANDEZ', 'FERRAL', 'S22022958', 'zs22022958@estudiantes.uv.mx', 1, 13116, 38),
+(9535, 'LUIS MANUEL', 'OJEDA', 'COLORADO', 'S22022966', 'zs22022966@estudiantes.uv.mx', 1, 13117, 100),
+(9536, 'MYRIAM', 'ORTIZ', 'GONZALEZ', 'S22022967', 'zs22022967@estudiantes.uv.mx', 1, 13118, 48),
+(9537, 'ERICK DE JESUS', 'HERRERA', 'LOPEZ', 'S22022968', 'zs22022968@estudiantes.uv.mx', 1, 13119, 38),
+(9538, 'BRANDON JESUS', 'DEL ANGEL', 'TORALES', 'S22022986', 'zs22022986@estudiantes.uv.mx', 1, 13120, 20),
+(9539, 'BRIAN', 'SOLIS', 'DE LA FUENTE', 'S22022989', 'zs22022989@estudiantes.uv.mx', 1, 13121, 100);
+INSERT INTO `tutorado` (`idTutorado`, `nombre`, `apellidoPaterno`, `apellidoMaterno`, `matricula`, `correoInstitucional`, `carrera`, `sesion`, `tutor`) VALUES
+(9540, 'ANARELY', 'MORALES', 'SANGABRIEL', 'S22022996', 'zs22022996@estudiantes.uv.mx', 1, 13122, 48),
+(9541, 'GAEL', 'CORTES', 'OLIVARES', 'S22023000', 'zs22023000@estudiantes.uv.mx', 1, 13123, 48),
+(9542, 'SEANNY PAOLA', 'MORENO', 'SANTIAGO', 'S22023008', 'zs22023008@estudiantes.uv.mx', 1, 13124, 55),
+(9543, 'ANUHAR', 'GUARNEROS', 'FRANCO', 'S22023010', 'zs22023010@estudiantes.uv.mx', 1, 13125, 104),
+(9544, 'MIGUEL ANGEL', 'LADRÓN DE GUEVARA', 'MARTINEZ', 'S22023012', 'zs22023012@estudiantes.uv.mx', 1, 13126, 70),
+(9545, 'YENNI ARISBETH', 'ORTEGA', 'RUEDA', 'S22023013', 'zs22023013@estudiantes.uv.mx', 1, 13127, 100),
+(9546, 'LUIS EDUARDO', 'BERNAL', 'GARCIA', 'S22023015', 'zs22023015@estudiantes.uv.mx', 1, 13128, 74),
+(9547, 'BENJAMIN PAULINO', 'MENDOZA', 'CONTRERAS', 'S22023017', 'zs22023017@estudiantes.uv.mx', 1, 13129, 78),
+(9549, 'MARIANA', 'RAMIREZ', 'HERNANDEZ', 'S22023021', 'zs22023021@estudiantes.uv.mx', 1, 13131, 25),
+(9550, 'VANESSA', 'TORRES', 'GALAN', 'S22023023', 'zs22023023@estudiantes.uv.mx', 1, 13132, 25),
+(9551, 'SERGIO EDUARDO', 'MIRANDA', 'TORRES', 'S22023143', 'zs22023143@estudiantes.uv.mx', 7, 13133, 34),
+(9552, 'GILBERTO DE JESUS', 'ROMAY', 'MARTINEZ', 'S22023144', 'zs22023144@estudiantes.uv.mx', 7, 13134, 34),
+(9553, 'PAOLA NICOLE', 'HUERTA', 'SANTAMARIA', 'S22023145', 'zs22023145@estudiantes.uv.mx', 7, 13135, 34),
+(9554, 'JOSE MANUEL', 'OLIVO', 'TORRES', 'S22023149', 'zs22023149@estudiantes.uv.mx', 7, 13136, 74),
+(9555, 'YAEL OSMAR', 'JIMENEZ', 'MONGE', 'S22023150', 'zs22023150@estudiantes.uv.mx', 7, 13137, 74),
+(9557, 'BRIAN', 'TEXON', 'ALEMAN', 'S22023154', 'zs22023154@estudiantes.uv.mx', 7, 13139, 44),
+(9558, 'IMANOL', 'PERALTA', 'LEON', 'S22023155', 'zs22023155@estudiantes.uv.mx', 7, 13140, 11),
+(9559, 'JORGE ANTONIO', 'RAMIREZ', 'ORTIZ', 'S22023156', 'zs22023156@estudiantes.uv.mx', 7, 13141, 127),
+(9560, 'KALEB DANIEL', 'ARREDONDO', 'REYES', 'S22023159', 'zs22023159@estudiantes.uv.mx', 7, 13142, 28),
+(9561, 'ARMANDO', 'BAUTISTA', 'ROMERO', 'S22024133', 'zs22024133@estudiantes.uv.mx', 1, 13143, 63),
+(9562, 'ARACELI', 'CASTILLO', 'MORALES', 'S22024135', 'zs22024135@estudiantes.uv.mx', 1, 13144, 115),
+(9563, 'MOISES', 'REYES', 'LAGUNES', 'S22024136', 'zs22024136@estudiantes.uv.mx', 7, 13145, 33),
+(9564, 'VICTOR MANUEL', 'MARTINEZ', 'FRANZONI', 'S22024137', 'zs22024137@estudiantes.uv.mx', 8, 13146, 28),
+(9565, 'GABRIEL', 'ARMAS', 'VIVEROS', 'S22028185', 'zs22028185@estudiantes.uv.mx', 3, 13147, NULL),
+(9567, 'VICTORIA', 'LOPEZ', 'ZAMBRANO', 'S22028192', 'zs22028192@estudiantes.uv.mx', 1, 13149, 115),
+(9568, 'CHRISTIAN GUILLERMO', 'ROSAS', 'HERNANDEZ', 'S22028194', 'zs22028194@estudiantes.uv.mx', 3, 13150, 51),
+(9570, 'CAROL ZULAID', 'CONTRERAS', 'RAMIREZ', 'S23013385', 'zs23013385@estudiantes.uv.mx', 1, 13152, 48),
+(9571, 'OSWALDO', 'CASTELLANOS', 'MIRANDA', 'S23013389', 'zs23013389@estudiantes.uv.mx', 1, 13153, 115),
+(9572, 'MARIANA', 'LOPEZ', 'SANGABRIEL', 'S23013391', 'zs23013391@estudiantes.uv.mx', 1, 13154, 95),
+(9573, 'JUAN DIEGO', 'HERNANDEZ', 'LUJAN', 'S23013396', 'zs23013396@estudiantes.uv.mx', 1, 13155, 38),
+(9574, 'GEZURI YAMILETH', 'MARTINEZ', 'SESEÑA', 'S23013398', 'zs23013398@estudiantes.uv.mx', 1, 13156, 63),
+(9575, 'JANICE EZMILZEN', 'PADRON', 'GONZALEZ', 'S23013399', 'zs23013399@estudiantes.uv.mx', 1, 13157, 73),
+(9576, 'IDALID', 'VARGAS', 'SALAS', 'S23013400', 'zs23013400@estudiantes.uv.mx', 1, 13158, 68),
+(9577, 'ANAIS', 'MARQUEZ', 'MENDOZA', 'S23013401', 'zs23013401@estudiantes.uv.mx', 1, 13159, 100),
+(9578, 'ENDRICH RICHIE', 'DEL ANGEL', 'PALMEROS', 'S23013405', 'zs23013405@estudiantes.uv.mx', 1, 13160, 2),
+(9579, 'MIGUEL EDUARDO', 'CRUZ', 'CAMBRANY', 'S23013407', 'zs23013407@estudiantes.uv.mx', 1, 13161, 115),
+(9580, 'JESUS ROSARIO', 'MENDOZA', 'HERNANDEZ', 'S23013408', 'zs23013408@estudiantes.uv.mx', 1, 13162, 99),
+(9581, 'GEMA', 'CHAGALA', 'BARRERA', 'S23013409', 'zs23013409@estudiantes.uv.mx', 1, 13163, 100),
+(9582, 'DARIKSON', 'DURAN', 'TAPIA', 'S23013410', 'zs23013410@estudiantes.uv.mx', 1, 13164, 116),
+(9583, 'MARCO YOTAM', 'VENTURA', 'GARCIA', 'S23013411', 'zs23013411@estudiantes.uv.mx', 1, 13165, 124),
+(9584, 'LEONARDO', 'HERNANDEZ', 'AVILA', 'S23013413', 'zs23013413@estudiantes.uv.mx', 1, 13166, 70),
+(9585, 'ALEJANDRO', 'PEREZ', 'SANTIAGO', 'S23013417', 'zs23013417@estudiantes.uv.mx', 1, 13167, 99),
+(9586, 'ABIMAEL', 'CORTES', 'HERNANDEZ', 'S23013419', 'zs23013419@estudiantes.uv.mx', 1, 13168, 38),
+(9587, 'JASMIN', 'AGUILAR', 'MOLINA', 'S23013421', 'zs23013421@estudiantes.uv.mx', 1, 13169, 80),
+(9588, 'MARISA', 'PACHECO', 'HERNANDEZ', 'S23013422', 'zs23013422@estudiantes.uv.mx', 1, 13170, 80),
+(9589, 'MARIHANNY BETSABE', 'HERNANDEZ', 'RIVERA', 'S23013423', 'zs23013423@estudiantes.uv.mx', 1, 13171, 50),
+(9590, 'JOSE URIEL', 'MARTINEZ', 'OLIVAREZ', 'S23013426', 'zs23013426@estudiantes.uv.mx', 1, 13172, 59),
+(9591, 'ALFREDO', 'MORENO', 'AGUIRRE', 'S23013428', 'zs23013428@estudiantes.uv.mx', 1, 13173, 100),
+(9592, 'JOSE MANUEL', 'RIVAS', 'MORENO', 'S23013433', 'zs23013433@estudiantes.uv.mx', 1, 13174, 99),
+(9593, 'ZURIEL EDREI', 'BELLO', 'PIMENTEL', 'S23013434', 'zs23013434@estudiantes.uv.mx', 1, 13175, 78),
+(9594, 'OSCAR ARTURO', 'AYALA', 'MORALES', 'S23013826', 'zs23013826@estudiantes.uv.mx', 2, 13176, 40),
+(9595, 'DANIEL', 'VARGAS', 'LOPEZ', 'S23013827', 'zs23013827@estudiantes.uv.mx', 2, 13177, 45),
+(9596, 'ROBERTO', 'PEREZ', 'DE LA GARZA', 'S23013828', 'zs23013828@estudiantes.uv.mx', 2, 13178, 56),
+(9597, 'PEDRO ALEXIS', 'RODRIGUEZ', 'MAY', 'S23013829', 'zs23013829@estudiantes.uv.mx', 2, 13179, 11),
+(9598, 'MARIO ERIK', 'FLANDES', 'HERNANDEZ', 'S23013831', 'zs23013831@estudiantes.uv.mx', 2, 13180, 33),
+(9599, 'GISELLE', 'ZENDEJAS', 'BALTAZAR', 'S23013832', 'zs23013832@estudiantes.uv.mx', 2, 13181, 98),
+(9600, 'FRANCISCO', 'RIOS', 'LEYVA', 'S23013833', 'zs23013833@estudiantes.uv.mx', 2, 13182, 11),
+(9602, 'JOSUE', 'JUAREZ', 'GONZALEZ', 'S23013835', 'zs23013835@estudiantes.uv.mx', 2, 13184, 42),
+(9603, 'DANNA PAOLA', 'DOMINGUEZ', 'SANCHEZ', 'S23013836', 'zs23013836@estudiantes.uv.mx', 2, 13185, 33),
+(9604, 'HEBERTO ROMAN', 'MORALES', 'GARCIA', 'S23013838', 'zs23013838@estudiantes.uv.mx', 2, 13186, 34),
+(9605, 'TURAN', 'OZBEK', '', 'S23013839', 'zs23013839@estudiantes.uv.mx', 2, 13187, 23),
+(9606, 'MARTIN DAVID', 'ALVAREZ', 'SANCHEZ', 'S23013840', 'zs23013840@estudiantes.uv.mx', 2, 13188, 40),
+(9607, 'HECTOR ISAI', 'ALARCON', 'RODRIGUEZ', 'S23013841', 'zs23013841@estudiantes.uv.mx', 2, 13189, 127),
+(9608, 'ABRAHAM', 'NUÑEZ', 'SANCHEZ', 'S23013842', 'zs23013842@estudiantes.uv.mx', 2, 13190, 23),
+(9609, 'JUAN JOSE', 'RAMIREZ', 'HERNANDEZ', 'S23013844', 'zs23013844@estudiantes.uv.mx', 2, 13191, 11),
+(9610, 'KATYA CECILIA', 'CRUZ', 'ZAMORA', 'S23013845', 'zs23013845@estudiantes.uv.mx', 2, 13192, 4),
+(9611, 'YAEL FERNANDO', 'SALDAÑA', 'LOPEZ', 'S23013846', 'zs23013846@estudiantes.uv.mx', 2, 13193, 21),
+(9612, 'AMACALLI NAILUJ', 'PEREZ', 'SANCHEZ', 'S23013847', 'zs23013847@estudiantes.uv.mx', 2, 13194, 56),
+(9613, 'EDUARDO', 'RUIZ', 'RAMIREZ', 'S23013848', 'zs23013848@estudiantes.uv.mx', 2, 13195, 11),
+(9614, 'ANDER SAUL', 'PEGUEROS', 'IZQUIERDO', 'S23013849', 'zs23013849@estudiantes.uv.mx', 2, 13196, 23),
+(9615, 'GAEL', 'ABAD', 'CARRILLO', 'S23013850', 'zs23013850@estudiantes.uv.mx', 2, 13197, 74),
+(9616, 'DIANA ESTHER', 'HUESCA', 'PRADO', 'S23013851', 'zs23013851@estudiantes.uv.mx', 2, 13198, 94),
+(9617, 'JOSABED', 'TLAXCALTECO', 'SOTO', 'S23013852', 'zs23013852@estudiantes.uv.mx', 2, 13199, 8),
+(9618, 'ANGEL DAVID', 'ROMERO', 'REA', 'S23013853', 'zs23013853@estudiantes.uv.mx', 2, 13200, 11),
+(9620, 'LUIS ANDRES', 'REBOLLAR', 'MORALES', 'S23013855', 'zs23013855@estudiantes.uv.mx', 2, 13202, 11),
+(9621, 'KATIA ITZEL', 'SUAREZ', 'ANDRADE', 'S23013856', 'zs23013856@estudiantes.uv.mx', 2, 13203, 8),
+(9622, 'RAFAEL ALEJANDRO', 'DIAZ', 'RANGEL', 'S23013857', 'zs23013857@estudiantes.uv.mx', 2, 13204, 33),
+(9623, 'JESUS VALENTIN', 'MORA', 'CORDOBA', 'S23013858', 'zs23013858@estudiantes.uv.mx', 2, 13205, 34),
+(9624, 'EMIR ENRIQUE', 'IZQUIERDO', 'MARTINEZ', 'S23013860', 'zs23013860@estudiantes.uv.mx', 2, 13206, 42),
+(9625, 'IAN ALI', 'VILLARAUZ', 'RIVERA', 'S23013861', 'zs23013861@estudiantes.uv.mx', 2, 13207, 28),
+(9626, 'ALAN', 'PENAGOS', 'GONZALEZ', 'S23013863', 'zs23013863@estudiantes.uv.mx', 2, 13208, 23),
+(9627, 'MARYEL', 'ALARCON', 'MELCHOR', 'S23013864', 'zs23013864@estudiantes.uv.mx', 2, 13209, 127),
+(9628, 'MAXIMO DIEGO', 'FLORENCIA', 'ZETINA', 'S23013865', 'zs23013865@estudiantes.uv.mx', 2, 13210, 33),
+(9630, 'MAYA ALEJANDRA', 'BARRIOS', 'SUAREZ', 'S23013868', 'zs23013868@estudiantes.uv.mx', 2, 13212, 40),
+(9632, 'ALEX SAUL', 'SOLANO', 'REYES', 'S23013870', 'zs23013870@estudiantes.uv.mx', 2, 13214, 21),
+(9633, 'LUIS GERARDO', 'JUAREZ', 'CORDOBA', 'S23013871', 'zs23013871@estudiantes.uv.mx', 1, 13215, 116),
+(9635, 'CRISTOPHER JESUS', 'BELLO', 'VELAZQUEZ', 'S23013873', 'zs23013873@estudiantes.uv.mx', 2, 13217, 40),
+(9636, 'MARIA GRISSEL', 'PEREZ', 'CORTES', 'S23013874', 'zs23013874@estudiantes.uv.mx', 2, 13218, 56),
+(9637, 'ISRAEL ZAJITH', 'MARTINEZ', 'ALARCON', 'S23013875', 'zs23013875@estudiantes.uv.mx', 2, 13219, 42),
+(9638, 'CRISTOBAL', 'PEREZ', 'SANCHEZ', 'S23013876', 'zs23013876@estudiantes.uv.mx', 2, 13220, 44),
+(9640, 'RODRIGO FERNANDO', 'PEREZ', 'SANCHEZ', 'S23013878', 'zs23013878@estudiantes.uv.mx', 2, 13222, 44),
+(9641, 'GERGELY', 'TORRES', 'MUÑOZ', 'S23013880', 'zs23013880@estudiantes.uv.mx', 2, 13223, 45),
+(9642, 'SEBASTIAN', 'PEÑA', 'ARCHUNDIA', 'S23013881', 'zs23013881@estudiantes.uv.mx', 2, 13224, 23),
+(9643, 'IAN ADAIR', 'CRUZ', 'SOSA', 'S23013883', 'zs23013883@estudiantes.uv.mx', 2, 13225, 4),
+(9644, 'DIEGO URIEL', 'VALERIO', 'MORA', 'S23013885', 'zs23013885@estudiantes.uv.mx', 2, 13226, 49),
+(9645, 'MARIO', 'GABRIEL', 'OCAÑA', 'S23013886', 'zs23013886@estudiantes.uv.mx', 2, 13227, 33),
+(9647, 'RUTH AMAIRANI', 'AVENDAÑO', 'JIMENEZ', 'S23013888', 'zs23013888@estudiantes.uv.mx', 2, 13229, 40),
+(9648, 'BRENDA', 'PEREZ', 'ABAT', 'S23013889', 'zs23013889@estudiantes.uv.mx', 2, 13230, 56),
+(9649, 'MAURICIO', 'ABURTO', 'CORDOVA', 'S23013890', 'zs23013890@estudiantes.uv.mx', 2, 13231, 74),
+(9650, 'EDWIN EMMANUEL', 'VELAZQUEZ', 'CASIQUE', 'S23013891', 'zs23013891@estudiantes.uv.mx', 2, 13232, 28),
+(9651, 'BRANDON', 'HERNANDEZ', 'PEREZ', 'S23013892', 'zs23013892@estudiantes.uv.mx', 2, 13233, 94),
+(9652, 'LUIS DANIEL', 'CORTES', 'HERNANDEZ', 'S23013893', 'zs23013893@estudiantes.uv.mx', 2, 13234, 4),
+(9653, 'WILLIAM DE JESUS', 'CARMONA', 'CHI', 'S23013894', 'zs23013894@estudiantes.uv.mx', 2, 13235, 4),
+(9654, 'HUGO', 'PERALTA', 'GALVAN', 'S23013895', 'zs23013895@estudiantes.uv.mx', 2, 13236, 56),
+(9655, 'JULIO CESAR', 'LEYVA', 'BOTELLO', 'S23013897', 'zs23013897@estudiantes.uv.mx', 2, 13237, 42),
+(9656, 'MARIANA', 'SORIA', 'VAZQUEZ', 'S23014037', 'zs23014037@estudiantes.uv.mx', 4, 13238, 125),
+(9657, 'GABRIEL ANTONIO', 'GONZALEZ', 'LOPEZ', 'S23014038', 'zs23014038@estudiantes.uv.mx', 4, 13239, 125),
+(9658, 'OMAR', 'MORALES', 'GARCIA', 'S23014039', 'zs23014039@estudiantes.uv.mx', 4, 13240, 125),
+(9659, 'ANGEL JONATHAN', 'PUCH', 'HERNANDEZ', 'S23014040', 'zs23014040@estudiantes.uv.mx', 4, 13241, 74),
+(9660, 'SETH', 'MARQUEZ', 'RODRIGUEZ', 'S23014042', 'zs23014042@estudiantes.uv.mx', 4, 13242, 74),
+(9661, 'JUAN PABLO', 'SILVA', 'MIRANDA', 'S23014043', 'zs23014043@estudiantes.uv.mx', 4, 13243, 3),
+(9664, 'MAURICIO', 'NORIEGA', 'DELGADO', 'S23014046', 'zs23014046@estudiantes.uv.mx', 4, 13246, 33),
+(9665, 'ENRIQUE', 'RODRIGUEZ', 'ALVAREZ', 'S23014047', 'zs23014047@estudiantes.uv.mx', 4, 13247, 33),
+(9666, 'ALEXANDER', 'MONTES', 'RODRIGUEZ', 'S23014048', 'zs23014048@estudiantes.uv.mx', 4, 13248, 92),
+(9667, 'DIEGO IVAN', 'ENRIQUEZ', 'MORALES', 'S23014049', 'zs23014049@estudiantes.uv.mx', 4, 13249, 92),
+(9668, 'JOSE LUIS', 'SILVA', 'GOMEZ', 'S23014050', 'zs23014050@estudiantes.uv.mx', 4, 13250, 92),
+(9669, 'DARLINGTON DIEGO', 'DELGADO', 'SANTIAGO', 'S23014051', 'zs23014051@estudiantes.uv.mx', 4, 13251, 92),
+(9670, 'EMMANUEL DE JESUS', 'REYES', 'MARIN', 'S23014052', 'zs23014052@estudiantes.uv.mx', 4, 13252, 92),
+(9671, 'MANUEL ALESSANDRO', 'VALDIVIA', 'GARCIA', 'S23014054', 'zs23014054@estudiantes.uv.mx', 4, 13253, 92),
+(9672, 'FIDEL', 'CRUZ', 'REYES', 'S23014056', 'zs23014056@estudiantes.uv.mx', 4, 13254, 92),
+(9673, 'OMAR ALEXANDRO', 'ESPINOSA', 'FERNANDEZ', 'S23014057', 'zs23014057@estudiantes.uv.mx', 4, 13255, 92),
+(9674, 'ALEJANDRO', 'MARTINEZ', 'RAMIREZ', 'S23014058', 'zs23014058@estudiantes.uv.mx', 4, 13256, 92),
+(9675, 'RODRIGO', 'LUNA', 'VAZQUEZ', 'S23014060', 'zs23014060@estudiantes.uv.mx', 4, 13257, 3),
+(9676, 'EUGENIO SALVADOR', 'GONZALEZ', 'SANCHEZ', 'S23014061', 'zs23014061@estudiantes.uv.mx', 4, 13258, 86),
+(9677, 'ABRAHAM', 'CANO', 'RAMIREZ', 'S23014063', 'zs23014063@estudiantes.uv.mx', 4, 13259, 54),
+(9678, 'ADRIAN ENRIQUE', 'LAGUNES', 'MONTERRUBIO', 'S23014065', 'zs23014065@estudiantes.uv.mx', 4, 13260, 54),
+(9679, 'JORGE', 'GUZMAN', 'CESSA', 'S23014068', 'zs23014068@estudiantes.uv.mx', 4, 13261, 65),
+(9680, 'ANGEL DE JESUS', 'ABURTO', 'RUIZ', 'S23014069', 'zs23014069@estudiantes.uv.mx', 4, 13262, 65),
+(9681, 'BRAYAN GABRIEL', 'FERNANDEZ', 'TLAPA', 'S23014071', 'zs23014071@estudiantes.uv.mx', 4, 13263, 65),
+(9682, 'ALAN RAZIEL', 'FILOBELLO', 'AGUILAR', 'S23014072', 'zs23014072@estudiantes.uv.mx', 4, 13264, 65),
+(9683, 'URIEL', 'CENDON', 'DIAZ', 'S23014073', 'zs23014073@estudiantes.uv.mx', 4, 13265, 65),
+(9684, 'LIZETH GUADALUPE', 'BELLO', 'PERALTA', 'S23014074', 'zs23014074@estudiantes.uv.mx', 4, 13266, 65),
+(9685, 'SEBASTIAN', 'CENTURION', 'AUBAD', 'S23014076', 'zs23014076@estudiantes.uv.mx', 4, 13267, 65),
+(9686, 'LUIS DONALDO', 'ORTIZ', 'GARCIA', 'S23014077', 'zs23014077@estudiantes.uv.mx', 4, 13268, 65),
+(9687, 'JORGE MIGUEL', 'CERON', 'DOMINGUEZ', 'S23014078', 'zs23014078@estudiantes.uv.mx', 4, 13269, 65),
+(9688, 'LEONARDO', 'HERNANDEZ', 'HERNANDEZ', 'S23014080', 'zs23014080@estudiantes.uv.mx', 4, 13270, 65),
+(9689, 'GENARO ALEJANDRO', 'BARRADAS', 'SANCHEZ', 'S23014083', 'zs23014083@estudiantes.uv.mx', 4, 13271, 65),
+(9690, 'ALDO ANTONIO', 'CAMPOS', 'GOMEZ', 'S23014084', 'zs23014084@estudiantes.uv.mx', 4, 13272, 65),
+(9691, 'PABLO SEBASTIAN', 'RUIZ', 'LOPEZ', 'S23014085', 'zs23014085@estudiantes.uv.mx', 4, 13273, 65),
+(9692, 'YAEL ANTONIO', 'CASTILLO', 'MENDOZA', 'S23014087', 'zs23014087@estudiantes.uv.mx', 4, 13274, 65),
+(9693, 'CARLOS', 'CASTILLO', 'BARRADAS', 'S23014088', 'zs23014088@estudiantes.uv.mx', 4, 13275, 65),
+(9694, 'ABEL', 'HERNANDEZ', 'YONG', 'S23014089', 'zs23014089@estudiantes.uv.mx', 4, 13276, 65),
+(9695, 'JHONATAN YERAY', 'HERNANDEZ', 'RIVERA', 'S23014090', 'zs23014090@estudiantes.uv.mx', 4, 13277, 119),
+(9696, 'ASTRID AZUCENA', 'TORRES', 'LAGUNES', 'S23014092', 'zs23014092@estudiantes.uv.mx', 4, 13278, 69),
+(9697, 'MARCOS ZENON', 'SANCHEZ', 'MENDIZABAL', 'S23014093', 'zs23014093@estudiantes.uv.mx', 4, 13279, 69),
+(9698, 'MIGUEL ANGEL', 'MENDEZ', 'RONZON', 'S23014094', 'zs23014094@estudiantes.uv.mx', 4, 13280, 94),
+(9699, 'IRENE', 'PAZ', 'GONZALEZ', 'S23014095', 'zs23014095@estudiantes.uv.mx', 4, 13281, 94),
+(9700, 'MIGUEL EDUARDO', 'ESCOBAR', 'LADRON DE GUEVARA', 'S23014096', 'zs23014096@estudiantes.uv.mx', 4, 13282, 42),
+(9701, 'LEONARDO DANIEL', 'ORTEGA', 'TEOBA', 'S23014097', 'zs23014097@estudiantes.uv.mx', 4, 13283, 42),
+(9702, 'AXEL GABRIEL', 'RAMIREZ', 'GONZALEZ', 'S23014100', 'zs23014100@estudiantes.uv.mx', 4, 13284, 34),
+(9703, 'CLAUDIO JOSUE', 'TRUJILLO', 'ZEPEDA', 'S23014102', 'zs23014102@estudiantes.uv.mx', 4, 13285, 67),
+(9704, 'GERARDO ABRAHAM', 'BARRON', 'GOMEZ', 'S23014103', 'zs23014103@estudiantes.uv.mx', 4, 13286, 67),
+(9705, 'MURRIETA RODRIGO', 'SANTA', 'BARBARA', 'S23014104', 'zs23014104@estudiantes.uv.mx', 4, 13287, 51),
+(9706, 'MARTIN', 'VELAZQUEZ', 'GONZALEZ', 'S23014106', 'zs23014106@estudiantes.uv.mx', 4, 13288, 51),
+(9707, 'JOSE MARIA', 'CONTRERAS', 'MOTA', 'S23014107', 'zs23014107@estudiantes.uv.mx', 4, 13289, 51),
+(9708, 'JOSE FERNANDO', 'ORTIZ', 'PEREZ', 'S23014109', 'zs23014109@estudiantes.uv.mx', 4, 13290, 107),
+(9709, 'IRVING ALEJANDRO', 'SEGUIN', 'LUNA', 'S23014110', 'zs23014110@estudiantes.uv.mx', 4, 13291, 107),
+(9710, 'JORGE ALEJANDRO', 'MESTIZO', 'VELA', 'S23014111', 'zs23014111@estudiantes.uv.mx', 4, 13292, 56),
+(9711, 'ERICKMEL', 'VAZQUEZ', 'LOPEZ', 'S23014112', 'zs23014112@estudiantes.uv.mx', 4, 13293, 56),
+(9712, 'JOANA XCARET', 'GARCIA', 'CANSECO', 'S23014113', 'zs23014113@estudiantes.uv.mx', 4, 13294, 15),
+(9713, 'EDGAR', 'VAZQUEZ', 'GARCIA', 'S23014115', 'zs23014115@estudiantes.uv.mx', 4, 13295, 15),
+(9714, 'GUILLERMO', 'VELAZQUEZ', 'ROSILES', 'S23014116', 'zs23014116@estudiantes.uv.mx', 4, 13296, 65),
+(9715, 'RODRIGO ANTONIO', 'HERNANDEZ', 'VALENCIA', 'S23014118', 'zs23014118@estudiantes.uv.mx', 5, 13297, 114),
+(9716, 'GUSTAVO ALEJANDRO', 'LOPEZ', 'GONZALEZ', 'S23014119', 'zs23014119@estudiantes.uv.mx', 5, 13298, 66),
+(9717, 'HUMBERTO HIRAM', 'GOMEZ', 'MALDONADO', 'S23014120', 'zs23014120@estudiantes.uv.mx', 5, 13299, 23),
+(9718, 'LEONARDO', 'RUIZ', 'PEDRAZA', 'S23014122', 'zs23014122@estudiantes.uv.mx', 5, 13300, 66),
+(9719, 'MICHELL', 'CID', 'RODRIGUEZ', 'S23014123', 'zs23014123@estudiantes.uv.mx', 5, 13301, 66),
+(9720, 'DANIEL', 'PALACIOS', 'SALINAS', 'S23014124', 'zs23014124@estudiantes.uv.mx', 5, 13302, 28),
+(9721, 'EPXON', 'SUANEZ', 'LANDA', 'S23014127', 'zs23014127@estudiantes.uv.mx', 5, 13303, 54),
+(9722, 'KAROL YUNUEN', 'CUERVO', 'MIRANDA', 'S23014129', 'zs23014129@estudiantes.uv.mx', 5, 13304, 104),
+(9723, 'ADOLFO ARIEL', 'HERNANDEZ', 'BARRIOS', 'S23014130', 'zs23014130@estudiantes.uv.mx', 5, 13305, 62),
+(9724, 'ANGEL ABDIEL', 'LOPEZ', 'FILOBELLO', 'S23014132', 'zs23014132@estudiantes.uv.mx', 5, 13306, 93),
+(9725, 'DYLAN', 'FLORES', 'NUÑEZ', 'S23014133', 'zs23014133@estudiantes.uv.mx', 5, 13307, 62),
+(9726, 'ERASMO RENZO FERNANDO', 'ORTIZ', 'LARA', 'S23014134', 'zs23014134@estudiantes.uv.mx', 5, 13308, 47),
+(9727, 'SARAH JOCELYN', 'BAEZ', 'RAMOS', 'S23014136', 'zs23014136@estudiantes.uv.mx', 5, 13309, 62),
+(9728, 'EDWIN DANIEL', 'MOCTEZUMA', 'LOPEZ', 'S23014137', 'zs23014137@estudiantes.uv.mx', 5, 13310, 127),
+(9729, 'CHRISTIAN GAEL', 'MURRIETA', 'LUNA', 'S23014138', 'zs23014138@estudiantes.uv.mx', 5, 13311, 23),
+(9730, 'CAROLINA', 'HERRERA', 'GONZALEZ', 'S23014139', 'zs23014139@estudiantes.uv.mx', 5, 13312, 29),
+(9731, 'ADOLFO', 'BELLIDO', 'MORA', 'S23014140', 'zs23014140@estudiantes.uv.mx', 5, 13313, 29),
+(9732, 'SERGGI RAFAEL', 'GARCIA', 'ARMAS', 'S23014142', 'zs23014142@estudiantes.uv.mx', 5, 13314, 47),
+(9733, 'VANESSA ITSEL', 'ACOSTA', 'VERA', 'S23014143', 'zs23014143@estudiantes.uv.mx', 5, 13315, 62),
+(9734, 'JUAN JOSE', 'MORALES', 'CARRION', 'S23014144', 'zs23014144@estudiantes.uv.mx', 5, 13316, 127),
+(9736, 'LUZ MICHELLE', 'MUÑOZ', 'JIMENEZ', 'S23014147', 'zs23014147@estudiantes.uv.mx', 5, 13318, 49),
+(9737, 'ERNESTO RAFAEL', 'DIAZ', 'CARAZA', 'S23014148', 'zs23014148@estudiantes.uv.mx', 5, 13319, 93),
+(9738, 'ARI NEFTALI', 'CASTRO', 'MONTALVO', 'S23014149', 'zs23014149@estudiantes.uv.mx', 5, 13320, 47),
+(9739, 'ROBERTO ALFREDO', 'BRUNO', 'OLMOS', 'S23014150', 'zs23014150@estudiantes.uv.mx', 5, 13321, 14),
+(9740, 'MIGUEL', 'CANSECO', 'JACOME', 'S23014151', 'zs23014151@estudiantes.uv.mx', 5, 13322, 62),
+(9741, 'ANGEL RICARDO', 'MARTINEZ', 'GARCIA', 'S23014152', 'zs23014152@estudiantes.uv.mx', 5, 13323, 127),
+(9742, 'JESHUA SEBASTIAN', 'MAY', 'MARTINEZ', 'S23014153', 'zs23014153@estudiantes.uv.mx', 5, 13324, 89),
+(9743, 'LUIS ANGEL', 'MORALES', 'OCHOA', 'S23014154', 'zs23014154@estudiantes.uv.mx', 5, 13325, 66),
+(9744, 'JOSE MANUEL', 'CARRETO', 'BARRIENTOS', 'S23014155', 'zs23014155@estudiantes.uv.mx', 5, 13326, 41),
+(9745, 'SERGIO DE JESUSMARLON', 'HERNANDEZ', 'PEREZ', 'S23014157', 'zs23014157@estudiantes.uv.mx', 5, 13327, 66),
+(9746, 'ISAI AZAEL', 'VASQUEZ', 'GALVAN', 'S23014158', 'zs23014158@estudiantes.uv.mx', 5, 13328, 23),
+(9747, 'JAZMIN', 'VIVEROS', 'SARMIENTO', 'S23014159', 'zs23014159@estudiantes.uv.mx', 5, 13329, 110),
+(9748, 'ANDRIK DARIEL', 'GUTIERREZ', 'RODRIGUEZ', 'S23014160', 'zs23014160@estudiantes.uv.mx', 5, 13330, 23),
+(9749, 'JOHAN', 'ANDRADE', 'MERINO', 'S23014161', 'zs23014161@estudiantes.uv.mx', 5, 13331, 76),
+(9750, 'GUILLERMO', 'GONGORA', 'MENDOZA', 'S23014164', 'zs23014164@estudiantes.uv.mx', 5, 13332, 96),
+(9751, 'YAEL', 'LEZAMA', 'LOPEZ', 'S23014165', 'zs23014165@estudiantes.uv.mx', 5, 13333, 89),
+(9752, 'GERALDINE DE FATIMA', 'CIRIACO', 'GONZALEZ', 'S23014166', 'zs23014166@estudiantes.uv.mx', 5, 13334, 89),
+(9754, 'EMIR', 'TIRSO', 'BADILLO', 'S23014169', 'zs23014169@estudiantes.uv.mx', 5, 13336, 125),
+(9755, 'OMAR ZAHIR', 'DIAZ', 'MUÑOZ', 'S23014170', 'zs23014170@estudiantes.uv.mx', 5, 13337, 23),
+(9756, 'JORGE JESUS', 'TORRES', 'SARMIENTO', 'S23014172', 'zs23014172@estudiantes.uv.mx', 5, 13338, 67),
+(9757, 'JOSE CARLOS', 'AMADOR', 'SUAREZ', 'S23014173', 'zs23014173@estudiantes.uv.mx', 5, 13339, 47),
+(9758, 'JONATHAN', 'SUAREZ', 'SALAMANCA', 'S23014174', 'zs23014174@estudiantes.uv.mx', 5, 13340, 54),
+(9759, 'ALAN', 'FABELA', 'AGUILAR', 'S23014175', 'zs23014175@estudiantes.uv.mx', 5, 13341, 96),
+(9760, 'OSCAR ALEJANDRO', 'ZAVALETA', 'ARROYO', 'S23014176', 'zs23014176@estudiantes.uv.mx', 5, 13342, 41),
+(9761, 'JOSUE', 'HERNANDEZ', 'CAYETANO', 'S23014177', 'zs23014177@estudiantes.uv.mx', 5, 13343, 114),
+(9762, 'PABLO', 'ARNAUD', 'CRUZ', 'S23014179', 'zs23014179@estudiantes.uv.mx', 5, 13344, 104),
+(9763, 'EROS SAMUEL', 'RAMALES', 'MORALES', 'S23014180', 'zs23014180@estudiantes.uv.mx', 5, 13345, 125),
+(9764, 'CINTHIA NATALIA', 'LARA', 'VALENCIA', 'S23014182', 'zs23014182@estudiantes.uv.mx', 5, 13346, 66),
+(9765, 'RODRIGO', 'HERNANDEZ', 'HOLGUIN', 'S23014183', 'zs23014183@estudiantes.uv.mx', 5, 13347, 89),
+(9766, 'NOEL ANTONIO', 'MARTINEZ', 'HERNANDEZ', 'S23014184', 'zs23014184@estudiantes.uv.mx', 5, 13348, 28),
+(9767, 'BEATRIZ ALEXIA', 'CORDERO', 'ARRAZOLA', 'S23014185', 'zs23014185@estudiantes.uv.mx', 5, 13349, 54),
+(9768, 'ISAAC', 'SANTAMARIA', 'MENDIETA', 'S23014187', 'zs23014187@estudiantes.uv.mx', 5, 13350, 16),
+(9769, 'ALEXIS', 'SALAS', 'PERALTA', 'S23014188', 'zs23014188@estudiantes.uv.mx', 5, 13351, 16),
+(9770, 'IVAN', 'PALE', 'ARENAS', 'S23014189', 'zs23014189@estudiantes.uv.mx', 5, 13352, 49),
+(9771, 'JARED', 'HUERTA', 'MUÑOZ', 'S23014190', 'zs23014190@estudiantes.uv.mx', 5, 13353, 49),
+(9772, 'CARLO EMILIANO', 'TOLEDO', 'SANCHEZ', 'S23014191', 'zs23014191@estudiantes.uv.mx', 5, 13354, 110),
+(9773, 'SEBASTIAN LAYU', 'LERMA', 'BAUTISTA', 'S23014192', 'zs23014192@estudiantes.uv.mx', 5, 13355, 76),
+(9774, 'MARLENE', 'SALDAÑA', 'MARLENE', 'S23014193', 'zs23014193@estudiantes.uv.mx', 5, 13356, 125),
+(9775, 'ISAMAR', 'CONTRERAS', 'RAMIREZ', 'S23014194', 'zs23014194@estudiantes.uv.mx', 5, 13357, 22),
+(9776, 'HECTOR MANUEL', 'TORAL', 'HUERTA', 'S23014196', 'zs23014196@estudiantes.uv.mx', 5, 13358, 16),
+(9777, 'CARLOS ALBERTO', 'AHUET', 'GARCIA', 'S23014197', 'zs23014197@estudiantes.uv.mx', 5, 13359, 29),
+(9778, 'IRVIN JOSAFAT', 'DOMINGUEZ', 'MORALES', 'S23021453', 'zs23021453@estudiantes.uv.mx', 2, 13360, 98),
+(9779, 'CHRISTOPHER', 'GOMEZ', 'MENDOZA', 'S23021454', 'zs23021454@estudiantes.uv.mx', 2, 13361, 98),
+(9780, 'IGNACIO', 'CALIXTO', 'LEON', 'S23021468', 'zs23021468@estudiantes.uv.mx', 4, 13362, 127),
+(9781, 'ALBERTO', 'VILLALBA', 'FIGUEROA', 'S23021469', 'zs23021469@estudiantes.uv.mx', 4, 13363, 127),
+(9782, 'MANUEL', 'LOPEZ', 'ZAPOTH', 'S23021470', 'zs23021470@estudiantes.uv.mx', 4, 13364, 97),
+(9783, 'MARTIN', 'MURRIETA', 'QUIROZ', 'S23021471', 'zs23021471@estudiantes.uv.mx', 4, 13365, 97),
+(9784, 'JORGE IRAN', 'PEREZ', 'SEGOVIA', 'S23021472', 'zs23021472@estudiantes.uv.mx', 4, 13366, 28),
+(9785, 'VICTOR HUGO', 'VASQUEZ', 'MARTINEZ', 'S23021473', 'zs23021473@estudiantes.uv.mx', 4, 13367, 28),
+(9786, 'ANA GEORGINA', 'REJON', 'OSORIO', 'S23021475', 'zs23021475@estudiantes.uv.mx', 4, 13368, 98),
+(9787, 'LUIS ALFREDO', 'ATANASIO', 'BARRIENTOS', 'S23021476', 'zs23021476@estudiantes.uv.mx', 5, 13369, 93),
+(9788, 'OSCAR ERNESTO', 'CARBAJAL', 'HERNANDEZ', 'S23021477', 'zs23021477@estudiantes.uv.mx', 5, 13370, 96),
+(9789, 'JOSE ANGEL', 'GUZMAN', 'ZAVALETA', 'S23021478', 'zs23021478@estudiantes.uv.mx', 5, 13371, 98),
+(9790, 'LUCAS BERNARDO', 'CHIVIS', 'CID', 'S23021480', 'zs23021480@estudiantes.uv.mx', 5, 13372, 29),
+(9791, 'EMILIO RAFAEL', 'CRUZ', 'CARREÑO', 'S23021482', 'zs23021482@estudiantes.uv.mx', 5, 13373, 74),
+(9792, 'EDUARDO ANTONIO', 'TRIANA', 'AMADOR', 'S23021483', 'zs23021483@estudiantes.uv.mx', 5, 13374, 16),
+(9793, 'GAEL', 'GARCIA', 'LOPEZ', 'S23021484', 'zs23021484@estudiantes.uv.mx', 5, 13375, 22),
+(9794, 'VICTOR MANUEL', 'RODRIGUEZ', 'GONZALEZ', 'S23021485', 'zs23021485@estudiantes.uv.mx', 5, 13376, 41),
+(9795, 'RAYMUNDO', 'HERNANDEZ', 'HERNANDEZ', 'S23023265', 'zs23023265@estudiantes.uv.mx', 1, 13377, 32),
+(9796, 'THESSA MONTSERRAT', 'GUTIERREZ', 'GONZALEZ', 'S23023267', 'zs23023267@estudiantes.uv.mx', 1, 13378, 70),
+(9797, 'JESUS', 'HERNANDEZ', 'VAZQUEZ', 'S23023270', 'zs23023270@estudiantes.uv.mx', 1, 13379, 70),
+(9798, 'PAOLA ALEXANDRA', 'CAPETILLO', 'RANGEL', 'S23023285', 'zs23023285@estudiantes.uv.mx', 1, 13380, 55),
+(9800, 'SHARENI CELIN', 'DOMINGUEZ', 'ORTEGA', 'S23023289', 'zs23023289@estudiantes.uv.mx', 1, 13382, 59),
+(9801, 'CESAR ADOLFO', 'BAUTISTA', 'DORANTES', 'S23023291', 'zs23023291@estudiantes.uv.mx', 1, 13383, 73),
+(9802, 'JOANA PALOMA', 'LAVOIGNET', 'TRUJILLO', 'S23023292', 'zs23023292@estudiantes.uv.mx', 1, 13384, 104),
+(9803, 'PABLO', 'MONTIEL', 'VENTURA', 'S23023295', 'zs23023295@estudiantes.uv.mx', 1, 13385, 48),
+(9804, 'DIEGO FRANCISCO', 'CARMONA', 'HERNANDEZ', 'S23023301', 'zs23023301@estudiantes.uv.mx', 1, 13386, 20),
+(9805, 'ASTRID YARUVI', 'SAYAGO', 'LOEZA', 'S23023303', 'zs23023303@estudiantes.uv.mx', 1, 13387, 25),
+(9806, 'LUZ EVELYN', 'DEL ANGEL', 'HERNANDEZ', 'S23023308', 'zs23023308@estudiantes.uv.mx', 1, 13388, 115),
+(9807, 'NADIA JUDITH', 'MARTINEZ', 'GARCIA', 'S23023312', 'zs23023312@estudiantes.uv.mx', 1, 13389, 2),
+(9808, 'AVRYL FABIOLA', 'ABASCAL', 'HERNANDEZ', 'S23023318', 'zs23023318@estudiantes.uv.mx', 1, 13390, 20),
+(9809, 'MARIA FERNANDA', 'MORALES', 'CONTRERAS', 'S23023323', 'zs23023323@estudiantes.uv.mx', 1, 13391, 74),
+(9810, 'OSIRIS SIOMARA', 'CORTES', 'SANTAMARIA', 'S23023324', 'zs23023324@estudiantes.uv.mx', 1, 13392, 73),
+(9811, 'BRITANY MICHELLE', 'RAMIREZ', 'HERNANDEZ', 'S23023325', 'zs23023325@estudiantes.uv.mx', 1, 13393, 59),
+(9812, 'MICHEL', 'BAEZ', 'GUEVARA', 'S23023327', 'zs23023327@estudiantes.uv.mx', 1, 13394, 59),
+(9813, 'NELLY VALERIA', 'TORRES', 'RAMIREZ', 'S23023335', 'zs23023335@estudiantes.uv.mx', 1, 13395, 20),
+(9814, 'JESUS ADRIAN', 'SANCHEZ', 'ZUÑIGA', 'S23023336', 'zs23023336@estudiantes.uv.mx', 1, 13396, 74),
+(9815, 'MARIAN', 'COLORADO', 'HERNANDEZ', 'S23023425', 'zs23023425@estudiantes.uv.mx', 5, 13397, 16),
+(9816, 'GAEL BLADIMIR', 'LOBATO', 'MORALES', 'S23023426', 'zs23023426@estudiantes.uv.mx', 5, 13398, 49),
+(9817, 'ALMA FERNANDA', 'GRACIDA', 'RICARDEZ', 'S23024133', 'zs23024133@estudiantes.uv.mx', 1, 13399, 116),
+(9818, 'LUIS', 'ADAN', 'MEDINA', 'S23024135', 'zs23024135@estudiantes.uv.mx', 8, 13400, 15),
+(9819, 'JAZMIN MONSERRAT', 'GOMEZ', 'BAEZ', 'S23024137', 'zs23024137@estudiantes.uv.mx', 7, 13401, 11),
+(9820, 'JOSE DE JESUS', 'SANCHEZ', 'HERNANDEZ', 'S23024138', 'zs23024138@estudiantes.uv.mx', 8, 13402, 15),
+(9821, 'JUAN CARLOS', 'ROMERO', 'DURAN', 'S24013021', 'zs24013021@estudiantes.uv.mx', 2, 13403, 74),
+(9822, 'MARCO ANTONIO', 'ROANO', 'FERNANDEZ', 'S24013022', 'zs24013022@estudiantes.uv.mx', 2, 13404, 74),
+(9823, 'RAUL', 'NAVA', 'SOLER', 'S24013023', 'zs24013023@estudiantes.uv.mx', 2, 13405, 74),
+(9824, 'JESUS FERNANDO', 'DE LA ROSA', 'RUIZ', 'S24013024', 'zs24013024@estudiantes.uv.mx', 2, 13406, 127),
+(9825, 'NEYZER JEZAHEL', 'CERVANTES', 'FLORES', 'S24013025', 'zs24013025@estudiantes.uv.mx', 2, 13407, NULL),
+(9826, 'BRANDON', 'OROZCO', 'MORALES', 'S24013026', 'zs24013026@estudiantes.uv.mx', 2, 13408, 40),
+(9827, 'KEVIN ISAAC', 'HUESCA', 'DE LOS SANTOS', 'S24013027', 'zs24013027@estudiantes.uv.mx', 2, 13409, 40),
+(9828, 'FERNANDO', 'HERNANDEZ', 'LAGUNES', 'S24013028', 'zs24013028@estudiantes.uv.mx', 2, 13410, 40),
+(9829, 'DANIEL', 'FERNANDEZ', 'MEJIA', 'S24013029', 'zs24013029@estudiantes.uv.mx', 2, 13411, 40),
+(9830, 'EMMANUEL ALEXIS', 'ESPERILLA', 'CASTRO', 'S24013031', 'zs24013031@estudiantes.uv.mx', 2, 13412, 4),
+(9831, 'ABIGAIL', 'SANCHEZ', 'VAZQUEZ', 'S24013032', 'zs24013032@estudiantes.uv.mx', 2, 13413, 4),
+(9832, 'ROSA HELENA', 'VAZQUEZ', 'CAMACHO', 'S24013033', 'zs24013033@estudiantes.uv.mx', 2, 13414, 33),
+(9833, 'LUZ DIANELY', 'LOZANO', 'GARCIA', 'S24013034', 'zs24013034@estudiantes.uv.mx', 2, 13415, 33),
+(9834, 'LUIS RAUL', 'RODRIGUEZ', 'HERNANDEZ', 'S24013035', 'zs24013035@estudiantes.uv.mx', 2, 13416, 33),
+(9835, 'NAVID ELYAZID', 'RAMIREZ', 'RIOS', 'S24013036', 'zs24013036@estudiantes.uv.mx', 2, 13417, 33),
+(9840, 'JOSE ANTONIO', 'JIMENEZ', 'CONDE', 'S24013041', 'zs24013041@estudiantes.uv.mx', 2, 13422, 94),
+(9841, 'ADAN ESTEBAN', 'GARCIA', 'MUÑOZ', 'S24013042', 'zs24013042@estudiantes.uv.mx', 2, 13423, 94),
+(9842, 'OSCAR ALBERTO', 'CASTILLO', 'DORANTES', 'S24013043', 'zs24013043@estudiantes.uv.mx', 2, 13424, 42),
+(9843, 'JOSHUA', 'CABALLERO', 'SORDO', 'S24013044', 'zs24013044@estudiantes.uv.mx', 2, 13425, 42),
+(9844, 'DIEGO ARMANDO', 'MORALES', 'LANDA', 'S24013045', 'zs24013045@estudiantes.uv.mx', 6, 13426, 55),
+(9845, 'CARLOS RODRIGO', 'GARCIA', 'AVILA', 'S24013046', 'zs24013046@estudiantes.uv.mx', 2, 13427, 42),
+(9846, 'YATZEL ALEXIS', 'HERNANDEZ', 'CARMONA', 'S24013047', 'zs24013047@estudiantes.uv.mx', 2, 13428, 42),
+(9850, 'GABRIEL SINHUE', 'TREJO', 'SALDAÑA', 'S24013051', 'zs24013051@estudiantes.uv.mx', 2, 13432, 49),
+(9851, 'XIADANI MONSERRAT', 'MESTIZO', 'LOPEZ', 'S24013052', 'zs24013052@estudiantes.uv.mx', 2, 13433, 49),
+(9852, 'JESUS ONOFRE', 'RODRIGUEZ', 'CORTES', 'S24013053', 'zs24013053@estudiantes.uv.mx', 2, 13434, 34),
+(9853, 'MARIA FERNANDA', 'DURAN', 'SILICEO', 'S24013054', 'zs24013054@estudiantes.uv.mx', 2, 13435, 34),
+(9854, 'JESUS ABDEL', 'MENDEZ', 'JIMENEZ', 'S24013055', 'zs24013055@estudiantes.uv.mx', 2, 13436, 34),
+(9855, 'ERICK JAIR', 'MORALES', 'ROMERO', 'S24013056', 'zs24013056@estudiantes.uv.mx', 2, 13437, 23),
+(9856, 'KEVIN MARZUL', 'JERONIMO', 'ROJANO', 'S24013057', 'zs24013057@estudiantes.uv.mx', 2, 13438, 23),
+(9857, 'JOSE ADRIEL', 'RIVERA', 'PLATAS', 'S24013058', 'zs24013058@estudiantes.uv.mx', 2, 13439, 23),
+(9858, 'JAFET ALEJANDRO', 'GONZALEZ', 'MAIN', 'S24013059', 'zs24013059@estudiantes.uv.mx', 2, 13440, 56),
+(9859, 'BRAYAN USCIEL', 'SESEÑA', 'HIDALGO', 'S24013060', 'zs24013060@estudiantes.uv.mx', 2, 13441, 56),
+(9860, 'MARTIN GABRIEL', 'LEON', 'ALANIS', 'S24013061', 'zs24013061@estudiantes.uv.mx', 2, 13442, 56),
+(9861, 'LUIS DANIEL', 'GUERRERO', 'ESCALANTE', 'S24013062', 'zs24013062@estudiantes.uv.mx', 2, 13443, 44),
+(9862, 'ANGEL', 'ROANO', 'NAVARRO', 'S24013063', 'zs24013063@estudiantes.uv.mx', 2, 13444, 44),
+(9863, 'LUIS FERNANDO', 'CABRERA', 'ARRIAGA', 'S24013064', 'zs24013064@estudiantes.uv.mx', 2, 13445, 44),
+(9864, 'EDDI MICHAEL', 'HERNANDEZ', 'RODRIGUEZ', 'S24013065', 'zs24013065@estudiantes.uv.mx', 2, 13446, 11),
+(9865, 'JORGE GAEL', 'HERNANDEZ', 'MARCIAL', 'S24013066', 'zs24013066@estudiantes.uv.mx', 2, 13447, 11),
+(9866, 'SERGIO DAVID', 'MONTIEL', 'JUAREZ', 'S24013067', 'zs24013067@estudiantes.uv.mx', 2, 13448, 11),
+(9867, 'ALAN KALE', 'OLIVA', 'HERRERA', 'S24013068', 'zs24013068@estudiantes.uv.mx', 2, 13449, 11),
+(9868, 'CHRISTOPHER EINAR', 'LEPE', 'CARCAMO', 'S24013069', 'zs24013069@estudiantes.uv.mx', 2, 13450, 21),
+(9869, 'DYLLAN ALEXIS', 'MELGAREJO', 'GAONA', 'S24013070', 'zs24013070@estudiantes.uv.mx', 2, 13451, 21),
+(9870, 'YARETZI YANAY', 'GARCIA', 'CARRETO', 'S24013071', 'zs24013071@estudiantes.uv.mx', 2, 13452, 21),
+(9871, 'OMAR', 'SANCHEZ', 'MALDONADO', 'S24013072', 'zs24013072@estudiantes.uv.mx', 2, 13453, 43),
+(9872, 'RONALDO', 'DE LA CRUZ', 'HERNANDEZ', 'S24013073', 'zs24013073@estudiantes.uv.mx', 2, 13454, 43),
+(9873, 'CHRISTIAN ALEJANDRO', 'RODRIGUEZ', 'HERNANDEZ', 'S24013074', 'zs24013074@estudiantes.uv.mx', 2, 13455, 43),
+(9874, 'MILTON DAVID', 'MELCHOR', 'CARMONA', 'S24013075', 'zs24013075@estudiantes.uv.mx', 2, 13456, 43),
+(9875, 'CAMILA', 'BARRERA', 'VENTURA', 'S24013076', 'zs24013076@estudiantes.uv.mx', 2, 13457, 43),
+(9876, 'SAUL', 'AGUILAR', 'LOPEZ', 'S24013077', 'zs24013077@estudiantes.uv.mx', 2, 13458, 45),
+(9877, 'HORUS SHAIEL', 'HERNANDEZ', 'IRIARTE', 'S24013078', 'zs24013078@estudiantes.uv.mx', 2, 13459, 28),
+(9878, 'YAZMIN', 'RODRIGUEZ', 'SALAZAR', 'S24013079', 'zs24013079@estudiantes.uv.mx', 2, 13460, 28),
+(9879, 'MARISOL', 'ALVARADO', 'CABRERA', 'S24013080', 'zs24013080@estudiantes.uv.mx', 2, 13461, 28),
+(9880, 'PABLO DANIEL', 'HERNANDEZ', 'SANTIAGO', 'S24013081', 'zs24013081@estudiantes.uv.mx', 2, 13462, 8),
+(9881, 'PAMELA', 'RUIZ', 'GUZMAN', 'S24013082', 'zs24013082@estudiantes.uv.mx', 2, 13463, 8),
+(9882, 'SEBASTIAN', 'ASTORGA', 'GARCIA', 'S24013083', 'zs24013083@estudiantes.uv.mx', 2, 13464, 8),
+(9883, 'ILSE ALIBETH', 'MARTINEZ', 'CHIMAL', 'S24013084', 'zs24013084@estudiantes.uv.mx', 2, 13465, 98),
+(9884, 'JACOB', 'PALMA', 'ABURTO', 'S24013085', 'zs24013085@estudiantes.uv.mx', 2, 13466, 98),
+(9885, 'KHRISTIAN', 'POMMIER', 'GOMEZ', 'S24013086', 'zs24013086@estudiantes.uv.mx', 2, 13467, 98),
+(9886, 'JOHANN OSVALDO', 'MARTINEZ', 'CONTRERAS', 'S24013087', 'zs24013087@estudiantes.uv.mx', 2, 13468, 45),
+(9887, 'RAFAEL', 'GARCIA', 'AGUILAR', 'S24013088', 'zs24013088@estudiantes.uv.mx', 2, 13469, 45),
+(9891, 'RAFAEL IGNACIO', 'ANGELES', 'ALPUCHE', 'S24013094', 'zs24013094@estudiantes.uv.mx', 2, 13473, 4),
+(9892, 'DIEGO', 'DOMINGUEZ', 'VARELA', 'S24013095', 'zs24013095@estudiantes.uv.mx', 2, 13474, 21),
+(9893, 'OSWALDO', 'GOMEZ', 'BARROS', 'S24013247', 'zs24013247@estudiantes.uv.mx', 4, 13475, 125),
+(9894, 'LAURENCIO', 'LOPEZ', 'MARTINEZ', 'S24013248', 'zs24013248@estudiantes.uv.mx', 4, 13476, 125),
+(9895, 'IVONNE AMERICA', 'CASTELLANOS', 'GOMEZ', 'S24013249', 'zs24013249@estudiantes.uv.mx', 4, 13477, 125),
+(9896, 'ERICK IVAN', 'ESCOBAR', 'MORALES', 'S24013250', 'zs24013250@estudiantes.uv.mx', 4, 13478, 3),
+(9897, 'YARAZARETH ZACNITE', 'ORTIZ', 'OLMOS', 'S24013253', 'zs24013253@estudiantes.uv.mx', 4, 13479, 42),
+(9898, 'ALEJANDRO', 'GONZALEZ', 'LARA', 'S24013254', 'zs24013254@estudiantes.uv.mx', 4, 13480, 127),
+(9899, 'JORGE', 'ARAUJO', 'HERNANDEZ', 'S24013255', 'zs24013255@estudiantes.uv.mx', 4, 13481, 107),
+(9900, 'VICTOR ALEJANDRO', 'GOMEZ', 'CARBALLO', 'S24013256', 'zs24013256@estudiantes.uv.mx', 4, 13482, 3),
+(9901, 'ULISES', 'SANCHEZ', 'LARA', 'S24013257', 'zs24013257@estudiantes.uv.mx', 4, 13483, 33),
+(9902, 'ISAAC ADRIANO', 'VAZQUEZ', 'TORRES', 'S24013258', 'zs24013258@estudiantes.uv.mx', 4, 13484, 92),
+(9903, 'GABRIEL', 'HERNANDEZ', 'MARTINEZ', 'S24013259', 'zs24013259@estudiantes.uv.mx', 4, 13485, 92),
+(9904, 'LUIS JESUS', 'GUZMAN', 'RINCON', 'S24013260', 'zs24013260@estudiantes.uv.mx', 4, 13486, 92),
+(9905, 'LUZ FERNANDA', 'HERRERA', 'JUAREZ', 'S24013261', 'zs24013261@estudiantes.uv.mx', 4, 13487, 92),
+(9906, 'ADRIAN ALONSO', 'ESPARZA', 'HERNANDEZ', 'S24013262', 'zs24013262@estudiantes.uv.mx', 4, 13488, 92),
+(9907, 'ISA GABRIELA', 'TORRES', 'GARCIA', 'S24013263', 'zs24013263@estudiantes.uv.mx', 4, 13489, 92),
+(9908, 'LENIN JESUS', 'HERNANDEZ', 'RAMIREZ', 'S24013264', 'zs24013264@estudiantes.uv.mx', 4, 13490, 92),
+(9909, 'LEANDRO', 'BARRA', 'CORDOBA', 'S24013265', 'zs24013265@estudiantes.uv.mx', 4, 13491, 92),
+(9910, 'EMILIO', 'ALVAREZ', 'VILLALOBOS', 'S24013267', 'zs24013267@estudiantes.uv.mx', 4, 13492, 86),
+(9911, 'GAEL SAMEI', 'AMORES', 'RIVAS', 'S24013269', 'zs24013269@estudiantes.uv.mx', 4, 13493, 86),
+(9912, 'LUIS ANGEL', 'ORTIZ', 'LOPEZ', 'S24013270', 'zs24013270@estudiantes.uv.mx', 4, 13494, 54),
+(9913, 'CESAR DANIEL', 'ORTEGA', 'CASTILLEJOS', 'S24013271', 'zs24013271@estudiantes.uv.mx', 4, 13495, 54),
+(9914, 'ANGEL DE JESUS', 'RODRIGUEZ', 'ESPINOSA', 'S24013272', 'zs24013272@estudiantes.uv.mx', 4, 13496, 54),
+(9915, 'ANDRE FERNANDO', 'BENITEZ', 'AGUILAR', 'S24013273', 'zs24013273@estudiantes.uv.mx', 4, 13497, 65),
+(9916, 'JUAN JOSE', 'LOPEZ', 'PEREZ', 'S24013274', 'zs24013274@estudiantes.uv.mx', 4, 13498, 12),
+(9917, 'MANUEL', 'GONZALEZ', 'GARCIA', 'S24013275', 'zs24013275@estudiantes.uv.mx', 4, 13499, 65),
+(9918, 'PEDRO ENRIQUE', 'SANCHEZ', 'RODRIGUEZ', 'S24013276', 'zs24013276@estudiantes.uv.mx', 4, 13500, 65),
+(9919, 'LUIS DARIO', 'PADILLA', 'LOPEZ', 'S24013278', 'zs24013278@estudiantes.uv.mx', 4, 13501, 65),
+(9920, 'ANGEL DAVID', 'NAVARRO', 'DE LA CRUZ', 'S24013279', 'zs24013279@estudiantes.uv.mx', 4, 13502, 42),
+(9921, 'ABIGAIL', 'PONCE', 'PEREZ', 'S24013280', 'zs24013280@estudiantes.uv.mx', 4, 13503, 65),
+(9922, 'LESLIE VERONICA', 'ORTEGA', 'MENDEZ', 'S24013281', 'zs24013281@estudiantes.uv.mx', 4, 13504, 42),
+(9923, 'ANGEL AMETH', 'BONILLA', 'RAMIREZ', 'S24013282', 'zs24013282@estudiantes.uv.mx', 4, 13505, 42),
+(9924, 'VALENTIN', 'BENAVIDES', 'MARTINEZ', 'S24013283', 'zs24013283@estudiantes.uv.mx', 4, 13506, 34),
+(9925, 'ULISES EDUARDO', 'BAEZ', 'ROSAS', 'S24013284', 'zs24013284@estudiantes.uv.mx', 4, 13507, 34),
+(9926, 'CINTHYA', 'REYES', 'MALDONADO', 'S24013285', 'zs24013285@estudiantes.uv.mx', 4, 13508, 34),
+(9927, 'ADAIR ALEJANDRO', 'MARTINEZ', 'ALEJO', 'S24013286', 'zs24013286@estudiantes.uv.mx', 4, 13509, 34),
+(9928, 'DAVID', 'ESPINOZA', 'MORALES', 'S24013287', 'zs24013287@estudiantes.uv.mx', 4, 13510, 67),
+(9929, 'HELI YOSSELINE', 'ARROYO', 'BONILLA', 'S24013288', 'zs24013288@estudiantes.uv.mx', 4, 13511, 67),
+(9930, 'GAMALIEL', 'CABRERA', 'PLACIDO', 'S24013289', 'zs24013289@estudiantes.uv.mx', 4, 13512, 67),
+(9931, 'OSCAR', 'TURRENT', 'PEÑA', 'S24013290', 'zs24013290@estudiantes.uv.mx', 4, 13513, 67),
+(9932, 'CESAR ALEJANDRO', 'MARTINEZ', 'GABINO', 'S24013291', 'zs24013291@estudiantes.uv.mx', 4, 13514, 67),
+(9933, 'ENDRIC', 'VERA', 'TOLEDO', 'S24013292', 'zs24013292@estudiantes.uv.mx', 4, 13515, 51),
+(9934, 'NICOLAS YAZID', 'CRUZ', 'HERNANDEZ', 'S24013293', 'zs24013293@estudiantes.uv.mx', 4, 13516, 51),
+(9935, 'DIEGO ALEXIS', 'LEON', 'GARCIA', 'S24013294', 'zs24013294@estudiantes.uv.mx', 4, 13517, 51),
+(9936, 'ABDIEL GAGNOLI', 'MARTINEZ', 'LIMON', 'S24013295', 'zs24013295@estudiantes.uv.mx', 4, 13518, 51),
+(9937, 'MARIA JOSE', 'LANDA', 'FERNANDEZ', 'S24013296', 'zs24013296@estudiantes.uv.mx', 4, 13519, 51),
+(9938, 'MIGUEL ANGEL', 'AGUILAR', 'CARRILLO', 'S24013297', 'zs24013297@estudiantes.uv.mx', 4, 13520, 51),
+(9939, 'EMILIANO', 'MORALES', 'BAIZABAL', 'S24013298', 'zs24013298@estudiantes.uv.mx', 4, 13521, 51),
+(9940, 'EMMANUEL ERNESTO', 'USCANGA', 'HERNANDEZ', 'S24013299', 'zs24013299@estudiantes.uv.mx', 4, 13522, 51),
+(9941, 'GERMAN VICENTE', 'GONZALEZ', 'HERRERA', 'S24013300', 'zs24013300@estudiantes.uv.mx', 4, 13523, 51),
+(9942, 'CRISTIAN YAEL', 'GONZALEZ', 'SANCHEZ', 'S24013301', 'zs24013301@estudiantes.uv.mx', 4, 13524, 51),
+(9943, 'ANDRE', 'SOLORIO', 'ROJAS', 'S24013302', 'zs24013302@estudiantes.uv.mx', 4, 13525, 51),
+(9944, 'JOSE EDUARDO', 'PRIOR', 'HERNANDEZ', 'S24013303', 'zs24013303@estudiantes.uv.mx', 4, 13526, 51),
+(9945, 'SEBASTIAN', 'BARRERA', 'MORA', 'S24013304', 'zs24013304@estudiantes.uv.mx', 4, 13527, 107),
+(9946, 'SAMUEL', 'CARRETO', 'BARRIENTOS', 'S24013305', 'zs24013305@estudiantes.uv.mx', 4, 13528, 107),
+(9947, 'DAVID RICARDO', 'OROZCO', 'PEÑA', 'S24013306', 'zs24013306@estudiantes.uv.mx', 4, 13529, 109),
+(9948, 'ALAN', 'MARTINEZ', 'LOPEZ', 'S24013307', 'zs24013307@estudiantes.uv.mx', 4, 13530, 109),
+(9949, 'ANGEL EMANUEL', 'QUINO', 'CINTA', 'S24013308', 'zs24013308@estudiantes.uv.mx', 4, 13531, 56),
+(9950, 'JOSE DAVID', 'LOPEZ', 'FRANCISCO', 'S24013309', 'zs24013309@estudiantes.uv.mx', 4, 13532, 21),
+(9951, 'ANGEL ARTURO', 'ARIAS', 'BERNABE', 'S24013310', 'zs24013310@estudiantes.uv.mx', 4, 13533, 21),
+(9952, 'JAVIER YAJSEEL', 'LILY', 'REYES', 'S24013311', 'zs24013311@estudiantes.uv.mx', 4, 13534, 21),
+(9953, 'ADRIANA MICHELLE', 'HERNANDEZ', 'ORTEGA', 'S24013312', 'zs24013312@estudiantes.uv.mx', 4, 13535, 21),
+(9954, 'URI ABDIEL', 'MASIN', 'CAMPECHANO', 'S24013314', 'zs24013314@estudiantes.uv.mx', 4, 13536, 21),
+(9955, 'NICOLE STELLA', 'ARMAS', 'MENDOZA', 'S24013315', 'zs24013315@estudiantes.uv.mx', 4, 13537, 15),
+(9956, 'JUAN DANIEL', 'PEREZ', 'SANTIAGO', 'S24013316', 'zs24013316@estudiantes.uv.mx', 4, 13538, 15),
+(9957, 'ELLIN ALEJANDRA', 'JIMENEZ', 'VILLANUEVA', 'S24013317', 'zs24013317@estudiantes.uv.mx', 4, 13539, 15),
+(9958, 'JONATHAN FARID', 'HERNANDEZ', 'CORONA', 'S24013318', 'zs24013318@estudiantes.uv.mx', 4, 13540, 15),
+(9959, 'ARTURO', 'BAEZ', 'SANCHEZ', 'S24013319', 'zs24013319@estudiantes.uv.mx', 4, 13541, 15),
+(9960, 'RODRIGO', 'TORRES', 'HERNANDEZ', 'S24013320', 'zs24013320@estudiantes.uv.mx', 4, 13542, 12),
+(9961, 'HECTOR ABDIEL', 'PEREZ', 'MAR', 'S24013321', 'zs24013321@estudiantes.uv.mx', 4, 13543, 12),
+(9962, 'DENISSE YAMILETH', 'JUAREZ', 'REYES', 'S24013322', 'zs24013322@estudiantes.uv.mx', 4, 13544, 97),
+(9963, 'IAN UZIEL', 'DIAZ', 'DIAZ', 'S24013323', 'zs24013323@estudiantes.uv.mx', 4, 13545, 97),
+(9964, 'ANGEL GABRIEL', 'AGUILAR', 'HERNANDEZ', 'S24013324', 'zs24013324@estudiantes.uv.mx', 4, 13546, 28),
+(9965, 'STEPHANIE ELIZDETH', 'HERNANDEZ', 'PRIETO', 'S24013327', 'zs24013327@estudiantes.uv.mx', 5, 13547, 125),
+(9966, 'CESAR', 'SOLANO', 'CALLEJAS', 'S24013329', 'zs24013329@estudiantes.uv.mx', 5, 13548, 47),
+(9967, 'CARLOS ALESSANDRO', 'ROA', 'VAZQUEZ', 'S24013331', 'zs24013331@estudiantes.uv.mx', 5, 13549, 28),
+(9968, 'GONZALO', 'MENDOZA', 'HERRERA', 'S24013332', 'zs24013332@estudiantes.uv.mx', 5, 13550, 114),
+(9969, 'ALVARO ADAIR', 'HERNANDEZ', 'SANCHEZ', 'S24013333', 'zs24013333@estudiantes.uv.mx', 5, 13551, 105),
+(9970, 'MARIO JAVIER', 'BONAVIDES', 'ALCALA', 'S24013334', 'zs24013334@estudiantes.uv.mx', 5, 13552, 76),
+(9971, 'JOSE FERNANDO', 'MARTINEZ', 'ENRIQUEZ', 'S24013335', 'zs24013335@estudiantes.uv.mx', 5, 13553, 104),
+(9972, 'CITLALY', 'MORALES', 'VIVEROS', 'S24013337', 'zs24013337@estudiantes.uv.mx', 5, 13554, 22),
+(9973, 'MIGUEL ANGEL', 'MARCELO', 'TARACENA', 'S24013338', 'zs24013338@estudiantes.uv.mx', 5, 13555, 14),
+(9974, 'REBECA', 'BAUTISTA', 'GARCIA', 'S24013339', 'zs24013339@estudiantes.uv.mx', 5, 13556, 89),
+(9975, 'CAMILA MARINE', 'CRESPO', 'ZURITA', 'S24013340', 'zs24013340@estudiantes.uv.mx', 5, 13557, 125),
+(9976, 'MIGUEL ANGEL', 'SIGALES', 'FUENTES', 'S24013341', 'zs24013341@estudiantes.uv.mx', 5, 13558, 110),
+(9977, 'GABRIEL', 'MALDONADO', 'LOPEZ', 'S24013342', 'zs24013342@estudiantes.uv.mx', 5, 13559, 66),
+(9978, 'IAN PAUL', 'SEPULVEDA', 'ANGUIANO', 'S24013343', 'zs24013343@estudiantes.uv.mx', 5, 13560, 37),
+(9979, 'ERICK IRAY', 'GUTIERREZ', 'DEL ANGEL', 'S24013344', 'zs24013344@estudiantes.uv.mx', 5, 13561, 15),
+(9980, 'JOSE MANUEL', 'HERNANDEZ', 'PIEDRA', 'S24013345', 'zs24013345@estudiantes.uv.mx', 5, 13562, 93),
+(9981, 'TANIA KETZEL', 'GOMEZ', 'VELASQUEZ', 'S24013346', 'zs24013346@estudiantes.uv.mx', 5, 13563, 28),
+(9982, 'ANGEL DE JESUS', 'NIETO', 'HERNANDEZ', 'S24013348', 'zs24013348@estudiantes.uv.mx', 5, 13564, 104),
+(9983, 'CARLOS VICENTE', 'LOPEZ', 'ROSALES', 'S24013349', 'zs24013349@estudiantes.uv.mx', 5, 13565, 62),
+(9984, 'FRANCISCO', 'BAEZ', 'RODRIGUEZ', 'S24013350', 'zs24013350@estudiantes.uv.mx', 5, 13566, 22),
+(9985, 'DIEGO', 'ABURTO', 'LARA', 'S24013351', 'zs24013351@estudiantes.uv.mx', 5, 13567, 62),
+(9986, 'HIRAM AXEL', 'LOPEZ', 'GARCIA', 'S24013352', 'zs24013352@estudiantes.uv.mx', 5, 13568, 41),
+(9987, 'LUIS DAVID', 'SOSA', 'FERNANDEZ', 'S24013353', 'zs24013353@estudiantes.uv.mx', 5, 13569, 98),
+(9988, 'RUBI YARELI', 'MENDOZA', 'ALARCON', 'S24013354', 'zs24013354@estudiantes.uv.mx', 5, 13570, 37),
+(9989, 'GUSTAVO ADOLFO', 'MARTINEZ', 'MARTINEZ', 'S24013356', 'zs24013356@estudiantes.uv.mx', 5, 13571, 93),
+(9990, 'JESUS', 'MELCHOR', 'SUAREZ', 'S24013357', 'zs24013357@estudiantes.uv.mx', 5, 13572, 114),
+(9991, 'ANTHONY DANIEL', 'LANDA', 'ROMERO', 'S24013359', 'zs24013359@estudiantes.uv.mx', 5, 13573, 125),
+(9992, 'IRVING ANTONIO', 'LOPEZ', 'HERNANDEZ', 'S24013360', 'zs24013360@estudiantes.uv.mx', 5, 13574, 117),
+(9993, 'EMANUEL', 'HERNANDEZ', 'OCHOA', 'S24013362', 'zs24013362@estudiantes.uv.mx', 5, 13575, 37),
+(9994, 'ISAAC', 'MOLINA', 'FLORES', 'S24013363', 'zs24013363@estudiantes.uv.mx', 5, 13576, 47),
+(9995, 'NINO ALESSANDRO', 'NAVARRO', 'LAM', 'S24013364', 'zs24013364@estudiantes.uv.mx', 5, 13577, 105),
+(9996, 'ANGEL YARIB', 'MORALES', 'MARTINEZ', 'S24013365', 'zs24013365@estudiantes.uv.mx', 5, 13578, 23),
+(9997, 'EDGAR ALEJANDRO', 'CORTES', 'MARTINEZ', 'S24013366', 'zs24013366@estudiantes.uv.mx', 5, 13579, 93),
+(9998, 'ARADAN', 'SCHWARTZ', 'ROCHA', 'S24013367', 'zs24013367@estudiantes.uv.mx', 5, 13580, 43),
+(9999, 'JUAN ALEJANDRO', 'GARCIA', 'GARCIA', 'S24013368', 'zs24013368@estudiantes.uv.mx', 5, 13581, 37),
+(10000, 'ALEJANDRA', 'AVILA', 'TLAXCALTECO', 'S24013369', 'zs24013369@estudiantes.uv.mx', 5, 13582, 125),
+(10001, 'ANTONIO DE JESUS', 'TEJEDA', 'LOPEZ', 'S24013370', 'zs24013370@estudiantes.uv.mx', 5, 13583, 117),
+(10002, 'JOSE LUIS', 'LUCAS', 'LANDA', 'S24013371', 'zs24013371@estudiantes.uv.mx', 5, 13584, 114),
+(10003, 'JUAN LUIS', 'GAONA', 'AGUIRRE', 'S24013373', 'zs24013373@estudiantes.uv.mx', 5, 13585, 110),
+(10004, 'LUIS CARLOS', 'CLAVEL', 'CASAS', 'S24013374', 'zs24013374@estudiantes.uv.mx', 5, 13586, 62),
+(10006, 'ANGEL MISAEL', 'JACOME', 'SANCHEZ', 'S24013376', 'zs24013376@estudiantes.uv.mx', 5, 13588, 37),
+(10007, 'CESAR RODRIGO', 'DIAZ', 'HERNANDEZ', 'S24013377', 'zs24013377@estudiantes.uv.mx', 5, 13589, 96),
+(10008, 'MARIA DE LOURDES', 'MENDEZ', 'PRIGADAA', 'S24013378', 'zs24013378@estudiantes.uv.mx', 5, 13590, 54),
+(10009, 'JOSUA NAHUM', 'ORTIZ', 'GALAN', 'S24013379', 'zs24013379@estudiantes.uv.mx', 5, 13591, 54),
+(10010, 'AXEL DE LA CRUZ', 'YEBRA', 'DEL MORAL', 'S24013380', 'zs24013380@estudiantes.uv.mx', 5, 13592, 29),
+(10011, 'DIEGO RAFAEL', 'JIMENEZ', 'TRUJANO', 'S24013381', 'zs24013381@estudiantes.uv.mx', 5, 13593, 67),
+(10012, 'KENDAR EMMANUEL', 'STROP', 'GARCIA', 'S24013382', 'zs24013382@estudiantes.uv.mx', 5, 13594, 49),
+(10013, 'ALFONSO', 'MENDOZA', 'VASQUEZ', 'S24013383', 'zs24013383@estudiantes.uv.mx', 5, 13595, 125),
+(10014, 'EMILIANO', 'HERNANDEZ', 'GARCIA', 'S24013384', 'zs24013384@estudiantes.uv.mx', 5, 13596, 93),
+(10015, 'SINUHE RAFAEL', 'CARRILLO', 'ESTRADA', 'S24013385', 'zs24013385@estudiantes.uv.mx', 5, 13597, 89),
+(10016, 'ALFONSO', 'DIAZ', 'MERINO', 'S24013386', 'zs24013386@estudiantes.uv.mx', 5, 13598, 41),
+(10017, 'HANS ARTURO', 'MARTINEZ', 'ROMERO', 'S24013387', 'zs24013387@estudiantes.uv.mx', 5, 13599, 105),
+(10018, 'SARA', 'ORTEGA', 'HERNANDEZ', 'S24013388', 'zs24013388@estudiantes.uv.mx', 5, 13600, 23),
+(10019, 'KEVIN', 'PEREZ', 'HERNANDEZ', 'S24013389', 'zs24013389@estudiantes.uv.mx', 5, 13601, 37),
+(10021, 'JOSE EMMANUEL', 'MARTINEZ', 'GALICIA', 'S24013392', 'zs24013392@estudiantes.uv.mx', 5, 13603, 28),
+(10022, 'XAVIER', 'CARRERAS', 'MENDOZA', 'S24013394', 'zs24013394@estudiantes.uv.mx', 5, 13604, 67),
+(10023, 'ERIK MICHELL', 'SORCIA', 'CRUZ', 'S24013395', 'zs24013395@estudiantes.uv.mx', 5, 13605, 37),
+(10025, 'IAN CARLO', 'RUMAYOR', 'ROMERO', 'S24013397', 'zs24013397@estudiantes.uv.mx', 5, 13607, 37),
+(10027, 'JETZALY JOSMERY', 'TELLO', 'CAMPOS', 'S24013399', 'zs24013399@estudiantes.uv.mx', 5, 13609, 37),
+(10028, 'ANGEL UZIEL', 'GARCIA', 'SALDAÑA', 'S24013400', 'zs24013400@estudiantes.uv.mx', 5, 13610, 96),
+(10029, 'JESUS ALFREDO', 'COBOS', 'VALENCIA', 'S24013401', 'zs24013401@estudiantes.uv.mx', 5, 13611, 43),
+(10030, 'CARLOS GABRIEL', 'PENSADO', 'VALDEZ', 'S24013402', 'zs24013402@estudiantes.uv.mx', 5, 13612, 54),
+(10031, 'OSMAR ANTONIO', 'HERNANDEZ', 'HERRERA', 'S24013403', 'zs24013403@estudiantes.uv.mx', 5, 13613, 66),
+(10032, 'DANIEL', 'PEÑA', 'ZOTO', 'S24013404', 'zs24013404@estudiantes.uv.mx', 5, 13614, 47),
+(10033, 'KEVIN MIGUEL', 'GARCIA', 'MONTANE', 'S24013405', 'zs24013405@estudiantes.uv.mx', 5, 13615, 29),
+(10034, 'IARA IDALIA', 'ZAPOT', 'JUAREZ', 'S24013451', 'zs24013451@estudiantes.uv.mx', 6, 13616, 50),
+(10035, 'JUAN PABLO', 'ROMERO', 'BONILLA', 'S24013452', 'zs24013452@estudiantes.uv.mx', 6, 13617, 55),
+(10036, 'LUIS ANGEL', 'CUEVAS', 'CASADOS', 'S24013453', 'zs24013453@estudiantes.uv.mx', 6, 13618, 48),
+(10037, 'VANESSA GUADALUPE', 'MENDEZ', 'LARA', 'S24013454', 'zs24013454@estudiantes.uv.mx', 6, 13619, 80),
+(10038, 'FERNANDO', 'ANDRADE', 'MARTINEZ', 'S24013455', 'zs24013455@estudiantes.uv.mx', 6, 13620, 25),
+(10039, 'VICTORIA', 'SALDAÑA', 'HERNANDEZ', 'S24013456', 'zs24013456@estudiantes.uv.mx', 6, 13621, 50),
+(10040, 'ALEJANDRO', 'LOPEZ', 'BECERRA', 'S24013457', 'zs24013457@estudiantes.uv.mx', 6, 13622, 38),
+(10041, 'DANTE', 'GONZALEZ', 'PEREZ', 'S24013458', 'zs24013458@estudiantes.uv.mx', 6, 13623, 95),
+(10042, 'MARLENE', 'MOLINA', 'CHAGOYA', 'S24013459', 'zs24013459@estudiantes.uv.mx', 6, 13624, 80),
+(10043, 'ABIGAIL', 'LECHUGA', 'SALDAÑA', 'S24013460', 'zs24013460@estudiantes.uv.mx', 6, 13625, 95),
+(10044, 'YUMARI', 'BELTRAN', 'SOSA', 'S24013461', 'zs24013461@estudiantes.uv.mx', 6, 13626, 25),
+(10045, 'MARIA SAYURI', 'BALTAZAR', 'PEDRAZA', 'S24013462', 'zs24013462@estudiantes.uv.mx', 6, 13627, 100),
+(10046, 'CRISTIAN EDUARDO', 'MONTESINO', 'FERNANDEZ', 'S24013464', 'zs24013464@estudiantes.uv.mx', 6, 13628, 50),
+(10047, 'JAFET', 'GARCIA', 'OLIVARES', 'S24013465', 'zs24013465@estudiantes.uv.mx', 6, 13629, 48),
+(10048, 'CALEB ALESSANDRO', 'GUTIERREZ', 'ZAMORA GUTIERREZ', 'S24013466', 'zs24013466@estudiantes.uv.mx', 6, 13630, 48),
+(10049, 'EMMANUEL DE JESUS', 'MUÑOZ', 'TAPIA', 'S24013467', 'zs24013467@estudiantes.uv.mx', 6, 13631, 59),
+(10050, 'VALENTIN DE JESUS', 'HERNANDEZ', 'MARTINEZ', 'S24013468', 'zs24013468@estudiantes.uv.mx', 6, 13632, 38),
+(10051, 'CRISTIAN AXEL', 'IZQUIERDO', 'LOPEZ', 'S24013469', 'zs24013469@estudiantes.uv.mx', 6, 13633, 50),
+(10052, 'JESUS EDUARDO', 'AMBRIZ', 'ROMANO', 'S24013470', 'zs24013470@estudiantes.uv.mx', 6, 13634, 2),
+(10053, 'HIRAM RODOLFO', 'RUDECINO', 'ROMERO', 'S24013471', 'zs24013471@estudiantes.uv.mx', 6, 13635, 55),
+(10054, 'JOSE', 'VIDAL', 'HERNANDEZ', 'S24013472', 'zs24013472@estudiantes.uv.mx', 6, 13636, 25),
+(10055, 'EIDAN ENRIQUE', 'JUAREZ', 'GARCIA', 'S24013474', 'zs24013474@estudiantes.uv.mx', 6, 13637, 95),
+(10056, 'JOSE ANTONIO', 'HERNANDEZ', 'CARMONA', 'S24013475', 'zs24013475@estudiantes.uv.mx', 6, 13638, 38),
+(10057, 'JORGE LUIS', 'ORTIZ', 'LIBREROS', 'S24013476', 'zs24013476@estudiantes.uv.mx', 6, 13639, 59),
+(10058, 'HECTOR RENE', 'MENDOZA', 'CECEÑA', 'S24013477', 'zs24013477@estudiantes.uv.mx', 6, 13640, 80),
+(10059, 'LEONARDO', 'HERNANDEZ', 'AVILA', 'S24013478', 'zs24013478@estudiantes.uv.mx', 6, 13641, 100),
+(10060, 'JARED', 'HERNANDEZ', 'LARA', 'S24013480', 'zs24013480@estudiantes.uv.mx', 6, 13642, 25),
+(10061, 'OSCAR ALBERTO', 'DOMINGUEZ', 'ORTEGA', 'S24013481', 'zs24013481@estudiantes.uv.mx', 6, 13643, 2);
+INSERT INTO `tutorado` (`idTutorado`, `nombre`, `apellidoPaterno`, `apellidoMaterno`, `matricula`, `correoInstitucional`, `carrera`, `sesion`, `tutor`) VALUES
+(10062, 'ANGEL', 'MARTINEZ', 'MENDEZ', 'S24013482', 'zs24013482@estudiantes.uv.mx', 6, 13644, 70),
+(10063, 'FERNANDO RAFAEL', 'RUIZ', 'DOMINGUEZ', 'S24013483', 'zs24013483@estudiantes.uv.mx', 6, 13645, 55),
+(10064, 'LAURA YOSELIN', 'TONIL', 'DE LA LUZ', 'S24013484', 'zs24013484@estudiantes.uv.mx', 6, 13646, 55),
+(10065, 'DALIA ABIGAIL', 'USCANGA', 'GUTIERREZ', 'S24013486', 'zs24013486@estudiantes.uv.mx', 6, 13647, 20),
+(10066, 'AXEL GABRIEL', 'REDUCINDO', 'SANTOS', 'S24013487', 'zs24013487@estudiantes.uv.mx', 6, 13648, 59),
+(10067, 'KARLA VALERIA', 'FERNANDEZ', 'MENDOZA', 'S24013488', 'zs24013488@estudiantes.uv.mx', 6, 13649, 25),
+(10068, 'GIOVANA ARLETTE', 'GOMEZ', 'DIAZ', 'S24013489', 'zs24013489@estudiantes.uv.mx', 6, 13650, 2),
+(10069, 'DIEGO IVAN', 'GONZALEZ', 'COLORADO', 'S24013490', 'zs24013490@estudiantes.uv.mx', 6, 13651, 100),
+(10070, 'DAIRA LISSET', 'LANDA', 'APOLINAR', 'S24013491', 'zs24013491@estudiantes.uv.mx', 6, 13652, 48),
+(10071, 'YAHYR', 'MORALES', 'GARRIDO', 'S24013492', 'zs24013492@estudiantes.uv.mx', 6, 13653, 50),
+(10072, 'NEREYDA NALLELY', 'MOTA', 'DOMINGUEZ', 'S24013493', 'zs24013493@estudiantes.uv.mx', 6, 13654, 55),
+(10073, 'MARIELA DENISSE', 'GARCIA', 'JIMENEZ', 'S24013494', 'zs24013494@estudiantes.uv.mx', 6, 13655, 25),
+(10074, 'ADRIAN', 'CASAS', 'CORTES', 'S24013495', 'zs24013495@estudiantes.uv.mx', 6, 13656, 2),
+(10075, 'IVAN', 'AQUINO', 'PALOMINO', 'S24013496', 'zs24013496@estudiantes.uv.mx', 6, 13657, 100),
+(10076, 'JULIO CESAR', 'SANTOS', 'QUINTERO', 'S24013498', 'zs24013498@estudiantes.uv.mx', 6, 13658, 20),
+(10077, 'ALMA ANAHI', 'MOLINA', 'SERRANO', 'S24013500', 'zs24013500@estudiantes.uv.mx', 6, 13659, 80),
+(10078, 'CHRISTIANE', 'SANCHEZ', 'HERNANDEZ', 'S24013501', 'zs24013501@estudiantes.uv.mx', 6, 13660, 20),
+(10079, 'ALEJANDRO', 'JIMENEZ', 'HERNANDEZ', 'S24013503', 'zs24013503@estudiantes.uv.mx', 6, 13661, 48),
+(10080, 'GEZURI YAMILETH', 'MARTINEZ', 'SESEÑA', 'S24013504', 'zs24013504@estudiantes.uv.mx', 6, 13662, 78),
+(10081, 'ZURIZADAY', 'ALONSO', 'LIMON', 'S24013505', 'zs24013505@estudiantes.uv.mx', 6, 13663, 25),
+(10082, 'MARIANO DE JESUS', 'RUIZ', 'MADRID', 'S24013506', 'zs24013506@estudiantes.uv.mx', 6, 13664, 59),
+(10083, 'LUIS GERARDO', 'JUAREZ', 'CORDOBA', 'S24013507', 'zs24013507@estudiantes.uv.mx', 6, 13665, 25),
+(10084, 'JUAN PABLO', 'AGUILAR', 'MORALES', 'S24013508', 'zs24013508@estudiantes.uv.mx', 6, 13666, 2),
+(10085, 'VIANNEY ZENITH', 'SALAMANCA', 'HERNANDEZ', 'S24013509', 'zs24013509@estudiantes.uv.mx', 6, 13667, 59),
+(10086, 'RODRIGO', 'CID', 'MOLINA', 'S24013510', 'zs24013510@estudiantes.uv.mx', 6, 13668, 95),
+(10087, 'AXEL JOHANAN', 'MIRANDA', 'LAGUNES', 'S24013511', 'zs24013511@estudiantes.uv.mx', 6, 13669, 80),
+(10088, 'CARLOS DANIEL', 'LOPEZ', 'VAZQUEZ', 'S24013512', 'zs24013512@estudiantes.uv.mx', 6, 13670, 38),
+(10089, 'RODRIGO', 'SALAMANCA', 'SALAS', 'S24013513', 'zs24013513@estudiantes.uv.mx', 6, 13671, 59),
+(10090, 'MARIA FERNANDA', 'ARELLANO', 'PEREZ', 'S24013514', 'zs24013514@estudiantes.uv.mx', 6, 13672, 2),
+(10091, 'DIEGO', 'RAMIREZ', 'PEREZ', 'S24013516', 'zs24013516@estudiantes.uv.mx', 6, 13673, 55),
+(10092, 'ELIAS RASHID', 'MORALES', 'MENDOZA', 'S24013517', 'zs24013517@estudiantes.uv.mx', 6, 13674, 55),
+(10093, 'EDUARDO', 'GALLEGOS', 'LOPEZ', 'S24013518', 'zs24013518@estudiantes.uv.mx', 6, 13675, 2),
+(10094, 'OSWALDO', 'VILLEGAS', 'CARLOS', 'S24013519', 'zs24013519@estudiantes.uv.mx', 6, 13676, 20),
+(10095, 'LAUREANO', 'COLORADO', 'SUAREZ', 'S24013520', 'zs24013520@estudiantes.uv.mx', 6, 13677, 2),
+(10096, 'FABIOLA', 'LOPEZ', 'VELAZQUEZ', 'S24013523', 'zs24013523@estudiantes.uv.mx', 6, 13678, 78),
+(10099, 'JADE AMAIRANY', 'MOTA', 'NAVA', 'S24021885', 'zs24021885@estudiantes.uv.mx', 4, 13681, 28),
+(10100, 'MARLENE', 'AROSTEGUI', 'PEREZ', 'S24021886', 'zs24021886@estudiantes.uv.mx', 4, 13682, 105),
+(10101, 'LUIS EDUARDO', 'REYES', 'MACIAS', 'S24021887', 'zs24021887@estudiantes.uv.mx', 4, 13683, 105),
+(10102, 'JESUS JARED', 'MORALES', 'TIRADO', 'S24021888', 'zs24021888@estudiantes.uv.mx', 4, 13684, 105),
+(10103, 'JESUS RODRIGO', 'HERNANDEZ', 'VERDEJO', 'S24021889', 'zs24021889@estudiantes.uv.mx', 4, 13685, 105),
+(10104, 'OLIVER', 'GUTIERREZ', 'COLORADO', 'S24021891', 'zs24021891@estudiantes.uv.mx', 5, 13686, 96),
+(10105, 'WILLIAM LUCIEL', 'HERNANDEZ', 'SANTIAGO', 'S24021892', 'zs24021892@estudiantes.uv.mx', 5, 13687, 29),
+(10106, 'ALEXIS', 'SANCHEZ', 'PORTILLA', 'S24021893', 'zs24021893@estudiantes.uv.mx', 5, 13688, 22),
+(10107, 'DANNA GABRIELA', 'GARCIA', 'CASTILLO', 'S24021895', 'zs24021895@estudiantes.uv.mx', 5, 13689, 67),
+(10108, 'EDGAR', 'REYES', 'LANDA', 'S24021896', 'zs24021896@estudiantes.uv.mx', 5, 13690, 49),
+(10109, 'KEVIN', 'CRAVIOTO', 'DOMINGUEZ', 'S24021899', 'zs24021899@estudiantes.uv.mx', 5, 13691, 37),
+(10110, 'MARVIN', 'MOTA', 'VALERO', 'S24021900', 'zs24021900@estudiantes.uv.mx', 5, 13692, 37),
+(10111, 'MONTSERRAT', 'ROJAS', 'MARTINEZ', 'S24021901', 'zs24021901@estudiantes.uv.mx', 5, 13693, 29),
+(10112, 'BRIAN ARTURO', 'MORALES', 'JUAREZ', 'S24024420', 'zs24024420@estudiantes.uv.mx', 4, 13694, 105),
+(10113, 'ANDRES', 'PEREZ', 'GARCIA', 'S24024421', 'zs24024421@estudiantes.uv.mx', 4, 13695, 127),
+(10114, 'DIANA XOCHITL', 'CORTES', 'GUTIERREZ', 'S24024422', 'zs24024422@estudiantes.uv.mx', 5, 13696, 117),
+(10115, 'RAFAEL ISAIAS', 'MORA', 'SANTIAGO', 'S24024423', 'zs24024423@estudiantes.uv.mx', 5, 13697, 37),
+(10116, 'DYLAN ANTONIO', 'HERNANDEZ', 'GREGORIO', 'S24024424', 'zs24024424@estudiantes.uv.mx', 5, 13698, 96),
+(10117, 'OSWALDO', 'RUIZ', 'TABLA', 'S24024425', 'zs24024425@estudiantes.uv.mx', 6, 13699, 78),
+(10118, 'ANGEL DE JESUS', 'MENDEZ', 'MENDEZ', 'S24024426', 'zs24024426@estudiantes.uv.mx', 6, 13700, 99),
+(10119, 'ALEJANDRO', 'LASES', 'ARCEGA', 'S24024427', 'zs24024427@estudiantes.uv.mx', 6, 13701, 70),
+(10120, 'HUGO LEONARDO', 'GUTIERREZ', 'SALDIVAR', 'S24024429', 'zs24024429@estudiantes.uv.mx', 6, 13702, 124),
+(10121, 'ANGEL JESUS', 'ROJAS', 'SANCHEZ', 'S24024430', 'zs24024430@estudiantes.uv.mx', 6, 13703, 116),
+(10122, 'LUIS FERNANDO', 'VIVEROS', 'AGUILAR', 'S24024431', 'zs24024431@estudiantes.uv.mx', 6, 13704, 70),
+(10123, 'ISIS NABIL', 'COLORADO', 'CONDE', 'S24024432', 'zs24024432@estudiantes.uv.mx', 6, 13705, 63),
+(10124, 'DANIEL EDUARDO', 'XOTLA', 'MELO', 'S24024433', 'zs24024433@estudiantes.uv.mx', 6, 13706, 99),
+(10125, 'RAUL ALEXANDER', 'SANTIAGO', 'ORTEGA', 'S24024435', 'zs24024435@estudiantes.uv.mx', 6, 13707, 116),
+(10126, 'DEMIAN ADOLFO', 'VALLEJO', 'RIVERA', 'S24024436', 'zs24024436@estudiantes.uv.mx', 6, 13708, 99),
+(10128, 'FATIMA', 'LANDA', 'RODRIGUEZ', 'S24024439', 'zs24024439@estudiantes.uv.mx', 6, 13710, 115),
+(10129, 'JOSE CARLOS', 'HERRERA', 'CABALLERO', 'S24024440', 'zs24024440@estudiantes.uv.mx', 6, 13711, 68),
+(10130, 'SUSANA ELIZABETH', 'ISIDORO', 'CAPORAL', 'S24024441', 'zs24024441@estudiantes.uv.mx', 6, 13712, 124),
+(10131, 'VANESSA LIZETH', 'RIVERA', 'BAEZ', 'S24024442', 'zs24024442@estudiantes.uv.mx', 6, 13713, 78),
+(10132, 'ALET JAMIL', 'ALTAMIRANO', 'TORRES', 'S24024443', 'zs24024443@estudiantes.uv.mx', 6, 13714, 63),
+(10133, 'HECTOR', 'SALDAÑA', 'CONDE', 'S24024444', 'zs24024444@estudiantes.uv.mx', 6, 13715, 116),
+(10134, 'VICTOR JOEL', 'SANTOS', 'PARRA', 'S24024445', 'zs24024445@estudiantes.uv.mx', 6, 13716, 99),
+(10135, 'DIEGO', 'CONTRERAS', 'ALEJANDRO', 'S24024446', 'zs24024446@estudiantes.uv.mx', 6, 13717, 68),
+(10136, 'PAULO MARTIN', 'SOSA', 'GARCIA', 'S24024447', 'zs24024447@estudiantes.uv.mx', 6, 13718, 70),
+(10138, 'CARLOS EDUARDO', 'ZAVALA', 'JIMENEZ', 'S24024450', 'zs24024450@estudiantes.uv.mx', 6, 13720, 116),
+(10139, 'HECTOR', 'HERNANDEZ', 'RAMIREZ', 'S24024451', 'zs24024451@estudiantes.uv.mx', 6, 13721, 104),
+(10140, 'JOSHUA IVAN', 'OLIVARES', 'BLANCO', 'S24024452', 'zs24024452@estudiantes.uv.mx', 6, 13722, 70),
+(10142, 'VICTOR SANTIAGO', 'LINARES', 'SOSA', 'S24024454', 'zs24024454@estudiantes.uv.mx', 6, 13724, 115),
+(10143, 'OLIVER VINNI', 'HOYOS', 'LARA', 'S24024455', 'zs24024455@estudiantes.uv.mx', 6, 13725, 68),
+(10144, 'JUAN CARLOS', 'CRUZ', 'BRAVO', 'S24024456', 'zs24024456@estudiantes.uv.mx', 6, 13726, 104),
+(10145, 'JOSE ARMANDO', 'PEREZ', 'SANCHEZ', 'S24024457', 'zs24024457@estudiantes.uv.mx', 6, 13727, 78),
+(10146, 'YESENIA MICHELLE', 'SOLIS', 'ARMAS', 'S24024458', 'zs24024458@estudiantes.uv.mx', 6, 13728, 70),
+(10147, 'ISAAC', 'OROZCO', 'ORTEGA', 'S24024459', 'zs24024459@estudiantes.uv.mx', 6, 13729, 70),
+(10148, 'ARTURO ISMAEL', 'FACUNDO', 'SANCHEZ', 'S24024460', 'zs24024460@estudiantes.uv.mx', 6, 13730, 104),
+(10149, 'MIGUEL ANGEL', 'HERNANDEZ', 'PEREZ', 'S24024461', 'zs24024461@estudiantes.uv.mx', 6, 13731, 32),
+(10150, 'ELIANI', 'MADRID', 'GANDARA', 'S24024463', 'zs24024463@estudiantes.uv.mx', 6, 13732, 32),
+(10152, 'RUBEN', 'LLANOS', 'RAMON', 'S24024465', 'zs24024465@estudiantes.uv.mx', 6, 13734, 116),
+(10153, 'ARANTZA', 'GARCIA', 'AGUILAR', 'S24024466', 'zs24024466@estudiantes.uv.mx', 6, 13735, 116),
+(10154, 'ERICK ALI', 'REYES', 'LIBRADO', 'S24024467', 'zs24024467@estudiantes.uv.mx', 6, 13736, 32),
+(10155, 'JEANE ANADY', 'OSORIO', 'MORALES', 'S24024468', 'zs24024468@estudiantes.uv.mx', 6, 13737, 99),
+(10156, 'JUAN PABLO', 'VARGAS', 'CARVAJAL', 'S24024469', 'zs24024469@estudiantes.uv.mx', 6, 13738, 116),
+(10157, 'DIEGO', 'MORALES', 'RIPALDA', 'S24024470', 'zs24024470@estudiantes.uv.mx', 6, 13739, 78),
+(10158, 'JAIRO ALFREDO', 'NAVA', 'BAEZ', 'S24024472', 'zs24024472@estudiantes.uv.mx', 6, 13740, 78),
+(10159, 'JOSE ANGEL', 'CRUZ', 'LOPEZ', 'S24024473', 'zs24024473@estudiantes.uv.mx', 6, 13741, 103);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `tutoria`
+-- Estructura de tabla para la tabla `tutoria`
 --
 
-DROP TABLE IF EXISTS `tutoria`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tutoria` (
-  `idTutoria` int NOT NULL AUTO_INCREMENT,
-  `modalidad` varchar(11) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `idTutoria` int(11) NOT NULL,
+  `modalidad` varchar(11) NOT NULL,
   `fechaInicio` date DEFAULT NULL,
   `fechaFin` date DEFAULT NULL,
   `lugar` varchar(300) DEFAULT NULL,
   `nota` varchar(500) DEFAULT NULL,
-  `archivo` mediumblob,
-  `tutor` int NOT NULL,
-  `periodoTutorias` int NOT NULL,
-  PRIMARY KEY (`idTutoria`),
-  KEY `fk_tutoria_tutor1_idx` (`tutor`),
-  KEY `fk_tutoria_periodo_tutorias1_idx` (`periodoTutorias`),
-  CONSTRAINT `fk_tutoria_tutor1` FOREIGN KEY (`tutor`) REFERENCES `tutor` (`idTutor`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_tutoria_periodo_tutorias1` FOREIGN KEY (`periodoTutorias`) REFERENCES `periodo_tutorias` (`idPeriodoTutorias`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `archivo` mediumblob DEFAULT NULL,
+  `tutor` int(11) NOT NULL,
+  `periodoTutorias` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `tutoria`
+-- Volcado de datos para la tabla `tutoria`
 --
 
-LOCK TABLES `tutoria` WRITE;
-/*!40000 ALTER TABLE `tutoria` DISABLE KEYS */;
-INSERT INTO `tutoria`(
-  idTutoria, modalidad, fechaInicio, fechaFin, lugar, nota, archivo, tutor, periodoTutorias
-) VALUES 
-  (39,'Presencial','2024-04-05','2024-04-05','Aula 1','Hola',_binary 'Evaluación Reporte FINAL_César.pdf',1,1),
-  (40,'Presencial','2003-04-05','2003-04-05','Aula 1','Hola',_binary 'Evaluación Reporte FINAL_César.pdf',1,1),
-  (41,'Presencial','2024-12-12','2024-12-12','Aula 1','Hola',_binary 'Evaluación Reporte FINAL_César.pdf',1,1),
-  (42,'Virtual','2003-04-05','2003-04-05','Aula 1','500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CAR',_binary 'Seminario_LezamaCesar.pdf',56,2),
-  (44,'Presencial','2025-12-12','2025-12-12','Aula 100','chin 2',NULL,56,4),
-  (45,'Virtual','2021-12-12','2021-12-12','Aula 100','ALELUYA',NULL,56,3),
-  (46,'Presencial','2024-12-12','2024-12-12','Aula 100','Nota',NULL,56,5);
-/*!40000 ALTER TABLE `tutoria` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+INSERT INTO `tutoria` (`idTutoria`, `modalidad`, `fechaInicio`, `fechaFin`, `lugar`, `nota`, `archivo`, `tutor`, `periodoTutorias`) VALUES
+(39, 'Presencial', '2024-04-05', '2024-04-05', 'Aula 1', 'Hola', 0x4576616c756163696fcc816e205265706f7274652046494e414c5f4365cc817361722e706466, 1, 1),
+(40, 'Presencial', '2003-04-05', '2003-04-05', 'Aula 1', 'Hola', 0x4576616c756163696fcc816e205265706f7274652046494e414c5f4365cc817361722e706466, 1, 1),
+(41, 'Presencial', '2024-12-12', '2024-12-12', 'Aula 1', 'Hola', 0x4576616c756163696fcc816e205265706f7274652046494e414c5f4365cc817361722e706466, 1, 1),
+(42, 'Virtual', '2003-04-05', '2003-04-05', 'Aula 1', '500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CAR', 0x53656d696e6172696f5f4c657a616d6143657361722e706466, 56, 2),
+(44, 'Presencial', '2025-12-12', '2025-12-12', 'Aula 100', 'chin 2', NULL, 56, 4),
+(45, 'Virtual', '2021-12-12', '2021-12-12', 'Aula 100', 'ALELUYA', NULL, 56, 3),
+(46, 'Presencial', '2024-12-12', '2024-12-12', 'Aula 100', 'Nota', NULL, 56, 5),
+(47, 'Presencial', '2025-01-18', '2025-01-18', 'Aula F104', 'Sesión de Tutorías sin reporte', NULL, 56, 2),
+(48, 'Presencial', '2025-04-19', '2025-04-19', 'CC4', 'Sesión #2 de Tutorías en Periodo Febrero 2025 - Julio 2025', NULL, 56, 6),
+(49, 'Presencial', '2025-06-20', '2025-06-20', 'Cubículo 33', 'Sesión #3', NULL, 56, 7);
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `administrador`
+--
+ALTER TABLE `administrador`
+  ADD PRIMARY KEY (`idAdministrador`),
+  ADD KEY `fk_administrador_Sesion1_idx` (`sesion`);
+
+--
+-- Indices de la tabla `carrera`
+--
+ALTER TABLE `carrera`
+  ADD PRIMARY KEY (`idCarrera`);
+
+--
+-- Indices de la tabla `carrera_tutor`
+--
+ALTER TABLE `carrera_tutor`
+  ADD PRIMARY KEY (`idCarreraTutor`),
+  ADD KEY `fk_carrera_has_tutor_tutor1_idx` (`tutor`),
+  ADD KEY `fk_carrera_has_tutor_carrera1_idx` (`carrera`);
+
+--
+-- Indices de la tabla `coordinador_carrera`
+--
+ALTER TABLE `coordinador_carrera`
+  ADD PRIMARY KEY (`idCoordinadorCarrera`),
+  ADD KEY `fk_coordinador_carrera_sesion_idx` (`idSesion`),
+  ADD KEY `fk_coordinador_carrera_carrera_idx` (`idCarrera`);
+
+--
+-- Indices de la tabla `experiencia_educativa`
+--
+ALTER TABLE `experiencia_educativa`
+  ADD PRIMARY KEY (`idExperienciaEducativa`),
+  ADD KEY `fk_experiencia_educativa_carrera1_idx` (`programaEducativo`);
+
+--
+-- Indices de la tabla `fecha_tutoria`
+--
+ALTER TABLE `fecha_tutoria`
+  ADD PRIMARY KEY (`idFechaTutoria`),
+  ADD KEY `fk_fecha_tutoria_carrera1_idx` (`carrera`),
+  ADD KEY `fk_fecha_tutoria_periodo1_idx` (`periodo`);
+
+--
+-- Indices de la tabla `periodo`
+--
+ALTER TABLE `periodo`
+  ADD PRIMARY KEY (`idPeriodo`);
+
+--
+-- Indices de la tabla `periodo_tutorias`
+--
+ALTER TABLE `periodo_tutorias`
+  ADD PRIMARY KEY (`idPeriodoTutorias`),
+  ADD KEY `fk_periodo_tutorias_carrera1_idx` (`carrera`),
+  ADD KEY `fk_periodo_tutorias_periodo1_idx` (`periodo`);
+
+--
+-- Indices de la tabla `problematica`
+--
+ALTER TABLE `problematica`
+  ADD PRIMARY KEY (`idProblematica`),
+  ADD KEY `fk_problematica_tipo_problematica1_idx` (`tipoProblematica`);
+
+--
+-- Indices de la tabla `problematica_academica`
+--
+ALTER TABLE `problematica_academica`
+  ADD PRIMARY KEY (`idProblematicaAcademica`),
+  ADD KEY `fk_problema_academico_reporte_tutoria1_idx` (`reporte`),
+  ADD KEY `fk_problema_academico_experiencia_educativa1_idx` (`experienciaEducativa`),
+  ADD KEY `fk_problema_academico_problema1_idx` (`problematica`),
+  ADD KEY `fk_problematica_academica_tutor` (`profesor`);
+
+--
+-- Indices de la tabla `reporte_tutoria`
+--
+ALTER TABLE `reporte_tutoria`
+  ADD PRIMARY KEY (`idReporte`),
+  ADD UNIQUE KEY `tutoria` (`tutoria`),
+  ADD KEY `fk_reporte_tutoria_carrera_tutor1_idx` (`carreraTutor`),
+  ADD KEY `fk_reporte_tutoria_tutoria1_idx` (`tutoria`);
+
+--
+-- Indices de la tabla `rol`
+--
+ALTER TABLE `rol`
+  ADD PRIMARY KEY (`idRol`);
+
+--
+-- Indices de la tabla `seccion`
+--
+ALTER TABLE `seccion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idProfesor` (`idProfesor`),
+  ADD KEY `idExperienciaEducativa` (`idExperienciaEducativa`),
+  ADD KEY `idPeriodo` (`idPeriodo`);
+
+--
+-- Indices de la tabla `sesion`
+--
+ALTER TABLE `sesion`
+  ADD PRIMARY KEY (`idSesion`),
+  ADD KEY `fk_login_rol1_idx` (`rol`);
+
+--
+-- Indices de la tabla `tipo_problematica`
+--
+ALTER TABLE `tipo_problematica`
+  ADD PRIMARY KEY (`idTipoProblematica`);
+
+--
+-- Indices de la tabla `tutor`
+--
+ALTER TABLE `tutor`
+  ADD PRIMARY KEY (`idTutor`),
+  ADD KEY `fk_tutor_Sesion1_idx` (`sesion`);
+
+--
+-- Indices de la tabla `tutorado`
+--
+ALTER TABLE `tutorado`
+  ADD PRIMARY KEY (`idTutorado`),
+  ADD KEY `fk_tutorado_carrera1_idx` (`carrera`),
+  ADD KEY `fk_tutorado_tutor1_idx` (`tutor`),
+  ADD KEY `fk_tutorado_Sesion1_idx` (`sesion`);
+
+--
+-- Indices de la tabla `tutoria`
+--
+ALTER TABLE `tutoria`
+  ADD PRIMARY KEY (`idTutoria`),
+  ADD KEY `fk_tutoria_tutor1_idx` (`tutor`),
+  ADD KEY `fk_tutoria_periodo_tutorias1_idx` (`periodoTutorias`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `administrador`
+--
+ALTER TABLE `administrador`
+  MODIFY `idAdministrador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT de la tabla `carrera`
+--
+ALTER TABLE `carrera`
+  MODIFY `idCarrera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT de la tabla `carrera_tutor`
+--
+ALTER TABLE `carrera_tutor`
+  MODIFY `idCarreraTutor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT de la tabla `coordinador_carrera`
+--
+ALTER TABLE `coordinador_carrera`
+  MODIFY `idCoordinadorCarrera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT de la tabla `experiencia_educativa`
+--
+ALTER TABLE `experiencia_educativa`
+  MODIFY `idExperienciaEducativa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT de la tabla `fecha_tutoria`
+--
+ALTER TABLE `fecha_tutoria`
+  MODIFY `idFechaTutoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `periodo`
+--
+ALTER TABLE `periodo`
+  MODIFY `idPeriodo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT de la tabla `periodo_tutorias`
+--
+ALTER TABLE `periodo_tutorias`
+  MODIFY `idPeriodoTutorias` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `problematica`
+--
+ALTER TABLE `problematica`
+  MODIFY `idProblematica` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT de la tabla `problematica_academica`
+--
+ALTER TABLE `problematica_academica`
+  MODIFY `idProblematicaAcademica` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT de la tabla `reporte_tutoria`
+--
+ALTER TABLE `reporte_tutoria`
+  MODIFY `idReporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT de la tabla `rol`
+--
+ALTER TABLE `rol`
+  MODIFY `idRol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `seccion`
+--
+ALTER TABLE `seccion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `sesion`
+--
+ALTER TABLE `sesion`
+  MODIFY `idSesion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13752;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_problematica`
+--
+ALTER TABLE `tipo_problematica`
+  MODIFY `idTipoProblematica` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `tutor`
+--
+ALTER TABLE `tutor`
+  MODIFY `idTutor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
+
+--
+-- AUTO_INCREMENT de la tabla `tutorado`
+--
+ALTER TABLE `tutorado`
+  MODIFY `idTutorado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10160;
+
+--
+-- AUTO_INCREMENT de la tabla `tutoria`
+--
+ALTER TABLE `tutoria`
+  MODIFY `idTutoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `administrador`
+--
+ALTER TABLE `administrador`
+  ADD CONSTRAINT `fk_administrador_Sesion1` FOREIGN KEY (`sesion`) REFERENCES `sesion` (`idSesion`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `carrera_tutor`
+--
+ALTER TABLE `carrera_tutor`
+  ADD CONSTRAINT `fk_carrera_has_tutor_carrera1` FOREIGN KEY (`carrera`) REFERENCES `carrera` (`idCarrera`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_carrera_has_tutor_tutor1` FOREIGN KEY (`tutor`) REFERENCES `tutor` (`idTutor`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `coordinador_carrera`
+--
+ALTER TABLE `coordinador_carrera`
+  ADD CONSTRAINT `fk_coordinador_carrera_carrera` FOREIGN KEY (`idCarrera`) REFERENCES `carrera` (`idCarrera`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_coordinador_carrera_sesion` FOREIGN KEY (`idSesion`) REFERENCES `sesion` (`idSesion`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `experiencia_educativa`
+--
+ALTER TABLE `experiencia_educativa`
+  ADD CONSTRAINT `fk_experiencia_educativa_carrera1` FOREIGN KEY (`programaEducativo`) REFERENCES `carrera` (`idCarrera`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `fecha_tutoria`
+--
+ALTER TABLE `fecha_tutoria`
+  ADD CONSTRAINT `fk_fecha_tutoria_carrera1` FOREIGN KEY (`carrera`) REFERENCES `carrera` (`idCarrera`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_fecha_tutoria_periodo1` FOREIGN KEY (`periodo`) REFERENCES `periodo` (`idPeriodo`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `periodo_tutorias`
+--
+ALTER TABLE `periodo_tutorias`
+  ADD CONSTRAINT `fk_periodo_tutorias_carrera1` FOREIGN KEY (`carrera`) REFERENCES `carrera` (`idCarrera`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_periodo_tutorias_periodo1` FOREIGN KEY (`periodo`) REFERENCES `periodo` (`idPeriodo`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `problematica`
+--
+ALTER TABLE `problematica`
+  ADD CONSTRAINT `fk_problematica_tipo_problematica1` FOREIGN KEY (`tipoProblematica`) REFERENCES `tipo_problematica` (`idTipoProblematica`);
+
+--
+-- Filtros para la tabla `problematica_academica`
+--
+ALTER TABLE `problematica_academica`
+  ADD CONSTRAINT `fk_problema_academico_experiencia_educativa1` FOREIGN KEY (`experienciaEducativa`) REFERENCES `experiencia_educativa` (`idExperienciaEducativa`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_problema_academico_problema1` FOREIGN KEY (`problematica`) REFERENCES `problematica` (`idProblematica`),
+  ADD CONSTRAINT `fk_problema_academico_reporte_tutoria1` FOREIGN KEY (`reporte`) REFERENCES `reporte_tutoria` (`idReporte`),
+  ADD CONSTRAINT `fk_problematica_academica_tutor` FOREIGN KEY (`profesor`) REFERENCES `tutor` (`idTutor`);
+
+--
+-- Filtros para la tabla `reporte_tutoria`
+--
+ALTER TABLE `reporte_tutoria`
+  ADD CONSTRAINT `fk_reporte_tutoria_carrera_tutor1` FOREIGN KEY (`carreraTutor`) REFERENCES `carrera_tutor` (`idCarreraTutor`),
+  ADD CONSTRAINT `fk_reporte_tutoria_tutoria1` FOREIGN KEY (`tutoria`) REFERENCES `tutoria` (`idTutoria`);
+
+--
+-- Filtros para la tabla `seccion`
+--
+ALTER TABLE `seccion`
+  ADD CONSTRAINT `seccion_ibfk_1` FOREIGN KEY (`idProfesor`) REFERENCES `tutor` (`idTutor`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `seccion_ibfk_2` FOREIGN KEY (`idExperienciaEducativa`) REFERENCES `experiencia_educativa` (`idExperienciaEducativa`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `seccion_ibfk_3` FOREIGN KEY (`idPeriodo`) REFERENCES `periodo` (`idPeriodo`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `sesion`
+--
+ALTER TABLE `sesion`
+  ADD CONSTRAINT `fk_login_rol1` FOREIGN KEY (`rol`) REFERENCES `rol` (`idRol`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tutor`
+--
+ALTER TABLE `tutor`
+  ADD CONSTRAINT `fk_tutor_Sesion1` FOREIGN KEY (`sesion`) REFERENCES `sesion` (`idSesion`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tutorado`
+--
+ALTER TABLE `tutorado`
+  ADD CONSTRAINT `fk_tutorado_Sesion1` FOREIGN KEY (`sesion`) REFERENCES `sesion` (`idSesion`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tutorado_carrera1` FOREIGN KEY (`carrera`) REFERENCES `carrera` (`idCarrera`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tutorado_tutor1` FOREIGN KEY (`tutor`) REFERENCES `tutor` (`idTutor`);
+
+--
+-- Filtros para la tabla `tutoria`
+--
+ALTER TABLE `tutoria`
+  ADD CONSTRAINT `fk_tutoria_periodo_tutorias1` FOREIGN KEY (`periodoTutorias`) REFERENCES `periodo_tutorias` (`idPeriodoTutorias`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tutoria_tutor1` FOREIGN KEY (`tutor`) REFERENCES `tutor` (`idTutor`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2025-02-08 19:30:10
