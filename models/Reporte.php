@@ -103,28 +103,36 @@ class Reporte
 
     public function getReportesByCoordinador($idSesion)
     {
-        $stmt = $this->conn->prepare("SELECT 
+        $stmt = $this->conn->prepare("SELECT
             rt.idReporte,
-            CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) as tutorNombre,
+            CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) AS tutorNombre,
             c.nombre AS carrera,
             p.nombre AS periodo,
-            rt.numTutoria,
-            rt.fechaInicioTutoria,
-            rt.fechaFinTutoria,
+            pt.numSesion AS numTutoria,
+            tu.modalidad AS modalidadTutoria,
+            tu.lugar AS lugarTutoria,
+            tu.fechaInicio AS fechaInicioTutoria,
+            tu.fechaFin AS fechaFinTutoria,
             rt.numRiesgo,
             rt.comentario,
-            (SELECT COUNT(pa.idProblematicaAcademica) FROM problematica_academica pa WHERE pa.reporte = rt.idReporte) AS tieneProblematica,
+            (
+            SELECT COUNT(pa.idProblematicaAcademica)
+            FROM problematica_academica pa
+            WHERE pa.reporte = rt.idReporte
+            ) AS tieneProblematica,
             rt.fechaCreacion
         FROM reporte_tutoria rt
             INNER JOIN carrera_tutor ct ON ct.idCarreraTutor = rt.carreraTutor
-            INNER JOIN carrera c ON ct.carrera = c.idCarrera
+            INNER JOIN carrera c ON c.idCarrera = ct.carrera
             INNER JOIN tutor t ON t.idTutor = ct.tutor
+            INNER JOIN tutoria tu ON tu.idTutoria = rt.tutoria
+            INNER JOIN periodo_tutorias pt ON pt.idPeriodoTutorias = tu.periodoTutorias
+            INNER JOIN periodo p ON p.idPeriodo = pt.periodo
             INNER JOIN coordinador_carrera cc ON cc.idCarrera = c.idCarrera
-            INNER JOIN periodo p ON p.idPeriodo = rt.periodo
-        WHERE 
+        WHERE
             cc.idSesion = ? AND rt.esBorrador = 0 AND p.actual = 1
-        ORDER BY 
-            STR_TO_DATE(SUBSTRING_INDEX(p.nombre, ' - ', 1), '%M %Y') DESC;
+        ORDER BY
+            tu.fechaInicio DESC
         ");
         $stmt->bind_param("i", $idSesion);
         $stmt->execute();

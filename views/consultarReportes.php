@@ -60,7 +60,7 @@ if(!isset($errors)) {
                 <i class="fas fa-history"></i> Ver Historial de Reportes
             </button>
         <?php endif; ?>
-        <button class="greenButton" id="btnExportarConcentrado"><i class="fas fa-file-alt"></i> Exportar concentrado de reportes</button>
+        <button disabled class="greenButton disabled-btn" id="btnExportarConcentrado"><i class="fas fa-file-alt"></i> Exportar concentrado de reportes</button>
     </div>
 
     <div class="table-container">
@@ -70,8 +70,7 @@ if(!isset($errors)) {
                     <th class="autoWidthColumn">Tutor</th>
                     <th class="autoWidthColumn">Carrera</th>
                     <th class="autoWidthColumn">Periodo</th>
-                    <th class="autoWidthColumn">Fecha de inicio</th>
-                    <th class="autoWidthColumn">Fecha de fin</th>
+                    <th class="autoWidthColumn">Sesión de Tutoría</th>
                     <th class="autoWidthColumn">Comentario</th>
                     <th class="autoWidthColumn">Problemática</th>
                     <th class="autoWidthColumn">Fecha de creación</th>
@@ -85,9 +84,20 @@ if(!isset($errors)) {
                         $idReporte = $row['idReporte'] ?? '';
                         $carrera = $row['carrera'] ?? 'Sin carrera';
                         $periodo = $row['periodo'] ?? 'Sin periodo';
-                        $fechaInicioTutoria = $row['fechaInicioTutoria'] ?? 'Sin fecha de inicio';
-                        $fechaFinTutoria = $row['fechaFinTutoria'] ?? 'Sin fecha de cierre';
-                        $numTutoria = $row['numTutoria'] ?? 'Sin número de tutoría';
+
+                        $modalidad = $row['modalidadTutoria'] ?? '';
+                        $numSesion = $row['numTutoria'] ?? '';
+                        $lugar = $row['lugarTutoria'] ?? '';
+                        $fechaInicio = $row['fechaInicioTutoria'] ?? '';
+                        $fechaFin = $row['fechaFinTutoria'] ?? '';
+
+                        if ($fechaInicio && $fechaFin && $fechaInicio !== $fechaFin) {
+                            $fechaMostrar = htmlspecialchars($fechaInicio) . " a " . htmlspecialchars($fechaFin);
+                        } else {
+                            $fechaMostrar = htmlspecialchars($fechaInicio);
+                        }
+
+                        $sesion = "Sesión #{$numSesion} {$modalidad} {$fechaMostrar} [{$lugar}]";
                         $numRiesgo = $row['numRiesgo'] ?? 'Sin número de alumnos en riesgo';
                         $comentarioCompleto = htmlspecialchars($row['comentario'] ?? '', ENT_QUOTES, 'UTF-8');
                         $tieneProblematica = $row['tieneProblematica'] ?? 0;
@@ -104,13 +114,12 @@ if(!isset($errors)) {
                             <td><?= htmlspecialchars($tutor) ?></td>
                             <td><?= htmlspecialchars($carrera) ?></td>
                             <td><?= htmlspecialchars($periodo) ?></td>
-                            <td><?= htmlspecialchars($fechaInicioTutoria) ?></td>
-                            <td><?= htmlspecialchars($fechaFinTutoria) ?></td>
+                            <td><?= htmlspecialchars($sesion) ?></td>
                             <td title="<?= $comentarioCompleto ?>"><?= $comentarioCorto ?></td>
                             <td><?= htmlspecialchars($problematica) ?></td>
                             <td><?= htmlspecialchars($fechaCreacion) ?></td>
                             <td class='action-buttons autoTable'>
-                                <button class="download" data-id-reporte="<?= htmlspecialchars($idReporte) ?>" title="Descargar PDF del reporte" alt="Descargar PDF"><i
+                                <button disabled class="download disabled-btn" data-id-reporte="<?= htmlspecialchars($idReporte) ?>" title="Descargar PDF del reporte" alt="Descargar PDF"><i
                                         class="fas fa-download"></i></button>
                                 <button class="view" data-id-reporte="<?= htmlspecialchars($idReporte) ?>"><i
                                         class="fas fa-eye"></i></button>
