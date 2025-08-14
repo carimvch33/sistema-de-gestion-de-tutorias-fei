@@ -266,7 +266,8 @@ class Reporte
                 rt.comentario,
                 CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) AS nombreTutor,
                 c.nombre AS nombreCarrera,
-                p.nombre AS nombrePeriodo
+                p.nombre AS nombrePeriodo,
+                rt.tutoria AS sesionTutoria
             FROM reporte_tutoria rt
             INNER JOIN carrera_tutor ct       ON ct.idCarreraTutor   = rt.carreraTutor
             INNER JOIN carrera c              ON c.idCarrera         = ct.carrera
@@ -286,15 +287,11 @@ class Reporte
 
     public function updateReporteTutoria($idReporte, $data)
     {
-        $stmt = $this->conn->prepare("
-            UPDATE reporte_tutoria rt
+        $stmt = $this->conn->prepare("UPDATE reporte_tutoria rt
             INNER JOIN carrera_tutor ct ON rt.carreraTutor = ct.idCarreraTutor
             SET
                 ct.carrera = ?,
-                rt.periodo = ?,
-                rt.numTutoria = ?,
-                rt.fechaInicioTutoria = ?,
-                rt.fechaFinTutoria = ?,
+                rt.tutoria = ?,
                 rt.numAsistencia = ?,
                 rt.numRiesgo = ?,
                 rt.comentario = ?,
@@ -303,12 +300,9 @@ class Reporte
         ");
 
         $stmt->bind_param(
-            "iiisssisii",
+            "iiiisii",
             $data['carrera'],
-            $data['periodo'],
-            $data['numTutoria'],
-            $data['fechaInicioTutoria'],
-            $data['fechaFinTutoria'],
+            $data['tutoria'],
             $data['numAsistencia'],
             $data['numRiesgo'],
             $data['comentario'],

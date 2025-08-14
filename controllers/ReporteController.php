@@ -15,7 +15,6 @@ class ReporteController
     private $reporteModel;
     private $problematicaModel;
     private $periodoModel;
-    private $carreraModel;
     private $profesorModel;
     private $tutoriaModel;
     private $experienciaEducativaModel;
@@ -26,7 +25,6 @@ class ReporteController
         $this->reporteModel = new Reporte($this->conn);
         $this->problematicaModel = new Problematica($this->conn);
         $this->periodoModel = new PeriodoEscolar($this->conn);
-        $this->carreraModel = new Carrera($this->conn);
         $this->profesorModel = new Profesor($this->conn);
         $this->tutoriaModel = new Tutoria($this->conn);
         $this->experienciaEducativaModel = new ExperienciaEducativa($this->conn);
@@ -367,7 +365,7 @@ class ReporteController
         }
 
         $carreras = $this->tutoriaModel->getCarrerasByTutor($tutor);
-        $periodos = $this->periodoModel->getCurrentPeriodo();
+        $periodoActual = $this->periodoModel->getCurrentPeriodo();
 
         $problematicasReporte = $this->problematicaModel->getProblematicasByReporte($idReporte);
 
@@ -417,10 +415,7 @@ class ReporteController
 
         $idReporte = $_POST['idReporte'] ?? null;
         $carrera = $_POST['carrera'] ?? null;
-        $periodo = $_POST['periodo'] ?? null;
-        $numTutoria = $_POST['numTutoria'] ?? null;
-        $fechaInicio = $_POST['fechaInicio'] ?? null;
-        $fechaFin = $_POST['fechaFin'] ?? null;
+        $sesionTutoria = $_POST['sesionTutoria'] ?? null;
         $numAsistencias = $_POST['numAsistencias'] ?? null;
         $numRiesgo = $_POST['numRiesgo'] ?? null;
         $comentario = $_POST['comentario'] ?? null;
@@ -431,14 +426,8 @@ class ReporteController
             $errors[] = 'ID del reporte no proporcionado.';
         if (!$carrera)
             $errors[] = 'El campo "Carrera" es obligatorio.';
-        if (!$periodo)
-            $errors[] = 'El campo "Periodo" es obligatorio.';
-        if (!$numTutoria)
-            $errors[] = 'El campo "Número de tutoría" es obligatorio.';
-        if (!$fechaInicio)
-            $errors[] = 'El campo "Fecha de inicio" es obligatorio.';
-        if (!$fechaFin)
-            $errors[] = 'El campo "Fecha de fin" es obligatorio.';
+        if (!$sesionTutoria)
+            $errors[] = 'El campo "Sesión de tutoría" es obligatorio.';
         if ($numAsistencias === '' || $numAsistencias === null)
             $errors[] = 'El campo "Número de asistencias" es obligatorio.';
         if ($numRiesgo === '' || $numRiesgo === null)
@@ -455,10 +444,7 @@ class ReporteController
 
             $reporteData = [
                 'carrera' => $carrera,
-                'periodo' => $periodo,
-                'numTutoria' => $numTutoria,
-                'fechaInicioTutoria' => $fechaInicio,
-                'fechaFinTutoria' => $fechaFin,
+                'tutoria' => $sesionTutoria,
                 'numAsistencia' => $numAsistencias,
                 'numRiesgo' => $numRiesgo,
                 'comentario' => $comentario,
@@ -737,7 +723,7 @@ class ReporteController
         require_once '../views/generarReporteTutoria.php';
     }
 
-    public function getSesionesTutoria($idCarrera)
+    public function getSesionesTutoria($idCarrera, $idReporteActual)
     {
         session_start();
 
@@ -770,7 +756,7 @@ class ReporteController
         $idCarrera = $_POST['idCarrera'];
         $userCorreo = $_SESSION['correoInstitucional'];
 
-        $sesiones = $this->tutoriaModel->getTutoriasByCarreraTutor($idCarrera, $userCorreo);
+        $sesiones = $this->tutoriaModel->getTutoriasByCarreraTutor($idCarrera, $userCorreo, $idReporteActual);
 
         header('Content-Type: application/json');
         echo json_encode(['sesiones' => $sesiones]);

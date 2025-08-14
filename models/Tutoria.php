@@ -403,9 +403,8 @@ class Tutoria
         return $tutorias;
     }
 
-    public function getTutoriasByCarreraTutor($idCarrera, $correoInstitucional) {
-        $stmt = $this->conn->prepare(
-            "SELECT
+    public function getTutoriasByCarreraTutor($idCarrera, $correoInstitucional, $idReporteActual) {
+        $query = "SELECT
                 tt.idTutoria,
                 pt.numSesion AS numTutoria,
                 tt.modalidad,
@@ -419,15 +418,29 @@ class Tutoria
             INNER JOIN periodo p ON p.idPeriodo = pt.periodo
             LEFT JOIN reporte_tutoria rt ON rt.tutoria = tt.idTutoria
             WHERE c.idCarrera = ? AND t.correoInstitucional = ? 
-            AND p.actual = 1 AND rt.idReporte IS NULL;"
-        );
-        $stmt->bind_param("is", $idCarrera, $correoInstitucional);
+            AND p.actual = 1
+        ";
+
+        // Si se está editando un reporte, permitir la sesión asociada a ese reporte
+        if ($idReporteActual !== null) {
+            $query .= " AND (rt.idReporte IS NULL OR rt.idReporte = ?) ";
+        } else {
+            $query .= " AND rt.idReporte IS NULL ";
+        }
+
+        $query .= ";";
+
+        if ($idReporteActual !== null) {
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("isi", $idCarrera, $correoInstitucional, $idReporteActual);
+        } else {
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("is", $idCarrera, $correoInstitucional);
+        }
+
         $stmt->execute();
         $result = $stmt->get_result();
-        $tutorias = [];
-        while ($row = $result->fetch_assoc()) {
-            $tutorias[] = $row;
-        }
+        $tutorias = $result->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
         return $tutorias;
     }

@@ -54,6 +54,11 @@ require_once '../config/config.php';
             <input type="hidden" name="idReporte" value="<?= htmlspecialchars($idReporte); ?>">
 
             <div class="form-group">
+                <label for="periodo">Periodo Escolar Actual:</label>
+                <input type="text" class="form-control" id="periodo" value="<?= htmlspecialchars($periodoActual[0]['periodo'], ENT_QUOTES, 'UTF-8') ?>" readonly>
+            </div>
+
+            <div class="form-group">
                 <label for="carrera">Carrera: <span class="text-danger">*</span></label>
                 <select class="form-control" id="carrera" name="carrera" required>
                     <option value="" disabled selected>-----Selecciona la carrera-----</option>
@@ -68,43 +73,21 @@ require_once '../config/config.php';
             </div>
 
             <div class="form-group">
-                <label for="periodo_display">Periodo: <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="periodo_display"
-                    value="<?= htmlspecialchars($periodos[0]['periodo']) ?>" readonly>
-                <input type="hidden" name="periodo" value="<?= htmlspecialchars($periodos[0]['idPeriodo']) ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="numTutoria">Número de Tutoría: <span class="text-danger">*</span></label>
-                <select class="form-control" name="numTutoria" id="numTutoria" required>
-                    <option value="" disabled selected>-----Selecciona el número de tutoría-----</option>
-                    <option value="1" <?= ($reporte['numTutoria'] == 1) ? 'selected' : '' ?>>1</option>
-                    <option value="2" <?= ($reporte['numTutoria'] == 2) ? 'selected' : '' ?>>2</option>
-                    <option value="3" <?= ($reporte['numTutoria'] == 3) ? 'selected' : '' ?>>3</option>
+                <label for="sesionTutoria">Sesión de Tutoría: <span class="text-danger">*</span></label>
+                <select class="form-control" name="sesionTutoria" id="sesionTutoria" required data-selected="<?= isset($reporte['sesionTutoria']) ? htmlspecialchars($reporte['sesionTutoria']) : '' ?>">
+                    <option value="" disabled selected>-----Selecciona la sesión de tutoría que reporta-----</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="fechaInicio">Fecha de Inicio: <span class="text-danger">*</span></label>
-                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio"
-                    value="<?= htmlspecialchars($reporte['fechaInicioTutoria']); ?>" required>
-            </div>
-
-            <div class="form-group">
-                <label for="fechaFin">Fecha de Fin: <span class="text-danger">*</span></label>
-                <input type="date" class="form-control" id="fechaFin" name="fechaFin"
-                    value="<?= htmlspecialchars($reporte['fechaFinTutoria']); ?>" required>
-            </div>
-
-            <div class="form-group">
                 <label for="numAsistencias">Número de alumnos que asistieron: <span class="text-danger">*</span></label>
-                <input type="number" class="form-control" id="numAsistencias" name="numAsistencias" min="0" step="1"
+                <input type="number" class="form-control" id="numAsistencias" name="numAsistencias" min="0" step="1" placeholder="Número total de asistencias de tutorados"
                     value="<?= htmlspecialchars($reporte['numAsistencia']); ?>" required>
             </div>
 
             <div class="form-group">
                 <label for="numRiesgo">Número de alumnos en riesgo: <span class="text-danger">*</span></label>
-                <input type="number" class="form-control" id="numRiesgo" name="numRiesgo" min="0" step="1"
+                <input type="number" class="form-control" id="numRiesgo" name="numRiesgo" min="0" step="1" placeholder="Número total de tutorados en riesgo"
                     value="<?= htmlspecialchars($reporte['numRiesgo']); ?>" required>
             </div>
 

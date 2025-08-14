@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#carrera').select2();
+    $("#carrera").select2();
 
     var experiencias = [];
     var profesores = [];
@@ -8,92 +8,148 @@ $(document).ready(function () {
 
     cargarDatosIniciales();
 
-    $('#carrera').on('focus', function () {
-        $(this).data('previous', $(this).val());
-    }).on('change', function () {
-        var previousCareerValue = $(this).data('previous');
-        var idCarrera = $(this).val();
+    $("#carrera")
+        .on("focus", function () {
+            $(this).data("previous", $(this).val());
+        })
+        .on("change", function () {
+            var previousCareerValue = $(this).data("previous");
+            var idCarrera = $(this).val();
 
-        Swal.fire({
-            title: 'Cambiar la carrera',
-            text: 'Al cambiar la carrera, las problemáticas agregadas se perderán. ¿Deseas continuar?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, cambiar',
-            cancelButtonText: 'No, cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $('#problematicaTable tbody').empty();
-                actualizarDatosCarrera(idCarrera);
-            } else {
-                $('#carrera').val(previousCareerValue).trigger('change.select2');
-            }
+            Swal.fire({
+                title: "Cambiar la carrera",
+                text: "Al cambiar la carrera, las problemáticas agregadas se perderán. ¿Deseas continuar?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sí, cambiar",
+                cancelButtonText: "No, cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("#problematicaTable tbody").empty();
+                    cargarSesionesTutoria(idCarrera);
+                } else {
+                    $("#carrera")
+                        .val(previousCareerValue)
+                        .trigger("change.select2");
+                }
+            });
         });
-    });
 
-    $('input[name="tipo"]').on('change', function () {
-        if ($(this).val() === 'problematica') {
-            $('.problematica-table').show();
+    function cargarSesionesTutoria(idCarrera) {
+        var idReporteActual = $('input[name="idReporte"]').val();
+
+        $.ajax({
+            url: "./getSesionesTutoria.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+            idCarrera: idCarrera,
+            idReporteActual: idReporteActual,
+            csrf_token: $('input[name="csrf_token"]').val(),
+            },
+            success: function (response) {
+            if (response.error) {
+                Swal.fire("Error", response.error, "error");
+                return;
+            }
+
+            let $select = $("#sesionTutoria");
+            let selectedSesion = $select.data("selected");
+            $select.empty();
+            $select.append(
+                '<option value="" disabled selected>-----Selecciona la sesión de tutoría que reporta-----</option>'
+            );
+
+            response.sesiones.forEach(function (sesion) {
+                let fechaMostrar =
+                sesion.fechaInicio !== sesion.fechaFin
+                    ? `${sesion.fechaInicio} a ${sesion.fechaFin}`
+                    : sesion.fechaInicio;
+
+                let selected =
+                selectedSesion && sesion.idTutoria == selectedSesion
+                    ? "selected"
+                    : "";
+                $select.append(
+                `<option value="${sesion.idTutoria}" ${selected}>Sesión #${sesion.numTutoria} ${sesion.modalidad} - ${fechaMostrar} [${sesion.lugar}]</option>`
+                );
+            });
+
+            if (selectedSesion) {
+                $select.val(selectedSesion).trigger("change.select2");
+            }
+
+            actualizarDatosCarrera(idCarrera, function () {
+                inicializarSelectsExistentes();
+            });
+            },
+            error: function () {
+            Swal.fire(
+                "Error",
+                "Hubo un error al cargar las sesiones de tutoría.",
+                "error"
+            );
+            },
+        });
+    }
+
+    $('input[name="tipo"]').on("change", function () {
+        if ($(this).val() === "problematica") {
+            $(".problematica-table").show();
         } else {
-            $('.problematica-table').hide();
+            $(".problematica-table").hide();
         }
     });
 
-    $('#agregarFilaBtn').on('click', function () {
+    $("#agregarFilaBtn").on("click", function () {
         agregarFilaProblematica();
     });
 
-    $(document).on('click', '.remove-row', function () {
-        $(this).closest('tr').remove();
+    $(document).on("click", ".remove-row", function () {
+        $(this).closest("tr").remove();
     });
 
-    $('#enviar').on('click', function (e) {
+    $("#enviar").on("click", function (e) {
         e.preventDefault();
         validarFormulario();
     });
 
     function cargarDatosIniciales() {
-        var idCarrera = $('#carrera').val();
-        actualizarDatosCarrera(idCarrera, function () {
-            inicializarSelectsExistentes();
-        });
+        var idCarrera = $("#carrera").val();
+        cargarSesionesTutoria(idCarrera);
     }
 
-    function actualizarDatosCarrera(idCarrera, callback) {
+    function actualizarDatosCarrera(idCarrera) {
         $.ajax({
-            url: './getCarreraDatos.php',
-            type: 'POST',
-            dataType: 'json',
+            url: "./getCarreraDatos.php",
+            type: "POST",
+            dataType: "json",
             data: {
                 idCarrera: idCarrera,
-                csrf_token: $('input[name="csrf_token"]').val()
+                csrf_token: $('input[name="csrf_token"]').val(),
             },
             success: function (response) {
                 experiencias = response.experiencias;
                 profesores = response.profesores;
                 problematicasOptions = response.problematicas;
                 secciones = response.secciones;
-
-                if (typeof callback === 'function') {
-                    callback();
-                }
             },
             error: function () {
                 Swal.fire({
-                    title: 'Error',
-                    text: 'Hubo un error al obtener los datos de la carrera seleccionada.',
-                    icon: 'error',
-                    confirmButtonText: 'Aceptar'
+                    title: "Error",
+                    text: "Hubo un error al obtener los datos de la carrera seleccionada.",
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
                 });
-            }
+            },
         });
     }
 
     function inicializarSelectsExistentes() {
-        $('#problematicaTable tbody tr').each(function () {
+        $("#problematicaTable tbody tr").each(function () {
             var $fila = $(this);
 
-            $fila.find('select').select2();
+            $fila.find("select").select2();
 
             $fila.find('select[name="experienciaE[]"]').change(function () {
                 manejarCambioExperiencia($(this));
@@ -103,14 +159,23 @@ $(document).ready(function () {
                 manejarCambioProfesor($(this));
             });
 
-            $fila.find('select[name="problematica[]"]').change(function () {
-                var selectedValue = $(this).val();
-                if (selectedValue === 'otro') {
-                    $(this).closest('td').find('input[name="otro[]"]').show();
-                } else {
-                    $(this).closest('td').find('input[name="otro[]"]').hide();
-                }
-            }).trigger('change');
+            $fila
+                .find('select[name="problematica[]"]')
+                .change(function () {
+                    var selectedValue = $(this).val();
+                    if (selectedValue === "otro") {
+                        $(this)
+                            .closest("td")
+                            .find('input[name="otro[]"]')
+                            .show();
+                    } else {
+                        $(this)
+                            .closest("td")
+                            .find('input[name="otro[]"]')
+                            .hide();
+                    }
+                })
+                .trigger("change");
         });
     }
 
@@ -145,11 +210,11 @@ $(document).ready(function () {
                 </td>
             </tr>
         `;
-        $('#problematicaTable tbody').append(nuevaFila);
+        $("#problematicaTable tbody").append(nuevaFila);
 
-        var $ultimaFila = $('#problematicaTable tbody tr:last');
+        var $ultimaFila = $("#problematicaTable tbody tr:last");
 
-        $ultimaFila.find('select').select2();
+        $ultimaFila.find("select").select2();
 
         $ultimaFila.find('select[name="experienciaE[]"]').change(function () {
             manejarCambioExperiencia($(this));
@@ -161,30 +226,33 @@ $(document).ready(function () {
 
         $ultimaFila.find('select[name="problematica[]"]').change(function () {
             var selectedValue = $(this).val();
-            if (selectedValue === 'otro') {
-                $(this).closest('td').find('input[name="otro[]"]').show();
+            if (selectedValue === "otro") {
+                $(this).closest("td").find('input[name="otro[]"]').show();
             } else {
-                $(this).closest('td').find('input[name="otro[]"]').hide();
+                $(this).closest("td").find('input[name="otro[]"]').hide();
             }
         });
     }
 
     function manejarCambioExperiencia($selectExperiencia) {
         var experienciaId = $selectExperiencia.val();
-        var $fila = $selectExperiencia.closest('tr');
+        var $fila = $selectExperiencia.closest("tr");
         var $profesorSelect = $fila.find('select[name="profesor[]"]');
 
         var profesorSeleccionado = $profesorSelect.val();
 
-        var profesoresFiltrados = secciones.filter(function (seccion) {
-            return seccion.idExperienciaEducativa == experienciaId;
-        }).map(function (seccion) {
-            return profesores.find(function (profesor) {
-                return profesor.idTutor == seccion.idProfesor;
+        var profesoresFiltrados = secciones
+            .filter(function (seccion) {
+                return seccion.idExperienciaEducativa == experienciaId;
+            })
+            .map(function (seccion) {
+                return profesores.find(function (profesor) {
+                    return profesor.idTutor == seccion.idProfesor;
+                });
             });
-        });
 
-        var opcionesProfesor = '<option value="" disabled>Seleccione un profesor</option>';
+        var opcionesProfesor =
+            '<option value="" disabled>Seleccione un profesor</option>';
         var profesoresUnicos = {};
 
         profesoresFiltrados.forEach(function (profesor) {
@@ -198,36 +266,46 @@ $(document).ready(function () {
             opcionesProfesor += `<option value="${profesor.idTutor}">${profesor.tutorNombre}</option>`;
         }
 
-        $profesorSelect.html(opcionesProfesor).prop('disabled', false);
+        $profesorSelect.html(opcionesProfesor).prop("disabled", false);
 
         if (profesoresUnicos[profesorSeleccionado]) {
-            $profesorSelect.val(profesorSeleccionado).trigger('change.select2');
+            $profesorSelect.val(profesorSeleccionado).trigger("change.select2");
         } else {
-            $profesorSelect.val(null).trigger('change.select2');
+            $profesorSelect.val(null).trigger("change.select2");
         }
     }
 
     function manejarCambioProfesor($selectProfesor) {
         var profesorId = $selectProfesor.val();
-        var $fila = $selectProfesor.closest('tr');
+        var $fila = $selectProfesor.closest("tr");
         var $experienciaSelect = $fila.find('select[name="experienciaE[]"]');
 
         var experienciaSeleccionada = $experienciaSelect.val();
 
-        var experienciasFiltradas = secciones.filter(function (seccion) {
-            return seccion.idProfesor == profesorId;
-        }).map(function (seccion) {
-            return experiencias.find(function (experiencia) {
-                return experiencia.idExperienciaEducativa == seccion.idExperienciaEducativa;
+        var experienciasFiltradas = secciones
+            .filter(function (seccion) {
+                return seccion.idProfesor == profesorId;
+            })
+            .map(function (seccion) {
+                return experiencias.find(function (experiencia) {
+                    return (
+                        experiencia.idExperienciaEducativa ==
+                        seccion.idExperienciaEducativa
+                    );
+                });
             });
-        });
 
-        var opcionesExperiencia = '<option value="" disabled>Seleccione una experiencia educativa</option>';
+        var opcionesExperiencia =
+            '<option value="" disabled>Seleccione una experiencia educativa</option>';
         var experienciasUnicas = {};
 
         experienciasFiltradas.forEach(function (experiencia) {
-            if (experiencia && !experienciasUnicas[experiencia.idExperienciaEducativa]) {
-                experienciasUnicas[experiencia.idExperienciaEducativa] = experiencia;
+            if (
+                experiencia &&
+                !experienciasUnicas[experiencia.idExperienciaEducativa]
+            ) {
+                experienciasUnicas[experiencia.idExperienciaEducativa] =
+                    experiencia;
             }
         });
 
@@ -236,17 +314,20 @@ $(document).ready(function () {
             opcionesExperiencia += `<option value="${experiencia.idExperienciaEducativa}">${experiencia.nombre}</option>`;
         }
 
-        $experienciaSelect.html(opcionesExperiencia).prop('disabled', false);
+        $experienciaSelect.html(opcionesExperiencia).prop("disabled", false);
 
         if (experienciasUnicas[experienciaSeleccionada]) {
-            $experienciaSelect.val(experienciaSeleccionada).trigger('change.select2');
+            $experienciaSelect
+                .val(experienciaSeleccionada)
+                .trigger("change.select2");
         } else {
-            $experienciaSelect.val(null).trigger('change.select2');
+            $experienciaSelect.val(null).trigger("change.select2");
         }
     }
 
     function generarOpcionesExperiencias() {
-        var opciones = '<option value="" disabled selected>Seleccione una experiencia educativa</option>';
+        var opciones =
+            '<option value="" disabled selected>Seleccione una experiencia educativa</option>';
         experiencias.forEach(function (experiencia) {
             opciones += `<option value="${experiencia.idExperienciaEducativa}">${experiencia.nombre}</option>`;
         });
@@ -254,7 +335,8 @@ $(document).ready(function () {
     }
 
     function generarOpcionesProfesores() {
-        var opciones = '<option value="" disabled selected>Seleccione un profesor</option>';
+        var opciones =
+            '<option value="" disabled selected>Seleccione un profesor</option>';
         profesores.forEach(function (profesor) {
             opciones += `<option value="${profesor.idTutor}">${profesor.tutorNombre}</option>`;
         });
@@ -262,7 +344,8 @@ $(document).ready(function () {
     }
 
     function generarOpcionesProblematicas() {
-        var opciones = '<option value="" disabled selected>Seleccione una problemática</option>';
+        var opciones =
+            '<option value="" disabled selected>Seleccione una problemática</option>';
         problematicasOptions.forEach(function (problematica) {
             opciones += `<option value="${problematica.idProblematica}">${problematica.descripcion}</option>`;
         });
@@ -274,52 +357,78 @@ $(document).ready(function () {
         var valid = true;
         var errores = [];
 
-        $('#form [required]').each(function () {
-            if ($(this).val() === '' || $(this).val() === null) {
+        $("#form [required]").each(function () {
+            if ($(this).val() === "" || $(this).val() === null) {
                 valid = false;
-                $(this).addClass('is-invalid');
-                errores.push('El campo "' + $(this).closest('.form-group').find('label').text().trim() + '" es obligatorio.');
+                $(this).addClass("is-invalid");
+                errores.push(
+                    'El campo "' +
+                        $(this)
+                            .closest(".form-group")
+                            .find("label")
+                            .text()
+                            .trim() +
+                        '" es obligatorio.'
+                );
             } else {
-                $(this).removeClass('is-invalid');
+                $(this).removeClass("is-invalid");
             }
         });
 
-        var fechaInicio = $('#fechaInicio').val();
-        var fechaFin = $('#fechaFin').val();
-        if (fechaInicio && fechaFin && new Date(fechaFin) < new Date(fechaInicio)) {
+        var fechaInicio = $("#fechaInicio").val();
+        var fechaFin = $("#fechaFin").val();
+        if (
+            fechaInicio &&
+            fechaFin &&
+            new Date(fechaFin) < new Date(fechaInicio)
+        ) {
             valid = false;
-            $('#fechaFin').addClass('is-invalid');
-            errores.push('La fecha de fin no puede ser menor que la fecha de inicio.');
+            $("#fechaFin").addClass("is-invalid");
+            errores.push(
+                "La fecha de fin no puede ser menor que la fecha de inicio."
+            );
         } else {
-            $('#fechaFin').removeClass('is-invalid');
+            $("#fechaFin").removeClass("is-invalid");
         }
 
-        if ($('input[name="tipo"]:checked').val() === 'problematica') {
-            if ($('#problematicaTable tbody tr').length === 0) {
+        if ($('input[name="tipo"]:checked').val() === "problematica") {
+            if ($("#problematicaTable tbody tr").length === 0) {
                 valid = false;
-                errores.push('Debe agregar al menos una problemática.');
+                errores.push("Debe agregar al menos una problemática.");
             }
 
-            $('#problematicaTable tbody tr').each(function (index, row) {
-                $(row).find('[required]').each(function () {
-                    if ($(this).val() === '' || $(this).val() === null) {
-                        valid = false;
-                        $(this).addClass('is-invalid');
-                        errores.push('Todos los campos de la problemática son obligatorios en la fila ' + (index + 1) + '.');
-                    } else {
-                        $(this).removeClass('is-invalid');
-                    }
-                });
+            $("#problematicaTable tbody tr").each(function (index, row) {
+                $(row)
+                    .find("[required]")
+                    .each(function () {
+                        if ($(this).val() === "" || $(this).val() === null) {
+                            valid = false;
+                            $(this).addClass("is-invalid");
+                            errores.push(
+                                "Todos los campos de la problemática son obligatorios en la fila " +
+                                    (index + 1) +
+                                    "."
+                            );
+                        } else {
+                            $(this).removeClass("is-invalid");
+                        }
+                    });
 
-                var $problematicaSelect = $(row).find('select[name="problematica[]"]');
-                if ($problematicaSelect.val() === 'otro') {
+                var $problematicaSelect = $(row).find(
+                    'select[name="problematica[]"]'
+                );
+                if ($problematicaSelect.val() === "otro") {
                     var $otroInput = $(row).find('input[name="otro[]"]');
-                    if ($otroInput.val().trim() === '') {
+                    if ($otroInput.val().trim() === "") {
                         valid = false;
-                        $otroInput.addClass('is-invalid');
-                        errores.push('Debe describir la problemática en la fila ' + (index + 1) + '.');
+                        $otroInput.addClass("is-invalid");
+                        errores.push(
+                            "Debe describir la problemática en la fila " +
+                                (index + 1) +
+                                "."
+                        );
                     } else {
-                        $otroInput.removeClass('is-invalid');
+                        $otroInput.removeClass("is-invalid");
                     }
                 }
             });
@@ -327,14 +436,14 @@ $(document).ready(function () {
 
         if (!valid && errores.length > 0) {
             Swal.fire({
-                title: 'Errores en el formulario',
-                icon: 'error',
-                html: errores.join('<br>'),
+                title: "Errores en el formulario",
+                icon: "error",
+                html: errores.join("<br>"),
             });
         }
 
         if (valid) {
-            $('#form').submit();
+            $("#form").submit();
         }
     }
 });
