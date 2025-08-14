@@ -136,7 +136,7 @@ if (!isset($errors)) {
                             <td><?= htmlspecialchars($estado) ?></td>
                             <td class='action-buttons autoTable'>
                                 <?php if($estado === 'Enviado'): ?>
-                                    <button class="download" data-id-reporte="<?= htmlspecialchars($idReporte) ?>" title="Descargar PDF del reporte" alt="Descargar PDF"><i
+                                    <button class="download disabled-btn" disabled data-id-reporte="<?= htmlspecialchars($idReporte) ?>" title="Descargar PDF del reporte" alt="Descargar PDF"><i
                                             class="fas fa-download"></i></button>
                                 <?php endif; ?>
                                 <?php if($muestraActual && $estado !== 'Enviado'): ?>
