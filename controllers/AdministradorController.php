@@ -1,7 +1,7 @@
 <?php
-require_once '../config/config.php';
-require_once '../config/connection.php';
-require_once '../models/Administrador.php';
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../config/connection.php';
+require_once __DIR__ . '/../models/Administrador.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -60,7 +60,7 @@ class AdministradorController
 
         $administradores = $this->administradorModel->getAdministradores($idAdministrador);
 
-        require_once '../views/administrarAdministradores.php';
+    require_once __DIR__ . '/../views/administrarAdministradores.php';
     }
 
     public function showCreateForm()
@@ -91,7 +91,7 @@ class AdministradorController
             unset($_SESSION['message']);
         }
 
-        require_once '../views/registroAdministrador.php';
+    require_once __DIR__ . '/../views/registroAdministrador.php';
     }
 
     public function createAdministrador()
@@ -214,7 +214,7 @@ class AdministradorController
                         unset($_SESSION['message']);
                     }
 
-                    require_once '../views/editarAdministrador.php';
+                    require_once __DIR__ . '/../views/editarAdministrador.php';
                 } else {
                     $_SESSION['message'] = 'Administrador no encontrado';
                     header('Location: ' . BASE_URL . '/administrarAdministradores.php');

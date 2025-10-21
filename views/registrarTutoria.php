@@ -148,7 +148,7 @@ $menu = BASE_URL . '/menu.php';
                     <button type="submit" class="btn btn-success buttonGreen" id="enviar">Guardar Tutoría</button>
                 </div>
                 <div class="col-md-auto">
-                    <input type="file" class="form-control-file widthInput" id="archivo_horario" name="archivo_horario"
+                    <input title="Archivo de horario" type="file" class="form-control-file widthInput" id="archivo_horario" name="archivo_horario"
                         accept=".pdf,.doc,.docx,.xls,.xlsx">
                 </div>
             </div>

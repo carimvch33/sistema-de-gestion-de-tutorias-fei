@@ -6,6 +6,9 @@
 -- Tiempo de generación: 14-08-2025 a las 22:55:26
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
+--drop database sistema_registro_tutorias;
+--create database sistema_registro_tutorias;
+--use sistema_registro_tutorias;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -93,7 +96,9 @@ CREATE TABLE `carrera_tutor` (
 INSERT INTO `carrera_tutor` (`idCarreraTutor`, `carrera`, `tutor`) VALUES
 (26, 2, 56),
 (27, 2, 56),
-(28, 3, 56);
+(28, 3, 56),
+(29, 3, 61),
+(30, 3, 51);
 
 -- --------------------------------------------------------
 
@@ -183,8 +188,9 @@ CREATE TABLE `periodo` (
 
 INSERT INTO `periodo` (`idPeriodo`, `nombre`, `actual`) VALUES
 (1, 'Agosto 2024 - Enero 2025', 0),
-(14, 'Febrero 2025 - Julio 2025', 1),
-(15, 'Periodo 1', 0);
+(14, 'Febrero 2025 - Julio 2025', 0),
+(15, 'Periodo 1', 0),
+(16, 'Agosto 2025 - Enero 2026', 1);
 
 -- --------------------------------------------------------
 
@@ -212,7 +218,10 @@ INSERT INTO `periodo_tutorias` (`idPeriodoTutorias`, `fechaInicio`, `fechaFin`, 
 (4, '2025-01-19', '2025-01-19', 1, 5, 1),
 (5, '2025-01-19', '2025-01-19', 1, 6, 14),
 (6, '2025-04-18', '2025-04-20', 2, 3, 14),
-(7, '2025-06-19', '2025-06-20', 3, 3, 14);
+(7, '2025-06-19', '2025-06-20', 3, 3, 14),
+(8, '2025-09-02', '2025-09-05', 1, 3, 16),
+(9, '2025-09-23', '2025-09-25', 2, 3, 16),
+(10, '2025-11-24', '2025-11-26', 3, 3, 16);
 
 -- --------------------------------------------------------
 
@@ -293,11 +302,11 @@ CREATE TABLE `reporte_tutoria` (
 --
 
 INSERT INTO `reporte_tutoria` (`idReporte`, `numAsistencia`, `numRiesgo`, `comentario`, `fechaCreacion`, `carreraTutor`, `esBorrador`, `tutoria`) VALUES
-(26, 2, 12, 'chin 2', '2025-01-19', 26, 0, 42),
-(28, 2, 12, 'chinnnnn', '2025-01-19', 26, 0, 45),
-(29, 2, 12, 'Todo mal', '2025-01-23', 28, 1, 46),
-(30, 20, 12, '21', '2025-01-24', 28, 0, 48),
-(33, 2, 12, 'Reporte de tutorías pasado borrador', '2025-01-24', 28, 1, 44);
+(26, 2, 12, 'Se abordaron temas de organización académica y seguimiento de tutorados.', '2025-01-19', 26, 0, 42),
+(28, 2, 12, 'Se discutieron estrategias para mejorar el rendimiento escolar.', '2025-01-19', 26, 0, 45),
+(29, 2, 12, 'Se identificaron problemáticas comunes y se propusieron soluciones.', '2025-01-23', 28, 1, 46),
+(30, 20, 12, 'Sesión enfocada en la integración de los tutorados y su adaptación.', '2025-01-24', 28, 0, 48),
+(33, 2, 12, 'Revisión de avances y acuerdos de tutoría anteriores.', '2025-01-24', 28, 1, 44);
 
 -- --------------------------------------------------------
 
@@ -2873,16 +2882,16 @@ CREATE TABLE `tutoria` (
 --
 
 INSERT INTO `tutoria` (`idTutoria`, `modalidad`, `fechaInicio`, `fechaFin`, `lugar`, `nota`, `archivo`, `tutor`, `periodoTutorias`) VALUES
-(39, 'Presencial', '2024-04-05', '2024-04-05', 'Aula 1', 'Hola', 0x4576616c756163696fcc816e205265706f7274652046494e414c5f4365cc817361722e706466, 1, 1),
-(40, 'Presencial', '2003-04-05', '2003-04-05', 'Aula 1', 'Hola', 0x4576616c756163696fcc816e205265706f7274652046494e414c5f4365cc817361722e706466, 1, 1),
-(41, 'Presencial', '2024-12-12', '2024-12-12', 'Aula 1', 'Hola', 0x4576616c756163696fcc816e205265706f7274652046494e414c5f4365cc817361722e706466, 1, 1),
-(42, 'Virtual', '2003-04-05', '2003-04-05', 'Aula 1', '500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CARACTERES500CAR', 0x53656d696e6172696f5f4c657a616d6143657361722e706466, 56, 2),
-(44, 'Presencial', '2025-12-12', '2025-12-12', 'Aula 100', 'chin 2', NULL, 56, 4),
-(45, 'Virtual', '2021-12-12', '2021-12-12', 'Aula 100', 'ALELUYA', NULL, 56, 3),
-(46, 'Presencial', '2024-12-12', '2024-12-12', 'Aula 100', 'Nota', NULL, 56, 5),
-(47, 'Presencial', '2025-01-18', '2025-01-18', 'Aula F104', 'Sesión de Tutorías sin reporte', NULL, 56, 2),
-(48, 'Presencial', '2025-04-19', '2025-04-19', 'CC4', 'Sesión #2 de Tutorías en Periodo Febrero 2025 - Julio 2025', NULL, 56, 6),
-(49, 'Presencial', '2025-06-20', '2025-06-20', 'Cubículo 33', 'Sesión #3', NULL, 56, 7);
+(39, 'Presencial', '2024-04-05', '2024-04-05', 'Aula 1', 'Primera sesión: presentación y establecimiento de objetivos de tutoría.', 0x4576616c756163696fcc816e205265706f7274652046494e414c5f4365cc817361722e706466, 1, 1),
+(40, 'Presencial', '2003-04-05', '2003-04-05', 'Aula 1', 'Revisión de avances académicos y detección de necesidades.', 0x4576616c756163696fcc816e205265706f7274652046494e414c5f4365cc817361722e706466, 1, 1),
+(41, 'Presencial', '2024-12-12', '2024-12-12', 'Aula 1', 'Cierre de ciclo: evaluación de logros y acuerdos finales.', 0x4576616c756163696fcc816e205265706f7274652046494e414c5f4365cc817361722e706466, 1, 1),
+(42, 'Virtual', '2003-04-05', '2003-04-05', 'Aula 1', 'Sesión virtual para seguimiento individual de tutorados.', 0x53656d696e6172696f5f4c657a616d6143657361722e706466, 56, 2),
+(44, 'Presencial', '2025-12-12', '2025-12-12', 'Aula 100', 'Orientación sobre recursos institucionales y apoyo académico.', NULL, 56, 4),
+(45, 'Virtual', '2021-12-12', '2021-12-12', 'Aula 100', 'Atención a dudas sobre procesos escolares y trámites.', NULL, 56, 3),
+(46, 'Presencial', '2024-12-12', '2024-12-12', 'Aula 100', 'Taller de habilidades para el estudio y organización del tiempo.', NULL, 56, 5),
+(47, 'Presencial', '2025-01-18', '2025-01-18', 'Aula F104', 'Sesión de seguimiento académico y motivacional.', NULL, 56, 2),
+(48, 'Presencial', '2025-04-19', '2025-04-19', 'CC4', 'Sesión #2: revisión de avances y establecimiento de nuevas metas.', NULL, 56, 6),
+(49, 'Presencial', '2025-06-20', '2025-06-20', 'Cubículo 33', 'Sesión #3: cierre de periodo y retroalimentación.', NULL, 56, 7);
 
 --
 -- Índices para tablas volcadas
