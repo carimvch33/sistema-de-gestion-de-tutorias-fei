@@ -59,8 +59,8 @@ if ($mantenimiento) {
                                 <div class="col-12 col-md-8">
                                     <div class="form-group">
                                         <label for="user" class="h-3 text">Usuario:</label>
-                                        <input type="email" name="user" id="user" class="form-control" placeholder="Ingrese su usuario/matrícula" required>
-                                        <small class="text-secondary">Ejem: abcgarcia / zS12345678 / GS12345678</small>
+                                        <input type="email" name="user" id="user" class="form-control" placeholder="Ingrese su correo institucional" required>
+                                        <small class="text-secondary">Ejem: abcgarcia@uv.mx / zs19024533@estudiantes.uv.mx</small>
                                     </div>
                                 </div>
 
