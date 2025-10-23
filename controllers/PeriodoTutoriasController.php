@@ -19,7 +19,8 @@ class PeriodoTutoriasController
         header('Content-Type: application/json');
         session_start();
 
-        $rolesPermitidos = [1];
+        // FIX: Permitir acceso a Tutores (1) y Coordinadores (4) DBN-01
+        $rolesPermitidos = [1, 4];
         if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
             http_response_code(403);
             echo json_encode(['error' => 'Acceso denegado']);

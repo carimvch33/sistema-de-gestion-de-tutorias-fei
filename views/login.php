@@ -54,7 +54,7 @@ if ($mantenimiento) {
                         <h4 class="text-center">Facultad de Estadística e Informática</h4>
                         <h2 class="text-center">Inicio de sesión</h2>
 
-                        <form action="./index.php" method="post" id="form">
+                        <form action="<?= BASE_URL; ?>/index.php" method="post" id="form">
                             <div class="row justify-content-center">
                                 <div class="col-12 col-md-8">
                                     <div class="form-group">
