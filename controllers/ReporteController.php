@@ -208,6 +208,13 @@ class ReporteController
         $fechaActual = date('Y-m-d');
         $esBorrador = ($accion === 'borrador') ? 1 : 0;
 
+        // FIX [CU-09]:numRiesgo debe ser ≤ numAsistencias DEF-33
+        if ($numRiesgo !== null && $numAsistencias !== null && $numRiesgo > $numAsistencias) {
+            $errors[] = 'El número de alumnos en riesgo (' . $numRiesgo . 
+                        ') no puede ser mayor al número de alumnos que asistieron (' . 
+                        $numAsistencias . ').';
+        }
+
         if ($accion === 'enviar') {
             if (!$carrera)
                 $errors[] = 'El campo "Carrera" es obligatorio.';
@@ -310,7 +317,8 @@ class ReporteController
 
         $experiencias = $this->experienciaEducativaModel->getExperienciasByCarrera($idCarrera);
 
-        $profesores = $this->profesorModel->getProfesores();
+        // PASO 3: Aplicar mismo filtro en método AJAX para carga dinámica
+        $profesores = $this->profesorModel->getProfesoresByCarrera($idCarrera);
 
         $problematicas = $this->problematicaModel->getProblematicas();
 
@@ -372,7 +380,8 @@ class ReporteController
         $carreraId = $reporte['carrera'];
 
         $experiencias = $this->experienciaEducativaModel->getExperienciasByCarrera($carreraId);
-        $profesores = $this->profesorModel->getProfesores();
+        // FIX (DEF-37): Filtrar profesores solo de esta carrera
+        $profesores = $this->profesorModel->getProfesoresByCarrera($carreraId);
         $listaProblematicas = $this->problematicaModel->getProblematicas();
 
         require_once '../models/Seccion.php';
@@ -421,6 +430,15 @@ class ReporteController
         $comentario = $_POST['comentario'] ?? null;
         $accion = $_POST['accion'] ?? 'enviar';
         $esBorrador = ($accion === 'borrador') ? 1 : 0;
+
+        // FIX [CU-09]: Validar regla de negocio  
+        // Los alumnos en riesgo deben ser un subconjunto de los asistentes
+        // Por lo tanto: numRiesgo debe ser ≤ numAsistencias
+        if ($numRiesgo !== null && $numAsistencias !== null && $numRiesgo > $numAsistencias) {
+            $errors[] = 'El número de alumnos en riesgo (' . $numRiesgo . 
+                        ') no puede ser mayor al número de alumnos que asistieron (' . 
+                        $numAsistencias . ').';
+        }
 
         if (!$idReporte)
             $errors[] = 'ID del reporte no proporcionado.';
@@ -660,7 +678,15 @@ class ReporteController
         $carreraId = $reporte['carrera'];
 
         $experiencias = $this->experienciaEducativaModel->getExperienciasByCarrera($carreraId);
-        $profesores = $this->profesorModel->getProfesores();
+        // FIX [DEF-37]: Cambiado getProfesores() a getProfesoresByCarrera() en showReporte()
+        $profesoresArray = $this->profesorModel->getProfesoresByCarrera($carreraId);
+
+        // FIX [DEF-37]: Convertir array a asociativo indexado por idTutor para búsqueda en vista
+        $profesores = [];
+        foreach ($profesoresArray as $profesor) {
+            $profesores[$profesor['idTutor']] = $profesor;
+        }
+        
         $listaProblematicas = $this->problematicaModel->getProblematicas();
 
         $menu = BASE_URL . '/cerrarSesion.php';
@@ -708,7 +734,15 @@ class ReporteController
         $carreraId = $reporte['carrera'];
 
         $experiencias = $this->experienciaEducativaModel->getExperienciasByCarrera($carreraId);
-        $profesores = $this->profesorModel->getProfesores();
+        /* FIX [GRAVE]: Cambiado getProfesores() a getProfesoresByCarrera() en método que genera reporte PDF */
+        $profesoresArray = $this->profesorModel->getProfesoresByCarrera($carreraId);
+        
+        /* FIX [GRAVE]: Convertir array a asociativo indexado por idTutor para búsqueda en vista */
+        $profesores = [];
+        foreach ($profesoresArray as $profesor) {
+            $profesores[$profesor['idTutor']] = $profesor;
+        }
+        
         $listaProblematicas = $this->problematicaModel->getProblematicas();
 
         $menu = BASE_URL . '/cerrarSesion.php';

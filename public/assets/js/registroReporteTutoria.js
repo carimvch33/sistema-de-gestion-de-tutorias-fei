@@ -674,10 +674,49 @@ $(document).ready(function () {
         $(this).closest("tr").remove();
     });
 
+    
     $("#enviar").on("click", function (e) {
         e.preventDefault();
         if (validarFormulario()) {
+            // Agregar campo oculto con el valor del botón antes de enviar
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'accion',
+                value: 'enviar'
+            }).appendTo('#form');
             $("#form").submit();
+        }
+    });
+
+    // FIX: Interceptar ambos botones para validar el numero de alumnos en riesgo <= numAsistencias DEF-33
+    $("#guardar").on("click", function (e) {
+        e.preventDefault();
+        if (validarFormulario()) {
+            // Agregar campo oculto con el valor del botón antes de enviar
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'accion',
+                value: 'borrador'
+            }).appendTo('#form');
+            $("#form").submit();
+        }
+    });
+
+    // FIX: Validación en tiempo real mientras escribe para que numRiesgo <= numAsistencias DEF-33
+    $("#numAsistencias, #numRiesgo").on("input blur", function () {
+        var numAsistencias = parseInt($("#numAsistencias").val()) || 0;
+        var numRiesgo = parseInt($("#numRiesgo").val()) || 0;
+
+        if ($("#numAsistencias").val() && $("#numRiesgo").val()) {
+            if (numRiesgo > numAsistencias) {
+                $("#numRiesgo").addClass("is-invalid");
+                $("#numAsistencias").addClass("is-invalid");
+                $("#numRiesgo").attr("title", "No puede ser mayor a " + numAsistencias);
+            } else {
+                $("#numRiesgo").removeClass("is-invalid");
+                $("#numAsistencias").removeClass("is-invalid");
+                $("#numRiesgo").removeAttr("title");
+            }
         }
     });
 
@@ -698,6 +737,24 @@ $(document).ready(function () {
                 $(this).removeClass("is-invalid");
             }
         });
+
+        // FIX: Validar que alumnos en riesgo ≤ alumnos asistentes DEF-33
+        var numAsistencias = parseInt($("#numAsistencias").val()) || 0;
+        var numRiesgo = parseInt($("#numRiesgo").val()) || 0;
+
+        if (numRiesgo > numAsistencias) {
+            valid = false;
+            $("#numRiesgo").addClass("is-invalid");
+            $("#numAsistencias").addClass("is-invalid");
+            errores.push(
+                "El número de alumnos en riesgo (" + numRiesgo + 
+                ") no puede ser mayor al número de alumnos que asistieron (" + 
+                numAsistencias + ")."
+            );
+        } else {
+            $("#numRiesgo").removeClass("is-invalid");
+            $("#numAsistencias").removeClass("is-invalid");
+        }
 
         var fechaInicio = $("#fechaInicio").val();
         var fechaFin = $("#fechaFin").val();

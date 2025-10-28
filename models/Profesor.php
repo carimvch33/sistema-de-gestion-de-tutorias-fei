@@ -211,15 +211,16 @@ class Profesor
         return $row['idTutor'];
     }
 
+    // PASO 2: Corregir SQL - usar tabla seccion como intermediaria entre tutor y experiencia_educativa
     public function getProfesoresByCarrera($idCarrera)
     {
         $stmt = $this->conn->prepare("
-        SELECT t.idTutor AS idProfesor, 
-               CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) AS nombreProfesor
+        SELECT DISTINCT t.idTutor,
+               CONCAT(t.nombre, ' ', COALESCE(t.apellidoPaterno, ''), ' ', COALESCE(t.apellidoMaterno, '')) AS tutorNombre
         FROM tutor t
-        INNER JOIN experiencia_educativa ee ON ee.profesor = t.idTutor
+        INNER JOIN seccion s ON s.idProfesor = t.idTutor
+        INNER JOIN experiencia_educativa ee ON ee.idExperienciaEducativa = s.idExperienciaEducativa
         WHERE ee.programaEducativo = ?
-        GROUP BY t.idTutor
     ");
         $stmt->bind_param("i", $idCarrera);
         $stmt->execute();

@@ -82,6 +82,10 @@ $menu = BASE_URL . '/menu.php';
                         echo "<script>console.log(" . json_encode($row) . ");</script>";
                         $idTutoria = $row['idTutoria'];
                         $archivo = $row['archivo'];
+                        
+                        //FIX (DEF-33): Se compara estadoReporte con 0 (string o int) porque esBorrador = 0 
+                        $estadoReporte = $row['estadoReporte'] ?? -1;
+                        $tieneReporteEnviado = ($estadoReporte === 0 || $estadoReporte === '0');
 
                         $lugarCompleto = htmlspecialchars($row['lugar'] ?? '', ENT_QUOTES, 'UTF-8');
                         $lugarCorto = strlen($row['lugar'] ?? '') > 20
@@ -116,10 +120,13 @@ $menu = BASE_URL . '/menu.php';
                             echo "<td>No disponible</td>";
                         }
                         echo "<td class='action-buttons autoTable'>";
-                        if ($muestraActual) {
+                        
+                        // FIX (DEF-33): Se usa AND lógico para combinar dos condiciones: periodo actual Y sin reporte enviado.
+                        if ($muestraActual && !$tieneReporteEnviado) {
                             echo "<button class='edit' data-id-tutoria='{$idTutoria}'><i class='fas fa-edit'></i></button>
                                 <button class='delete' data-id-tutoria='{$idTutoria}' data-csrf-token='{$_SESSION['csrf_token']}'><i class='fas fa-trash-alt'></i></button>";
                         }
+                        
                         echo "<button class='view' data-id-tutoria='{$idTutoria}'><i class='fas fa-eye'></i></button>";
                         echo "</td>";
                     }

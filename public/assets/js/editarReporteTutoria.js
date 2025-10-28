@@ -111,7 +111,45 @@ $(document).ready(function () {
 
     $("#enviar").on("click", function (e) {
         e.preventDefault();
-        validarFormulario();
+        if (validarFormulario()) {
+            // Agregar campo oculto con el valor del botón antes de enviar
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'accion',
+                value: 'enviar'
+            }).appendTo('#form');
+            $("#form").submit();
+        }
+    });
+
+    // FIX: Interceptar botón "Guardar Borrador" para validar el numero de alumnos en riesgo <= numAsistencias DEF-33
+    $("#guardar").on("click", function (e) {
+        e.preventDefault();
+        if (validarFormulario()) {
+            // Agregar campo oculto con el valor del botón antes de enviar
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'accion',
+                value: 'borrador'
+            }).appendTo('#form');
+            $("#form").submit();
+        }
+    });
+
+    // FIX: Validación en tiempo real mientras escribe DEF-33
+    $("#numAsistencias, #numRiesgo").on("input blur", function () {
+        var numAsistencias = parseInt($("#numAsistencias").val()) || 0;
+        var numRiesgo = parseInt($("#numRiesgo").val()) || 0;
+
+        if ($("#numAsistencias").val() && $("#numRiesgo").val()) {
+            if (numRiesgo > numAsistencias) {
+                $("#numRiesgo").addClass("is-invalid");
+                $("#numAsistencias").addClass("is-invalid");
+            } else {
+                $("#numRiesgo").removeClass("is-invalid");
+                $("#numAsistencias").removeClass("is-invalid");
+            }
+        }
     });
 
     function cargarDatosIniciales() {
@@ -119,7 +157,8 @@ $(document).ready(function () {
         cargarSesionesTutoria(idCarrera);
     }
 
-    function actualizarDatosCarrera(idCarrera) {
+    /* FIX [DEF-35]: Agregado parámetro callback para ejecutar inicializarSelectsExistentes después de cargar datos */
+    function actualizarDatosCarrera(idCarrera, callback) {
         $.ajax({
             url: "./getCarreraDatos.php",
             type: "POST",
@@ -133,6 +172,10 @@ $(document).ready(function () {
                 profesores = response.profesores;
                 problematicasOptions = response.problematicas;
                 secciones = response.secciones;
+                
+                if (typeof callback === 'function') {
+                    callback();
+                }
             },
             error: function () {
                 Swal.fire({
@@ -375,6 +418,26 @@ $(document).ready(function () {
             }
         });
 
+        // FIX: Validar que alumnos en riesgo ≤ alumnos asistentes DEF-33
+        var numAsistencias = parseInt($("#numAsistencias").val()) || 0;
+        var numRiesgo = parseInt($("#numRiesgo").val()) || 0;
+
+        if (numRiesgo > numAsistencias) {
+            valid = false;
+            $("#numRiesgo").addClass("is-invalid");
+            $("#numAsistencias").addClass("is-invalid");
+            errores.push(
+                "El número de alumnos en riesgo (" +
+                    numRiesgo +
+                    ") no puede ser mayor al número de alumnos que asistieron (" +
+                    numAsistencias +
+                    ")."
+            );
+        } else {
+            $("#numRiesgo").removeClass("is-invalid");
+            $("#numAsistencias").removeClass("is-invalid");
+        }
+
         var fechaInicio = $("#fechaInicio").val();
         var fechaFin = $("#fechaFin").val();
         if (
@@ -442,8 +505,6 @@ $(document).ready(function () {
             });
         }
 
-        if (valid) {
-            $("#form").submit();
-        }
+        return valid;
     }
 });

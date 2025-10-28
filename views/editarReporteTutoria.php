@@ -135,17 +135,31 @@ require_once '../config/config.php';
                                 echo '</select>';
                                 echo '</td>';
 
-                                // Profesor
+                                // FIX (DEF-37): Filtrar solo profesores que imparten esta experiencia educativa
                                 echo '<td>';
                                 echo '<select name="profesor[]" class="form-control select-profesor profesor-problematica" required>';
                                 echo '<option value="" disabled>Seleccione un profesor</option>';
-                                foreach ($profesores as $profesor) {
+                            
+                                $experienciaActual = $problematica['experienciaEducativa'];
+                                $profesoresFiltrados = [];
+                                
+                                foreach ($secciones as $seccion) {
+                                    if ($seccion['idExperienciaEducativa'] == $experienciaActual) {
+                                        $idProfesor = $seccion['idProfesor'];
+                                        
+                                        foreach ($profesores as $profesor) {
+                                            if ($profesor['idTutor'] == $idProfesor && !isset($profesoresFiltrados[$idProfesor])) {
+                                                $profesoresFiltrados[$idProfesor] = $profesor;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                foreach ($profesoresFiltrados as $profesor) {
                                     $selected = ($problematica['profesor'] == $profesor['idTutor']) ? 'selected' : '';
-
                                     $profesorNombreCompleto = htmlspecialchars($profesor['tutorNombre']);
-
                                     $idProfesorEscaped = htmlspecialchars($profesor['idTutor']);
-
                                     echo "<option value='{$idProfesorEscaped}' {$selected}>{$profesorNombreCompleto}</option>";
                                 }
                                 echo '</select>';
@@ -196,7 +210,7 @@ require_once '../config/config.php';
             <div class="form-group row">
                 <div class="col-md-auto">
                     <button type="submit" name="accion" class="btn btn-success" id="guardar" value="borrador">Guardar Borrador de Reporte</button>
-                    <button type="submit" name="accion" class="btn btn-primary" id="guardar" value="enviar">Enviar Reporte de Tutoría</button>
+                    <button type="submit" name="accion" class="btn btn-primary" id="enviar" value="enviar">Enviar Reporte de Tutoría</button>
                 </div>
             </div>
         </form>
