@@ -211,7 +211,7 @@ class Profesor
         return $row['idTutor'];
     }
 
-    // PASO 2: Corregir SQL - usar tabla seccion como intermediaria entre tutor y experiencia_educativa
+    // FIX [DEF-37]: Método corregido para filtrar profesores por carrera
     public function getProfesoresByCarrera($idCarrera)
     {
         $stmt = $this->conn->prepare("

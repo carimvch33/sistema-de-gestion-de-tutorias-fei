@@ -457,7 +457,7 @@ $(document).ready(function () {
                 // Actualizar las variables globales con los nuevos datos
                 experiencias = response.experiencias;
                 profesores = response.profesores;
-                problematicasOptions = response.problematicas;
+                problematicasOptions = response.problematicas; // FIX (DEF-36): No funcionaba el agregar problematica
                 secciones = response.secciones; // Agregamos las secciones
             },
             error: function () {
@@ -723,6 +723,9 @@ $(document).ready(function () {
     function validarFormulario() {
         var valid = true;
         var errores = [];
+        
+        var tipoReporte = $('input[name="tipo"]:checked').val();
+        var numFilasProblematica = $("#problematicaTable tbody tr").length;
 
         $("#form [required]").each(function () {
             if ($(this).val() === "" || $(this).val() === null) {
@@ -808,6 +811,34 @@ $(document).ready(function () {
                         );
                     } else {
                         $otroTextarea.removeClass("is-invalid");
+                    }
+                }
+            });
+        }
+
+        // FIX (DEF-36): Validar que no haya problemáticas duplicadas 
+        if ($('input[name="tipo"]:checked').val() === "problematica") {
+            var combinacionesVistas = [];
+
+            $("#problematicaTable tbody tr").each(function (index, row) {
+                var experiencia = $(row).find(".experiencia-educativa").val();
+                var profesor = $(row).find(".profesor-problematica").val();
+                var problematica = $(row).find(".problematica-select").val();
+                
+                if (experiencia && profesor && problematica && problematica !== "otro") {
+                    var combinacion = experiencia + '|' + profesor + '|' + problematica;
+                    
+                    if (combinacionesVistas.includes(combinacion)) {
+                        valid = false;
+                        $(row).find(".experiencia-educativa").addClass("is-invalid");
+                        $(row).find(".profesor-problematica").addClass("is-invalid");
+                        $(row).find(".problematica-select").addClass("is-invalid");
+                        errores.push(
+                            "La problemática en la línea " + (index + 1) + 
+                            " está duplicada. Ya existe un registro con la misma Experiencia Educativa, Profesor y Problemática."
+                        );
+                    } else {
+                        combinacionesVistas.push(combinacion);
                     }
                 }
             });

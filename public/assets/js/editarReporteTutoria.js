@@ -497,6 +497,34 @@ $(document).ready(function () {
             });
         }
 
+        // FIX: Validar que no haya problemáticas duplicadas DEF-36
+        if ($('input[name="tipo"]:checked').val() === "problematica") {
+            var combinacionesVistas = [];
+
+            $("#problematicaTable tbody tr").each(function (index, row) {
+                var experiencia = $(row).find('select[name="experienciaE[]"]').val();
+                var profesor = $(row).find('select[name="profesor[]"]').val();
+                var problematica = $(row).find('select[name="problematica[]"]').val();
+                
+                if (experiencia && profesor && problematica && problematica !== "otro") {
+                    var combinacion = experiencia + '|' + profesor + '|' + problematica;
+                    
+                    if (combinacionesVistas.includes(combinacion)) {
+                        valid = false;
+                        $(row).find('select[name="experienciaE[]"]').addClass("is-invalid");
+                        $(row).find('select[name="profesor[]"]').addClass("is-invalid");
+                        $(row).find('select[name="problematica[]"]').addClass("is-invalid");
+                        errores.push(
+                            "La problemática en la línea " + (index + 1) + 
+                            " está duplicada. Ya existe un registro con la misma Experiencia Educativa, Profesor y Problemática."
+                        );
+                    } else {
+                        combinacionesVistas.push(combinacion);
+                    }
+                }
+            });
+        }
+
         if (!valid && errores.length > 0) {
             Swal.fire({
                 title: "Errores en el formulario",
