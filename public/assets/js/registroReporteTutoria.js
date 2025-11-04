@@ -439,9 +439,8 @@ $(document).ready(function () {
     }
 
     function actualizarDatosCarrera(idCarrera) {
-        // Realizar una solicitud AJAX para obtener los datos relacionados con la nueva carrera
         $.ajax({
-            url: "getCarreraDatos.php", // Asegúrate de que esta ruta sea correcta
+            url: "getCarreraDatos.php",
             type: "POST",
             dataType: "json",
             data: {
@@ -454,7 +453,6 @@ $(document).ready(function () {
                     return;
                 }
 
-                // Actualizar las variables globales con los nuevos datos
                 experiencias = response.experiencias;
                 profesores = response.profesores;
                 problematicasOptions = response.problematicas; // FIX (DEF-36): No funcionaba el agregar problematica
@@ -678,7 +676,6 @@ $(document).ready(function () {
     $("#enviar").on("click", function (e) {
         e.preventDefault();
         if (validarFormulario()) {
-            // Agregar campo oculto con el valor del botón antes de enviar
             $('<input>').attr({
                 type: 'hidden',
                 name: 'accion',
@@ -842,6 +839,35 @@ $(document).ready(function () {
                     }
                 }
             });
+        }
+
+        // FIX (DEF-34): Validar que la suma de alumnos en problemáticas ≤ alumnos que asistieron
+        if ($('input[name="tipo"]:checked').val() === "problematica") {
+            var numAsistencias = parseInt($("#numAsistencias").val()) || 0;
+            var sumaAlumnosProblematicas = 0;
+
+            $("#problematicaTable tbody tr").each(function (index, row) {
+                var numAlumnos = parseInt($(row).find('input[name="numAlumnos[]"]').val()) || 0;
+                sumaAlumnosProblematicas += numAlumnos;
+            });
+
+            if (sumaAlumnosProblematicas > numAsistencias) {
+                valid = false;
+                $("#numAsistencias").addClass("is-invalid");
+                $("#problematicaTable tbody tr").each(function (index, row) {
+                    $(row).find('input[name="numAlumnos[]"]').addClass("is-invalid");
+                });
+                errores.push(
+                    "La suma de alumnos en las problemáticas (" + sumaAlumnosProblematicas + 
+                    ") no puede ser mayor al número de alumnos que asistieron (" + 
+                    numAsistencias + ")."
+                );
+            } else {
+                $("#numAsistencias").removeClass("is-invalid");
+                $("#problematicaTable tbody tr").each(function (index, row) {
+                    $(row).find('input[name="numAlumnos[]"]').removeClass("is-invalid");
+                });
+            }
         }
 
         if (!valid && errores.length > 0) {

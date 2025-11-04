@@ -525,6 +525,35 @@ $(document).ready(function () {
             });
         }
 
+        // FIX (DEF-34): Validar que la suma de alumnos en problemáticas ≤ alumnos que asistieron
+        if ($('input[name="tipo"]:checked').val() === "problematica") {
+            var numAsistencias = parseInt($("#numAsistencias").val()) || 0;
+            var sumaAlumnosProblematicas = 0;
+
+            $("#problematicaTable tbody tr").each(function (index, row) {
+                var numAlumnos = parseInt($(row).find('input[name="numAlumnos[]"]').val()) || 0;
+                sumaAlumnosProblematicas += numAlumnos;
+            });
+
+            if (sumaAlumnosProblematicas > numAsistencias) {
+                valid = false;
+                $("#numAsistencias").addClass("is-invalid");
+                $("#problematicaTable tbody tr").each(function (index, row) {
+                    $(row).find('input[name="numAlumnos[]"]').addClass("is-invalid");
+                });
+                errores.push(
+                    "La suma de alumnos en las problemáticas (" + sumaAlumnosProblematicas + 
+                    ") no puede ser mayor al número de alumnos que asistieron (" + 
+                    numAsistencias + ")."
+                );
+            } else {
+                $("#numAsistencias").removeClass("is-invalid");
+                $("#problematicaTable tbody tr").each(function (index, row) {
+                    $(row).find('input[name="numAlumnos[]"]').removeClass("is-invalid");
+                });
+            }
+        }
+
         if (!valid && errores.length > 0) {
             Swal.fire({
                 title: "Errores en el formulario",
