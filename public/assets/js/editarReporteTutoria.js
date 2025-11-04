@@ -198,9 +198,9 @@ $(document).ready(function () {
                 manejarCambioExperiencia($(this));
             });
 
-            $fila.find('select[name="profesor[]"]').change(function () {
-                manejarCambioProfesor($(this));
-            });
+            // FIX (DEF-39): Eliminado evento change de profesor que filtraba experiencias educativas
+            // Esto permitía que al seleccionar un profesor, solo se mostraran las experiencias que imparte,
+            // bloqueando la posibilidad de cambiar libremente la experiencia educativa
 
             $fila
                 .find('select[name="problematica[]"]')
@@ -263,9 +263,9 @@ $(document).ready(function () {
             manejarCambioExperiencia($(this));
         });
 
-        $ultimaFila.find('select[name="profesor[]"]').change(function () {
-            manejarCambioProfesor($(this));
-        });
+        // FIX (DEF-39): Eliminado evento change de profesor que filtraba experiencias educativas
+        // Esto permitía que al seleccionar un profesor, solo se mostraran las experiencias que imparte,
+        // bloqueando la posibilidad de cambiar libremente la experiencia educativa
 
         $ultimaFila.find('select[name="problematica[]"]').change(function () {
             var selectedValue = $(this).val();
@@ -311,11 +311,9 @@ $(document).ready(function () {
 
         $profesorSelect.html(opcionesProfesor).prop("disabled", false);
 
-        if (profesoresUnicos[profesorSeleccionado]) {
-            $profesorSelect.val(profesorSeleccionado).trigger("change.select2");
-        } else {
-            $profesorSelect.val(null).trigger("change.select2");
-        }
+        // FIX (DEF-39): Siempre resetear el profesor a vacío al cambiar experiencia
+        // Esto obliga al usuario a seleccionar explícitamente el profesor
+        $profesorSelect.val(null).trigger("change.select2");
     }
 
     function manejarCambioProfesor($selectProfesor) {
