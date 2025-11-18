@@ -13,12 +13,6 @@ $user = $_SESSION['user'];
 $csrf_token = $_SESSION['csrf_token'];
 $menu = BASE_URL . '/menu.php';
 
-$lugar = htmlspecialchars($tutoria['lugar'] ?? '', ENT_QUOTES, 'UTF-8');
-$fecha = htmlspecialchars($tutoria['fechaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
-$fecha_fin = htmlspecialchars($tutoria['fechaFin'] ?? '', ENT_QUOTES, 'UTF-8');
-$notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
-$periodoAtencion = $tutoria['periodoAtencion'] ?? '';
-$periodoTutoria = $tutoria['periodoTutoria'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -115,7 +109,7 @@ $periodoTutoria = $tutoria['periodoTutoria'] ?? '';
             <div class="form-group">
                 <label for="lugar">Lugar:</label>
                 <input type="text" class="form-control" id="lugar" name="lugar"
-                placeholder="Lugar de tutoría (máximo 300 caracteres)" maxlength="300">
+                placeholder="Lugar de tutoría (máximo 300 caracteres)" maxlength="300" value="<?= $lugar ?>">
             </div>
 
             <div class="form-group">

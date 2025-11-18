@@ -245,13 +245,8 @@ $(document).ready(function () {
             $profesorSelect.html(opcionesProfesor).prop("disabled", false);
 
             // FIX (DEF-39): Siempre resetear el profesor a vacío al cambiar experiencia
-            // Esto obliga al usuario a seleccionar explícitamente el profesor
             $profesorSelect.val(null).trigger("change.select2");
         });
-
-        // FIX (DEF-39): Eliminado evento change de profesor que filtraba experiencias educativas
-        // Esto permitía que al seleccionar un profesor, solo se mostraran las experiencias que imparte,
-        // bloqueando la posibilidad de cambiar libremente la experiencia educativa
     });
 
     $(document).on("change", ".problematica-select", function () {
