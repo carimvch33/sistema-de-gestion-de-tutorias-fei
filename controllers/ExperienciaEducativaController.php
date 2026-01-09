@@ -239,6 +239,15 @@ class ExperienciaEducativaController
             $idExperiencia = isset($_POST['idExperiencia']) ? intval($_POST['idExperiencia']) : 0;
 
             if ($idExperiencia > 0) {
+                // DEF-03: Verificar si tiene datos asociados
+                if ($this->experienciaModel->tieneDatosAsociados($idExperiencia)) {
+                    echo json_encode([
+                        'status' => 'error', 
+                        'message' => 'No se puede eliminar la experiencia educativa porque tiene problemáticas académicas o secciones asociadas.'
+                    ]);
+                    return;
+                }
+
                 $resultado = $this->experienciaModel->deleteExperiencia($idExperiencia);
 
                 if ($resultado) {

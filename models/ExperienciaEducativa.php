@@ -86,4 +86,33 @@ class ExperienciaEducativa
         $stmt->close();
         return $experiencias;
     }
+    // DEF-03: Verificar si la experiencia educativa tiene datos asociados antes de eliminar
+    public function tieneDatosAsociados($idExperiencia)
+    {
+        // Verificar si tiene problemáticas académicas
+        $stmtProblematicas = $this->conn->prepare(
+            "SELECT COUNT(*) AS total FROM problematica_academica WHERE experienciaEducativa = ?"
+        );
+        $stmtProblematicas->bind_param("i", $idExperiencia);
+        $stmtProblematicas->execute();
+        $resultProblematicas = $stmtProblematicas->get_result();
+        $dataProblematicas = $resultProblematicas->fetch_assoc();
+        $stmtProblematicas->close();
+        
+        if ($dataProblematicas['total'] > 0) {
+            return true;
+        }
+        
+        // Verificar si tiene secciones
+        $stmtSecciones = $this->conn->prepare(
+            "SELECT COUNT(*) AS total FROM seccion WHERE idExperienciaEducativa = ?"
+        );
+        $stmtSecciones->bind_param("i", $idExperiencia);
+        $stmtSecciones->execute();
+        $resultSecciones = $stmtSecciones->get_result();
+        $dataSecciones = $resultSecciones->fetch_assoc();
+        $stmtSecciones->close();
+        
+        return $dataSecciones['total'] > 0;
+    }
 }
