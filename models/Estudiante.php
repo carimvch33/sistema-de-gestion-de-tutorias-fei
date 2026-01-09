@@ -209,4 +209,32 @@ class Estudiante
         
         return $data['total'] > 0;
     }
+
+    // DEF-02: Verificar si el estudiante tiene tutorías asociadas antes de eliminar
+    public function tieneTutoriasAsociadas($idTutorado)
+    {
+        // Obtener el tutor del estudiante
+        $stmtTutor = $this->conn->prepare("SELECT tutor FROM tutorado WHERE idTutorado = ?");
+        $stmtTutor->bind_param("i", $idTutorado);
+        $stmtTutor->execute();
+        $resultTutor = $stmtTutor->get_result();
+        $dataTutor = $resultTutor->fetch_assoc();
+        $stmtTutor->close();
+        
+        // Si no tiene tutor asignado, puede eliminarse
+        if (!$dataTutor || $dataTutor['tutor'] === null) {
+            return false;
+        }
+        
+        // Verificar si ese tutor tiene tutorías registradas
+        $tutorId = $dataTutor['tutor'];
+        $stmt = $this->conn->prepare("SELECT COUNT(*) AS total FROM tutoria WHERE tutor = ?");
+        $stmt->bind_param("i", $tutorId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        
+        return $data['total'] > 0;
+    }
 }

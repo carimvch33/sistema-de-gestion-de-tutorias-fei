@@ -324,6 +324,16 @@ class EstudianteController
             $idTutorado = isset($_POST['idTutorado']) ? intval($_POST['idTutorado']) : 0;
 
             if ($idTutorado > 0) {
+                // DEF-02: Verificar si tiene tutorías asociadas
+                if ($this->estudianteModel->tieneTutoriasAsociadas($idTutorado)) {
+                    echo json_encode([
+                        'status' => 'error', 
+                        'message' => 'No se puede eliminar el estudiante porque tiene tutorías asociadas.'
+                    ]);
+                    return;
+                }
+
+                // Proceder con la eliminación
                 $resultado = $this->estudianteModel->deleteEstudiante($idTutorado);
 
                 if ($resultado) {
