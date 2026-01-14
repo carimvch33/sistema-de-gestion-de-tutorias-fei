@@ -20,12 +20,17 @@ function connectiondb()
         $password = $_ENV['DB_PASSWORD'];
         $dbname = $_ENV['DB_NAME'];
     }
-    $conn = new mysqli($host, $user, $password, $dbname, $port, $socket);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+    // DEF-32: Manejo centralizado de errores y excepciones
+    // Deshabilitar reportes de error de mysqli para manejarlos con excepciones
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    
+    try {
+        $conn = new mysqli($host, $user, $password, $dbname, $port, $socket);
+        $conn->set_charset("utf8");
+        return $conn;
+    } catch (mysqli_sql_exception $e) {
+        // El error será capturado por el exception handler global
+        throw new Exception("No se pudo conectar a la base de datos. Por favor, verifica tu conexión.", 0, $e);
     }
-
-    return $conn;
 }
 ?>
