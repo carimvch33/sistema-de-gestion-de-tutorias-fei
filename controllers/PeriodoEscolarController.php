@@ -113,7 +113,13 @@ class PeriodoEscolarController
                 header('Location: ' . BASE_URL . '/administrarPeriodosEscolares.php');
                 exit();
             } else {
-                $_SESSION['message'] = "Error al registrar el periodo.";
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'] = [$_SESSION['message']];
+                    unset($_SESSION['message']);
+                } else {
+                    $_SESSION['errors'] = ["Error al registrar el periodo escolar."];
+                }
+
                 header('Location: ' . BASE_URL . '/registroPeriodo.php');
                 exit();
             }
@@ -201,7 +207,11 @@ class PeriodoEscolarController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ' . BASE_URL . '/editarPeriodo.php');
+                $_SESSION['periodo'] = ['idPeriodo' => $idPeriodo, 'periodo' => $nombrePeriodo, 'actual' => $actual];
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                
+                require_once '../views/editarPeriodo.php';
                 exit();
             }
 
@@ -212,8 +222,18 @@ class PeriodoEscolarController
                 header('Location: ' . BASE_URL . '/administrarPeriodosEscolares.php');
                 exit();
             } else {
-                $_SESSION['message'] = "Error al actualizar el periodo escolar.";
-                header('Location: ' . BASE_URL . '/editarPeriodo.php');
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'][] = $_SESSION['message'];
+                    unset($_SESSION['message']);
+                } else {
+                    $_SESSION['errors'][] = "Error al actualizar el periodo escolar.";
+                }
+
+                $_SESSION['periodo'] = ['idPeriodo' => $idPeriodo, 'periodo' => $nombrePeriodo, 'actual' => $actual];
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                
+                require_once '../views/editarPeriodo.php';
                 exit();
             }
         } else {

@@ -70,53 +70,6 @@ class TipoProblematicaController
         require_once '../views/registroTipoProblematica.php';
     }
 
-    public function createTipoProblematica()
-    {
-        session_start();
-        $rolesPermitidos = [3];
-
-        if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ' . BASE_URL . '/cerrarSesion.php');
-            exit();
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-                echo "Error: Solicitud no válida.";
-                exit();
-            }
-
-            $name = isset($_POST['name']) ? trim($_POST['name']) : '';
-
-            $errors = [];
-
-            if (empty($name)) {
-                $errors[] = 'El campo "Nombre" es obligatorio.';
-            }
-
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header('Location: ' . BASE_URL . '/registroProblematica.php');
-                exit();
-            }
-
-            $resultado = $this->tipoProblematicaModel->createProblematica($name);
-
-            if ($resultado) {
-                $_SESSION['message'] = "Tipo de Problemática registrada exitosamente.";
-                header("Location: " . BASE_URL . "/administrarTiposProblematicas.php");
-                exit();
-            } else {
-                $_SESSION['message'] = "Error al registrar el tipo de problemática.";
-                header("Location: " . BASE_URL . "/registroTipoProblematica.php");
-                exit();
-            }
-        } else {
-            header("Location: " . BASE_URL . "/registroTipoProblematica.php");
-            exit();
-        }
-    }
-
     public function showEditForm()
     {
         session_start();
@@ -156,6 +109,60 @@ class TipoProblematicaController
         }
     }
 
+    public function createTipoProblematica()
+    {
+        session_start();
+        $rolesPermitidos = [3];
+
+        if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+                echo "Error: Solicitud no válida.";
+                exit();
+            }
+
+            $name = isset($_POST['name']) ? trim($_POST['name']) : '';
+
+            $errors = [];
+
+            if (empty($name)) {
+                $errors[] = 'El campo "Nombre" es obligatorio.';
+            }
+
+            if (!empty($errors)) {
+                $_SESSION['errors'] = $errors;
+                header('Location: ' . BASE_URL . '/registroTipoProblematica.php');
+                exit();
+            }
+
+            $resultado = $this->tipoProblematicaModel->createProblematica($name);
+
+            if ($resultado) {
+                $_SESSION['message'] = "Tipo de Problemática registrada exitosamente.";
+                header("Location: " . BASE_URL . "/administrarTiposProblematicas.php");
+                exit();
+            } else {
+                // Pasamos el error de duplicidad a rojo
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'] = [$_SESSION['message']];
+                    unset($_SESSION['message']);
+                } else {
+                    $_SESSION['errors'] = ["Error al registrar el tipo de problemática."];
+                }
+                
+                header("Location: " . BASE_URL . "/registroTipoProblematica.php");
+                exit();
+            }
+        } else {
+            header("Location: " . BASE_URL . "/registroTipoProblematica.php");
+            exit();
+        }
+    }
+
     public function updateProblematica()
     {
         session_start();
@@ -179,10 +186,21 @@ class TipoProblematicaController
             if ($idTipoProblematica <= 0) $errors[] = 'ID de tipo de problemática inválido.';
             if (empty($name)) $errors[] = 'El campo "Nombre" es obligatorio.';
 
+            $recargarVista = function() use ($idTipoProblematica, $name) {
+                $_SESSION['tipoProblematica'] = [
+                    'idTipoProblematica' => $idTipoProblematica, 
+                    'nombre' => $name 
+                ];
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                
+                require_once '../views/editarTipoProblematica.php';
+                exit();
+            };
+
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ' . BASE_URL . '/editarTipoProblematica.php');
-                exit();
+                $recargarVista();
             }
 
             $resultado = $this->tipoProblematicaModel->updateTipoProblematica($idTipoProblematica, $name);
@@ -190,12 +208,20 @@ class TipoProblematicaController
             if ($resultado) {
                 $_SESSION['message'] = 'Tipo de problemática actualizada exitosamente.';
                 header("Location: " . BASE_URL . "/administrarTiposProblematicas.php");
+                exit();
             } else {
-                $_SESSION['message'] = 'Error al actualizar el tipo de problemática.';
-                header('Location: ' . BASE_URL . '/editarTipoProblematica.php');
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'][] = $_SESSION['message'];
+                    unset($_SESSION['message']);
+                } else {
+                    $_SESSION['errors'][] = 'Error al actualizar el tipo de problemática.';
+                }
+                
+                $recargarVista();
             }
         } else {
             header("Location: " . BASE_URL . "/administrarTiposProblematicas.php");
+            exit();
         }
     }
 

@@ -69,18 +69,10 @@ class RolController
 
             $errors = [];
 
-            if ($sesionId <= 0) {
-                $errors[] = 'Debe seleccionar un tutor válido.';
-            }
-
-            if (!in_array($nuevoRol, [1, 3, 4, 5])) {
-                $errors[] = 'Debe seleccionar un rol válido.';
-            }
-
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header('Location: ' . BASE_URL . '/actualizarRol.php');
-                exit();
+            if ($sesionId <= 0) $errors[] = 'Debe seleccionar un tutor válido.';
+            if (!in_array($nuevoRol, [1, 3, 4, 5])) $errors[] = 'Debe seleccionar un rol válido.';
+            if (($nuevoRol == 4 || $nuevoRol == 5) && empty($carrerasSeleccionadas)) {
+                $errors[] = 'Debe seleccionar al menos una carrera.';
             }
 
             $profesorData = $this->tutorModel->getTutorBySesionId($sesionId);
@@ -93,6 +85,21 @@ class RolController
             $correoInstitucional = $profesorData['correoInstitucional'];
             $idTutor = $profesorData['idTutor'];
 
+            if ($nuevoRol == 5 && !empty($carrerasSeleccionadas)) {
+                require_once '../models/JefeCarrera.php';
+                $jefeCarreraModel = new JefeCarrera($this->conn);
+
+                if ($jefeCarreraModel->isCarreraAsignada($carrerasSeleccionadas, $idTutor)) {
+                    $errors[] = 'Una o más de las carreras seleccionadas ya tienen un Jefe asignado.';
+                }
+            }
+
+            if (!empty($errors)) {
+                $_SESSION['errors'] = $errors;
+                header('Location: ' . BASE_URL . '/actualizarRol.php');
+                exit();
+            }
+
             $this->conn->begin_transaction();
             try {
                 require_once '../models/Coordinador.php';
@@ -100,30 +107,32 @@ class RolController
 
                 $coordinadorModel->deleteCarrerasBySesion($sesionId);
                 
+                $stmtDelJefe = $this->conn->prepare("DELETE FROM jefe_carrera_carrera WHERE idSesion = ?");
+                $stmtDelJefe->bind_param("i", $sesionId);
+                $stmtDelJefe->execute();
+                $stmtDelJefe->close();
+                
                 $resultado = $this->tutorModel->updateTutorRole($sesionId, $nuevoRol);
-
-
-                if (!$resultado) {
-                    throw new Exception("Error al actualizar el rol del tutor.");
-                }
+                if (!$resultado) throw new Exception("Error al actualizar el rol del tutor.");
 
                 if ($nuevoRol == 4) {
-
                     $data = [
                         'idTutor' => $idTutor,
                         'correoInstitucional' => $correoInstitucional,
                         'sesionId' => $sesionId,
                         'carreras' => $carrerasSeleccionadas
                     ];
-                    $resultadoCoordinador = $coordinadorModel->assignCarrerasToCoordinador($data);
-
-                    if (!$resultadoCoordinador) {
+                    if (!$coordinadorModel->assignCarrerasToCoordinador($data)) {
                         throw new Exception("Error al asignar las carreras al coordinador.");
                     }
-                } else {
-                    require_once '../models/Coordinador.php';
-                    $coordinadorModel = new Coordinador($this->conn);
-                    $coordinadorModel->deleteCarrerasBySesion($sesionId);
+                } elseif ($nuevoRol == 5) {
+                    $stmtRelacion = $this->conn->prepare("INSERT INTO jefe_carrera_carrera (idSesion, idCarrera) VALUES (?, ?)");
+                    foreach ($carrerasSeleccionadas as $idCarrera) {
+                        $idCarreraInt = intval($idCarrera);
+                        $stmtRelacion->bind_param("ii", $sesionId, $idCarreraInt);
+                        if (!$stmtRelacion->execute()) throw new Exception("Error al asignar carrera al Jefe de Carrera.");
+                    }
+                    $stmtRelacion->close();
                 }
 
                 $this->conn->commit();

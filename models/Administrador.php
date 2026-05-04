@@ -54,15 +54,18 @@ class Administrador
             // Inserción en la tabla sesion
             $stmtSesion = $this->conn->prepare("INSERT INTO sesion (correoInstitucional, rol) VALUES (?, ?)");
             $stmtSesion->bind_param("si", $data['correoInstitucional'], $data['rol']);
-            $stmtSesion->execute();
+            if (!$stmtSesion->execute()) {
+                if ($stmtSesion->errno == 1062) throw new Exception("1062");
+                throw new Exception("Error en sesion");
+            }
             $idSesion = $this->conn->insert_id;
             $stmtSesion->close();
 
             // Inserción en la tabla administrador
             $stmtAdministrador = $this->conn->prepare("
-            INSERT INTO administrador (nombre, apellidoPaterno, apellidoMaterno, correoInstitucional, sesion, password)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ");
+                INSERT INTO administrador (nombre, apellidoPaterno, apellidoMaterno, correoInstitucional, sesion, password)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ");
             $stmtAdministrador->bind_param(
                 "ssssss",
                 $data['nombre'],
@@ -70,17 +73,31 @@ class Administrador
                 $data['apellidoMaterno'],
                 $data['correoInstitucional'],
                 $idSesion,
-                $data['password'] // Asegúrate de que este campo exista como 'password', no 'hashedPassword'
+                $data['password'] 
             );
-            $stmtAdministrador->execute();
+            if (!$stmtAdministrador->execute()) {
+                if ($stmtAdministrador->errno == 1062) throw new Exception("1062");
+                throw new Exception("Error en administrador");
+            }
             $stmtAdministrador->close();
 
             $this->conn->commit();
             return true;
 
+        } catch (mysqli_sql_exception $e) {
+            $this->conn->rollback();
+            if ($e->getCode() == 1062) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $_SESSION['message'] = 'El correo institucional ya está registrado en el sistema.';
+            }
+            return false;
         } catch (Exception $e) {
             $this->conn->rollback();
-            return $e->getMessage(); // Retornamos el mensaje del error.
+            if (strpos($e->getMessage(), '1062') !== false) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $_SESSION['message'] = 'El correo institucional ya está registrado en el sistema.';
+            }
+            return false;
         }
     }
 
@@ -89,10 +106,10 @@ class Administrador
         $this->conn->begin_transaction();
         try {
             $stmtAdministrador = $this->conn->prepare("
-            UPDATE administrador 
-            SET nombre = ?, apellidoPaterno = ?, apellidoMaterno = ?, correoInstitucional = ?
-            WHERE idAdministrador = ?
-        ");
+                UPDATE administrador 
+                SET nombre = ?, apellidoPaterno = ?, apellidoMaterno = ?, correoInstitucional = ?
+                WHERE idAdministrador = ?
+            ");
 
             $stmtAdministrador->bind_param(
                 "ssssi",
@@ -102,35 +119,47 @@ class Administrador
                 $data['correoInstitucional'],
                 $idAdministrador
             );
-            $stmtAdministrador->execute();
+            if (!$stmtAdministrador->execute()) {
+                if ($stmtAdministrador->errno == 1062) throw new Exception("1062");
+                throw new Exception("Error al actualizar administrador");
+            }
             $stmtAdministrador->close();
 
             if (!empty($data['password'])) {
-                $stmtPassword = $this->conn->prepare("
-                UPDATE administrador
-                SET password = ?
-                WHERE idAdministrador = ?
-            ");
+                $stmtPassword = $this->conn->prepare("UPDATE administrador SET password = ? WHERE idAdministrador = ?");
                 $stmtPassword->bind_param("si", $data['password'], $idAdministrador);
                 $stmtPassword->execute();
                 $stmtPassword->close();
             }
 
             $stmtSesion = $this->conn->prepare("
-            UPDATE sesion 
-            SET correoInstitucional = ? 
-            WHERE idSesion = (
-                SELECT sesion FROM administrador WHERE idAdministrador = ?
-            )
-        ");
+                UPDATE sesion 
+                SET correoInstitucional = ? 
+                WHERE idSesion = (SELECT sesion FROM administrador WHERE idAdministrador = ?)
+            ");
             $stmtSesion->bind_param("si", $data['correoInstitucional'], $idAdministrador);
-            $stmtSesion->execute();
+            if (!$stmtSesion->execute()) {
+                if ($stmtSesion->errno == 1062) throw new Exception("1062");
+                throw new Exception("Error al actualizar sesion");
+            }
             $stmtSesion->close();
 
             $this->conn->commit();
             return true;
+            
+        } catch (mysqli_sql_exception $e) {
+            $this->conn->rollback();
+            if ($e->getCode() == 1062) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $_SESSION['message'] = 'El correo institucional ya está registrado en el sistema.';
+            }
+            return false;
         } catch (Exception $e) {
             $this->conn->rollback();
+            if (strpos($e->getMessage(), '1062') !== false) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $_SESSION['message'] = 'El correo institucional ya está registrado en el sistema.';
+            }
             return false;
         }
     }

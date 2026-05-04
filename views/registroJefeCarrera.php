@@ -73,6 +73,21 @@ require_once '../config/config.php';
             <div class="form-group">
                 <label for="correoInstitucional">Correo institucional: <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="correoInstitucional" name="correoInstitucional" placeholder="Correo institucional máximo 50 caracteres" maxlength="50">
+
+                <div class="form-group">
+                    <label for="carreras">Carreras a cargo: <span class="text-danger">*</span></label>
+                    <select class="form-control" id="carreras" name="carreras[]" multiple="multiple">
+                        <option value="">Seleccione una carrera</option>
+                        <?php
+                        if (!empty($carreras)) {
+                            foreach ($carreras as $c) {
+                                echo "<option value='{$c['idCarrera']}'>{$c['carrera']}</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+                
                 <p class="text-secondary">Ejem: zs12345678@estudiantes.uv.mx | zs12345678@uv.mx</p>
             </div>
 

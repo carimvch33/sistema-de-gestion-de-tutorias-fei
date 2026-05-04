@@ -72,10 +72,12 @@ body {
     opacity: 0.8;
 }
 
+/* --- CORRECCIÓN DE LA TABLA --- */
 table {
-    width: 60%;
+    width: 100%; /* Cambiado al 100% para que no colapse con DataTables */
     margin: 20px auto;
     border-collapse: collapse;
+    table-layout: fixed; /* Fuerza a la tabla a no estirarse infinitamente */
 }
 
 th,
@@ -85,13 +87,21 @@ td {
     padding: 8px;
 }
 
+/* Rompe las cadenas de texto largas */
+td {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    white-space: normal !important;
+}
+
 th {
     background-color: #18529D;
     color: white;
 }
 
 .autoWidthColumn {
-    white-space: nowrap;
+    white-space: normal; /* Cambiado de nowrap a normal para permitir saltos de línea */
     width: auto;
     text-align: center;
 }

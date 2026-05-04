@@ -59,9 +59,22 @@ class PeriodoEscolar
 
             $this->conn->commit();
             return true;
-        } catch (Exception $e) {
+            
+        } catch (mysqli_sql_exception $e) {
+            
             $this->conn->rollback();
-            return false;
+
+            if ($e->getCode() == 1062) {
+
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
+
+                $_SESSION['message'] = "El periodo ya existe.";
+
+                return false;
+            }
+            throw $e;
         }
     }
 
@@ -84,9 +97,19 @@ class PeriodoEscolar
 
             $this->conn->commit();
             return true;
-        } catch (Exception $e) {
+        } catch (mysqli_sql_exception $e) {
+            
             $this->conn->rollback();
-            return false;
+
+            if ($e->getCode() == 1062) {
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $_SESSION['message'] = "El periodo ya existe. Por favor, ingrese un nombre diferente.";
+                return false;
+            }
+            
+            throw $e;
         }
     }
 

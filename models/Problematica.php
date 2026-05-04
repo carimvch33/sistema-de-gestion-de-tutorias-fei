@@ -45,18 +45,54 @@ class Problematica
     {
         $stmt = $this->conn->prepare("INSERT INTO problematica (descripcion, tipoProblematica) VALUES (?, ?)");
         $stmt->bind_param("si", $descripcion, $tipoProblematica);
-        $result = $stmt->execute();
-        $stmt->close();
-        return $result;
+
+        try{
+
+            $result = $stmt->execute();
+            $stmt->close();
+            return $result;
+
+        } catch (mysqli_sql_exception $e) {
+
+            $stmt->close();
+
+            if ($e->getCode() == 1062) {
+
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+
+                $_SESSION['message'] = 'La problemática ya existe. Por favor, ingrese una descripción diferente.';
+
+                return false;
+            }
+            
+            throw $e;
+        }
     }
 
     public function updateProblematica($idProblematica, $descripcion, $tipoProblematica)
     {
         $stmt = $this->conn->prepare("UPDATE problematica SET descripcion = ?, tipoProblematica = ? WHERE idProblematica = ?");
         $stmt->bind_param("sii", $descripcion, $tipoProblematica, $idProblematica);
-        $result = $stmt->execute();
-        $stmt->close();
-        return $result;
+        
+        try {
+            $result = $stmt->execute();
+            $stmt->close();
+            return $result;
+        } catch (mysqli_sql_exception $e) {
+            $stmt->close();
+
+            if ($e->getCode() == 1062) {
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $_SESSION['message'] = 'La problemática ya existe. Por favor, ingrese una descripción diferente.';
+                return false;
+            }
+            
+            throw $e;
+        }
     }
 
     public function deleteProblematica($idProblematica)

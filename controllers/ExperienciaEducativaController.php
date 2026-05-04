@@ -74,55 +74,6 @@ class ExperienciaEducativaController
 
         require_once '../views/registroExperienciaEducativa.php';
     }
-    public function createExperiencia()
-    {
-        session_start();
-
-        $rolesPermitidos = [3];
-        if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ' . BASE_URL . '/cerrarSesion.php');
-            exit();
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-                echo "Error: Solicitud no válida.";
-                exit();
-            }
-
-            $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : null;
-            $programa = isset($_POST['programa']) ? intval($_POST['programa']) : null;
-
-            $errors = [];
-
-            if (empty($nombre))
-                $errors[] = 'El campo "Nombre" es obligatorio.';
-            
-            if (empty($programa))
-                $errors[] = 'El campo "Programa" es obligatorio.';
-
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header('Location: ' . BASE_URL . '/registroExperienciaEducativa.php');
-                exit();
-            }
-
-            $result = $this->experienciaModel->createExperiencia($nombre, $programa);
-
-            if ($result) {
-                $_SESSION['message'] = "Experiencia educativa registrada exitosamente.";
-                header('Location: ' . BASE_URL . '/administrarExperienciasEducativas.php');
-                exit();
-            } else {
-                $_SESSION['message'] = "Error al registrar la experiencia educativa.";
-                header("Location: " . BASE_URL . "/registroExperienciaEducativa.php");
-                exit();
-            }
-        } else {
-            header('Location: ' . BASE_URL . '/registroExperienciaEducativa.php');
-            exit();
-        }
-    }
 
     public function showEditForm()
     {
@@ -169,6 +120,62 @@ class ExperienciaEducativaController
         }
     }
 
+    public function createExperiencia()
+    {
+        session_start();
+
+        $rolesPermitidos = [3];
+        if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+                echo "Error: Solicitud no válida.";
+                exit();
+            }
+
+            $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : null;
+            $programa = isset($_POST['programa']) ? intval($_POST['programa']) : null;
+
+            $errors = [];
+
+            if (empty($nombre))
+                $errors[] = 'El campo "Nombre" es obligatorio.';
+            
+            if (empty($programa))
+                $errors[] = 'El campo "Programa" es obligatorio.';
+
+            if (!empty($errors)) {
+                $_SESSION['errors'] = $errors;
+                header('Location: ' . BASE_URL . '/registroExperienciaEducativa.php');
+                exit();
+            }
+
+            $result = $this->experienciaModel->createExperiencia($nombre, $programa);
+
+            if ($result) {
+                $_SESSION['message'] = "Experiencia educativa registrada exitosamente.";
+                header('Location: ' . BASE_URL . '/administrarExperienciasEducativas.php');
+                exit();
+            } else {
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'] = [$_SESSION['message']];
+                    unset($_SESSION['message']);
+                } else {
+                    $_SESSION['errors'] = ["Error al registrar la experiencia educativa."];
+                }
+
+                header("Location: " . BASE_URL . "/registroExperienciaEducativa.php");
+                exit();
+            }
+        } else {
+            header('Location: ' . BASE_URL . '/registroExperienciaEducativa.php');
+            exit();
+        }
+    }
+
     public function updateExperiencia()
     {
         session_start();
@@ -199,7 +206,13 @@ class ExperienciaEducativaController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ' . BASE_URL . '/editarExperienciaEducativa.php');
+                
+                $_SESSION['experiencia'] = ['idExperienciaEducativa' => $idExperiencia, 'nombre' => $nombre, 'programaEducativo' => $programa];
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                $programas = $this->carreraModel->getCarreras(); 
+                
+                require_once '../views/editarExperienciaEducativa.php';
                 exit();
             }
 
@@ -210,8 +223,19 @@ class ExperienciaEducativaController
                 header('Location: ' . BASE_URL . '/administrarExperienciasEducativas.php');
                 exit();
             } else {
-                $_SESSION['message'] = "Error al actualizar la experiencia educativa.";
-                header('Location: ' . BASE_URL . '/editarExperienciaEducativa.php');
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'][] = $_SESSION['message'];
+                    unset($_SESSION['message']);
+                } else {
+                    $_SESSION['errors'][] = "Error al actualizar la experiencia educativa.";
+                }
+
+                $_SESSION['experiencia'] = ['idExperienciaEducativa' => $idExperiencia, 'nombre' => $nombre, 'programaEducativo' => $programa];
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                $programas = $this->carreraModel->getCarreras();
+                
+                require_once '../views/editarExperienciaEducativa.php';
                 exit();
             }
         } else {

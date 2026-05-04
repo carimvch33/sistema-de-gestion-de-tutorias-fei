@@ -44,9 +44,25 @@ class ExperienciaEducativa
     {
         $stmt = $this->conn->prepare("INSERT INTO experiencia_educativa (nombre, programaEducativo) VALUES (?, ?)");
         $stmt->bind_param("si", $nombre, $programa);
-        $result = $stmt->execute();
-        $stmt->close();
-        return $result;
+
+        try{
+            $result = $stmt->execute();
+            $stmt->close();
+            return $result;
+
+        } catch (mysqli_sql_exception $e) {
+
+            if ($e->getCode() == 1062) {
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
+
+                $_SESSION['message'] = "Ya existe una experiencia educativa con ese nombre en el mismo programa educativo.";
+
+                return false;
+            }
+            throw $e;
+        }
     }
 
     public function updateExperiencia($idExperiencia, $nombre, $programa)
@@ -57,9 +73,23 @@ class ExperienciaEducativa
             WHERE idExperienciaEducativa = ?
         ");
         $stmt->bind_param("sii", $nombre, $programa, $idExperiencia);
-        $result = $stmt->execute();
-        $stmt->close();
-        return $result;
+        
+        try {
+            $result = $stmt->execute();
+            $stmt->close();
+            return $result;
+        } catch (mysqli_sql_exception $e) {
+            $stmt->close();
+            
+            if ($e->getCode() == 1062) {
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $_SESSION['message'] = "Ya existe una experiencia educativa con ese nombre en el mismo programa educativo.";
+                return false;
+            }
+            throw $e;
+        }
     }
 
     public function deleteExperiencia($idExperiencia)

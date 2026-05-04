@@ -57,67 +57,52 @@ class Estudiante
         $this->conn->begin_transaction();
 
         try {
-            // Preparar la inserción en 'sesion'
             $stmtSesion = $this->conn->prepare("INSERT INTO sesion (correoInstitucional, rol) VALUES (?, ?)");
-            if (!$stmtSesion) {
-                throw new Exception("Error al preparar la inserción en sesion: " . $this->conn->error);
-            }
             $stmtSesion->bind_param("si", $data['correoInstitucional'], $data['rol']);
+            
             if (!$stmtSesion->execute()) {
-                throw new Exception("Error al ejecutar la inserción en sesion: " . $stmtSesion->error);
+                if ($stmtSesion->errno == 1062) throw new Exception("1062");
+                throw new Exception("Error al ejecutar la inserción en sesion");
             }
+            
             $idSesion = $this->conn->insert_id;
             $stmtSesion->close();
 
-            // Preparar la inserción en 'tutorado'
             $stmtEstudiante = $this->conn->prepare("
-            INSERT INTO tutorado (nombre, apellidoPaterno, apellidoMaterno, matricula, carrera, correoInstitucional, sesion, tutor)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        ");
-            if (!$stmtEstudiante) {
-                throw new Exception("Error al preparar la inserción en tutorado: " . $this->conn->error);
-            }
-
-            // Verificar y ajustar los tipos de datos
-            $nombre = $data['nombre'] ?? '';
-            $apellidoPaterno = $data['apellidoPaterno'] ?? '';
-            $apellidoMaterno = $data['apellidoMaterno'] ?? '';
-            $matricula = $data['matricula'] ?? '';
-            $carrera = $data['carrera'] ?? null;
-            $correoInstitucional = $data['correoInstitucional'] ?? '';
-            $tutor = $data['tutor'] ?? null;
-
-            // Asegurar que 'carrera' y 'tutor' sean enteros o null
-            $carrera = isset($carrera) ? (int) $carrera : null;
-            $tutor = isset($tutor) ? (int) $tutor : null;
-
-            // Determinar los tipos de 'bind_param'
-            $types = "ssssisii"; // s: string, i: integer
-            $stmtEstudiante->bind_param(
-                $types,
-                $nombre,
-                $apellidoPaterno,
-                $apellidoMaterno,
-                $matricula,
-                $carrera,
-                $correoInstitucional,
-                $idSesion,
-                $tutor
-            );
+                INSERT INTO tutorado (nombre, apellidoPaterno, apellidoMaterno, matricula, carrera, correoInstitucional, sesion, tutor)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ");
+            
+            $carrera = isset($data['carrera']) ? (int) $data['carrera'] : null;
+            $tutor = isset($data['tutor']) ? (int) $data['tutor'] : null;
+            $types = "ssssisii"; 
+            
+            $stmtEstudiante->bind_param($types, $data['nombre'], $data['apellidoPaterno'], $data['apellidoMaterno'], $data['matricula'], $carrera, $data['correoInstitucional'], $idSesion, $tutor);
 
             if (!$stmtEstudiante->execute()) {
-                throw new Exception("Error al ejecutar la inserción en tutorado: " . $stmtEstudiante->error);
+                if ($stmtEstudiante->errno == 1062) throw new Exception("1062");
+                throw new Exception("Error al ejecutar la inserción en tutorado");
             }
             $stmtEstudiante->close();
 
             $this->conn->commit();
             return true;
 
+        } catch (mysqli_sql_exception $e) {
+            $this->conn->rollback();
+            if ($e->getCode() == 1062) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $_SESSION['message'] = 'La matrícula o el correo institucional ya están registrados.';
+                return false;
+            }
+            return false;
         } catch (Exception $e) {
             $this->conn->rollback();
-            error_log("Error al crear tutorado: " . $e->getMessage());
-            // Puedes optar por lanzar la excepción nuevamente o devolver false
-            // throw $e;
+            if (strpos($e->getMessage(), '1062') !== false) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $_SESSION['message'] = 'La matrícula o el correo institucional ya están registrados.';
+                return false;
+            }
             return false;
         }
     }
@@ -132,35 +117,45 @@ class Estudiante
                 SET nombre = ?, apellidoPaterno = ?, apellidoMaterno = ?, matricula = ?, carrera = ?, correoInstitucional = ?, tutor = ?
                 WHERE idTutorado = ?
             ");
-            $stmtEstudiante->bind_param(
-                "sssssssi",
-                $data['nombre'],
-                $data['apellidoPaterno'],
-                $data['apellidoMaterno'],
-                $data['matricula'],
-                $data['carrera'],
-                $data['correoInstitucional'],
-                $data['tutor'],
-                $idTutorado
-            );
-            $stmtEstudiante->execute();
+            $stmtEstudiante->bind_param("sssssssi", $data['nombre'], $data['apellidoPaterno'], $data['apellidoMaterno'], $data['matricula'], $data['carrera'], $data['correoInstitucional'], $data['tutor'], $idTutorado);
+            
+            if (!$stmtEstudiante->execute()) {
+                if ($stmtEstudiante->errno == 1062) throw new Exception("1062");
+                throw new Exception("Error al actualizar tutorado");
+            }
             $stmtEstudiante->close();
 
             $stmtSesion = $this->conn->prepare("
                 UPDATE sesion 
                 SET correoInstitucional = ? 
-                WHERE idSesion = (
-                    SELECT sesion FROM tutorado WHERE idTutorado = ?
-                )
+                WHERE idSesion = (SELECT sesion FROM tutorado WHERE idTutorado = ?)
             ");
             $stmtSesion->bind_param("si", $data['correoInstitucional'], $idTutorado);
-            $stmtSesion->execute();
+            
+            if (!$stmtSesion->execute()) {
+                if ($stmtSesion->errno == 1062) throw new Exception("1062");
+                throw new Exception("Error al actualizar sesion");
+            }
             $stmtSesion->close();
 
             $this->conn->commit();
             return true;
+
+        } catch (mysqli_sql_exception $e) {
+            $this->conn->rollback();
+            if ($e->getCode() == 1062) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $_SESSION['message'] = 'La matrícula o el correo institucional ya están registrados.';
+                return false;
+            }
+            return false;
         } catch (Exception $e) {
             $this->conn->rollback();
+            if (strpos($e->getMessage(), '1062') !== false) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $_SESSION['message'] = 'La matrícula o el correo institucional ya están registrados.';
+                return false;
+            }
             return false;
         }
     }

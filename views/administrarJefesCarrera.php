@@ -37,7 +37,7 @@ require_once '../config/config.php';
                     <th class="autoWidthColumn">Nombre de jefe de carrera</th>
                     <th class="autoWidthColumn">Número de personal</th>
                     <th class="autoWidthColumn">Correo institucional</th>
-                    <th class="autoWidthColumn">Acción</th>
+                    <th class="autoWidthColumn">Carrera a cargo</th> <th class="autoWidthColumn">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,11 +45,13 @@ require_once '../config/config.php';
                 if (!empty($jefesCarrera)) {
                     foreach ($jefesCarrera as $row) {
                         $idTutor = $row['idTutor'];
+                        $carrera = !empty($row['carreraNombre']) ? $row['carreraNombre'] : '<span class="text-danger">Sin asignar</span>';
+                        
                         echo "<tr>
                                 <td>{$row['tutorNombre']}</td>
                                 <td>{$row['noPersonal']}</td>
                                 <td>{$row['correoInstitucional']}</td>
-                                <td class='action-buttons autoTable'>
+                                <td>{$carrera}</td> <td class='action-buttons autoTable'>
                                     <button class='edit' data-id-tutor='{$idTutor}'><i class='fas fa-edit'></i></button>
                                     <button class='delete' data-id-tutor='{$idTutor}' data-csrf-token='{$csrf_token}'><i class='fas fa-trash-alt'></i></button>
                                 </td>
@@ -66,7 +68,6 @@ require_once '../config/config.php';
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?= BASE_URL; ?>/libs/DataTables/datatables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="<?= BASE_URL; ?>/assets/js/administrarJefesCarrera.js"></script>
-</body>
+    <script src="<?= BASE_URL; ?>/assets/js/administrarJefesCarrera.js?v=<?php echo time(); ?>"></script></body>
 
 </html>

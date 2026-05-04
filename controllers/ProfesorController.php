@@ -72,81 +72,6 @@ class ProfesorController
         require_once '../views/registroProfesor.php';
     }
 
-    public function createProfesor()
-    {
-        session_start();
-
-        $rolesPermitidos = [3];
-        if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ' . BASE_URL . '/cerrarSesion.php');
-            exit();
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-                echo "Error: Solicitud no válida.";
-                exit();
-            }
-
-            $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
-            $apellidoPaterno = isset($_POST['paterno']) ? trim($_POST['paterno']) : '';
-            $apellidoMaterno = isset($_POST['materno']) ? trim($_POST['materno']) : '';
-            $noPersonal = isset($_POST['noPersonal']) ? trim($_POST['noPersonal']) : '';
-            $correoInstitucional = isset($_POST['correoInstitucional']) ? trim($_POST['correoInstitucional']) : '';
-            $rol = isset($_POST['rol']) ? intval($_POST['rol']) : 1; // Por defecto, rol de profesor es 1
-
-            $errors = [];
-
-            if (empty($nombre))
-                $errors[] = 'El campo "Nombre" es obligatorio.';
-            if (empty($correoInstitucional))
-                $errors[] = 'El campo "Correo institucional" es obligatorio.';
-
-            if (
-                !empty($correoInstitucional) &&
-                !preg_match('/^.+@(uv\.mx|estudiantes\.uv\.mx)$/', $correoInstitucional)
-            ) {
-                $errors[] = 'El correo institucional debe terminar en @uv.mx o @estudiantes.uv.mx.';
-            }
-
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header('Location: ' . BASE_URL . '/registroProfesor.php');
-                exit();
-            }
-
-            if ($this->profesorModel->isProfessorRegistered($correoInstitucional)) {
-                $_SESSION['errors'] = ['Correo institucional ya registrado.'];
-                header('Location: registroProfesor.php');
-                exit();
-            }
-
-            $data = [
-                'nombre' => $nombre,
-                'apellidoPaterno' => $apellidoPaterno,
-                'apellidoMaterno' => $apellidoMaterno,
-                'noPersonal' => $noPersonal,
-                'correoInstitucional' => $correoInstitucional,
-                'rol' => $rol
-            ];
-
-            $resultado = $this->profesorModel->createProfesor($data);
-
-            if ($resultado) {
-                $_SESSION['message'] = "Profesor registrado exitosamente.";
-                header("Location: " . BASE_URL . "/administrarProfesores.php");
-                exit();
-            } else {
-                $_SESSION['message'] = "Error al registrar el profesor.";
-                header('Location: ' . BASE_URL . '/registroProfesor.php');
-                exit();
-            }
-        } else {
-            header('Location: ' . BASE_URL . '/registroProfesor.php');
-            exit();
-        }
-    }
-
     public function showEditForm()
     {
         session_start();
@@ -219,6 +144,75 @@ class ProfesorController
         }
     }
 
+    public function createProfesor()
+    {
+        session_start();
+
+        $rolesPermitidos = [3];
+        if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+                echo "Error: Solicitud no válida.";
+                exit();
+            }
+
+            $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
+            $apellidoPaterno = isset($_POST['paterno']) ? trim($_POST['paterno']) : '';
+            $apellidoMaterno = isset($_POST['materno']) ? trim($_POST['materno']) : '';
+            $noPersonal = isset($_POST['noPersonal']) ? trim($_POST['noPersonal']) : '';
+            $correoInstitucional = isset($_POST['correoInstitucional']) ? trim($_POST['correoInstitucional']) : '';
+            $rol = isset($_POST['rol']) ? intval($_POST['rol']) : 1; 
+
+            $errors = [];
+
+            if (empty($nombre)) $errors[] = 'El campo "Nombre" es obligatorio.';
+            if (empty($correoInstitucional)) $errors[] = 'El campo "Correo institucional" es obligatorio.';
+
+            if (!empty($correoInstitucional) && !preg_match('/^.+@(uv\.mx|estudiantes\.uv\.mx)$/', $correoInstitucional)) {
+                $errors[] = 'El correo institucional debe terminar en @uv.mx o @estudiantes.uv.mx.';
+            }
+
+            if (!empty($errors)) {
+                $_SESSION['errors'] = $errors;
+                header('Location: ' . BASE_URL . '/registroProfesor.php');
+                exit();
+            }
+
+            $data = [
+                'nombre' => $nombre,
+                'apellidoPaterno' => $apellidoPaterno,
+                'apellidoMaterno' => $apellidoMaterno,
+                'noPersonal' => $noPersonal,
+                'correoInstitucional' => $correoInstitucional,
+                'rol' => $rol
+            ];
+
+            $resultado = $this->profesorModel->createProfesor($data);
+
+            if ($resultado) {
+                $_SESSION['message'] = "Profesor registrado exitosamente.";
+                header("Location: " . BASE_URL . "/administrarProfesores.php");
+                exit();
+            } else {
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'] = [$_SESSION['message']];
+                    unset($_SESSION['message']);
+                } else {
+                    $_SESSION['errors'] = ["Error al registrar el profesor."];
+                }
+                header('Location: ' . BASE_URL . '/registroProfesor.php');
+                exit();
+            }
+        } else {
+            header('Location: ' . BASE_URL . '/registroProfesor.php');
+            exit();
+        }
+    }
+
     public function updateProfesor()
     {
         session_start();
@@ -240,7 +234,7 @@ class ProfesorController
 
             if ($idTutor <= 0) {
                 $_SESSION['message'] = 'ID de profesor inválido';
-                header('Location: ' . BASE_URL . '/administrar’Profesores.php');
+                header('Location: ' . BASE_URL . '/administrarProfesores.php');
                 exit();
             }
 
@@ -252,22 +246,30 @@ class ProfesorController
 
             $errors = [];
 
-            if (empty($nombre))
-                $errors[] = 'El campo "Nombre" es obligatorio.';
-            if (empty($correoInstitucional))
-                $errors[] = 'El campo "Correo institucional" es obligatorio.';
+            if (empty($nombre)) $errors[] = 'El campo "Nombre" es obligatorio.';
+            if (empty($correoInstitucional)) $errors[] = 'El campo "Correo institucional" es obligatorio.';
 
-            if (
-                !empty($correoInstitucional) &&
-                !preg_match('/^.+@(uv\.mx|estudiantes\.uv\.mx)$/', $correoInstitucional)
-            ) {
+            if (!empty($correoInstitucional) && !preg_match('/^.+@(uv\.mx|estudiantes\.uv\.mx)$/', $correoInstitucional)) {
                 $errors[] = 'El correo institucional debe terminar en @uv.mx o @estudiantes.uv.mx.';
             }
 
             if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                $_POST['idTutor'] = $idTutor;
-                header('Location: ' . BASE_URL . '/editarProfesor.php');
+                $profesor = [
+                    'idTutor' => $idTutor,
+                    'nombre' => $nombre,
+                    'apellidoPaterno' => $apellidoPaterno,
+                    'apellidoMaterno' => $apellidoMaterno,
+                    'noPersonal' => $noPersonal,
+                    'correoInstitucional' => $correoInstitucional,
+                    'rol' => $rol
+                ];
+                
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                $academico = 'Profesor';
+                $regresar = BASE_URL . '/administrarProfesores.php';
+
+                require_once '../views/editarProfesor.php';
                 exit();
             }
 
@@ -292,11 +294,31 @@ class ProfesorController
                 } else {
                     header("Location: " . BASE_URL . "/administrarProfesores.php");
                 }
-
                 exit();
             } else {
-                $_SESSION['message'] = "Error al actualizar el profesor.";
-                header("Location: " . BASE_URL . "/editarProfesor.php");
+                if (isset($_SESSION['message'])) {
+                    $errors[] = $_SESSION['message'];
+                    unset($_SESSION['message']);
+                } else {
+                    $errors[] = "Error al actualizar el profesor.";
+                }
+
+                $profesor = [
+                    'idTutor' => $idTutor,
+                    'nombre' => $nombre,
+                    'apellidoPaterno' => $apellidoPaterno,
+                    'apellidoMaterno' => $apellidoMaterno,
+                    'noPersonal' => $noPersonal,
+                    'correoInstitucional' => $correoInstitucional,
+                    'rol' => $rol
+                ];
+                
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                $academico = 'Profesor';
+                $regresar = BASE_URL . '/administrarProfesores.php';
+
+                require_once '../views/editarProfesor.php';
                 exit();
             }
         } else {

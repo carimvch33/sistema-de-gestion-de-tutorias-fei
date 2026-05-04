@@ -73,7 +73,7 @@ require_once '../config/config.php';
             </div>
 
             <div class="form-group" id="carreras-container" style="display: none;">
-                <label for="carreras">Carreras a coordinar: <span class="text-danger">*</span></label>
+                <label id="label-carreras" for="carreras">Carreras: <span class="text-danger">*</span></label>
                 <select class="form-control" id="carreras" name="carreras[]" multiple="multiple">
                     <?php foreach ($carreras as $carrera): ?>
                         <option value="<?= htmlspecialchars($carrera['idCarrera']) ?>">
@@ -81,8 +81,7 @@ require_once '../config/config.php';
                         </option>
                     <?php endforeach; ?>
                 </select>
-                <small class="form-text text-muted">Mantén presionada la tecla Ctrl (Cmd en Mac) para seleccionar
-                    múltiples opciones.</small>
+                <small id="carreras-help" class="form-text text-muted">Mantén presionada la tecla Ctrl (Cmd en Mac) para seleccionar múltiples opciones (solo para Coordinadores).</small>
             </div>
 
             <button id="enviar" name="enviar" type="submit" class="button buttonAction">Actualizar Rol</button>

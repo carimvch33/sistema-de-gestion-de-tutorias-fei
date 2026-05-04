@@ -33,18 +33,61 @@ class Carrera
     {
         $stmt = $this->conn->prepare("INSERT INTO carrera (nombre) VALUES (?)");
         $stmt->bind_param("s", $nombreCarrera);
-        $result = $stmt->execute();
-        $stmt->close();
-        return $result;
+
+        try {
+
+            $result = $stmt->execute();
+            $stmt->close();
+            return $result;
+
+        } catch (mysqli_sql_exception $e) {
+
+            $stmt->close();
+
+            if ($e->getCode() == 1062) {
+
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+
+                $_SESSION['message'] = 'La carrera ya existe. Por favor, ingrese un nombre diferente.';
+
+                return false;
+            }
+            
+            throw $e;
+        }
     }
 
     public function updateCarrera($idCarrera, $nombreCarrera)
     {
         $stmt = $this->conn->prepare("UPDATE carrera SET nombre = ? WHERE idCarrera = ?");
         $stmt->bind_param("si", $nombreCarrera, $idCarrera);
-        $result = $stmt->execute();
-        $stmt->close();
-        return $result;
+
+        try {
+
+            $result = $stmt->execute();
+            $stmt->close();
+            return $result;
+
+        } catch (mysqli_sql_exception $e) {
+
+            $stmt->close();
+
+            if ($e->getCode() == 1062) {
+
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+
+                $_SESSION['message'] = 'La carrera ya existe. Por favor, ingrese un nombre diferente.';
+
+                return false;
+            }
+            
+            throw $e;
+
+        }
     }
 
     public function deleteCarrera($idCarrera)

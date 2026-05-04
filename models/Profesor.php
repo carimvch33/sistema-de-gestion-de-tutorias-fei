@@ -65,7 +65,12 @@ class Profesor
         try {
             $stmtSesion = $this->conn->prepare("INSERT INTO sesion (correoInstitucional, rol) VALUES (?, ?)");
             $stmtSesion->bind_param("si", $data['correoInstitucional'], $data['rol']);
-            $stmtSesion->execute();
+            
+            if (!$stmtSesion->execute()) {
+                if ($stmtSesion->errno == 1062) throw new Exception("1062");
+                throw new Exception("Error en sesion");
+            }
+            
             $idSesion = $this->conn->insert_id;
             $stmtSesion->close();
 
@@ -73,7 +78,6 @@ class Profesor
                 INSERT INTO tutor (nombre, apellidoPaterno, apellidoMaterno, noPersonal, correoInstitucional, sesion)
                 VALUES (?, ?, ?, ?, ?, ?)
             ");
-
             $stmtProfesor->bind_param(
                 "sssssi",
                 $data['nombre'],
@@ -83,13 +87,31 @@ class Profesor
                 $data['correoInstitucional'],
                 $idSesion
             );
-            $stmtProfesor->execute();
+            
+            if (!$stmtProfesor->execute()) {
+                if ($stmtProfesor->errno == 1062) throw new Exception("1062");
+                throw new Exception("Error en tutor");
+            }
             $stmtProfesor->close();
 
             $this->conn->commit();
             return true;
+
+        } catch (mysqli_sql_exception $e) {
+            $this->conn->rollback();
+            if ($e->getCode() == 1062) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $_SESSION['message'] = 'El correo institucional o el número de personal ya están registrados.';
+                return false;
+            }
+            return false;
         } catch (Exception $e) {
             $this->conn->rollback();
+            if (strpos($e->getMessage(), '1062') !== false) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $_SESSION['message'] = 'El correo institucional o el número de personal ya están registrados.';
+                return false;
+            }
             return false;
         }
     }
@@ -97,6 +119,7 @@ class Profesor
     public function updateProfesor($idTutor, $data)
     {
         $this->conn->begin_transaction();
+        
         try {
             $stmtProfesor = $this->conn->prepare("
                 UPDATE tutor 
@@ -112,24 +135,44 @@ class Profesor
                 $data['correoInstitucional'],
                 $idTutor
             );
-            $stmtProfesor->execute();
+            
+            if (!$stmtProfesor->execute()) {
+                if ($stmtProfesor->errno == 1062) throw new Exception("1062");
+                throw new Exception("Error al actualizar tutor");
+            }
             $stmtProfesor->close();
 
             $stmtSesion = $this->conn->prepare("
                 UPDATE sesion 
                 SET correoInstitucional = ? 
-                WHERE idSesion = (
-                    SELECT sesion FROM tutor WHERE idTutor = ?
-                )
+                WHERE idSesion = (SELECT sesion FROM tutor WHERE idTutor = ?)
             ");
             $stmtSesion->bind_param("si", $data['correoInstitucional'], $idTutor);
-            $stmtSesion->execute();
+            
+            if (!$stmtSesion->execute()) {
+                if ($stmtSesion->errno == 1062) throw new Exception("1062");
+                throw new Exception("Error al actualizar sesion");
+            }
             $stmtSesion->close();
 
             $this->conn->commit();
             return true;
+            
+        } catch (mysqli_sql_exception $e) {
+            $this->conn->rollback();
+            if ($e->getCode() == 1062) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $_SESSION['message'] = 'El correo institucional o el número de personal ya están registrados.';
+                return false;
+            }
+            return false;
         } catch (Exception $e) {
             $this->conn->rollback();
+            if (strpos($e->getMessage(), '1062') !== false) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $_SESSION['message'] = 'El correo institucional o el número de personal ya están registrados.';
+                return false;
+            }
             return false;
         }
     }
@@ -211,7 +254,6 @@ class Profesor
         return $row['idTutor'];
     }
 
-    // FIX [DEF-37]: Método corregido para filtrar profesores por carrera
     public function getProfesoresByCarrera($idCarrera)
     {
         $stmt = $this->conn->prepare("

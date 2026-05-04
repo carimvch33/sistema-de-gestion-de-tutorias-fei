@@ -76,79 +76,6 @@ class CoordinadorController
         require_once '../views/registroCoordinador.php';
     }
 
-    public function createCoordinador()
-    {
-        session_start();
-
-        $rolesPermitidos = [3];
-        if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ' . BASE_URL . '/cerrarSesion.php');
-            exit();
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-                echo "Error: Solicitud no válida.";
-                exit();
-            }
-
-            $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
-            $apellidoPaterno = isset($_POST['paterno']) ? trim($_POST['paterno']) : '';
-            $apellidoMaterno = isset($_POST['materno']) ? trim($_POST['materno']) : '';
-            $noPersonal = isset($_POST['noPersonal']) ? trim($_POST['noPersonal']) : '';
-            $correoInstitucional = isset($_POST['correoInstitucional']) ? trim($_POST['correoInstitucional']) : '';
-            $rol = isset($_POST['rol']) ? intval($_POST['rol']) : 4; // Rol de coordinador
-            $carrerasSeleccionadas = isset($_POST['carreras']) ? $_POST['carreras'] : [];
-
-            $errors = [];
-
-            if (empty($nombre))
-                $errors[] = 'El campo "Nombre" es obligatorio.';
-            if (empty($correoInstitucional))
-                $errors[] = 'El campo "Correo institucional" es obligatorio.';
-            if (empty($carrerasSeleccionadas))
-                $errors[] = 'Debe seleccionar al menos una carrera.';
-
-            if (
-                !empty($correoInstitucional) &&
-                !preg_match('/^.+@(uv\.mx|estudiantes\.uv\.mx)$/', $correoInstitucional)
-            ) {
-                $errors[] = 'El correo institucional debe terminar en @uv.mx o @estudiantes.uv.mx.';
-            }
-
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header('Location: ' . BASE_URL . '/registroCoordinador.php');
-                exit();
-            }
-
-            $data = [
-                'nombre' => $nombre,
-                'apellidoPaterno' => $apellidoPaterno,
-                'apellidoMaterno' => $apellidoMaterno,
-                'noPersonal' => $noPersonal,
-                'correoInstitucional' => $correoInstitucional,
-                'rol' => $rol,
-                'carreras' => $carrerasSeleccionadas // Incluimos las carreras seleccionadas
-            ];
-
-            $resultado = $this->coordinadorModel->createCoordinador($data);
-
-            if ($resultado) {
-                $_SESSION['message'] = "Coordinador registrado exitosamente.";
-                header('Location: ' . BASE_URL . '/administrarCoordinadores.php');
-                exit();
-            } else {
-                $_SESSION['message'] = "Error al registrar el coordinador.";
-                header("Location: " . BASE_URL . "/registroCoordinador.php");
-                exit();
-            }
-        } else {
-            header('Location: ' . BASE_URL . '/registroCoordinador.php');
-            exit();
-        }
-    }
-
     public function showEditForm()
     {
         session_start();
@@ -211,6 +138,78 @@ class CoordinadorController
         }
     }
 
+    public function createCoordinador()
+    {
+        session_start();
+
+        $rolesPermitidos = [3];
+        if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+                echo "Error: Solicitud no válida.";
+                exit();
+            }
+
+            $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
+            $apellidoPaterno = isset($_POST['paterno']) ? trim($_POST['paterno']) : '';
+            $apellidoMaterno = isset($_POST['materno']) ? trim($_POST['materno']) : '';
+            $noPersonal = isset($_POST['noPersonal']) ? trim($_POST['noPersonal']) : '';
+            $correoInstitucional = isset($_POST['correoInstitucional']) ? trim($_POST['correoInstitucional']) : '';
+            $rol = isset($_POST['rol']) ? intval($_POST['rol']) : 4; 
+            $carrerasSeleccionadas = isset($_POST['carreras']) ? $_POST['carreras'] : [];
+
+            $errors = [];
+
+            if (empty($nombre)) $errors[] = 'El campo "Nombre" es obligatorio.';
+            if (empty($correoInstitucional)) $errors[] = 'El campo "Correo institucional" es obligatorio.';
+            if (empty($carrerasSeleccionadas)) $errors[] = 'Debe seleccionar al menos una carrera.';
+
+            if (!empty($correoInstitucional) && !preg_match('/^.+@(uv\.mx|estudiantes\.uv\.mx)$/', $correoInstitucional)) {
+                $errors[] = 'El correo institucional debe terminar en @uv.mx o @estudiantes.uv.mx.';
+            }
+
+            if (!empty($errors)) {
+                $_SESSION['errors'] = $errors;
+                header('Location: ' . BASE_URL . '/registroCoordinador.php');
+                exit();
+            }
+
+            $data = [
+                'nombre' => $nombre,
+                'apellidoPaterno' => $apellidoPaterno,
+                'apellidoMaterno' => $apellidoMaterno,
+                'noPersonal' => $noPersonal,
+                'correoInstitucional' => $correoInstitucional,
+                'rol' => $rol,
+                'carreras' => $carrerasSeleccionadas 
+            ];
+
+            $resultado = $this->coordinadorModel->createCoordinador($data);
+
+            if ($resultado) {
+                $_SESSION['message'] = "Coordinador registrado exitosamente.";
+                header('Location: ' . BASE_URL . '/administrarCoordinadores.php');
+                exit();
+            } else {
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'] = [$_SESSION['message']];
+                    unset($_SESSION['message']);
+                } else {
+                    $_SESSION['errors'] = ["Error al registrar el coordinador."];
+                }
+                header("Location: " . BASE_URL . "/registroCoordinador.php");
+                exit();
+            }
+        } else {
+            header('Location: ' . BASE_URL . '/registroCoordinador.php');
+            exit();
+        }
+    }
+
     public function updateCoordinador()
     {
         session_start();
@@ -249,22 +248,35 @@ class CoordinadorController
             $noPersonal = isset($_POST['noPersonal']) ? trim($_POST['noPersonal']) : '';
             $correoInstitucional = isset($_POST['correoInstitucional']) ? trim($_POST['correoInstitucional']) : '';
 
-            if (empty($nombre))
-                $errors[] = 'El campo "Nombre" es obligatorio.';
-            if (empty($correoInstitucional))
-                $errors[] = 'El campo "Correo institucional" es obligatorio.';
+            if (empty($nombre)) $errors[] = 'El campo "Nombre" es obligatorio.';
+            if (empty($correoInstitucional)) $errors[] = 'El campo "Correo institucional" es obligatorio.';
 
-            if (
-                !empty($correoInstitucional) &&
-                !preg_match('/^.+@(uv\.mx|estudiantes\.uv\.mx)$/', $correoInstitucional)
-            ) {
+            if (!empty($correoInstitucional) && !preg_match('/^.+@(uv\.mx|estudiantes\.uv\.mx)$/', $correoInstitucional)) {
                 $errors[] = 'El correo institucional debe terminar en @uv.mx o @estudiantes.uv.mx.';
             }
 
             if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                $_POST['idTutor'] = $idTutor;
-                header('Location: ' . BASE_URL . '/editarCoordinador.php');
+                $coordinador = [
+                    'idTutor' => $idTutor,
+                    'nombre' => $nombre,
+                    'apellidoPaterno' => $apellidoPaterno,
+                    'apellidoMaterno' => $apellidoMaterno,
+                    'noPersonal' => $noPersonal,
+                    'correoInstitucional' => $correoInstitucional,
+                    'rol' => $rol,
+                    'carreras' => $carrerasSeleccionadas
+                ];
+
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                $academico = 'Coordinador';
+                $regresar = BASE_URL . '/administrarCoordinadores.php';
+
+                require_once '../models/Carrera.php';
+                $carreraModel = new Carrera($this->conn);
+                $carreras = $carreraModel->getCarreras();
+
+                require_once '../views/editarCoordinador.php';
                 exit();
             }
 
@@ -281,12 +293,38 @@ class CoordinadorController
             $resultado = $this->coordinadorModel->updateCoordinador($idTutor, $data);
 
             if ($resultado) {
-                $_SESSION['message'] = "Profesor actualizado exitosamente.";
+                $_SESSION['message'] = "Coordinador actualizado exitosamente.";
                 header('Location: ' . BASE_URL . '/administrarCoordinadores.php');
                 exit();
             } else {
-                $_SESSION['message'] = "Error al actualizar el profesor.";
-                header("Location: " . BASE_URL . "/editarCoordinador.php");
+                if (isset($_SESSION['message'])) {
+                    $errors[] = $_SESSION['message'];
+                    unset($_SESSION['message']);
+                } else {
+                    $errors[] = "Error al actualizar el coordinador.";
+                }
+
+                $coordinador = [
+                    'idTutor' => $idTutor,
+                    'nombre' => $nombre,
+                    'apellidoPaterno' => $apellidoPaterno,
+                    'apellidoMaterno' => $apellidoMaterno,
+                    'noPersonal' => $noPersonal,
+                    'correoInstitucional' => $correoInstitucional,
+                    'rol' => $rol,
+                    'carreras' => $carrerasSeleccionadas
+                ];
+
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                $academico = 'Coordinador';
+                $regresar = BASE_URL . '/administrarCoordinadores.php';
+
+                require_once '../models/Carrera.php';
+                $carreraModel = new Carrera($this->conn);
+                $carreras = $carreraModel->getCarreras();
+
+                require_once '../views/editarCoordinador.php';
                 exit();
             }
         } else {
