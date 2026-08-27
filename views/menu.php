@@ -53,11 +53,7 @@ $menuOptions = [
             'link' => BASE_URL . '/administrarExperienciasEducativas.php',
             'icon' => 'role-icon.svg',
         ],
-        [
-            'title' => 'Secciones',
-            'link' => BASE_URL . '/administrarSecciones.php',
-            'icon' => 'role-icon.svg',
-        ],
+        
         [
             'title' => 'Problemáticas académicas',
             'link' => BASE_URL . '/administrarProblematicas.php',

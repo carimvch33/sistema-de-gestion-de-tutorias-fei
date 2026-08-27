@@ -55,6 +55,37 @@ require_once '../config/config.php';
                 value="<?php echo htmlspecialchars($experienciaData['idExperienciaEducativa']); ?>">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
 
+            <h4 class="text-primary border-bottom pb-2 mt-5 mb-4">2. Datos de Asignación Obligatorios</h4>
+
+            <div class="form-group">
+                <label for="nrc">NRC de la Sección: <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="nrc" name="nrc"
+                    placeholder="Ej. 98764" maxlength="10"
+                    value="<?php echo htmlspecialchars($experienciaData['nrc'] ?? ''); ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="idProfesor">Profesor: <span class="text-danger">*</span></label>
+                <select class="form-control" id="idProfesor" name="idProfesor" required>
+                    <option value="" disabled>-----Selecciona un profesor-----</option>
+                    <?php foreach ($profesores as $profesor) {
+                        $selected = (isset($experienciaData['idProfesor']) && $experienciaData['idProfesor'] == $profesor['idTutor']) ? 'selected' : '';
+                        echo "<option value='{$profesor['idTutor']}' $selected>" . htmlspecialchars($profesor['profesorNombre'] ?? $profesor['tutorNombre']) . "</option>";
+                    } ?>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="idPeriodo">Periodo: <span class="text-danger">*</span></label>
+                <select class="form-control" id="idPeriodo" name="idPeriodo" required>
+                    <option value="" disabled>-----Selecciona un periodo-----</option>
+                    <?php foreach ($periodos as $periodo) {
+                        $selected = (isset($experienciaData['idPeriodo']) && $experienciaData['idPeriodo'] == $periodo['idPeriodo']) ? 'selected' : '';
+                        echo "<option value='{$periodo['idPeriodo']}' $selected>" . htmlspecialchars($periodo['periodo']) . "</option>";
+                    } ?>
+                </select>
+            </div>
+
             <div class="form-group">
                 <label for="nombre">Nombre de experiencia educativa: <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="nombre" name="nombre"

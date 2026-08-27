@@ -91,6 +91,21 @@ class PeriodoEscolarController
             $nombrePeriodo = isset($_POST['periodo']) ? trim($_POST['periodo']) : null;
             $actual = isset($_POST['actual']) ? intval($_POST['actual']) : null;
 
+            $fechas = [
+                1 => [
+                    'inicio' => isset($_POST['fechaInicio1']) ? $_POST['fechaInicio1'] : null,
+                    'fin' => isset($_POST['fechaFin1']) ? $_POST['fechaFin1'] : null,
+                ],
+                2 => [
+                    'inicio' => isset($_POST['fechaInicio2']) ? $_POST['fechaInicio2'] : null,
+                    'fin' => isset($_POST['fechaFin2']) ? $_POST['fechaFin2'] : null,
+                ],
+                3 => [
+                    'inicio' => isset($_POST['fechaInicio3']) ? $_POST['fechaInicio3'] : null,
+                    'fin' => isset($_POST['fechaFin3']) ? $_POST['fechaFin3'] : null,
+                ]
+            ];
+
             $errors = [];
 
             if (empty($nombrePeriodo)) {
@@ -106,7 +121,7 @@ class PeriodoEscolarController
                 exit();
             }
 
-            $resultado = $this->periodoModel->createPeriodo($nombrePeriodo, $actual);
+            $resultado = $this->periodoModel->createPeriodo($nombrePeriodo, $actual, $fechas);
 
             if ($resultado) {
                 $_SESSION['message'] = "Periodo registrado exitosamente.";

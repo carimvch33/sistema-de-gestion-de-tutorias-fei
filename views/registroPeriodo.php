@@ -65,6 +65,53 @@ require_once '../config/config.php';
                 </div>
             </div>
 
+            <div class="form-section mt-4">
+                <h4 class="text-primary border-bottom pb-2">Programación de Sesiones</h4>
+                <p class="text-secondary small">Define las fechas para las 3 sesiones de tutoría. Se aplicarán a todas las carreras automáticamente.</p>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="font-weight-bold">Sesión 1</label>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="fechaInicio1">Fecha de inicio:</label>
+                        <input type="date" class="form-control" id="fechaInicio1" name="fechaInicio1" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="fechaFin1">Fecha de fin:</label>
+                        <input type="date" class="form-control" id="fechaFin1" name="fechaFin1" required>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="font-weight-bold">Sesión 2</label>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="fechaInicio2">Fecha de inicio:</label>
+                        <input type="date" class="form-control" id="fechaInicio2" name="fechaInicio2" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="fechaFin2">Fecha de fin:</label>
+                        <input type="date" class="form-control" id="fechaFin2" name="fechaFin2" required>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="font-weight-bold">Sesión 3</label>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="fechaInicio3">Fecha de inicio:</label>
+                        <input type="date" class="form-control" id="fechaInicio3" name="fechaInicio3" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="fechaFin3">Fecha de fin:</label>
+                        <input type="date" class="form-control" id="fechaFin3" name="fechaFin3" required>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group row">
                 <div class="col-md-auto">
                     <button type="submit" class="btn btn-success buttonGreen" id="enviar">Guardar Periodo</button>

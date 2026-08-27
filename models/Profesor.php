@@ -58,7 +58,7 @@ class Profesor
         return $profesor;
     }
 
-    public function createProfesor($data)
+    public function createProfesor($data, $carreras = [])
     {
         $this->conn->begin_transaction();
 
@@ -92,13 +92,29 @@ class Profesor
                 if ($stmtProfesor->errno == 1062) throw new Exception("1062");
                 throw new Exception("Error en tutor");
             }
+            
+            // Obtenemos el ID del tutor recién creado
+            $idTutor = $this->conn->insert_id;
             $stmtProfesor->close();
+
+            // Insertamos las carreras vinculadas usando INSERT IGNORE
+            if (!empty($carreras)) {
+                $stmtCarrera = $this->conn->prepare("INSERT IGNORE INTO carrera_tutor (carrera, tutor) VALUES (?, ?)");
+                foreach ($carreras as $idCarrera) {
+                    $stmtCarrera->bind_param("ii", $idCarrera, $idTutor);
+                    if (!$stmtCarrera->execute()) {
+                        throw new Exception("Error al vincular carrera");
+                    }
+                }
+                $stmtCarrera->close();
+            }
 
             $this->conn->commit();
             return true;
 
         } catch (mysqli_sql_exception $e) {
             $this->conn->rollback();
+            // ... (el resto del catch se queda igual)
             if ($e->getCode() == 1062) {
                 if (session_status() === PHP_SESSION_NONE) session_start();
                 $_SESSION['message'] = 'El correo institucional o el número de personal ya están registrados.';
@@ -116,65 +132,59 @@ class Profesor
         }
     }
 
-    public function updateProfesor($idTutor, $data)
+    public function updateProfesor($idTutor, $data, $carreras = [])
     {
         $this->conn->begin_transaction();
         
         try {
-            $stmtProfesor = $this->conn->prepare("
-                UPDATE tutor 
-                SET nombre = ?, apellidoPaterno = ?, apellidoMaterno = ?, noPersonal = ?, correoInstitucional = ? 
-                WHERE idTutor = ?
-            ");
-            $stmtProfesor->bind_param(
-                "sssssi",
-                $data['nombre'],
-                $data['apellidoPaterno'],
-                $data['apellidoMaterno'],
-                $data['noPersonal'],
-                $data['correoInstitucional'],
-                $idTutor
-            );
-            
-            if (!$stmtProfesor->execute()) {
-                if ($stmtProfesor->errno == 1062) throw new Exception("1062");
-                throw new Exception("Error al actualizar tutor");
-            }
+            // ... (Tu código actual de UPDATE tutor y UPDATE sesion se queda exactamente igual hasta el $stmtSesion->close();)
+            $stmtProfesor = $this->conn->prepare("UPDATE tutor SET nombre = ?, apellidoPaterno = ?, apellidoMaterno = ?, noPersonal = ?, correoInstitucional = ? WHERE idTutor = ?");
+            $stmtProfesor->bind_param("sssssi", $data['nombre'], $data['apellidoPaterno'], $data['apellidoMaterno'], $data['noPersonal'], $data['correoInstitucional'], $idTutor);
+            if (!$stmtProfesor->execute()) { if ($stmtProfesor->errno == 1062) throw new Exception("1062"); throw new Exception("Error al actualizar tutor"); }
             $stmtProfesor->close();
 
-            $stmtSesion = $this->conn->prepare("
-                UPDATE sesion 
-                SET correoInstitucional = ? 
-                WHERE idSesion = (SELECT sesion FROM tutor WHERE idTutor = ?)
-            ");
+            $stmtSesion = $this->conn->prepare("UPDATE sesion SET correoInstitucional = ? WHERE idSesion = (SELECT sesion FROM tutor WHERE idTutor = ?)");
             $stmtSesion->bind_param("si", $data['correoInstitucional'], $idTutor);
-            
-            if (!$stmtSesion->execute()) {
-                if ($stmtSesion->errno == 1062) throw new Exception("1062");
-                throw new Exception("Error al actualizar sesion");
-            }
+            if (!$stmtSesion->execute()) { if ($stmtSesion->errno == 1062) throw new Exception("1062"); throw new Exception("Error al actualizar sesion"); }
             $stmtSesion->close();
+
+            // Actualizamos carreras: Primero borramos las anteriores
+            $stmtDelete = $this->conn->prepare("DELETE FROM carrera_tutor WHERE tutor = ?");
+            $stmtDelete->bind_param("i", $idTutor);
+            $stmtDelete->execute();
+            $stmtDelete->close();
+
+            // Insertamos las nuevas
+            if (!empty($carreras)) {
+                $stmtCarrera = $this->conn->prepare("INSERT IGNORE INTO carrera_tutor (carrera, tutor) VALUES (?, ?)");
+                foreach ($carreras as $idCarrera) {
+                    $stmtCarrera->bind_param("ii", $idCarrera, $idTutor);
+                    if (!$stmtCarrera->execute()) throw new Exception("Error al vincular carrera");
+                }
+                $stmtCarrera->close();
+            }
 
             $this->conn->commit();
             return true;
             
-        } catch (mysqli_sql_exception $e) {
-            $this->conn->rollback();
-            if ($e->getCode() == 1062) {
-                if (session_status() === PHP_SESSION_NONE) session_start();
-                $_SESSION['message'] = 'El correo institucional o el número de personal ya están registrados.';
-                return false;
-            }
-            return false;
         } catch (Exception $e) {
             $this->conn->rollback();
-            if (strpos($e->getMessage(), '1062') !== false) {
-                if (session_status() === PHP_SESSION_NONE) session_start();
-                $_SESSION['message'] = 'El correo institucional o el número de personal ya están registrados.';
-                return false;
-            }
             return false;
         }
+    }
+
+    public function getIdsCarrerasByTutor($idTutor)
+    {
+        $stmt = $this->conn->prepare("SELECT carrera FROM carrera_tutor WHERE tutor = ?");
+        $stmt->bind_param("i", $idTutor);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $carreras = [];
+        while ($row = $result->fetch_assoc()) {
+            $carreras[] = $row['carrera'];
+        }
+        $stmt->close();
+        return $carreras;
     }
 
     public function deleteProfesor($idTutor)
