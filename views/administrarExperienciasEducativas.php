@@ -46,32 +46,37 @@ require_once '../config/config.php';
 
     <div class="new-button-container" style="display: flex; gap: 15px; margin-bottom: 20px; justify-content: flex-end; align-items: center;">
         
-        <!-- Formulario de Importación -->
-        <form action="<?= BASE_URL; ?>/importarExperiencias.php" method="POST" enctype="multipart/form-data" style="display: flex; align-items: center; gap: 10px; margin: 0; background-color: #f8f9fa; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
-            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
-            
-            <select name="idCarrera" class="form-control" style="width: auto; font-size: 14px; padding: 5px;" required>
-                <option value="" disabled selected>-- Elige Carrera --</option>
-                <?php if(!empty($programas)) { foreach ($programas as $prog): ?>
-                    <option value="<?= $prog['idCarrera'] ?>"><?= htmlspecialchars($prog['carrera'] ?? $prog['nombre']) ?></option>
-                <?php endforeach; } ?>
-            </select>
+        <!-- Formulario de Importación con texto de ayuda -->
+        <form action="<?= BASE_URL; ?>/importarExperiencias.php" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 5px; margin: 0; background-color: #f8f9fa; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+            <small style="color: #6c757d; font-size: 12px;"><b>Formato requerido CSV:</b> DOCENTE, EXPERIENCIA EDUCATIVA, NRC</small>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
+                
+                <select name="idCarrera" class="form-control" style="width: auto; font-size: 14px; padding: 5px;" required>
+                    <option value="" disabled selected>-- Elige Carrera --</option>
+                    <?php if(!empty($programas)) { foreach ($programas as $prog): ?>
+                        <option value="<?= $prog['idCarrera'] ?>"><?= htmlspecialchars($prog['carrera'] ?? $prog['nombre']) ?></option>
+                    <?php endforeach; } ?>
+                </select>
 
-            <select name="idPeriodo" class="form-control" style="width: auto; font-size: 14px; padding: 5px;" required>
-                <option value="" disabled selected>-- Elige Periodo --</option>
-                <?php if(!empty($periodos)) { foreach ($periodos as $per): ?>
-                    <option value="<?= $per['idPeriodo'] ?>"><?= htmlspecialchars($per['periodo'] ?? $per['nombre']) ?></option>
-                <?php endforeach; } ?>
-            </select>
+                <select name="idPeriodo" class="form-control" style="width: auto; font-size: 14px; padding: 5px;" required>
+                    <option value="" disabled selected>-- Elige Periodo --</option>
+                    <?php if(!empty($periodos)) { foreach ($periodos as $per): ?>
+                        <option value="<?= $per['idPeriodo'] ?>"><?= htmlspecialchars($per['periodo'] ?? $per['nombre']) ?></option>
+                    <?php endforeach; } ?>
+                </select>
 
-            <input type="file" name="csv_materias" accept=".csv" required style="font-size: 14px; max-width: 200px;">
-            
-            <button type="submit" class="buttonNew" style="background-color: #17a2b8;" title="Sube CSV con: DOCENTE, MATERIA, NRC">
-                <i class="fas fa-file-csv"></i> Importar CSV
-            </button>
+                <input type="file" name="csv_materias" accept=".csv" required style="font-size: 14px; max-width: 200px;">
+                
+                <button type="submit" class="buttonNew" style="background-color: #17a2b8;" title="Sube CSV">
+                    <i class="fas fa-file-csv"></i> Importar CSV
+                </button>
+            </div>
         </form>
 
-        <button class="buttonNew" onclick="location.href = '<?= BASE_URL; ?>/registroExperienciaEducativa.php' "><i class="fas fa-plus"></i> Registrar Materia</button>
+        <button class="buttonNew" onclick="location.href = '<?= BASE_URL; ?>/registroExperienciaEducativa.php' ">
+            <i class="fas fa-plus"></i> Registrar Materia
+        </button>
     </div>
 
     <div class="table-container">
