@@ -24,8 +24,43 @@ require_once '../config/config.php';
         </div>
     </div>
 
-    <div class="new-button-container">
-        <button class="buttonNew" onclick="location.href = '<?= BASE_URL; ?>/registroProfesor.php' "><i class="fas fa-plus"></i> Nuevo</button>
+    <!-- Contenedor de alertas -->
+    <div class="container mt-3" style="width: 82%; margin: 0 auto;">
+        <?php
+        if (isset($_SESSION['errors'])) {
+            echo '<div class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 10px;">';
+            foreach ($_SESSION['errors'] as $error) {
+                echo "<p style='margin: 0;'>$error</p>";
+            }
+            echo '</div>';
+            unset($_SESSION['errors']);
+        }
+
+        // ¡AQUÍ ESTÁ LA MAGIA! Cambiamos $_SESSION['message'] por $message
+        if (isset($message)) {
+            echo '<div class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 10px;">';
+            echo "<p style='margin: 0;'>{$message}</p>";
+            echo '</div>';
+        }
+        ?>
+    </div>
+
+    <div class="new-button-container" style="display: flex; justify-content: flex-end; align-items: center; gap: 15px; margin-bottom: 20px;">
+        
+        <form action="<?= BASE_URL; ?>/importarProfesores.php" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 5px; margin: 0; background-color: #f8f9fa; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+            <small style="color: #6c757d; font-size: 12px;"><b>Formato requerido CSV:</b> NO., Maestro, Correo</small>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
+                <input type="file" name="csv_docentes" accept=".csv" required style="font-size: 14px;">
+                <button type="submit" class="buttonNew" style="background-color: #17a2b8;" title="Sube un archivo CSV">
+                    <i class="fas fa-file-csv"></i> Importar CSV
+                </button>
+            </div>
+        </form>
+
+        <button class="buttonNew" onclick="location.href = '<?= BASE_URL; ?>/registroProfesor.php' ">
+            <i class="fas fa-plus"></i> Nuevo
+        </button>
     </div>
 
     <div class="table-container">

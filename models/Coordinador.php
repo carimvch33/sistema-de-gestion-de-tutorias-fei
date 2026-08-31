@@ -27,55 +27,6 @@ class Coordinador
         return $coordinadores;
     }
 
-    public function createCoordinador($data)
-    {
-        $this->conn->begin_transaction();
-
-        try {
-            $stmtSesion = $this->conn->prepare("INSERT INTO sesion (correoInstitucional, rol) VALUES (?, ?)");
-            $stmtSesion->bind_param("si", $data['correoInstitucional'], $data['rol']);
-            $stmtSesion->execute();
-            $idSesion = $this->conn->insert_id;
-            $stmtSesion->close();
-
-            $stmtCoordinador = $this->conn->prepare("
-            INSERT INTO tutor (nombre, apellidoPaterno, apellidoMaterno, noPersonal, correoInstitucional, sesion)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ");
-
-            $stmtCoordinador->bind_param(
-                "sssssi",
-                $data['nombre'],
-                $data['apellidoPaterno'],
-                $data['apellidoMaterno'],
-                $data['noPersonal'],
-                $data['correoInstitucional'],
-                $idSesion
-            );
-            $stmtCoordinador->execute();
-            $idTutor = $this->conn->insert_id;
-            $stmtCoordinador->close();
-
-            $stmtCoordinadorCarrera = $this->conn->prepare("
-            INSERT INTO coordinador_carrera (idSesion, idCarrera)
-            VALUES (?, ?)
-        ");
-            foreach ($data['carreras'] as $idCarrera) {
-                $idCarrera = intval($idCarrera);
-                $stmtCoordinadorCarrera->bind_param("ii", $idSesion, $idCarrera);
-                $stmtCoordinadorCarrera->execute();
-            }
-            $stmtCoordinadorCarrera->close();
-
-            $this->conn->commit();
-            return true;
-        } catch (Exception $e) {
-            $this->conn->rollback();
-            error_log("Error al crear el coordinador: " . $e->getMessage());
-            return false;
-        }
-    }
-
     public function getIdSesionByCorreo($correoInstitucional)
     {
         $stmt = $this->conn->prepare("SELECT idSesion FROM sesion WHERE correoInstitucional = ?");
@@ -123,15 +74,89 @@ class Coordinador
         return $coordinador;
     }
 
+    public function createCoordinador($data)
+    {
+        $this->conn->begin_transaction();
+
+        try {
+            $stmtSesion = $this->conn->prepare("INSERT INTO sesion (correoInstitucional, rol) VALUES (?, ?)");
+            $stmtSesion->bind_param("si", $data['correoInstitucional'], $data['rol']);
+            
+            if (!$stmtSesion->execute()) {
+                if ($stmtSesion->errno == 1062) throw new Exception("1062");
+                throw new Exception("Error en sesion");
+            }
+            
+            $idSesion = $this->conn->insert_id;
+            $stmtSesion->close();
+
+            $stmtCoordinador = $this->conn->prepare("
+                INSERT INTO tutor (nombre, apellidoPaterno, apellidoMaterno, noPersonal, correoInstitucional, sesion)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ");
+
+            $stmtCoordinador->bind_param(
+                "sssssi",
+                $data['nombre'],
+                $data['apellidoPaterno'],
+                $data['apellidoMaterno'],
+                $data['noPersonal'],
+                $data['correoInstitucional'],
+                $idSesion
+            );
+            
+            if (!$stmtCoordinador->execute()) {
+                 if ($stmtCoordinador->errno == 1062) throw new Exception("1062");
+                 throw new Exception("Error en tutor");
+            }
+            
+            $idTutor = $this->conn->insert_id;
+            $stmtCoordinador->close();
+
+            $stmtCoordinadorCarrera = $this->conn->prepare("
+                INSERT INTO coordinador_carrera (idSesion, idCarrera)
+                VALUES (?, ?)
+            ");
+            foreach ($data['carreras'] as $idCarrera) {
+                $idCarrera = intval($idCarrera);
+                $stmtCoordinadorCarrera->bind_param("ii", $idSesion, $idCarrera);
+                $stmtCoordinadorCarrera->execute();
+            }
+            $stmtCoordinadorCarrera->close();
+
+            $this->conn->commit();
+            return true;
+
+        } catch (mysqli_sql_exception $e) {
+            $this->conn->rollback();
+            if ($e->getCode() == 1062) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $_SESSION['message'] = 'El correo institucional o el número de personal ya están registrados. También asegúrate de que las carreras seleccionadas no estén asignadas a otro coordinador.';
+                return false;
+            }
+            error_log("Error de MySQL al crear el coordinador: " . $e->getMessage());
+            return false;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            if (strpos($e->getMessage(), '1062') !== false) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $_SESSION['message'] = 'El correo institucional o el número de personal ya están registrados.';
+                return false;
+            }
+            error_log("Error general al crear el coordinador: " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function updateCoordinador($idTutor, $data)
     {
         $this->conn->begin_transaction();
 
         try {
             $stmtCoordinador = $this->conn->prepare("
-            UPDATE tutor SET nombre = ?, apellidoPaterno = ?, apellidoMaterno = ?, noPersonal = ?, correoInstitucional = ?
-            WHERE idTutor = ?
-        ");
+                UPDATE tutor SET nombre = ?, apellidoPaterno = ?, apellidoMaterno = ?, noPersonal = ?, correoInstitucional = ?
+                WHERE idTutor = ?
+            ");
 
             $stmtCoordinador->bind_param(
                 "sssssi",
@@ -142,7 +167,11 @@ class Coordinador
                 $data['correoInstitucional'],
                 $idTutor
             );
-            $stmtCoordinador->execute();
+            
+            if (!$stmtCoordinador->execute()) {
+                 if ($stmtCoordinador->errno == 1062) throw new Exception("1062");
+                 throw new Exception("Error al actualizar tutor");
+            }
             $stmtCoordinador->close();
 
             $stmtSesion = $this->conn->prepare("SELECT sesion FROM tutor WHERE idTutor = ?");
@@ -154,10 +183,14 @@ class Coordinador
             $stmtSesion->close();
 
             $stmtUpdateSesion = $this->conn->prepare("
-            UPDATE sesion SET correoInstitucional = ? WHERE idSesion = ?
-        ");
+                UPDATE sesion SET correoInstitucional = ? WHERE idSesion = ?
+            ");
             $stmtUpdateSesion->bind_param("si", $data['correoInstitucional'], $idSesion);
-            $stmtUpdateSesion->execute();
+            
+            if (!$stmtUpdateSesion->execute()) {
+                 if ($stmtUpdateSesion->errno == 1062) throw new Exception("1062");
+                 throw new Exception("Error al actualizar sesion");
+            }
             $stmtUpdateSesion->close();
 
             $stmtDeleteCarreras = $this->conn->prepare("DELETE FROM coordinador_carrera WHERE idSesion = ?");
@@ -166,9 +199,9 @@ class Coordinador
             $stmtDeleteCarreras->close();
 
             $stmtInsertCarreras = $this->conn->prepare("
-            INSERT INTO coordinador_carrera (idSesion, idCarrera)
-            VALUES (?, ?)
-        ");
+                INSERT INTO coordinador_carrera (idSesion, idCarrera)
+                VALUES (?, ?)
+            ");
             foreach ($data['carreras'] as $idCarrera) {
                 $idCarrera = intval($idCarrera);
                 $stmtInsertCarreras->bind_param("ii", $idSesion, $idCarrera);
@@ -178,9 +211,24 @@ class Coordinador
 
             $this->conn->commit();
             return true;
+            
+        } catch (mysqli_sql_exception $e) {
+            $this->conn->rollback();
+            if ($e->getCode() == 1062) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $_SESSION['message'] = 'El correo institucional o el número de personal ya están registrados. También asegúrate de que las carreras seleccionadas no estén asignadas a otro coordinador.';
+                return false;
+            }
+            error_log("Error de MySQL al actualizar el coordinador: " . $e->getMessage());
+            return false;
         } catch (Exception $e) {
             $this->conn->rollback();
-            error_log("Error al actualizar el coordinador: " . $e->getMessage());
+            if (strpos($e->getMessage(), '1062') !== false) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $_SESSION['message'] = 'El correo institucional o el número de personal ya están registrados.';
+                return false;
+            }
+            error_log("Error general al actualizar el coordinador: " . $e->getMessage());
             return false;
         }
     }

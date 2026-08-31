@@ -225,10 +225,19 @@ class TutoriaController
         $periodos = $this->periodoModel->getCurrentPeriodo();
         $periodoTutoriasActual = $this->periodoTutoriasModel->getPeriodoTutoriasById($tutoria['periodoTutorias']);
 
+        // Preparar variables para la vista
         $lugar = htmlspecialchars($tutoria['lugar'] ?? '', ENT_QUOTES, 'UTF-8');
-        $fechaInicio = htmlspecialchars($tutoria['fechaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
-        $fechaFin = htmlspecialchars($tutoria['fechaFin'] ?? '', ENT_QUOTES, 'UTF-8');
+        $fecha = htmlspecialchars($tutoria['fechaInicio'] ?? '', ENT_QUOTES, 'UTF-8');
+        $fecha_fin = htmlspecialchars($tutoria['fechaFin'] ?? '', ENT_QUOTES, 'UTF-8');
         $notas = htmlspecialchars($tutoria['nota'] ?? '', ENT_QUOTES, 'UTF-8');
+        $periodoTutoria = $tutoria['periodoTutorias'] ?? '';
+        
+        // FIX (DEF-47): Calcular período de atención comparando fechas, la variable usada en editarTutoria.php para marcar radio buttons y mostrar campos de fecha
+        if (!empty($fecha) && !empty($fecha_fin) && $fecha !== $fecha_fin) {
+            $periodoAtencion = 'Más de un día';
+        } else {
+            $periodoAtencion = 'Un solo día';
+        }
 
         $menu = BASE_URL . '/menu.php';
 

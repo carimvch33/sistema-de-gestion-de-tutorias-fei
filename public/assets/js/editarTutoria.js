@@ -1,5 +1,17 @@
 $(document).ready(function () {
 
+    // FIX (DEF-47): Mostrar campos de fecha al cargar según radio button seleccionado
+    const periodoAtencionInicial = $('input[name="periodoAtencion"]:checked').val();
+    if (periodoAtencionInicial === "Más de un día") {
+        $("#div_fecha").show();
+        $("#div_fecha").find("label").text("Fecha inicio:");
+        $("#div_fecha_fin").show();
+    } else if (periodoAtencionInicial === "Un solo día") {
+        $("#div_fecha").show();
+        $("#div_fecha").find("label").text("Fecha:");
+        $("#div_fecha_fin").hide();
+    }
+
     $('#lugar').on('input', function () {
         if ($(this).val().length >= 300) {
             $(this).val($(this).val().substring(0, 300));
@@ -19,11 +31,9 @@ $(document).ready(function () {
         validarFormulario();
     });
 
-    // Obtener valores iniciales desde atributos data o variables globales
     var idCarrera = $('#carrera').val();
-    var idPeriodoTutoria = $('#periodoTutoria').data('selected'); // Se agregará este atributo en el PHP
+    var idPeriodoTutoria = $('#periodoTutoria').data('selected');
 
-    // Cargar periodos de tutoría al inicio si hay carrera seleccionada
     if (idCarrera) {
         $.ajax({
             url: "getPeriodoTutorias.php",
@@ -237,6 +247,29 @@ function validarFormulario() {
             $("#fecha").addClass("border border-danger border-2");
         }
     }
+
+    // FIX (DEF-47): Validar que fecha fin esté dentro del período de tutoría
+    if (fechaFinVisible && fechaFinSeleccionada) {
+        const fechaFinDate = new Date($("#fecha_fin").val());
+        const fechaInicio = new Date(
+            $("#periodoTutoria option:selected").data("fechainicio")
+        );
+        const fechaFin = new Date(
+            $("#periodoTutoria option:selected").data("fechafin")
+        );
+        fechaFinDate.setHours(0, 0, 0, 0);
+        fechaInicio.setHours(0, 0, 0, 0);
+        fechaFin.setHours(0, 0, 0, 0);
+        
+        if (fechaFinDate < fechaInicio || fechaFinDate > fechaFin) {
+            mensajeError +=
+                "<p>La fecha fin debe estar dentro del periodo de tutoría.</p>";
+            error = true;
+            $("#fecha_fin").addClass("border border-danger border-2");
+        }
+    }
+
+    // Validar que fecha fin no sea anterior a fecha inicio
     if (
         fechaFinVisible &&
         fechaFinSeleccionada &&

@@ -8,6 +8,7 @@ class Tutoria
         $this->conn = $conn;
     }
 
+    //FIX [DEF-33]: Se usa LEFT JOIN con la tabla 'reporte_tutoria' para incluir el estado
     public function getTutoriasByTutor($correoInstitucional)
     {
         $stmt = $this->conn->prepare("SELECT 
@@ -20,12 +21,14 @@ class Tutoria
                 tt.lugar, 
                 tt.nota, 
                 tt.archivo,
-                p.nombre AS periodo
+                p.nombre AS periodo,
+                COALESCE(r.esBorrador, -1) AS estadoReporte
             FROM tutor t
             INNER JOIN tutoria tt ON tt.tutor = t.idTutor
             INNER JOIN periodo_tutorias pt ON pt.idPeriodoTutorias = tt.periodoTutorias
             INNER JOIN carrera c ON c.idCarrera = pt.carrera
             INNER JOIN periodo p ON p.idPeriodo = pt.periodo
+            LEFT JOIN reporte_tutoria r ON r.tutoria = tt.idTutoria
             WHERE t.correoInstitucional = ? 
             AND p.actual = 1;
         ");
@@ -37,6 +40,7 @@ class Tutoria
         return $result;
     }
 
+    // FIX (DEF-33): Se usa LEFT JOIN con 'reporte_tutoria' para mantener consistencia
     public function getTutoringHistoryByTutor($institutionalMail)
     {
         $stmt = $this->conn->prepare("SELECT tt.idTutoria, 
@@ -48,12 +52,14 @@ class Tutoria
                    tt.lugar, 
                    tt.nota, 
                    tt.archivo,
-                   p.nombre as periodo
+                   p.nombre as periodo,
+                   COALESCE(r.esBorrador, -1) AS estadoReporte
             FROM tutor t
             INNER JOIN tutoria tt ON tt.tutor = t.idTutor
             INNER JOIN periodo_tutorias pt ON pt.idPeriodoTutorias = tt.periodoTutorias
             INNER JOIN carrera c ON c.idCarrera = pt.carrera
             INNER JOIN periodo p ON p.idPeriodo = pt.periodo
+            LEFT JOIN reporte_tutoria r ON r.tutoria = tt.idTutoria
             WHERE t.correoInstitucional = ? AND p.actual = 0
         ");
         $stmt->bind_param("s", $institutionalMail);
@@ -63,7 +69,7 @@ class Tutoria
 
         return $result;
     }
-
+    
     public function getCarrerasByTutor($idTutor)
     {
         $stmt = $this->conn->prepare("SELECT DISTINCT c.idCarrera, c.nombre

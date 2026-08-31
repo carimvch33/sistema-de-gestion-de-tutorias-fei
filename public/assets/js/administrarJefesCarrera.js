@@ -43,7 +43,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "POST",
-                    url: "eliminarProfesor.php",
+                    url: "eliminarJefeCarrera.php",
                     data: {
                         idTutor: idTutor,
                         csrf_token: csrfToken
@@ -87,7 +87,7 @@ $(document).ready(function () {
     function editTutor(idTutor) {
         var form = $('<form>', {
             'method': 'POST',
-            'action': 'editarProfesor.php'
+            'action': 'editarJefeCarrera.php'
         }).append($('<input>', {
             'type': 'hidden',
             'name': 'idTutor',

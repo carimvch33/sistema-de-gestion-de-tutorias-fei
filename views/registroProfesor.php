@@ -75,6 +75,20 @@ require_once '../config/config.php';
                 <p class="text-secondary">Ejem: zs12345678@uv.mx | zs12345678@estudiantes.uv.mx</p>
             </div>
 
+            <div class="form-group">
+                <label for="carreras">Asignar a Carreras:</label>
+                <select class="form-control" id="carreras" name="carreras[]" multiple="multiple" style="width: 100%;">
+                    <?php if (!empty($carrerasTodas)): ?>
+                        <?php foreach ($carrerasTodas as $carrera): ?>
+                            <option value="<?php echo $carrera['idCarrera']; ?>">
+                                <?php echo htmlspecialchars($carrera['carrera']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+                <p class="text-secondary">Puedes seleccionar múltiples carreras.</p>
+            </div>
+
             <div class="form-group row">
                 <div class="col-md-auto">
                     <button type="submit" class="btn btn-success buttonGreen" id="enviar">Guardar Profesor</button>

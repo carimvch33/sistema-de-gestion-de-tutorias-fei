@@ -111,7 +111,45 @@ $(document).ready(function () {
 
     $("#enviar").on("click", function (e) {
         e.preventDefault();
-        validarFormulario();
+        if (validarFormulario()) {
+            // Agregar campo oculto con el valor del botón antes de enviar
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'accion',
+                value: 'enviar'
+            }).appendTo('#form');
+            $("#form").submit();
+        }
+    });
+
+    // FIX: Interceptar botón "Guardar Borrador" para validar el numero de alumnos en riesgo <= numAsistencias DEF-33
+    $("#guardar").on("click", function (e) {
+        e.preventDefault();
+        if (validarFormulario()) {
+            // Agregar campo oculto con el valor del botón antes de enviar
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'accion',
+                value: 'borrador'
+            }).appendTo('#form');
+            $("#form").submit();
+        }
+    });
+
+    // FIX: Validación en tiempo real mientras escribe DEF-33
+    $("#numAsistencias, #numRiesgo").on("input blur", function () {
+        var numAsistencias = parseInt($("#numAsistencias").val()) || 0;
+        var numRiesgo = parseInt($("#numRiesgo").val()) || 0;
+
+        if ($("#numAsistencias").val() && $("#numRiesgo").val()) {
+            if (numRiesgo > numAsistencias) {
+                $("#numRiesgo").addClass("is-invalid");
+                $("#numAsistencias").addClass("is-invalid");
+            } else {
+                $("#numRiesgo").removeClass("is-invalid");
+                $("#numAsistencias").removeClass("is-invalid");
+            }
+        }
     });
 
     function cargarDatosIniciales() {
@@ -119,7 +157,8 @@ $(document).ready(function () {
         cargarSesionesTutoria(idCarrera);
     }
 
-    function actualizarDatosCarrera(idCarrera) {
+    /* FIX [DEF-35]: Agregado parámetro callback para ejecutar inicializarSelectsExistentes después de cargar datos */
+    function actualizarDatosCarrera(idCarrera, callback) {
         $.ajax({
             url: "./getCarreraDatos.php",
             type: "POST",
@@ -133,6 +172,10 @@ $(document).ready(function () {
                 profesores = response.profesores;
                 problematicasOptions = response.problematicas;
                 secciones = response.secciones;
+                
+                if (typeof callback === 'function') {
+                    callback();
+                }
             },
             error: function () {
                 Swal.fire({
@@ -155,9 +198,9 @@ $(document).ready(function () {
                 manejarCambioExperiencia($(this));
             });
 
-            $fila.find('select[name="profesor[]"]').change(function () {
-                manejarCambioProfesor($(this));
-            });
+            // FIX (DEF-39): Eliminado evento change de profesor que filtraba experiencias educativas
+            // Esto permitía que al seleccionar un profesor, solo se mostraran las experiencias que imparte,
+            // bloqueando la posibilidad de cambiar libremente la experiencia educativa
 
             $fila
                 .find('select[name="problematica[]"]')
@@ -220,9 +263,9 @@ $(document).ready(function () {
             manejarCambioExperiencia($(this));
         });
 
-        $ultimaFila.find('select[name="profesor[]"]').change(function () {
-            manejarCambioProfesor($(this));
-        });
+        // FIX (DEF-39): Eliminado evento change de profesor que filtraba experiencias educativas
+        // Esto permitía que al seleccionar un profesor, solo se mostraran las experiencias que imparte,
+        // bloqueando la posibilidad de cambiar libremente la experiencia educativa
 
         $ultimaFila.find('select[name="problematica[]"]').change(function () {
             var selectedValue = $(this).val();
@@ -268,11 +311,9 @@ $(document).ready(function () {
 
         $profesorSelect.html(opcionesProfesor).prop("disabled", false);
 
-        if (profesoresUnicos[profesorSeleccionado]) {
-            $profesorSelect.val(profesorSeleccionado).trigger("change.select2");
-        } else {
-            $profesorSelect.val(null).trigger("change.select2");
-        }
+        // FIX (DEF-39): Siempre resetear el profesor a vacío al cambiar experiencia
+        // Esto obliga al usuario a seleccionar explícitamente el profesor
+        $profesorSelect.val(null).trigger("change.select2");
     }
 
     function manejarCambioProfesor($selectProfesor) {
@@ -375,6 +416,26 @@ $(document).ready(function () {
             }
         });
 
+        // FIX: Validar que alumnos en riesgo ≤ alumnos asistentes DEF-33
+        var numAsistencias = parseInt($("#numAsistencias").val()) || 0;
+        var numRiesgo = parseInt($("#numRiesgo").val()) || 0;
+
+        if (numRiesgo > numAsistencias) {
+            valid = false;
+            $("#numRiesgo").addClass("is-invalid");
+            $("#numAsistencias").addClass("is-invalid");
+            errores.push(
+                "El número de alumnos en riesgo (" +
+                    numRiesgo +
+                    ") no puede ser mayor al número de alumnos que asistieron (" +
+                    numAsistencias +
+                    ")."
+            );
+        } else {
+            $("#numRiesgo").removeClass("is-invalid");
+            $("#numAsistencias").removeClass("is-invalid");
+        }
+
         var fechaInicio = $("#fechaInicio").val();
         var fechaFin = $("#fechaFin").val();
         if (
@@ -434,6 +495,63 @@ $(document).ready(function () {
             });
         }
 
+        // FIX: Validar que no haya problemáticas duplicadas DEF-36
+        if ($('input[name="tipo"]:checked').val() === "problematica") {
+            var combinacionesVistas = [];
+
+            $("#problematicaTable tbody tr").each(function (index, row) {
+                var experiencia = $(row).find('select[name="experienciaE[]"]').val();
+                var profesor = $(row).find('select[name="profesor[]"]').val();
+                var problematica = $(row).find('select[name="problematica[]"]').val();
+                
+                if (experiencia && profesor && problematica && problematica !== "otro") {
+                    var combinacion = experiencia + '|' + profesor + '|' + problematica;
+                    
+                    if (combinacionesVistas.includes(combinacion)) {
+                        valid = false;
+                        $(row).find('select[name="experienciaE[]"]').addClass("is-invalid");
+                        $(row).find('select[name="profesor[]"]').addClass("is-invalid");
+                        $(row).find('select[name="problematica[]"]').addClass("is-invalid");
+                        errores.push(
+                            "La problemática en la línea " + (index + 1) + 
+                            " está duplicada. Ya existe un registro con la misma Experiencia Educativa, Profesor y Problemática."
+                        );
+                    } else {
+                        combinacionesVistas.push(combinacion);
+                    }
+                }
+            });
+        }
+
+        // FIX (DEF-34): Validar que la suma de alumnos en problemáticas ≤ alumnos que asistieron
+        if ($('input[name="tipo"]:checked').val() === "problematica") {
+            var numAsistencias = parseInt($("#numAsistencias").val()) || 0;
+            var sumaAlumnosProblematicas = 0;
+
+            $("#problematicaTable tbody tr").each(function (index, row) {
+                var numAlumnos = parseInt($(row).find('input[name="numAlumnos[]"]').val()) || 0;
+                sumaAlumnosProblematicas += numAlumnos;
+            });
+
+            if (sumaAlumnosProblematicas > numAsistencias) {
+                valid = false;
+                $("#numAsistencias").addClass("is-invalid");
+                $("#problematicaTable tbody tr").each(function (index, row) {
+                    $(row).find('input[name="numAlumnos[]"]').addClass("is-invalid");
+                });
+                errores.push(
+                    "La suma de alumnos en las problemáticas (" + sumaAlumnosProblematicas + 
+                    ") no puede ser mayor al número de alumnos que asistieron (" + 
+                    numAsistencias + ")."
+                );
+            } else {
+                $("#numAsistencias").removeClass("is-invalid");
+                $("#problematicaTable tbody tr").each(function (index, row) {
+                    $(row).find('input[name="numAlumnos[]"]').removeClass("is-invalid");
+                });
+            }
+        }
+
         if (!valid && errores.length > 0) {
             Swal.fire({
                 title: "Errores en el formulario",
@@ -442,8 +560,6 @@ $(document).ready(function () {
             });
         }
 
-        if (valid) {
-            $("#form").submit();
-        }
+        return valid;
     }
 });

@@ -42,20 +42,10 @@ class AuthController
                 }
             }
         } else {
-            $userInfo = $userModel->findUser($user);
             if ($userInfo) {
                 $this->startUserSession($userInfo);
             } else {
-                $adminInfo = $adminModel->getAdministradorByCorreo($user);
-                if ($adminInfo && isset($adminInfo['password'])) {
-                    if (password_verify($password, $adminInfo['password'])) {
-                        $this->startUserSession($adminInfo);
-                    } else {
-                        $this->redirectWithMessage('no_login');
-                    }
-                } else {
-                    $this->redirectWithMessage('no_exist');
-                }
+                $this->redirectWithMessage('no_exist');
             }
         }
     }
@@ -112,7 +102,10 @@ class AuthController
 
     private function redirectWithMessage($message)
     {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         $_SESSION["message"] = $message;
         header("Location: " . BASE_URL . "/index.php");
         exit();

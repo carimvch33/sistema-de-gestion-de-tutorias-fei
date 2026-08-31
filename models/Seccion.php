@@ -31,9 +31,31 @@ class Seccion
     {
         $stmt = $this->conn->prepare("INSERT INTO seccion (idProfesor, idExperienciaEducativa, idPeriodo, nrc) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("iiis", $idProfesor, $idExperienciaEducativa, $idPeriodo, $nrc);
-        $result = $stmt->execute();
-        $stmt->close();
-        return $result;
+
+        try{
+
+            $result = $stmt->execute();
+            $stmt->close();
+            return $result;
+
+        } catch (mysqli_sql_exception $e) {
+
+            $stmt->close();
+
+            if ($e->getCode() == 1062) {
+
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+
+                $_SESSION['message'] = 'El NRC ya existe. Por favor, ingrese un NRC diferente.';
+
+                return false;
+            }
+            
+            throw $e;
+
+        }
     }
 
     public function getSeccionById($idSeccion)
@@ -55,9 +77,24 @@ class Seccion
     {
         $stmt = $this->conn->prepare("UPDATE seccion SET idProfesor = ?, idExperienciaEducativa = ?, idPeriodo = ?, nrc = ? WHERE id = ?");
         $stmt->bind_param("iiisi", $idProfesor, $idExperienciaEducativa, $idPeriodo, $nrc, $idSeccion);
-        $result = $stmt->execute();
-        $stmt->close();
-        return $result;
+        
+        try {
+            $result = $stmt->execute();
+            $stmt->close();
+            return $result;
+        } catch (mysqli_sql_exception $e) {
+            $stmt->close();
+
+            if ($e->getCode() == 1062) {
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $_SESSION['message'] = 'El NRC ya existe. Por favor, ingrese un NRC diferente.';
+                return false;
+            }
+            
+            throw $e;
+        }
     }
 
     public function deleteSeccion($idSeccion)

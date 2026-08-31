@@ -76,57 +76,6 @@ class ProblematicaController
         require_once '../views/registroProblematica.php';
     }
 
-    public function createProblematica()
-    {
-        session_start();
-        $rolesPermitidos = [3];
-
-        if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ' . BASE_URL . '/cerrarSesion.php');
-            exit();
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-                echo "Error: Solicitud no válida.";
-                exit();
-            }
-
-            $descripcion = isset($_POST['descripcion']) ? trim($_POST['descripcion']) : '';
-            $tipoProblematica = isset($_POST['tipoProblematica']) ? intval($_POST['tipoProblematica']) : 0;
-
-            $errors = [];
-
-            if (empty($descripcion)) {
-                $errors[] = 'El campo "Descripción" es obligatorio.';
-            }
-            if ($tipoProblematica <= 0) {
-                $errors[] = 'El campo "Tipo de Problematica" es obligatorio.';
-            }
-
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header('Location: ' . BASE_URL . '/registroProblematica.php');
-                exit();
-            }
-
-            $resultado = $this->problematicaModel->createProblematica($descripcion, $tipoProblematica);
-
-            if ($resultado) {
-                $_SESSION['message'] = "Problemática académica registrada exitosamente.";
-                header("Location: " . BASE_URL . "/administrarProblematicas.php");
-                exit();
-            } else {
-                $_SESSION['message'] = "Error al registrar la problemática académica.";
-                header('Location: ' . BASE_URL . '/registroProblematica.php');
-                exit();
-            }
-        } else {
-            header('Location: ' . BASE_URL . '/registroProblematica.php');
-            exit();
-        }
-    }
-
     public function showEditForm()
     {
         session_start();
@@ -169,6 +118,63 @@ class ProblematicaController
         }
     }
 
+    public function createProblematica()
+    {
+        session_start();
+        $rolesPermitidos = [3];
+
+        if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+                echo "Error: Solicitud no válida.";
+                exit();
+            }
+
+            $descripcion = isset($_POST['descripcion']) ? trim($_POST['descripcion']) : '';
+            $tipoProblematica = isset($_POST['tipoProblematica']) ? intval($_POST['tipoProblematica']) : 0;
+
+            $errors = [];
+
+            if (empty($descripcion)) {
+                $errors[] = 'El campo "Descripción" es obligatorio.';
+            }
+            if ($tipoProblematica <= 0) {
+                $errors[] = 'El campo "Tipo de Problematica" es obligatorio.';
+            }
+
+            if (!empty($errors)) {
+                $_SESSION['errors'] = $errors;
+                header('Location: ' . BASE_URL . '/registroProblematica.php');
+                exit();
+            }
+
+            $resultado = $this->problematicaModel->createProblematica($descripcion, $tipoProblematica);
+
+            if ($resultado) {
+                $_SESSION['message'] = "Problemática académica registrada exitosamente.";
+                header("Location: " . BASE_URL . "/administrarProblematicas.php");
+                exit();
+            } else {
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'] = [$_SESSION['message']];
+                    unset($_SESSION['message']);
+                } else {
+                    $_SESSION['errors'] = ["Error al registrar la problemática académica."];
+                }
+
+                header('Location: ' . BASE_URL . '/registroProblematica.php');
+                exit();
+            }
+        } else {
+            header('Location: ' . BASE_URL . '/registroProblematica.php');
+            exit();
+        }
+    }
+
     public function updateProblematica()
     {
         session_start();
@@ -197,10 +203,24 @@ class ProblematicaController
             if ($tipoProblematica <= 0)
                 $errors[] = 'El campo "Tipo de Problemática" es obligatorio.';
 
+            $recargarVista = function() use ($idProblematica, $descripcion, $tipoProblematica) {
+                $_SESSION['problematica'] = [
+                    'idProblematica' => $idProblematica, 
+                    'descripcion' => $descripcion, 
+                    'tipoProblematica' => $tipoProblematica
+                ];
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                
+                $tiposProblematica = $this->tipoProblematicaModel->getTipos();
+                
+                require_once '../views/editarProblematica.php';
+                exit();
+            };
+
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ' . BASE_URL . '/editarProblematica.php');
-                exit();
+                $recargarVista();
             }
 
             $resultado = $this->problematicaModel->updateProblematica($idProblematica, $descripcion, $tipoProblematica);
@@ -208,12 +228,20 @@ class ProblematicaController
             if ($resultado) {
                 $_SESSION['message'] = 'Problemática académica actualizada exitosamente.';
                 header("Location: " . BASE_URL . "/administrarProblematicas.php");
+                exit();
             } else {
-                $_SESSION['message'] = 'Error al actualizar la problemática académica.';
-                header('Location: ' . BASE_URL . '/editarProblematica.php');
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'][] = $_SESSION['message'];
+                    unset($_SESSION['message']);
+                } else {
+                    $_SESSION['errors'][] = 'Error al actualizar la problemática académica.';
+                }
+                
+                $recargarVista();
             }
         } else {
             header("Location: " . BASE_URL . "/administrarProblematicas.php");
+            exit();
         }
     }
 

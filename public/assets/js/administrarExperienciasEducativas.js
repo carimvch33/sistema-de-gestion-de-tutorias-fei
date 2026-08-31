@@ -71,11 +71,11 @@ $(document).ready(function() {
                             });
                         } else {
                             Swal.fire({
-                                title: 'Error',
+                                title: 'No se puede eliminar',
                                 text: response.message,
-                                icon: 'error',
-                                showConfirmButton: false,
-                                timer: 3500
+                                icon: 'warning',
+                                confirmButtonColor: '#28AD56',
+                                confirmButtonText: 'Aceptar'
                             });
                         }
                     }

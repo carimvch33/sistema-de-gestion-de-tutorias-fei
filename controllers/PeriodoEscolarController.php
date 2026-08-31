@@ -91,6 +91,21 @@ class PeriodoEscolarController
             $nombrePeriodo = isset($_POST['periodo']) ? trim($_POST['periodo']) : null;
             $actual = isset($_POST['actual']) ? intval($_POST['actual']) : null;
 
+            $fechas = [
+                1 => [
+                    'inicio' => isset($_POST['fechaInicio1']) ? $_POST['fechaInicio1'] : null,
+                    'fin' => isset($_POST['fechaFin1']) ? $_POST['fechaFin1'] : null,
+                ],
+                2 => [
+                    'inicio' => isset($_POST['fechaInicio2']) ? $_POST['fechaInicio2'] : null,
+                    'fin' => isset($_POST['fechaFin2']) ? $_POST['fechaFin2'] : null,
+                ],
+                3 => [
+                    'inicio' => isset($_POST['fechaInicio3']) ? $_POST['fechaInicio3'] : null,
+                    'fin' => isset($_POST['fechaFin3']) ? $_POST['fechaFin3'] : null,
+                ]
+            ];
+
             $errors = [];
 
             if (empty($nombrePeriodo)) {
@@ -106,14 +121,20 @@ class PeriodoEscolarController
                 exit();
             }
 
-            $resultado = $this->periodoModel->createPeriodo($nombrePeriodo, $actual);
+            $resultado = $this->periodoModel->createPeriodo($nombrePeriodo, $actual, $fechas);
 
             if ($resultado) {
                 $_SESSION['message'] = "Periodo registrado exitosamente.";
                 header('Location: ' . BASE_URL . '/administrarPeriodosEscolares.php');
                 exit();
             } else {
-                $_SESSION['message'] = "Error al registrar el periodo.";
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'] = [$_SESSION['message']];
+                    unset($_SESSION['message']);
+                } else {
+                    $_SESSION['errors'] = ["Error al registrar el periodo escolar."];
+                }
+
                 header('Location: ' . BASE_URL . '/registroPeriodo.php');
                 exit();
             }
@@ -201,7 +222,11 @@ class PeriodoEscolarController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ' . BASE_URL . '/editarPeriodo.php');
+                $_SESSION['periodo'] = ['idPeriodo' => $idPeriodo, 'periodo' => $nombrePeriodo, 'actual' => $actual];
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                
+                require_once '../views/editarPeriodo.php';
                 exit();
             }
 
@@ -212,8 +237,18 @@ class PeriodoEscolarController
                 header('Location: ' . BASE_URL . '/administrarPeriodosEscolares.php');
                 exit();
             } else {
-                $_SESSION['message'] = "Error al actualizar el periodo escolar.";
-                header('Location: ' . BASE_URL . '/editarPeriodo.php');
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'][] = $_SESSION['message'];
+                    unset($_SESSION['message']);
+                } else {
+                    $_SESSION['errors'][] = "Error al actualizar el periodo escolar.";
+                }
+
+                $_SESSION['periodo'] = ['idPeriodo' => $idPeriodo, 'periodo' => $nombrePeriodo, 'actual' => $actual];
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                
+                require_once '../views/editarPeriodo.php';
                 exit();
             }
         } else {

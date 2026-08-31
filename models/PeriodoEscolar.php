@@ -39,7 +39,7 @@ class PeriodoEscolar
         return $periodo;
     }
 
-    public function createPeriodo($nombre, $actual)
+    public function createPeriodo($nombre, $actual, $fechas = [])
     {
         $this->conn->begin_transaction();
 
@@ -57,11 +57,40 @@ class PeriodoEscolar
                 $stmtActual->close();
             }
 
+            $stmtCarreras = $this->conn->prepare("SELECT idCarrera FROM carrera");
+            $stmtCarreras->execute();
+            $resultCarreras = $stmtCarreras->get_result();
+            $carreras = $resultCarreras->fetch_all(MYSQLI_ASSOC);
+            $stmtCarreras->close();
+
+            if (!empty($carreras) && !empty($fechas)) {
+                $stmtSesiones = $this->conn->prepare("INSERT IGNORE INTO periodo_tutorias (numSesion, carrera, periodo, fechaInicio, fechaFin) VALUES (?, ?, ?, ?, ?)");
+                
+                foreach ($carreras as $carrera) {
+                    $idCarrera = $carrera['idCarrera'];
+                    
+                    foreach ($fechas as $numSesion => $rango) {
+                        $fInicio = !empty($rango['inicio']) ? $rango['inicio'] : null;
+                        $fFin = !empty($rango['fin']) ? $rango['fin'] : null;
+                        
+                        $stmtSesiones->bind_param("iiiss", $numSesion, $idCarrera, $idPeriodo, $fInicio, $fFin);
+                        $stmtSesiones->execute();
+                    }
+                }
+                $stmtSesiones->close();
+            }
+
             $this->conn->commit();
             return true;
-        } catch (Exception $e) {
+            
+        } catch (mysqli_sql_exception $e) {
             $this->conn->rollback();
-            return false;
+            if ($e->getCode() == 1062) {
+                if (session_status() == PHP_SESSION_NONE) { session_start(); }
+                $_SESSION['message'] = "El periodo ya existe.";
+                return false;
+            }
+            throw $e;
         }
     }
 
@@ -84,9 +113,19 @@ class PeriodoEscolar
 
             $this->conn->commit();
             return true;
-        } catch (Exception $e) {
+        } catch (mysqli_sql_exception $e) {
+            
             $this->conn->rollback();
-            return false;
+
+            if ($e->getCode() == 1062) {
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $_SESSION['message'] = "El periodo ya existe. Por favor, ingrese un nombre diferente.";
+                return false;
+            }
+            
+            throw $e;
         }
     }
 

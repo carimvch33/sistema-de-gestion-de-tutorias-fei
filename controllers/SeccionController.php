@@ -74,66 +74,6 @@ class SeccionController
         require_once '../views/registroSeccion.php';
     }
 
-    public function createSeccion()
-    {
-        session_start();
-
-        $rolesPermitidos = [3];
-        if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ' . BASE_URL . '/cerrarSesion.php');
-            exit();
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-                $_SESSION['message'] = "Error: Solicitud no válida.";
-                header('Location: ' . BASE_URL . '/registroSeccion.php');
-                exit();
-            }
-
-            $nrc = isset($_POST['nrc']) ? trim($_POST['nrc']) : null;
-            $idProfesor = isset($_POST['idProfesor']) ? intval($_POST['idProfesor']) : null;
-            $idExperienciaEducativa = isset($_POST['idExperienciaEducativa']) ? intval($_POST['idExperienciaEducativa']) : null;
-            $idPeriodo = isset($_POST['idPeriodo']) ? intval($_POST['idPeriodo']) : null;
-
-            $errors = [];
-
-            if (empty($nrc)) {
-                $errors[] = 'El campo "NRC" es obligatorio.';
-            }
-            if (empty($idProfesor)) {
-                $errors[] = 'El campo "Profesor" es obligatorio.';
-            }
-            if (empty($idExperienciaEducativa)) {
-                $errors[] = 'El campo "Experiencia Educativa" es obligatorio.';
-            }
-            if (empty($idPeriodo)) {
-                $errors[] = 'El campo "Periodo" es obligatorio.';
-            }
-
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header('Location: ' . BASE_URL . '/registroSeccion.php');
-                exit();
-            }
-
-            $resultado = $this->seccionModel->createSeccion($idProfesor, $idExperienciaEducativa, $idPeriodo, $nrc);
-
-            if ($resultado) {
-                $_SESSION['message'] = "Sección registrada exitosamente.";
-                header('Location: ' . BASE_URL . '/administrarSecciones.php');
-                exit();
-            } else {
-                $_SESSION['message'] = "Error al registrar la sección.";
-                header('Location: ' . BASE_URL . '/registroSeccion.php');
-                exit();
-            }
-        } else {
-            header('Location: ' . BASE_URL . '/registroSeccion.php');
-            exit();
-        }
-    }
-
     public function showEditForm()
     {
         session_start();
@@ -190,6 +130,72 @@ class SeccionController
         }
     }
 
+    public function createSeccion()
+    {
+        session_start();
+
+        $rolesPermitidos = [3];
+        if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+                $_SESSION['message'] = "Error: Solicitud no válida.";
+                header('Location: ' . BASE_URL . '/registroSeccion.php');
+                exit();
+            }
+
+            $nrc = isset($_POST['nrc']) ? trim($_POST['nrc']) : null;
+            $idProfesor = isset($_POST['idProfesor']) ? intval($_POST['idProfesor']) : null;
+            $idExperienciaEducativa = isset($_POST['idExperienciaEducativa']) ? intval($_POST['idExperienciaEducativa']) : null;
+            $idPeriodo = isset($_POST['idPeriodo']) ? intval($_POST['idPeriodo']) : null;
+
+            $errors = [];
+
+            if (empty($nrc)) {
+                $errors[] = 'El campo "NRC" es obligatorio.';
+            }
+            if (empty($idProfesor)) {
+                $errors[] = 'El campo "Profesor" es obligatorio.';
+            }
+            if (empty($idExperienciaEducativa)) {
+                $errors[] = 'El campo "Experiencia Educativa" es obligatorio.';
+            }
+            if (empty($idPeriodo)) {
+                $errors[] = 'El campo "Periodo" es obligatorio.';
+            }
+
+            if (!empty($errors)) {
+                $_SESSION['errors'] = $errors;
+                header('Location: ' . BASE_URL . '/registroSeccion.php');
+                exit();
+            }
+
+            $resultado = $this->seccionModel->createSeccion($idProfesor, $idExperienciaEducativa, $idPeriodo, $nrc);
+
+            if ($resultado) {
+                $_SESSION['message'] = "Sección registrada exitosamente.";
+                header('Location: ' . BASE_URL . '/administrarSecciones.php');
+                exit();
+            } else {
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'] = [$_SESSION['message']];
+                    unset($_SESSION['message']);
+                } else {
+                    $_SESSION['errors'] = ["Error al registrar la sección."];
+                }
+                
+                header('Location: ' . BASE_URL . "/registroSeccion.php");
+                exit();
+            }
+        } else {
+            header('Location: ' . BASE_URL . '/registroSeccion.php');
+            exit();
+        }
+    }
+
     public function updateSeccion()
     {
         session_start();
@@ -216,7 +222,6 @@ class SeccionController
             if ($idSeccion <= 0) {
                 $errors[] = 'ID de sección inválido.';
             }
-
             if (empty($nrc)) {
                 $errors[] = 'El campo "NRC" es obligatorio.';
             }
@@ -230,10 +235,36 @@ class SeccionController
                 $errors[] = 'El campo "Periodo" es obligatorio.';
             }
 
+            $recargarVista = function() use ($idSeccion, $nrc, $idProfesor, $idExperienciaEducativa, $idPeriodo) {
+                $_SESSION['seccion'] = [
+                    'id' => $idSeccion, 
+                    'nrc' => $nrc, 
+                    'idProfesor' => $idProfesor, 
+                    'idExperienciaEducativa' => $idExperienciaEducativa, 
+                    'idPeriodo' => $idPeriodo
+                ];
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+
+                require_once '../models/Profesor.php';
+                require_once '../models/ExperienciaEducativa.php';
+                require_once '../models/PeriodoEscolar.php';
+
+                $profesorModel = new Profesor($this->conn);
+                $experienciaModel = new ExperienciaEducativa($this->conn);
+                $periodoModel = new PeriodoEscolar($this->conn);
+
+                $profesores = $profesorModel->getProfesores();
+                $experiencias = $experienciaModel->getExperiencias();
+                $periodos = $periodoModel->getPeriodos();
+
+                require_once '../views/editarSeccion.php';
+                exit();
+            };
+
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ' . BASE_URL . '/editarSeccion.php');
-                exit();
+                $recargarVista();
             }
 
             $resultado = $this->seccionModel->updateSeccion($idSeccion, $idProfesor, $idExperienciaEducativa, $idPeriodo, $nrc);
@@ -243,9 +274,14 @@ class SeccionController
                 header('Location: ' . BASE_URL . '/administrarSecciones.php');
                 exit();
             } else {
-                $_SESSION['message'] = "Error al actualizar la sección.";
-                header('Location: ' . BASE_URL . '/editarSeccion.php');
-                exit();
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'][] = $_SESSION['message'];
+                    unset($_SESSION['message']);
+                } else {
+                    $_SESSION['errors'][] = "Error al actualizar la sección.";
+                }
+                
+                $recargarVista();
             }
         } else {
             header('Location: ' . BASE_URL . '/administrarSecciones.php');

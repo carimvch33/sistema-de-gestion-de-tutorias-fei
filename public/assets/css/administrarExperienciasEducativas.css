@@ -73,9 +73,10 @@ body {
 }
 
 table {
-    width: 60%;
+    width: 100%; /* Cambiado para que DataTables lo maneje mejor dentro de su contenedor */
     margin: 20px auto;
     border-collapse: collapse;
+    table-layout: fixed; /* Fuerza a la tabla a no salirse de su contenedor */
 }
 
 th,
@@ -85,13 +86,21 @@ td {
     padding: 8px;
 }
 
+/* Rompe las cadenas de texto infinitas y tabula hacia abajo */
+td {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    white-space: normal !important;
+}
+
 th {
     background-color: #18529D;
     color: white;
 }
 
 .autoWidthColumn {
-    white-space: nowrap;
+    white-space: normal; /* Cambiado de nowrap a normal para evitar conflictos */
     width: auto;
     text-align: center;
 }

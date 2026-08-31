@@ -81,90 +81,6 @@ class EstudianteController
         require_once '../views/registroEstudiante.php';
     }
 
-    public function createEstudiante()
-    {
-        session_start();
-
-        $rolesPermitidos = [3];
-        if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
-            header('Location: ' . BASE_URL . '/cerrarSesion.php');
-            exit();
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-                echo "Error: Solicitud no válida.";
-                exit();
-            }
-
-            $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
-            $apellidoPaterno = isset($_POST['paterno']) ? trim($_POST['paterno']) : '';
-            $apellidoMaterno = isset($_POST['materno']) ? trim($_POST['materno']) : '';
-            $matricula = isset($_POST['matricula']) ? trim($_POST['matricula']) : '';
-            $carrera = isset($_POST['carrera']) ? intval($_POST['carrera']) : 0;
-            $correoInstitucional = isset($_POST['correoInstitucional']) ? trim($_POST['correoInstitucional']) : '';
-            $tutor = isset($_POST['tutor']) ? intval($_POST['tutor']) : null;
-            $rol = 2;
-
-            $errors = [];
-
-            if (empty($nombre))
-                $errors[] = 'El campo "Nombre" es obligatorio.';
-            if (empty($matricula))
-                $errors[] = 'El campo "Matrícula" es obligatorio.';
-            if ($carrera <= 0)
-                $errors[] = 'El campo "Carrera" es obligatorio.';
-            if (empty($correoInstitucional))
-                $errors[] = 'El campo "Correo institucional" es obligatorio.';
-
-            if (!empty($matricula) && (!preg_match('/^S\d{8}$/', $matricula))) {
-                $errors[] = 'La matrícula debe comenzar con "S" seguido de 8 dígitos.';
-            }
-
-            if (!empty($correoInstitucional) && (!preg_match("/^z{$matricula}@estudiantes\.uv\.mx$/i", $correoInstitucional))) {
-                $errors[] = 'El correo institucional debe ser "zMATRÍCULA@estudiantes.uv.mx".';
-            }
-
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header('Location: registroEstudiante.php');
-                exit();
-            }
-            
-            if ($this->estudianteModel->isStudentRegistered($matricula)) {
-                $_SESSION['errors'] = ['La matrícula ya está registrada.'];
-                header('Location: registroEstudiante.php');
-                exit();
-            }
-            
-            $data = [
-                'nombre' => $nombre,
-                'apellidoPaterno' => $apellidoPaterno,
-                'apellidoMaterno' => $apellidoMaterno,
-                'matricula' => $matricula,
-                'carrera' => $carrera,
-                'correoInstitucional' => $correoInstitucional,
-                'tutor' => $tutor,
-                'rol' => $rol
-            ];
-            
-            $resultado = $this->estudianteModel->createEstudiante($data);
-            
-            if ($resultado) {
-                $_SESSION['message'] = "Estudiante registrado exitosamente.";
-                header('Location: ' . BASE_URL . '/administrarEstudiantes.php');
-                exit();
-            } else {
-                $_SESSION['message'] = "Error al registrar el estudiante.";
-                header("Location: " . BASE_URL . "/registroEstudiante.php");
-                exit();
-            }            
-        } else {
-            header('Location: ' . BASE_URL . '/registroEstudiante.php');
-            exit();
-        }
-    }
-
     public function showEditForm()
     {
         session_start();
@@ -220,6 +136,86 @@ class EstudianteController
         }
     }
 
+    public function createEstudiante()
+    {
+        session_start();
+
+        $rolesPermitidos = [3];
+        if (!isset($_SESSION['user']) || !in_array($_SESSION["rol"], $rolesPermitidos)) {
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+                echo "Error: Solicitud no válida.";
+                exit();
+            }
+
+            $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
+            $apellidoPaterno = isset($_POST['paterno']) ? trim($_POST['paterno']) : '';
+            $apellidoMaterno = isset($_POST['materno']) ? trim($_POST['materno']) : '';
+            $matricula = isset($_POST['matricula']) ? trim($_POST['matricula']) : '';
+            $carrera = isset($_POST['carrera']) ? intval($_POST['carrera']) : 0;
+            $correoInstitucional = isset($_POST['correoInstitucional']) ? trim($_POST['correoInstitucional']) : '';
+            $tutor = isset($_POST['tutor']) ? intval($_POST['tutor']) : null;
+            $rol = 2;
+
+            $errors = [];
+
+            if (empty($nombre)) $errors[] = 'El campo "Nombre" es obligatorio.';
+            if (empty($matricula)) $errors[] = 'El campo "Matrícula" es obligatorio.';
+            if ($carrera <= 0) $errors[] = 'El campo "Carrera" es obligatorio.';
+            if (empty($correoInstitucional)) $errors[] = 'El campo "Correo institucional" es obligatorio.';
+
+            if (!empty($matricula) && (!preg_match('/^S\d{8}$/', $matricula))) {
+                $errors[] = 'La matrícula debe comenzar con "S" seguido de 8 dígitos.';
+            }
+
+            if (!empty($correoInstitucional) && (!preg_match("/^z{$matricula}@estudiantes\.uv\.mx$/i", $correoInstitucional))) {
+                $errors[] = 'El correo institucional debe ser "zMATRÍCULA@estudiantes.uv.mx".';
+            }
+
+            if (!empty($errors)) {
+                $_SESSION['errors'] = $errors;
+                header('Location: ' . BASE_URL . '/registroEstudiante.php');
+                exit();
+            }
+            
+            $data = [
+                'nombre' => $nombre,
+                'apellidoPaterno' => $apellidoPaterno,
+                'apellidoMaterno' => $apellidoMaterno,
+                'matricula' => $matricula,
+                'carrera' => $carrera,
+                'correoInstitucional' => $correoInstitucional,
+                'tutor' => $tutor,
+                'rol' => $rol
+            ];
+            
+            $resultado = $this->estudianteModel->createEstudiante($data);
+            
+            if ($resultado) {
+                $_SESSION['message'] = "Estudiante registrado exitosamente.";
+                header('Location: ' . BASE_URL . '/administrarEstudiantes.php');
+                exit();
+            } else {
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'] = [$_SESSION['message']];
+                    unset($_SESSION['message']);
+                } else {
+                    $_SESSION['errors'] = ["Error al registrar el estudiante."];
+                }
+                
+                header("Location: " . BASE_URL . "/registroEstudiante.php");
+                exit();
+            }            
+        } else {
+            header('Location: ' . BASE_URL . '/registroEstudiante.php');
+            exit();
+        }
+    }
+
     public function updateEstudiante()
     {
         session_start();
@@ -254,14 +250,10 @@ class EstudianteController
 
             $errors = [];
 
-            if (empty($nombre))
-                $errors[] = 'El campo "Nombre" es obligatorio.';
-            if (empty($matricula))
-                $errors[] = 'El campo "Matrícula" es obligatorio.';
-            if ($carrera <= 0)
-                $errors[] = 'El campo "Carrera" es obligatorio.';
-            if (empty($correoInstitucional))
-                $errors[] = 'El campo "Correo institucional" es obligatorio.';
+            if (empty($nombre)) $errors[] = 'El campo "Nombre" es obligatorio.';
+            if (empty($matricula)) $errors[] = 'El campo "Matrícula" es obligatorio.';
+            if ($carrera <= 0) $errors[] = 'El campo "Carrera" es obligatorio.';
+            if (empty($correoInstitucional)) $errors[] = 'El campo "Correo institucional" es obligatorio.';
 
             if (!empty($matricula) && (!preg_match('/^S\d{8}$/', $matricula))) {
                 $errors[] = 'La matrícula debe comenzar con "S" seguido de 8 dígitos.';
@@ -272,9 +264,22 @@ class EstudianteController
             }
 
             if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                $_POST['idTutorado'] = $idTutorado;
-                header('Location: ' . BASE_URL . '/editarEstudiante.php');
+                $estudiante = [
+                    'idTutorado' => $idTutorado,
+                    'nombre' => $nombre,
+                    'apellidoPaterno' => $apellidoPaterno,
+                    'apellidoMaterno' => $apellidoMaterno,
+                    'matricula' => $matricula,
+                    'carrera' => $carrera,
+                    'correoInstitucional' => $correoInstitucional,
+                    'tutor' => $tutor
+                ];
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                $carreras = $this->carreraModel->getCarreras();
+                $tutores = $this->tutorModel->getTutors();
+                
+                require_once '../views/editarEstudiante.php';
                 exit();
             }
 
@@ -295,8 +300,29 @@ class EstudianteController
                 header('Location: ' . BASE_URL . '/administrarEstudiantes.php');
                 exit();
             } else {
-                $_SESSION['message'] = "Error al actualizar el estudiante.";
-                header("Location: " . BASE_URL . "/editarEstudiante.php");
+                if (isset($_SESSION['message'])) {
+                    $errors[] = $_SESSION['message'];
+                    unset($_SESSION['message']);
+                } else {
+                    $errors[] = "Error al actualizar el estudiante.";
+                }
+
+                $estudiante = [
+                    'idTutorado' => $idTutorado,
+                    'nombre' => $nombre,
+                    'apellidoPaterno' => $apellidoPaterno,
+                    'apellidoMaterno' => $apellidoMaterno,
+                    'matricula' => $matricula,
+                    'carrera' => $carrera,
+                    'correoInstitucional' => $correoInstitucional,
+                    'tutor' => $tutor
+                ];
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                $carreras = $this->carreraModel->getCarreras();
+                $tutores = $this->tutorModel->getTutors();
+
+                require_once '../views/editarEstudiante.php';
                 exit();
             }
         } else {
@@ -324,6 +350,16 @@ class EstudianteController
             $idTutorado = isset($_POST['idTutorado']) ? intval($_POST['idTutorado']) : 0;
 
             if ($idTutorado > 0) {
+                // DEF-02: Verificar si tiene tutorías asociadas
+                if ($this->estudianteModel->tieneTutoriasAsociadas($idTutorado)) {
+                    echo json_encode([
+                        'status' => 'error', 
+                        'message' => 'No se puede eliminar el estudiante porque tiene tutorías asociadas.'
+                    ]);
+                    return;
+                }
+
+                // Proceder con la eliminación
                 $resultado = $this->estudianteModel->deleteEstudiante($idTutorado);
 
                 if ($resultado) {

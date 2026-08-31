@@ -1,7 +1,7 @@
 <?php
-require_once '../config/config.php';
-require_once '../config/connection.php';
-require_once '../models/Administrador.php';
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../config/connection.php';
+require_once __DIR__ . '/../models/Administrador.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -60,7 +60,7 @@ class AdministradorController
 
         $administradores = $this->administradorModel->getAdministradores($idAdministrador);
 
-        require_once '../views/administrarAdministradores.php';
+    require_once __DIR__ . '/../views/administrarAdministradores.php';
     }
 
     public function showCreateForm()
@@ -91,94 +91,8 @@ class AdministradorController
             unset($_SESSION['message']);
         }
 
-        require_once '../views/registroAdministrador.php';
+    require_once __DIR__ . '/../views/registroAdministrador.php';
     }
-
-    public function createAdministrador()
-    {
-        session_start();
-
-        $rolesPermitidos = [3];
-        if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-            header('Location: ' . BASE_URL . '/cerrarSesion.php');
-            exit();
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-                echo "<p style='color: red;'>Error: Solicitud no válida.</p>";
-                exit();
-            }
-
-            $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
-            $apellidoPaterno = isset($_POST['paterno']) ? trim($_POST['paterno']) : '';
-            $apellidoMaterno = isset($_POST['materno']) ? trim($_POST['materno']) : '';
-            $correoInstitucional = isset($_POST['correoInstitucional']) ? trim($_POST['correoInstitucional']) : '';
-            $password = isset($_POST['password']) ? $_POST['password'] : '';
-            $confirmPassword = isset($_POST['confirm_password']) ? $_POST['confirm_password'] : '';
-            $rol = 3;
-
-            $errors = [];
-
-            if (empty($nombre)) {
-                $errors[] = 'El campo "Nombre" es obligatorio.';
-            }
-            if (empty($correoInstitucional)) {
-                $errors[] = 'El campo "Correo institucional" es obligatorio.';
-            }
-            if (empty($password)) {
-                $errors[] = 'El campo "Contraseña" es obligatorio.';
-            }
-            if (empty($confirmPassword)) {
-                $errors[] = 'El campo "Confirmar Contraseña" es obligatorio.';
-            }
-            if ($password !== $confirmPassword) {
-                $errors[] = 'Las contraseñas no coinciden.';
-            }
-
-            if (!empty($errors)) {
-                echo "<div style='color: red;'>";
-                foreach ($errors as $error) {
-                    echo "<p>" . htmlspecialchars($error) . "</p>";
-                }
-                echo "</div>";
-                return;
-            }
-
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-            $data = [
-                'nombre' => $nombre,
-                'apellidoPaterno' => $apellidoPaterno,
-                'apellidoMaterno' => $apellidoMaterno,
-                'correoInstitucional' => $correoInstitucional,
-                'rol' => $rol,
-                'password' => $hashedPassword
-            ];
-
-
-            try {
-                $resultado = $this->administradorModel->createAdministrador($data);
-
-                if ($resultado) {
-                    $_SESSION['message'] = "Administrador registrado exitosamente.";
-                    header("Location: " . BASE_URL . "/administrarAdministradores.php");
-                    exit();
-                } else {
-                    $_SESSION['message'] = "Error al registrar el administrador.";
-                    header("Location: " . BASE_URL . "/registroAdministrador.php");
-                    exit();
-                }
-
-            } catch (Exception $e) {
-                echo "<p style='color: red;'>Error: " . htmlspecialchars($e->getMessage()) . "</p>";
-            }
-        } else {
-            echo "<p style='color: red;'>Error: Método no permitido.</p>";
-        }
-    }
-
-
 
     public function showEditForm()
     {
@@ -214,7 +128,7 @@ class AdministradorController
                         unset($_SESSION['message']);
                     }
 
-                    require_once '../views/editarAdministrador.php';
+                    require_once __DIR__ . '/../views/editarAdministrador.php';
                 } else {
                     $_SESSION['message'] = 'Administrador no encontrado';
                     header('Location: ' . BASE_URL . '/administrarAdministradores.php');
@@ -227,6 +141,84 @@ class AdministradorController
             }
         } else {
             header('Location: ' . BASE_URL . '/administrarAdministradores.php');
+            exit();
+        }
+    }
+
+    public function createAdministrador()
+    {
+        session_start();
+
+        $rolesPermitidos = [3];
+        if (!isset($_SESSION['user']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
+            header('Location: ' . BASE_URL . '/cerrarSesion.php');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+                die('Error: solicitud inválida o CSRF token no válido.');
+            }
+
+            $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
+            $apellidoPaterno = isset($_POST['paterno']) ? trim($_POST['paterno']) : '';
+            $apellidoMaterno = isset($_POST['materno']) ? trim($_POST['materno']) : '';
+            $correoInstitucional = isset($_POST['correoInstitucional']) ? trim($_POST['correoInstitucional']) : '';
+            $password = isset($_POST['password']) ? $_POST['password'] : '';
+            $confirmPassword = isset($_POST['confirm_password']) ? $_POST['confirm_password'] : '';
+            $rol = 3;
+
+            $errors = [];
+
+            if (empty($nombre)) $errors[] = 'El campo "Nombre" es obligatorio.';
+            if (empty($correoInstitucional)) $errors[] = 'El campo "Correo institucional" es obligatorio.';
+            if (empty($password)) $errors[] = 'El campo "Contraseña" es obligatorio.';
+            if (empty($confirmPassword)) $errors[] = 'El campo "Confirmar Contraseña" es obligatorio.';
+            if ($password !== $confirmPassword) $errors[] = 'Las contraseñas no coinciden.';
+            
+            if (!empty($correoInstitucional) && !preg_match('/^.+@(uv\.mx|estudiantes\.uv\.mx)$/', $correoInstitucional)) {
+                $errors[] = 'El correo institucional debe terminar en @uv.mx o @estudiantes.uv.mx.';
+            }
+
+            if (!empty($errors)) {
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                require_once __DIR__ . '/../views/registroAdministrador.php';
+                exit();
+            }
+
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            $data = [
+                'nombre' => $nombre,
+                'apellidoPaterno' => $apellidoPaterno,
+                'apellidoMaterno' => $apellidoMaterno,
+                'correoInstitucional' => $correoInstitucional,
+                'rol' => $rol,
+                'password' => $hashedPassword
+            ];
+
+            $resultado = $this->administradorModel->createAdministrador($data);
+
+            if ($resultado === true) {
+                $_SESSION['message'] = "Administrador registrado exitosamente.";
+                header("Location: " . BASE_URL . "/administrarAdministradores.php");
+                exit();
+            } else {
+                if (isset($_SESSION['message'])) {
+                    $errors[] = $_SESSION['message'];
+                    unset($_SESSION['message']);
+                } else {
+                    $errors[] = "Error al registrar el administrador en la base de datos.";
+                }
+                
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                require_once __DIR__ . '/../views/registroAdministrador.php';
+                exit();
+            }
+        } else {
+            header('Location: ' . BASE_URL . '/registroAdministrador.php');
             exit();
         }
     }
@@ -263,14 +255,13 @@ class AdministradorController
 
             $errors = [];
 
-            if (empty($nombre)) {
-                $errors[] = 'El campo "Nombre" es obligatorio.';
-            }
-            if (empty($correoInstitucional)) {
-                $errors[] = 'El campo "Correo institucional" es obligatorio.';
+            if (empty($nombre)) $errors[] = 'El campo "Nombre" es obligatorio.';
+            if (empty($correoInstitucional)) $errors[] = 'El campo "Correo institucional" es obligatorio.';
+
+            if (!empty($correoInstitucional) && !preg_match('/^.+@(uv\.mx|estudiantes\.uv\.mx)$/', $correoInstitucional)) {
+                $errors[] = 'El correo institucional debe terminar en @uv.mx o @estudiantes.uv.mx.';
             }
 
-            // Validar la contraseña si se proporciona
             if ($password || $confirmPassword) {
                 if ($password !== $confirmPassword) {
                     $errors[] = 'Las nuevas contraseñas no coinciden.';
@@ -278,9 +269,16 @@ class AdministradorController
             }
 
             if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                $_SESSION['old_data'] = $_POST; // Para mantener los datos ingresados
-                header('Location: ' . BASE_URL . '/editarAdministrador.php');
+                $administrador = [
+                    'idAdministrador' => $idAdministrador,
+                    'nombre' => $nombre,
+                    'apellidoPaterno' => $apellidoPaterno,
+                    'apellidoMaterno' => $apellidoMaterno,
+                    'correoInstitucional' => $correoInstitucional
+                ];
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                require_once __DIR__ . '/../views/editarAdministrador.php';
                 exit();
             }
 
@@ -292,19 +290,33 @@ class AdministradorController
             ];
 
             if ($password) {
-                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-                $data['password'] = $hashedPassword;
+                $data['password'] = password_hash($password, PASSWORD_DEFAULT);
             }
 
             $resultado = $this->administradorModel->updateAdministrador($idAdministrador, $data);
 
-            if ($resultado) {
+            if ($resultado === true) {
                 $_SESSION['message'] = "Administrador actualizado exitosamente.";
                 header('Location: ' . BASE_URL . '/administrarAdministradores.php');
                 exit();
             } else {
-                $_SESSION['message'] = "Error al actualizar el administrador.";
-                header("Location: " . BASE_URL . "/editarAdministrador.php");
+                if (isset($_SESSION['message'])) {
+                    $errors[] = $_SESSION['message'];
+                    unset($_SESSION['message']);
+                } else {
+                    $errors[] = "Error al actualizar el administrador.";
+                }
+
+                $administrador = [
+                    'idAdministrador' => $idAdministrador,
+                    'nombre' => $nombre,
+                    'apellidoPaterno' => $apellidoPaterno,
+                    'apellidoMaterno' => $apellidoMaterno,
+                    'correoInstitucional' => $correoInstitucional
+                ];
+                $user = $_SESSION['user'];
+                $csrf_token = $_SESSION['csrf_token'];
+                require_once __DIR__ . '/../views/editarAdministrador.php';
                 exit();
             }
         } else {

@@ -99,8 +99,14 @@ class CarreraController
                 header("Location: " . BASE_URL . "/administrarCarreras.php");
                 exit();
             } else {
-                $_SESSION['message'] = "Error al registrar la carrera.";
-                header("Location: " . BASE_URL . "/administrarCarreras.php");
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'] = [$_SESSION['message']];
+                    unset($_SESSION['message']);
+                } else {
+                    $_SESSION['errors'] = ["Error al registrar la carrera."];
+                }
+
+                header("Location: " . BASE_URL . "/registroCarrera.php");
                 exit();
             }
         } else {
@@ -210,7 +216,9 @@ class CarreraController
 
             if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
-                header('Location: ' . BASE_URL . '/editarCarrera.php');
+                $_SESSION['carrera'] = ['idCarrera' => $idCarrera, 'carrera' => $nombreCarrera];
+                $user = $_SESSION['user']; 
+                require_once '../views/editarCarrera.php';
                 exit();
             }
 
@@ -221,10 +229,20 @@ class CarreraController
                 header("Location: " . BASE_URL . "/administrarCarreras.php");
                 exit();
             } else {
-                $_SESSION['message'] = "Error al actualizar la carrera.";
-                header("Location: " . BASE_URL . "/administrarCarreras.php");
+                if (isset($_SESSION['message'])) {
+                    $_SESSION['errors'][] = $_SESSION['message'];
+                    unset($_SESSION['message']); 
+                } else {
+                    $_SESSION['errors'][] = "Error al actualizar la carrera.";
+                }
+                
+                $_SESSION['carrera'] = ['idCarrera' => $idCarrera, 'carrera' => $nombreCarrera];
+                $user = $_SESSION['user'];
+                
+                require_once '../views/editarCarrera.php';
                 exit();
             }
+
         } else {
             header("Location: " . BASE_URL . "/administrarCarreras.php");
             exit();
